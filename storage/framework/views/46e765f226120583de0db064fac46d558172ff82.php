@@ -1,0 +1,3 @@
+<?php $__currentLoopData = $notifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $notification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <a class="dropdown-item notifi <?php echo e($notification->notification_status != 2 ? 'noti-not-seen' : ''); ?>" href="<?php echo e($notification->notification->notification_url); ?>" data-n-id="<?php echo e($notification->id); ?>"><?php echo e($notification->notification->notification_desc); ?> <small style="margin-left:15px" class="pull-right"><?php echo e(time_elapsed_string($notification->notification->created_on)); ?></small></a>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
