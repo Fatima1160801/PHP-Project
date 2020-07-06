@@ -35,7 +35,7 @@ class HomeController extends Controller
         $labels = inputButton(Auth::user()->lang_id, 0);
 
         return view('home', compact(
-            'labels',  'userDashboardBlocksSetting', 'dashboardBlocks','userPermissions'));
+            'labels',  'userDashboardBlocksSetting','userPermissions'));
     }
 
 }

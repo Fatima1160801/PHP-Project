@@ -47,7 +47,7 @@ class OppStatusController extends Controller
 
     public function create($type = null, $id = null)
     {
-        is_permitted(116, getClassName(__CLASS__), __FUNCTION__, 247, 1);
+        is_permitted(140, getClassName(__CLASS__), __FUNCTION__, 247, 1);
 
 
         $option = [

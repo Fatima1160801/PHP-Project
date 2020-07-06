@@ -114,5 +114,13 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::delete('/optstatuses/delete/{id}', ['uses' => 'Setting\Opportunity\OppStatusController@delete'])->name('optstatuses.delete');
 
 
+    Route::get('/sectors', ['uses' => 'Procurement\SectorController@index'])->name('sectors.index');
+    Route::get('/sectors/create/{type?}/{id?}', ['uses' => 'Procurement\SectorController@create'])->name('sectors.create');
+    Route::post('/sectors/store', ['uses' => 'Procurement\SectorController@store'])->name('sectors.store');
+    Route::get('/sectors/{id}/edit', ['uses' => 'Procurement\SectorController@edit'])->name('sectors.edit');
+    Route::post('/sectors/update', ['uses' => 'Procurement\SectorController@update'])->name('sectors.update');
+    Route::delete('/sectors/delete/{id}', ['uses' => 'Procurement\SectorController@delete'])->name('sectors.delete');
+
+
 });
 
