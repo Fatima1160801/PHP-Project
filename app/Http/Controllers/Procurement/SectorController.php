@@ -63,7 +63,7 @@ class SectorController extends Controller
 
     public function store(Request $request)
     {
-        is_permitted(140, getClassName(__CLASS__), __FUNCTION__, 301, 1);
+        is_permitted(140, getClassName(__CLASS__), __FUNCTION__, 300, 1);
 
         $input = $request->all();
 
@@ -121,7 +121,9 @@ class SectorController extends Controller
         if(empty($sectorObject)){
             return response(['status' => false, 'message' => getMessage('2.2')]);
         }
+
         $sectorObject->fill($field);
+        $sectorObject->updated_by=Auth::user()->id;
         $sectorObject->save();
 
         return response(['status' => true, 'message' => getMessage('2.2')]);
@@ -136,6 +138,11 @@ class SectorController extends Controller
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
             $sectorObject->delete();
+            if($sectorObject){
+                $sectorObject->update(["deleted_by"=>Auth::user()->id ]);
+            }
+
+
             $message = getMessage('2.3');
             return response(['status' => true, 'message' => $message]);
         } catch (\Illuminate\Database\QueryException $e) {
