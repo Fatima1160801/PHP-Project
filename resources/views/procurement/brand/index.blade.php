@@ -9,15 +9,15 @@
             </div>
             <h4 class="card-title">
 
-                {{$labels['sectors'] ?? 'Sector'}}
+                {{$labels['brands'] ?? 'Brands'}}
             </h4>
 
 
         </div>
         <div class="card-body ">
-            <a href="{{route('sectors.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
+            <a href="{{route('brands.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
-               title="{{$labels['add sector'] ?? 'Add sector'}}" >
+               title="{{$labels['add brand'] ?? 'Add Brand'}}" >
                 <i class="material-icons">add</i></a>
 
 
@@ -26,10 +26,7 @@
                 <tr>
                     <th>#</th>
                     <th>
-                        {{$labels['sector_name_na'] ?? 'Sector name'}}
-                    </th>
-                    <th>
-                        {{$labels['sector_name_fo'] ?? 'Sector name in other language'}}
+                        {{$labels['brand_name'] ?? 'Brand name'}}
                     </th>
 
                     <th>
@@ -41,29 +38,28 @@
                 <tbody>
 
                 @if(!empty($list))
-                @foreach($list  as $index => $item)
-                    <tr>
-                        <td>{{$index+1}}</td>
-                        <td>{{$item->sector_name_na ?? ""}}</td>
-                        <td>{{$item->sector_name_fo ?? ""}}</td>
-                        <td>
-                            <a href="{{route('sectors.edit',$item->id)}}"
-                               class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"
-                               title="{{$labels['edit'] ?? 'edit'}} "
-                            >
-                                <i class="material-icons">edit</i>
-                            </a>
-                            <button type="button" href="{{ route('sectors.delete',$item->id )}}"
-                                    rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"
-                                    data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
-                                <i class="material-icons">delete</i>
-                            </button>
-                        </td>
+                    @foreach($list  as $index => $item)
+                        <tr>
+                            <td>{{$index+1}}</td>
+                            <td>{{$item->brand_name ?? ""}}</td>
+                            <td>
+                                <a href="{{route('brands.edit',$item->id)}}"
+                                   class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"
+                                   title="{{$labels['edit'] ?? 'edit'}} "
+                                >
+                                    <i class="material-icons">edit</i>
+                                </a>
+                                <button type="button" href="{{ route('brands.delete',$item->id )}}"
+                                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"
+                                        data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                            </td>
 
-                    </tr>
+                        </tr>
 
-                @endforeach
-               @endif
+                    @endforeach
+                @endif
                 </tbody>
             </table>
         </div>
@@ -98,7 +94,7 @@
                             beforeSend: function () {
                             },
                             success: function (data) {
-                                if (data.status == true) {
+                                if (data.status == 'true') {
                                     $($this).closest('tr').css('background','red').delay(1000).hide(1000);
                                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                                     $('#contentModal .close').click();

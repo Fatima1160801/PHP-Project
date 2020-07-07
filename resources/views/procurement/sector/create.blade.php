@@ -6,7 +6,7 @@
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                {{$labels['addOppStatus'] ?? 'Add Opportunity Status'}}
+                {{$labels['addsector'] ?? 'Add sector'}}
             </h4>
         </div>
         <div class="card-body ">
@@ -35,7 +35,7 @@
                         <a href="{{route('sectors.index')}}" class="btn btn-default btn-sm">
                             {{$labels['back'] ?? 'back'}}
                         </a>
-                        <button btn="btnToggleDisabled" type="submit" id="btnAddOppStatus"
+                        <button btn="btnToggleDisabled" type="submit" id="btnAddsector"
                                 class="btn btn-next btn-rose pull-right btn-sm">
                             <div class="loader pull-left" style="display: none;"></div> {{$labels['save'] ?? 'save'}}
                         </button>
@@ -73,12 +73,12 @@
                 processData: false,
                 contentType: false,
                 beforeSend: function () {
-                    $('#btnAddOppStatus').attr("disabled", true);
+                    $('#btnAddsector').attr("disabled", true);
                     $('.loader').show();
                 },
                 success: function (data) {
 
-                    $('#btnAddOppStatus').attr("disabled", false);
+                    $('#btnAddsector').attr("disabled", false);
                     $('.loader').hide();
                     if (data.status == 'true') {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
@@ -88,9 +88,9 @@
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     }
                     //$('#addBenf').prop("disabled", false);
-                    $("#formOppStatusCreate").trigger("reset");
+                    $("#formSectorCreate").trigger("reset");
                     setTimeout(() => {
-                        window.location.href = "{{route('optstatuses.index')}}";
+                        window.location.href = "{{route('sectors.index')}}";
                     }, 1000);
 
                 },

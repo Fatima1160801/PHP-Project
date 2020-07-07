@@ -122,5 +122,28 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::delete('/sectors/delete/{id}', ['uses' => 'Procurement\SectorController@delete'])->name('sectors.delete');
 
 
+    Route::get('/units', ['uses' => 'Procurement\UnitsController@index'])->name('units.index');
+    Route::get('/units/create/{type?}/{id?}', ['uses' => 'Procurement\UnitsController@create'])->name('units.create');
+    Route::post('/units/store', ['uses' => 'Procurement\UnitsController@store'])->name('units.store');
+    Route::get('/units/{id}/edit', ['uses' => 'Procurement\UnitsController@edit'])->name('units.edit');
+    Route::post('/units/update', ['uses' => 'Procurement\UnitsController@update'])->name('units.update');
+    Route::delete('/units/delete/{id}', ['uses' => 'Procurement\UnitsController@delete'])->name('units.delete');
+
+
+
+    Route::get('/brands', ['uses' => 'Procurement\BrandController@index'])->name('brands.index');
+    Route::get('/brands/create/{type?}/{id?}', ['uses' => 'Procurement\BrandController@create'])->name('brands.create');
+    Route::post('/brands/store', ['uses' => 'Procurement\BrandController@store'])->name('brands.store');
+    Route::get('/brands/{id}/edit', ['uses' => 'Procurement\BrandController@edit'])->name('brands.edit');
+    Route::post('/brands/update', ['uses' => 'Procurement\BrandController@update'])->name('brands.update');
+    Route::delete('/brands/delete/{id}', ['uses' => 'Procurement\BrandsController@delete'])->name('brands.delete');
+
+
+   /* Route::get('/purchase', ['uses' => 'Procurement\PurchaseMethodController@index'])->name('purchase.index');
+    Route::get('/brands/create/{type?}/{id?}', ['uses' => 'Procurement\BrandController@create'])->name('brands.create');
+    Route::post('/brands/store', ['uses' => 'Procurement\BrandController@store'])->name('brands.store');
+    Route::get('/brands/{id}/edit', ['uses' => 'Procurement\BrandController@edit'])->name('brands.edit');
+    Route::post('/brands/update', ['uses' => 'Procurement\BrandController@update'])->name('brands.update');
+    Route::delete('/brands/delete/{id}', ['uses' => 'Procurement\BrandsController@delete'])->name('brands.delete');*/
 });
 

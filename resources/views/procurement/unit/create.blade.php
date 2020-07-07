@@ -6,7 +6,7 @@
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                {{$labels['editsector'] ?? 'edit Sector'}}
+                {{$labels['addunit'] ?? 'Add Unit'}}
             </h4>
         </div>
         <div class="card-body ">
@@ -14,7 +14,7 @@
             <div id="result-msg"></div>
 
 
-            {!! Form::open(['route' => 'sectors.update' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formSectorUpdate']) !!}
+            {!! Form::open(['route' => 'units.store' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formUnitCreate']) !!}
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -28,20 +28,20 @@
             {!! $html !!}
 
 
-
-
-
             <div class="col-md-12">
 
                 <div class="card-footer ml-auto mr-auto">
                     <div class="ml-auto mr-auto">
-                        <a href="{{route('sectors.index')}}" class="btn btn-default btn-sm">
+                        <a href="{{route('units.index')}}" class="btn btn-default btn-sm">
                             {{$labels['back'] ?? 'back'}}
                         </a>
-                        <button btn="btnToggleDisabled" type="submit" id="btnEditsector"
-                                class="btn-sm btn btn-next btn-rose pull-right">
-                            <div class="loader pull-left " style="display: none;"></div> {{$labels['save'] ?? 'save'}}
+                        <button btn="btnToggleDisabled" type="submit" id="btnAddunit"
+                                class="btn btn-next btn-rose pull-right btn-sm">
+                            <div class="loader pull-left" style="display: none;"></div> {{$labels['save'] ?? 'save'}}
                         </button>
+                    <!-- <a href="#" id="cleanScreen" class="btn  btn-info pull-right btn-sm">
+                            {{$labels['clean'] ?? 'clean'}}
+                            </a> -->
                     </div>
                 </div>
             </div>
@@ -57,34 +57,15 @@
         $(document).ready(function () {
             active_nev_link('visit-link');
             funValidateForm();
-            $('.selectpicker').selectpicker();
-            // $('.datetimepicker').datetimepicker({
-            //     icons: {
-            //         time: "fa fa-clock-o",
-            //         date: "fa fa-calendar",
-            //         up: "fa fa-chevron-up",
-            //         down: "fa fa-chevron-down",
-            //         previous: 'fa fa-chevron-left',
-            //         next: 'fa fa-chevron-right',
-            //         today: 'fa fa-screenshot',
-            //         clear: 'fa fa-trash',
-            //         close: 'fa fa-remove'
-            //     },
-            //     format: 'DD/MM/YYYY'
-            // });
         });
 
-        $(document).on('submit', '#formSectorUpdate', function (e) {
-
+        $(document).on('submit', '#formUnitCreate', function (e) {
             if (!is_valid_form($(this))) {
                 return false;
             }
-
             e.preventDefault();
-
             var form = new FormData($(this)[0]);
             var url = $(this).attr('action');
-            // alert($(this).attr('action'));s
             $.ajax({
                 url: url,
                 data: form,
@@ -92,28 +73,38 @@
                 processData: false,
                 contentType: false,
                 beforeSend: function () {
-                    $('#btnEditsector').attr("disabled", true);
+                    $('#btnAddunit').attr("disabled", true);
                     $('.loader').show();
                 },
                 success: function (data) {
-                    $('#btnEditsector').attr("disabled", false);
-                    $('.loader').hide();
-                    if (data.status == true) {
-                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                        $('.loader').hide();
-                    }
-                    setTimeout(() => {
-                        window.location.href = "{{route('sectors.index')}}";
-                    }, 1000);
 
+                    $('#btnAddunit').attr("disabled", false);
+                    $('.loader').hide();
+                    if (data.status == 'true') {
+                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+
+                        $('.loader').hide();
+                    } else if (data.status == 'false') {
+                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    }
+                    //$('#addBenf').prop("disabled", false);
+                    $("#formUnitCreate").trigger("reset");
+                    setTimeout(() => {
+                        window.location.href = "{{route('units.index')}}";
+                    }, 1000);
 
                 },
                 error: function (data) {
 
                 }
             });
-
         });
+
+        // $(document).on('click', '#cleanScreen', function (e) {
+        //     e.preventDefault();
+        //     $('#formOppStatusCreate')[0].reset();
+        //     // $('#beneficiary_id').selectpicker('refresh')
+        // })
 
 
 
@@ -131,8 +122,8 @@
 
     <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
     <script src="{{ asset('assets/js/plugins/bootstrap-selectpicker.js')}}"></script>
-
     <script src="{{ asset('assets/js/plugins/jasny-bootstrap.min.js')}}"></script>
+
 
 @endsection
 

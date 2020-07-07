@@ -6,7 +6,7 @@
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                {{$labels['editsector'] ?? 'edit Sector'}}
+                {{$labels['editunit'] ?? 'edit Unit'}}
             </h4>
         </div>
         <div class="card-body ">
@@ -14,7 +14,7 @@
             <div id="result-msg"></div>
 
 
-            {!! Form::open(['route' => 'sectors.update' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formSectorUpdate']) !!}
+            {!! Form::open(['route' => 'units.update' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formUnitUpdate']) !!}
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -35,10 +35,10 @@
 
                 <div class="card-footer ml-auto mr-auto">
                     <div class="ml-auto mr-auto">
-                        <a href="{{route('sectors.index')}}" class="btn btn-default btn-sm">
+                        <a href="{{route('units.index')}}" class="btn btn-default btn-sm">
                             {{$labels['back'] ?? 'back'}}
                         </a>
-                        <button btn="btnToggleDisabled" type="submit" id="btnEditsector"
+                        <button btn="btnToggleDisabled" type="submit" id="btnEditunit"
                                 class="btn-sm btn btn-next btn-rose pull-right">
                             <div class="loader pull-left " style="display: none;"></div> {{$labels['save'] ?? 'save'}}
                         </button>
@@ -74,7 +74,7 @@
             // });
         });
 
-        $(document).on('submit', '#formSectorUpdate', function (e) {
+        $(document).on('submit', '#formUnitUpdate', function (e) {
 
             if (!is_valid_form($(this))) {
                 return false;
@@ -92,18 +92,18 @@
                 processData: false,
                 contentType: false,
                 beforeSend: function () {
-                    $('#btnEditsector').attr("disabled", true);
+                    $('#btnEditunit').attr("disabled", true);
                     $('.loader').show();
                 },
                 success: function (data) {
-                    $('#btnEditsector').attr("disabled", false);
+                    $('#btnEditunit').attr("disabled", false);
                     $('.loader').hide();
                     if (data.status == true) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                         $('.loader').hide();
                     }
                     setTimeout(() => {
-                        window.location.href = "{{route('sectors.index')}}";
+                        window.location.href = "{{route('units.index')}}";
                     }, 1000);
 
 

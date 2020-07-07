@@ -38,7 +38,7 @@ class SectorController extends Controller
 
         is_permitted(140, getClassName(__CLASS__), __FUNCTION__, 299, 7);
         $list = Sector::orderby('id', 'desc')->get();
-        $messageDeleteType = getMessage('2.205');
+        $messageDeleteType = getMessage('2.346');
         $labels = inputButton(Auth::user()->lang_id, 140);
         $userPermissions = getUserPermission();
         return view('procurement.sector.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
@@ -46,7 +46,7 @@ class SectorController extends Controller
 
     public function create($type = null, $id = null)
     {
-        is_permitted(116, getClassName(__CLASS__), __FUNCTION__, 247, 1);
+        is_permitted(140, getClassName(__CLASS__), __FUNCTION__, 300, 1);
 
 
         $option = [
@@ -63,18 +63,18 @@ class SectorController extends Controller
 
     public function store(Request $request)
     {
-        is_permitted(116, getClassName(__CLASS__), __FUNCTION__, 247, 1);
+        is_permitted(140, getClassName(__CLASS__), __FUNCTION__, 301, 1);
 
         $input = $request->all();
 
         $data = fieldInDatabase(140, $input);
         $field = $data['field'];
-
         $optionValidator=[];
         inputValidator($data, $optionValidator);
 
         $sectorObj = new Sector();
         $sectorObj->fill($field);
+        $sectorObj->created_by=Auth::user()->id;
         // dd($field);
         $sectorObj->save();
 
@@ -85,7 +85,7 @@ class SectorController extends Controller
 
     public function edit($id)
     {
-        is_permitted(116, getClassName(__CLASS__), __FUNCTION__, 248, 2);
+        is_permitted(140, getClassName(__CLASS__), __FUNCTION__, 302, 2);
 
 
         $option = [
@@ -103,13 +103,15 @@ class SectorController extends Controller
 
     public function update(Request $request)
     {
-        is_permitted(116, getClassName(__CLASS__), __FUNCTION__, 248, 2);
+        is_permitted(140, getClassName(__CLASS__), __FUNCTION__, 302, 2);
 
         $input = $request->all();
+
         $data  = fieldInDatabase(140, $input);
         $field = $data['field'];
-        $id = 1;
-        //$id = $field['id'];
+       // $id = 1;
+        $id = $field['id'];
+
 
 
         $optionValidator = [
@@ -127,7 +129,7 @@ class SectorController extends Controller
 
     public function delete($id)
     {
-        is_permitted(116, getClassName(__CLASS__), __FUNCTION__, 249, 4);
+        is_permitted(140, getClassName(__CLASS__), __FUNCTION__, 303, 4);
         try {
             $sectorObject = Sector::find($id);
             if(empty($sectorObject)){
