@@ -63,7 +63,7 @@ class UnitsController extends Controller
 
     public function store(Request $request)
     {
-        is_permitted(141, getClassName(__CLASS__), __FUNCTION__, 306, 1);
+        is_permitted(141, getClassName(__CLASS__), __FUNCTION__, 305, 1);
 
         $input = $request->all();
 
@@ -76,6 +76,7 @@ class UnitsController extends Controller
         $unitObj = new Unit();
         $unitObj->fill($field);
         // dd($field);
+        $unitObj->created_by=Auth::user()->id;
         $unitObj->save();
 
         return response(['status' => 'true', 'message' => getMessage('2.1')]);
@@ -108,8 +109,8 @@ class UnitsController extends Controller
         $input = $request->all();
         $data  = fieldInDatabase(141, $input);
         $field = $data['field'];
-        $id = 1;
-        //$id = $field['id'];
+
+        $id = $field['id'];
 
 
         $optionValidator = [
@@ -120,6 +121,7 @@ class UnitsController extends Controller
             return response(['status' => false, 'message' => getMessage('2.2')]);
         }
         $unitObject->fill($field);
+        $unitObject->updated_by=Auth::user()->id;
         $unitObject->save();
 
         return response(['status' => true, 'message' => getMessage('2.2')]);
@@ -134,6 +136,9 @@ class UnitsController extends Controller
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
             $unitObject->delete();
+            if($unitObject){
+                $unitObject->update(["deleted_by"=>Auth::user()->id ]);
+            }
             $message = getMessage('2.3');
             return response(['status' => true, 'message' => $message]);
         } catch (\Illuminate\Database\QueryException $e) {

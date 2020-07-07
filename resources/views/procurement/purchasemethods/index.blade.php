@@ -9,15 +9,15 @@
             </div>
             <h4 class="card-title">
 
-                {{$labels['brand'] ?? 'Brand'}}
+                {{$labels['purchase methods'] ?? 'Purchase Methods'}}
             </h4>
 
 
         </div>
         <div class="card-body ">
-            <a href="{{route('brands.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
+            <a href="{{route('purchasemethods.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
-               title="{{$labels['add brand'] ?? 'Add Brand'}}" >
+               title="{{$labels['add purchasemethod'] ?? 'Add purchasemethod'}}" >
                 <i class="material-icons">add</i></a>
 
 
@@ -26,9 +26,11 @@
                 <tr>
                     <th>#</th>
                     <th>
-                        {{$labels['brand_name_na'] ?? 'Brand name'}}
+                        {{$labels['method_name_na'] ?? 'Purchase Method name'}}
                     </th>
-
+                    <th>
+                        {{$labels['method_name_fo'] ?? 'purchase Method name in other language'}}
+                    </th>
 
                     <th>
                         {{$labels['actions'] ?? 'actions'}}
@@ -42,16 +44,16 @@
                     @foreach($list  as $index => $item)
                         <tr>
                             <td>{{$index+1}}</td>
-                            <td>{{$item->brand_name ?? ""}}</td>
-
+                            <td>{{$item->method_name_na ?? ""}}</td>
+                            <td>{{$item->method_name_fo ?? ""}}</td>
                             <td>
-                                <a href="{{route('brands.edit',$item->id)}}"
+                                <a href="{{route('purchasemethods.edit',$item->id)}}"
                                    class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"
                                    title="{{$labels['edit'] ?? 'edit'}} "
                                 >
                                     <i class="material-icons">edit</i>
                                 </a>
-                                <button type="button" href="{{ route('brands.delete',$item->id )}}"
+                                <button type="button" href="{{ route('purchasemethods.delete',$item->id )}}"
                                         rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"
                                         data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
                                     <i class="material-icons">delete</i>

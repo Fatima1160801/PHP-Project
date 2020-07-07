@@ -98,7 +98,7 @@
                             beforeSend: function () {
                             },
                             success: function (data) {
-                                if (data.status == 'true') {
+                                if (data.status == true) {
                                     $($this).closest('tr').css('background','red').delay(1000).hide(1000);
                                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                                     $('#contentModal .close').click();

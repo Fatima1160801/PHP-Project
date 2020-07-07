@@ -5,20 +5,22 @@ namespace App\Models\Procurement;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Unit extends Model
+class Service extends Model
 {
     use SoftDeletes;
-    //protected $table = 'opportunity_status';
+    //protected $table = 'item_groups';
     protected $primaryKey = 'id';
     protected $fillable =
         [
             'id',
-            'unit_name_na',
-            'unit_name_fo',
+            'service_group_name_na',
+            'service_group_name_fo',
+            'sector_id',
             'updated_at',
             'created_by',
             'updated_by',
             'deleted_by'
+
         ];
 
 

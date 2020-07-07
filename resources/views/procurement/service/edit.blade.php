@@ -6,7 +6,7 @@
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                {{$labels['editbrand'] ?? 'edit Brand'}}
+                {{$labels['editservice'] ?? 'edit Service'}}
             </h4>
         </div>
         <div class="card-body ">
@@ -14,7 +14,7 @@
             <div id="result-msg"></div>
 
 
-            {!! Form::open(['route' => 'brands.update' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formBrandUpdate']) !!}
+            {!! Form::open(['route' => 'services.update' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formServiceUpdate']) !!}
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -35,10 +35,10 @@
 
                 <div class="card-footer ml-auto mr-auto">
                     <div class="ml-auto mr-auto">
-                        <a href="{{route('brands.index')}}" class="btn btn-default btn-sm">
+                        <a href="{{route('services.index')}}" class="btn btn-default btn-sm">
                             {{$labels['back'] ?? 'back'}}
                         </a>
-                        <button btn="btnToggleDisabled" type="submit" id="btnEditbrand"
+                        <button btn="btnToggleDisabled" type="submit" id="btnEditservice"
                                 class="btn-sm btn btn-next btn-rose pull-right">
                             <div class="loader pull-left " style="display: none;"></div> {{$labels['save'] ?? 'save'}}
                         </button>
@@ -74,7 +74,7 @@
             // });
         });
 
-        $(document).on('submit', '#formBrandUpdate', function (e) {
+        $(document).on('submit', '#formServiceUpdate', function (e) {
 
             if (!is_valid_form($(this))) {
                 return false;
@@ -92,18 +92,18 @@
                 processData: false,
                 contentType: false,
                 beforeSend: function () {
-                    $('#btnEditbrand').attr("disabled", true);
+                    $('#btnEditservice').attr("disabled", true);
                     $('.loader').show();
                 },
                 success: function (data) {
-                    $('#btnEditbrand').attr("disabled", false);
+                    $('#btnEditservice').attr("disabled", false);
                     $('.loader').hide();
                     if (data.status == true) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                         $('.loader').hide();
                     }
                     setTimeout(() => {
-                        window.location.href = "{{route('brands.index')}}";
+                        window.location.href = "{{route('services.index')}}";
                     }, 1000);
 
 

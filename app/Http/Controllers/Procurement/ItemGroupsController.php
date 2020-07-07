@@ -36,17 +36,17 @@ class ItemGroupsController extends Controller
     public function index()
     {
 
-        is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 309, 7);
+        is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 314, 7);
         $list = ItemGroups::orderby('id', 'desc')->get();
-        $messageDeleteType = getMessage('2.348');
-        $labels = inputButton(Auth::user()->lang_id, 140);
+        $messageDeleteType = getMessage('2.350');
+        $labels = inputButton(Auth::user()->lang_id, 143);
         $userPermissions = getUserPermission();
         return view('procurement.item_groups.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
     }
 
     public function create($type = null, $id = null)
     {
-        is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 310, 1);
+        is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 315, 1);
 
 
         $option = [
@@ -63,7 +63,7 @@ class ItemGroupsController extends Controller
 
     public function store(Request $request)
     {
-        is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 311, 1);
+        is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 316, 1);
 
         $input = $request->all();
 
@@ -96,7 +96,7 @@ class ItemGroupsController extends Controller
 
     public function edit($id)
     {
-        is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 312, 2);
+        is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 316, 2);
 
 
         $option = [
@@ -115,7 +115,7 @@ class ItemGroupsController extends Controller
 
     public function update(Request $request)
     {
-        is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 312, 2);
+        is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 316, 2);
 
         $input = $request->all();
         $data  = fieldInDatabase(143, $input);
@@ -160,7 +160,7 @@ class ItemGroupsController extends Controller
 
     public function delete($id)
     {
-        is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 313, 4);
+        is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 317, 4);
         try {
             $item_groupsObject = ItemGroups::find($id);
             if(empty($item_groupsObject)){

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Procurement;
 
 use App\Helpers\Log;
 use App\Http\Controllers\Controller;
-
 use App\Models\Procurement\Brand;
+use App\Models\Setting\OppStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,7 +38,7 @@ class BrandController extends Controller
         is_permitted(142, getClassName(__CLASS__), __FUNCTION__, 309, 7);
         $list = Brand::orderby('id', 'desc')->get();
         $messageDeleteType = getMessage('2.348');
-        $labels = inputButton(Auth::user()->lang_id, 140);
+        $labels = inputButton(Auth::user()->lang_id, 142);
         $userPermissions = getUserPermission();
         return view('procurement.brand.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
     }
@@ -52,8 +52,8 @@ class BrandController extends Controller
             'brand_name' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
 
         ];
-        $sectorObj= new Brand();
-        $generator = generator(142, $option, $sectorObj);
+        $brandObj= new Brand();
+        $generator = generator(142, $option, $brandObj);
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
@@ -62,7 +62,7 @@ class BrandController extends Controller
 
     public function store(Request $request)
     {
-        is_permitted(142, getClassName(__CLASS__), __FUNCTION__, 311, 1);
+        is_permitted(142, getClassName(__CLASS__), __FUNCTION__, 310, 1);
 
         $input = $request->all();
 
@@ -71,7 +71,7 @@ class BrandController extends Controller
         $optionValidator=[];
         inputValidator($data, $optionValidator);
 
-        $brandObj = new Sector();
+        $brandObj = new Brand();
         $brandObj->fill($field);
         $brandObj->created_by=Auth::user()->id;
         // dd($field);
@@ -105,10 +105,12 @@ class BrandController extends Controller
         is_permitted(142, getClassName(__CLASS__), __FUNCTION__, 312, 2);
 
         $input = $request->all();
+
         $data  = fieldInDatabase(142, $input);
         $field = $data['field'];
-        $id = 1;
-        //$id = $field['id'];
+        // $id = 1;
+        $id = $field['id'];
+
 
 
         $optionValidator = [
@@ -118,7 +120,9 @@ class BrandController extends Controller
         if(empty($brandObject)){
             return response(['status' => false, 'message' => getMessage('2.2')]);
         }
+
         $brandObject->fill($field);
+        $brandObject->updated_by=Auth::user()->id;
         $brandObject->save();
 
         return response(['status' => true, 'message' => getMessage('2.2')]);
@@ -133,6 +137,11 @@ class BrandController extends Controller
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
             $brandObject->delete();
+            if($brandObject){
+                $brandObject->update(["deleted_by"=>Auth::user()->id ]);
+            }
+
+
             $message = getMessage('2.3');
             return response(['status' => true, 'message' => $message]);
         } catch (\Illuminate\Database\QueryException $e) {
