@@ -79,7 +79,7 @@ class UnitsController extends Controller
         $unitObj->created_by=Auth::user()->id;
         $unitObj->save();
 
-        return response(['status' => 'true', 'message' => getMessage('2.1')]);
+        return response(['status' => true, message => getMessage('2.1')]);
 
 
     }

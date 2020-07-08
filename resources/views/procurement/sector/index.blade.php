@@ -17,7 +17,7 @@
         <div class="card-body ">
             <a href="{{route('sectors.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
-               title="{{$labels['add sector'] ?? 'Add sector'}}" >
+               title="{{$labels['addsector'] ?? 'Add sectors'}}" >
                 <i class="material-icons">add</i></a>
 
 
