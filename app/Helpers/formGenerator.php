@@ -619,7 +619,7 @@ if (!function_exists('inputFile2')) {
         $view .= "</div>";
         $view .= "</div>";
         $view .= "</div>";
-        $view .= "</div>";
+        //$view .= "</div>";
 
         return $view;
 
