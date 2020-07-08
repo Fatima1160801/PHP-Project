@@ -15,10 +15,10 @@ class Brand extends Model
         [
             'id',
             'brand_name',
-            'updated_at',
             'created_by',
             'updated_by',
-            'deleted_by'
+            'deleted_by',
+            'updated_at'
 
         ];
 }

@@ -74,7 +74,6 @@ class BrandController extends Controller
         $brandObj = new Brand();
         $brandObj->fill($field);
         $brandObj->created_by=Auth::user()->id;
-        // dd($field);
         $brandObj->save();
 
         return response(['status' => true, 'message' => getMessage('2.1')]);
