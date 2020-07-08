@@ -6,7 +6,7 @@
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                {{$labels['addservice'] ?? 'Add Service'}}
+                {{$labels['addservice'] ?? 'Add service'}}
             </h4>
         </div>
         <div class="card-body ">
@@ -80,11 +80,11 @@
 
                     $('#btnAddservice').attr("disabled", false);
                     $('.loader').hide();
-                    if (data.status == 'true') {
+                    if (data.status == true) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
 
                         $('.loader').hide();
-                    } else if (data.status == 'false') {
+                    } else if (data.status == false) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     }
                     //$('#addBenf').prop("disabled", false);

@@ -78,7 +78,7 @@ class ServiceController extends Controller
         // dd($field);
         $serviceObj->save();
 
-        return response(['status' => 'true', 'message' => getMessage('2.1')]);
+        return response(['status' => true, 'message' => getMessage('2.1')]);
 
 
     }

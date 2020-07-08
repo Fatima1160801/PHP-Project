@@ -6,7 +6,7 @@
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                {{$labels['editmethod'] ?? 'Edit Method'}}
+                {{$labels['editmethod'] ?? 'edit Method'}}
             </h4>
         </div>
         <div class="card-body ">

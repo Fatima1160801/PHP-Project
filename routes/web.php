@@ -146,7 +146,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::post('/purchasemethods/update', ['uses' => 'Procurement\PurchaseMethodController@update'])->name('purchasemethods.update');
     Route::delete('/purchasemethods/delete/{id}', ['uses' => 'Procurement\PurchaseMethodController@delete'])->name('purchasemethods.delete');
 
-    Route::get('/items/groups', ['uses' => 'Procurement\ItemGroupsController@index'])->name('items.index');
+    Route::get('/items/groups', ['uses' => 'Procurement\ItemGroupsController@index'])->name('items.groups.index');
     Route::get('/items/groups/create/{type?}/{id?}', ['uses' => 'Procurement\ItemGroupsController@create'])->name('item.groups.create');
     Route::post('/item/groups/store', ['uses' => 'Procurement\ItemGroupsController@store'])->name('item.groups.store');
     Route::get('/item/groups/{id}/edit', ['uses' => 'Procurement\ItemGroupsController@edit'])->name('item.groups.edit');

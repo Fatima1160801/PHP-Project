@@ -88,7 +88,7 @@
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     }
                     //$('#addBenf').prop("disabled", false);
-                    $("#formUnitCreate").trigger("reset");
+                    //$("#formUnitCreate").trigger("reset");
                     setTimeout(() => {
                         window.location.href = "{{route('units.index')}}";
                     }, 1000);
