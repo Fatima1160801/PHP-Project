@@ -13,8 +13,8 @@ class Service extends Model
     protected $fillable =
         [
             'id',
-            'service_group_name_na',
-            'service_group_name_fo',
+            'service_name_na',
+            'service_name_fo',
             'sector_id',
             'updated_at',
             'created_by',

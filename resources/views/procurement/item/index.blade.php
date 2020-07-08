@@ -9,15 +9,15 @@
             </div>
             <h4 class="card-title">
 
-                {{$labels['brands'] ?? 'Brands'}}
+                {{$labels['item'] ?? 'Item'}}
             </h4>
 
 
         </div>
         <div class="card-body ">
-            <a href="{{route('brands.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
+            <a href="{{route('items.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
-               title="{{$labels['add brand'] ?? 'Add Brand'}}" >
+               title="{{$labels['additem'] ?? 'Add Items'}}" >
                 <i class="material-icons">add</i></a>
 
 
@@ -26,10 +26,29 @@
                 <tr>
                     <th>#</th>
                     <th>
-                        {{$labels['brand_name'] ?? 'Brand name'}}
+                        {{$labels['item_name'] ?? 'item name'}}
                     </th>
-
-
+                    <th>
+                        {{$labels['sku'] ?? 'SKU'}}
+                    </th>
+                    <th>
+                        {{$labels['short_description'] ?? 'Short Description'}}
+                    </th>
+                    <th>
+                        {{$labels['description'] ?? 'Description'}}
+                    </th>
+                    <th>
+                        {{$labels['upc'] ?? 'UPC'}}
+                    </th>
+                    <th>
+                        {{$labels['ean'] ?? 'EAN'}}
+                    </th>
+                    <th>
+                        {{$labels['mpn'] ?? 'EAN'}}
+                    </th>
+                    <th>
+                        {{$labels['isbn'] ?? 'ISBN'}}
+                    </th>
                     <th>
                         {{$labels['actions'] ?? 'actions'}}
                     </th>
@@ -42,16 +61,23 @@
                     @foreach($list  as $index => $item)
                         <tr>
                             <td>{{$index+1}}</td>
-                            <td>{{$item->brand_name ?? ""}}</td>
+                            <td>{{$item->item_name ?? ""}}</td>
+                            <td>{{$item->sku ?? ""}}</td>
+                            <td>{{$item->short_description ?? ""}}</td>
+                            <td>{{$item->description ?? ""}}</td>
+                            <td>{{$item->upc ?? ""}}</td>
+                            <td>{{$item->ean ?? ""}}</td>
+                            <td>{{$item->mpn ?? ""}}</td>
+                            <td>{{$item->isbn ?? ""}}</td>
 
                             <td>
-                                <a href="{{route('brands.edit',$item->id)}}"
+                                <a href="{{route('items.edit',$item->id)}}"
                                    class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"
                                    title="{{$labels['edit'] ?? 'edit'}} "
                                 >
                                     <i class="material-icons">edit</i>
                                 </a>
-                                <button type="button" href="{{ route('brands.delete',$item->id )}}"
+                                <button type="button" href="{{ route('items.delete',$item->id )}}"
                                         rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"
                                         data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
                                     <i class="material-icons">delete</i>
@@ -73,7 +99,7 @@
     <script>
         $(function () {
             active_nev_link('visit-link');
-            DataTableCall('#table',3);
+            DataTableCall('#table',10);
             $('[data-toggle="tooltip"]').tooltip();
 
             $(document).on('click', '.btnTypeDelete', function (e) {

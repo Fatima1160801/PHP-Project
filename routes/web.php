@@ -136,7 +136,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::post('/brands/store', ['uses' => 'Procurement\BrandController@store'])->name('brands.store');
     Route::get('/brands/{id}/edit', ['uses' => 'Procurement\BrandController@edit'])->name('brands.edit');
     Route::post('/brands/update', ['uses' => 'Procurement\BrandController@update'])->name('brands.update');
-    Route::delete('/brands/delete/{id}', ['uses' => 'Procurement\BrandsController@delete'])->name('brands.delete');
+    Route::delete('/brands/delete/{id}', ['uses' => 'Procurement\BrandController@delete'])->name('brands.delete');
 
 
     Route::get('/purchasemethods', ['uses' => 'Procurement\PurchaseMethodController@index'])->name('purchasemethods.index');
@@ -160,5 +160,13 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/services/{id}/edit', ['uses' => 'Procurement\ServiceController@edit'])->name('services.edit');
     Route::post('/services/update', ['uses' => 'Procurement\ServiceController@update'])->name('services.update');
     Route::delete('/services/delete/{id}', ['uses' => 'Procurement\ServiceController@delete'])->name('services.delete');
+
+
+    Route::get('/items', ['uses' => 'Procurement\ItemController@index'])->name('items.index');
+    Route::get('/items/create/{type?}/{id?}', ['uses' => 'Procurement\ItemController@create'])->name('items.create');
+    Route::post('/items/store', ['uses' => 'Procurement\ItemController@store'])->name('items.store');
+    Route::get('/items/{id}/edit', ['uses' => 'Procurement\ItemController@edit'])->name('items.edit');
+    Route::post('/items/update', ['uses' => 'Procurement\ItemController@update'])->name('items.update');
+    Route::delete('/items/delete/{id}', ['uses' => 'Procurement\ItemController@delete'])->name('items.delete');
 });
 

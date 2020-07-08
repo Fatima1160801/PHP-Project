@@ -98,7 +98,7 @@ class ServiceController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.sector.edit', compact('labels', 'html', 'userPermissions'));
+        return view('procurement.service.edit', compact('labels', 'html', 'userPermissions'));
     }
 
     public function update(Request $request)

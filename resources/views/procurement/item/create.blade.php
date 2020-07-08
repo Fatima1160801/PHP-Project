@@ -6,7 +6,7 @@
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                {{$labels['addsector'] ?? 'Add Sector'}}
+                {{$labels['additem'] ?? 'Add Items'}}
             </h4>
         </div>
         <div class="card-body ">
@@ -14,7 +14,7 @@
             <div id="result-msg"></div>
 
 
-            {!! Form::open(['route' => 'sectors.store' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formSectorCreate']) !!}
+            {!! Form::open(['route' => 'items.store' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formItemCreate']) !!}
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -32,16 +32,14 @@
 
                 <div class="card-footer ml-auto mr-auto">
                     <div class="ml-auto mr-auto">
-                        <a href="{{route('sectors.index')}}" class="btn btn-default btn-sm">
+                        <a href="{{route('items.index')}}" class="btn btn-default btn-sm">
                             {{$labels['back'] ?? 'back'}}
                         </a>
-                        <button btn="btnToggleDisabled" type="submit" id="btnAddsector"
+                        <button btn="btnToggleDisabled" type="submit" id="btnAdditem"
                                 class="btn btn-next btn-rose pull-right btn-sm">
                             <div class="loader pull-left" style="display: none;"></div> {{$labels['save'] ?? 'save'}}
                         </button>
-                    <!-- <a href="#" id="cleanScreen" class="btn  btn-info pull-right btn-sm">
-                            {{$labels['clean'] ?? 'clean'}}
-                            </a> -->
+
                     </div>
                 </div>
             </div>
@@ -59,7 +57,7 @@
             funValidateForm();
         });
 
-        $(document).on('submit', '#formSectorCreate', function (e) {
+        $(document).on('submit', '#formItemCreate', function (e) {
             if (!is_valid_form($(this))) {
                 return false;
             }
@@ -73,12 +71,12 @@
                 processData: false,
                 contentType: false,
                 beforeSend: function () {
-                    $('#btnAddsector').attr("disabled", true);
+                    $('#btnAdditem').attr("disabled", true);
                     $('.loader').show();
                 },
                 success: function (data) {
 
-                    $('#btnAddsector').attr("disabled", false);
+                    $('#btnAdditem').attr("disabled", false);
                     $('.loader').hide();
                     if (data.status == 'true') {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
@@ -88,9 +86,9 @@
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     }
                     //$('#addBenf').prop("disabled", false);
-                    $("#formSectorCreate").trigger("reset");
+                   // $("#formSectorCreate").trigger("reset");
                     setTimeout(() => {
-                        window.location.href = "{{route('sectors.index')}}";
+                        window.location.href = "{{route('items.index')}}";
                     }, 1000);
 
                 },
