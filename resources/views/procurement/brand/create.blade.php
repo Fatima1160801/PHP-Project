@@ -6,7 +6,7 @@
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                {{$labels['addbrand'] ?? 'Add Brand'}}
+                {{$labels['addbrand'] ?? 'Add Brands'}}
             </h4>
         </div>
         <div class="card-body ">
@@ -39,9 +39,7 @@
                                 class="btn btn-next btn-rose pull-right btn-sm">
                             <div class="loader pull-left" style="display: none;"></div> {{$labels['save'] ?? 'save'}}
                         </button>
-                    <!-- <a href="#" id="cleanScreen" class="btn  btn-info pull-right btn-sm">
-                            {{$labels['clean'] ?? 'clean'}}
-                            </a> -->
+
                     </div>
                 </div>
             </div>
@@ -80,11 +78,11 @@
 
                     $('#btnAddbrand').attr("disabled", false);
                     $('.loader').hide();
-                    if (data.status == 'true') {
+                    if (data.status == true) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
 
                         $('.loader').hide();
-                    } else if (data.status == 'false') {
+                    } else if (data.status == false) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     }
                     //$('#addBenf').prop("disabled", false);

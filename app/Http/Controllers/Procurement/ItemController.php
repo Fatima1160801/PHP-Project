@@ -118,7 +118,7 @@ class ItemController extends Controller
         // dd($field);
         $itemObject->save();
 
-        return response(['status' => 'true', 'message' => getMessage('2.1')]);
+        return response(['status' => true, 'message' => getMessage('2.1')]);
 
 
     }

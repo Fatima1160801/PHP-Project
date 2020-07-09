@@ -9,7 +9,7 @@
             </div>
             <h4 class="card-title">
 
-                {{$labels['services'] ?? 'Services'}}
+                {{$labels['services'] ?? 'Service'}}
             </h4>
 
 
@@ -17,7 +17,7 @@
         <div class="card-body ">
             <a href="{{route('services.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
-               title="{{$labels['add service'] ?? 'Add service'}}" >
+               title="{{$labels['addservice'] ?? 'Add service'}}" >
                 <i class="material-icons">add</i></a>
 
 

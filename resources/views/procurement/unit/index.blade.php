@@ -9,7 +9,7 @@
             </div>
             <h4 class="card-title">
 
-                {{$labels['units'] ?? 'Units'}}
+                {{$labels['units'] ?? 'Unit'}}
             </h4>
 
 

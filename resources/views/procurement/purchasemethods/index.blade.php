@@ -9,7 +9,7 @@
             </div>
             <h4 class="card-title">
 
-                {{$labels['purchase methods'] ?? 'Purchase Methods'}}
+                {{$labels['purchasemethods'] ?? 'Purchase Method'}}
             </h4>
 
 

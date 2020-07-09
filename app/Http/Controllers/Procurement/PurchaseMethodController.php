@@ -78,7 +78,7 @@ class PurchaseMethodController extends Controller
         // dd($field);
         $purchaseObj->save();
 
-        return response(['status' => 'true', 'message' => getMessage('2.1')]);
+        return response(['status' => true, 'message' => getMessage('2.1')]);
 
 
     }
