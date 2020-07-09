@@ -27,10 +27,6 @@
 
             {!! $html !!}
 
-
-
-
-
             <div class="col-md-12">
 
                 <div class="card-footer ml-auto mr-auto">

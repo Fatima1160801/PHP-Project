@@ -6,7 +6,6 @@
  * Time: 8:50 AM
  */
 use Ixudra\Curl\Facades\Curl;
-
 function apiUrl($url){
     return "http://fprojects.ps/APIV2/public/".$url;
 }
@@ -902,6 +901,17 @@ function p_url($spec){
          }else{
              return false;
          }
+     }
+
+
+     function checkBeforeDelete($arr){
+      $arr=[\App\Models\Procurement\Brand::class,\App\Models\Procurement\Sector::class];
+      foreach ($arr as $model){
+        $dd=  $model::where('id',1)->first();
+          var_dump($dd);
+      }
+      dd(222);
+
      }
 
 
