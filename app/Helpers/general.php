@@ -903,15 +903,23 @@ function p_url($spec){
          }
      }
 
-
-     function checkBeforeDelete($arr){
-      $arr=[\App\Models\Procurement\Brand::class,\App\Models\Procurement\Sector::class];
-      foreach ($arr as $model){
-        $dd=  $model::where('id',1)->first();
-          var_dump($dd);
-      }
-      dd(222);
-
+     //array of models,field name "sector_id",id value "1"
+     function checkBeforeDelete($arr,$field_id,$id){
+      //$arr=[\App\Models\Procurement\Brand::class,\App\Models\Procurement\Sector::class];
+         $allow_delete=true;
+         if(!empty($arr)){
+             foreach ($arr as $model){
+                 try {
+                     $data = $model::where($field_id, $id)->first();
+                     if (!empty($data)) {
+                         $allow_delete = false;
+                     }
+                 }catch (Exception $e){
+                     $allow_delete = false;
+                 }
+             }
+         }
+      return $allow_delete;
      }
 
 

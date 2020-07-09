@@ -137,9 +137,15 @@ class SectorController extends Controller
             if(empty($sectorObject)){
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
-            $sectorObject->delete();
-            if($sectorObject){
-                $sectorObject->update(["deleted_by"=>Auth::user()->id ]);
+            $arr=[\App\Models\Procurement\ItemGroups::class,\App\Models\Procurement\Service::class];
+            $check=checkBeforeDelete($arr,"sector_id",$id);
+            if($check) {
+                $sectorObject->delete();
+                if ($sectorObject) {
+                    $sectorObject->update(["deleted_by" => Auth::user()->id]);
+                }
+            }else{
+                return response(['status' => false, 'message' => getMessage('2.355')]);
             }
 
 

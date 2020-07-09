@@ -135,12 +135,16 @@ class BrandController extends Controller
             if(empty($brandObject)){
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
+            $arr=[\App\Models\Procurement\Item::class];
+            $check=checkBeforeDelete($arr,"brand_id33",$id);
+            if($check){
             $brandObject->delete();
             if($brandObject){
                 $brandObject->update(["deleted_by"=>Auth::user()->id ]);
             }
-
-
+            }else{
+                return response(['status' => false, 'message' => getMessage('2.354')]);
+            }
             $message = getMessage('2.3');
             return response(['status' => true, 'message' => $message]);
         } catch (\Illuminate\Database\QueryException $e) {

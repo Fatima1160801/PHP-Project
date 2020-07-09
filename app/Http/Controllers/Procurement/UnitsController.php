@@ -135,9 +135,15 @@ class UnitsController extends Controller
             if(empty($unitObject)){
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
+            $arr=[\App\Models\Procurement\ItemGroups::class,\App\Models\Procurement\Item::class];
+            $check=checkBeforeDelete($arr,"unit_id",$id);
+            if($check) {
             $unitObject->delete();
             if($unitObject){
                 $unitObject->update(["deleted_by"=>Auth::user()->id ]);
+            }
+            }else{
+                return response(['status' => false, 'message' => getMessage('2.356')]);
             }
             $message = getMessage('2.3');
             return response(['status' => true, 'message' => $message]);

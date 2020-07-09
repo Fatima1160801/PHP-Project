@@ -59,6 +59,10 @@ class ItemController extends Controller
             'status'=>['html_type' => '5', 'selectArray' => $status[Auth::user()->lang_id]],
             'isbn' => ['inputClass' => 'check-is-number'],
             'upc' => ['inputClass' => 'check-is-number'],
+            'brand_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
+
+            'unit_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
+            'item_group_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
 
         ];
         $itemObject = new Item();
@@ -137,6 +141,11 @@ class ItemController extends Controller
             'status'=>['html_type' => '5', 'selectArray' => $status[Auth::user()->lang_id]],
             'isbn' => ['inputClass' => 'check-is-number'],
             'upc' => ['inputClass' => 'check-is-number'],
+            'brand_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
+
+            'unit_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
+            'item_group_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
+
             /* 'sku' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],*/
         ];
         $itemObject = Item::findOrfail($id);

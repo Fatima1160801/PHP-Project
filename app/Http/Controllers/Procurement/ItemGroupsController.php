@@ -50,7 +50,12 @@ class ItemGroupsController extends Controller
 
 
         $option = [
-            'item_groups_name' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
+            //'item_groups_name' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
+            'item_groups_name_na' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
+            'item_groups_name_fa' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
+            'sector_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
+
+            'unit_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
 
         ];
         $itemObj= new ItemGroups();
@@ -102,6 +107,9 @@ class ItemGroupsController extends Controller
         $option = [
             'item_groups_name_na' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
             'item_groups_name_fa' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
+            'sector_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
+
+            'unit_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
 
         ];
 
@@ -166,9 +174,15 @@ class ItemGroupsController extends Controller
             if(empty($item_groupsObject)){
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
+            $arr=[\App\Models\Procurement\Item::class];
+            $check=checkBeforeDelete($arr,"item_group_id",$id);
+            if($check){
             $item_groupsObject->delete();
             if($item_groupsObject){
                 $item_groupsObject->update(["deleted_by"=>Auth::user()->id ]);
+            }
+            }else{
+                return response(['status' => false, 'message' => getMessage('2.357')]);
             }
 
             $message = getMessage('2.3');
