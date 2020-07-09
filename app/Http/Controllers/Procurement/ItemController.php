@@ -44,6 +44,10 @@ class ItemController extends Controller
         return view('procurement.item.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
     }
 
+    public function screensetting(){
+        $labels = inputButton(Auth::user()->lang_id, 0);
+        return view('procurement.screen', compact('labels'));
+    }
     public function create($type = null, $id = null)
     {
         is_permitted(146, getClassName(__CLASS__), __FUNCTION__, 327, 1);

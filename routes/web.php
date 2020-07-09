@@ -168,5 +168,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/items/{id}/edit', ['uses' => 'Procurement\ItemController@edit'])->name('items.edit');
     Route::post('/items/update', ['uses' => 'Procurement\ItemController@update'])->name('items.update');
     Route::delete('/items/delete/{id}', ['uses' => 'Procurement\ItemController@delete'])->name('items.delete');
+
+    Route::get('/screen', ['uses' => 'Procurement\ItemController@screensetting'])->name('screen.index');
 });
 

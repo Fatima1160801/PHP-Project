@@ -136,7 +136,7 @@ class BrandController extends Controller
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
             $arr=[\App\Models\Procurement\Item::class];
-            $check=checkBeforeDelete($arr,"brand_id33",$id);
+            $check=checkBeforeDelete($arr,"brand_id",$id);
             if($check){
             $brandObject->delete();
             if($brandObject){
