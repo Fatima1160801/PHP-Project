@@ -29,7 +29,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        dd(checkBeforeDelete([]));
+        //dd(checkBeforeDelete([]));
         $userDashboardBlocksSetting = UserDashboardBlocksSetting::where('user_id', Auth::id())->pluck('block_id')->toArray();
         $userPermissions = getUserPermission();
         $users = User::all();
