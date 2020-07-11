@@ -54,7 +54,7 @@ class SectorController extends Controller
             'sector_name_fo' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
         ];
         $sectorObj= new Sector();
-        $generator = generator(140, $option, $sectorObj);
+       $generator = generator(140, $option, $sectorObj);
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
