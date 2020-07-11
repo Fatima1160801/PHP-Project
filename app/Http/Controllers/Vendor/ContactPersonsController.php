@@ -5,16 +5,15 @@ namespace App\Http\Controllers\Vendor;
 use App\Helpers\Log;
 use App\Http\Controllers\Controller;
 
-use App\Models\Vendor\ContactPersons;
 use App\Models\Vendor\Vendor;
-use App\Models\Vendor\Vendor_Sector;
+use App\Models\Vendor\ContactPersons;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
 use DB;
 
-class VendorController extends Controller
+class ContactPersonsController extends Controller
 {
 
     /**
@@ -37,52 +36,49 @@ class VendorController extends Controller
     public function index()
     {
 
-        is_permitted(147, getClassName(__CLASS__), __FUNCTION__, 330, 7);
-        $list = Vendor::orderby('id', 'desc')->get();
+        is_permitted(148, getClassName(__CLASS__), __FUNCTION__, 330, 7);
+        $list = ContactPersons::orderby('id', 'desc')->get();
         $messageDeleteType = getMessage('2.358');
-        $labels = inputButton(Auth::user()->lang_id, 147);
+        $labels = inputButton(Auth::user()->lang_id, 148);
         $userPermissions = getUserPermission();
-        return view('vendorss.vendor1.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
+        return view('vendorss.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
     }
 
     public function create($type = null, $id = null)
     {
-        is_permitted(147, getClassName(__CLASS__), __FUNCTION__, 331, 1);
-        $country = [
-            1 => ['1' => 'Palestine'],
-            2 => ['1' => 'فلسطين']
-        ];
+        is_permitted(148, getClassName(__CLASS__), __FUNCTION__, 331, 1);
+
 
 
         $option = [
             'vat_number' => ['inputClass' => 'check-is-number'],
-            'country_id'=>['html_type' => '5', 'selectArray' => $country[Auth::user()->lang_id]],
+            //'country_id'=>['html_type' => '5', 'selectArray' => $country[Auth::user()->lang_id]],
         ];
-        $vendorObj= new Vendor();
-        $generator = generator(147, $option, $vendorObj);
+        $contactObj= new Vendor();
+        $generator = generator(148, $option, $contactObj);
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('vendorss.vendor1.create', compact('labels', 'html', 'userPermissions'));
+        return view('vendorss.create', compact('labels', 'html', 'userPermissions'));
     }
 
     public function store(Request $request)
     {
-        is_permitted(147, getClassName(__CLASS__), __FUNCTION__, 331, 1);
+        is_permitted(148, getClassName(__CLASS__), __FUNCTION__, 331, 1);
 
         $input = $request->all();
 
-        $data = fieldInDatabase(147, $input);
+        $data = fieldInDatabase(148, $input);
         $field = $data['field'];
         $optionValidator=[];
         inputValidator($data, $optionValidator);
 
-        $vendorObj = new Vendor();
-        $vendorObj->fill($field);
-        $vendorObj->created_by=Auth::user()->id;
+        $contactObj = new Vendor();
+        $contactObj->fill($field);
+        $contactObj->created_by=Auth::user()->id;
         // dd($field);
-        $vendorObj->save();
-        $venderId=$vendorObj->id;
+        $contactObj->save();
+        $venderId=$contactObj->id;
         dd($venderId);
         $sectorVendor = $request->input('sector_id');
         foreach($sectorVendor as $item) {
@@ -97,37 +93,29 @@ class VendorController extends Controller
 
     public function edit($id)
     {
-        is_permitted(147, getClassName(__CLASS__), __FUNCTION__, 332, 2);
+        is_permitted(148, getClassName(__CLASS__), __FUNCTION__, 332, 2);
 
-        $country = [
-            1 => ['1' => 'Palestine'],
-            2 => ['1' => 'فلسطين']
-        ];
+        
         $option = [
             'vat_number' => ['inputClass' => 'check-is-number'],
-            'country_id'=>['html_type' => '5', 'selectArray' => $country[Auth::user()->lang_id]],
+           
         ];
 
-        $vendorObj = Vendor::findOrfail($id);
-        $generator = generator(147, $option, $vendorObj);
+        $contactObj = ContactPersons::findOrfail($id);
+        $generator = generator(148, $option, $contactObj);
         $html = $generator[0];
         $labels = $generator[1];
-        $contact = ContactPersons::where('vendor_id', '=', $id)->get();
-
-            $userPermissions = getUserPermission();
-            return view('vendorss.vendor1.edit', compact('labels', 'html','contact', 'userPermissions'));
-
-
-      //  return view('vendorss.vendor1.edit', compact('labels', 'html', 'userPermissions'));
+        $userPermissions = getUserPermission();
+        return view('vendorss.vendor1.edit', compact('labels', 'html', 'userPermissions'));
     }
 
     public function update(Request $request)
     {
-        is_permitted(147, getClassName(__CLASS__), __FUNCTION__, 332, 2);
+        is_permitted(148, getClassName(__CLASS__), __FUNCTION__, 332, 2);
 
         $input = $request->all();
 
-        $data  = fieldInDatabase(147, $input);
+        $data  = fieldInDatabase(148, $input);
         $field = $data['field'];
         // $id = 1;
         $id = $field['id'];
@@ -137,35 +125,35 @@ class VendorController extends Controller
         $optionValidator = [
         ];
         inputValidator($data, $optionValidator);
-        $vendorObject = Vendor::find($id);
-        if(empty($vendorObject)){
+        $contactObject = ContactPersons::find($id);
+        if(empty($contactObject)){
             return response(['status' => false, 'message' => getMessage('2.2')]);
         }
 
-        $vendorObject->fill($field);
-        $vendorObject->updated_by=Auth::user()->id;
-        $vendorObject->save();
+        $contactObject->fill($field);
+        $contactObject->updated_by=Auth::user()->id;
+        $contactObject->save();
 
         return response(['status' => true, 'message' => getMessage('2.2')]);
     }
 
     public function delete($id)
     {
-        is_permitted(147, getClassName(__CLASS__), __FUNCTION__, 333, 4);
+        is_permitted(148, getClassName(__CLASS__), __FUNCTION__, 333, 4);
         try {
-            $vendorObject = Vendor::find($id);
-            if(empty($vendorObject)){
+            $contactObject = ContactPersons::find($id);
+            if(empty($contactObject)){
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
             //$arr=[\App\Models\Procurement\ItemGroups::class,\App\Models\Procurement\Service::class];
             //$check=checkBeforeDelete($arr,"sector_id",$id);
             //if($check) {
-                $vendorObject->delete();
-              //  if ($vendorObject) {
-                    $vendorObject->update(["deleted_by" => Auth::user()->id]);
-                //}
+            $contactObject->delete();
+            //  if ($contactObject) {
+            $contactObject->update(["deleted_by" => Auth::user()->id]);
+            //}
             //}else{
-              //  return response(['status' => false, 'message' => getMessage('2.355')]);
+            //  return response(['status' => false, 'message' => getMessage('2.355')]);
             //}
 
 

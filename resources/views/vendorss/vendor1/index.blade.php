@@ -32,22 +32,11 @@
                         {{$labels['vendor_name_fo'] ?? 'Vendor name in other language'}}
                     </th>
                     <th>
-                        {{$labels['address'] ?? 'address'}}
+                        {{$labels['country_id'] ?? 'countries'}}
                     </th>
                     <th>
-                        {{$labels['telephone'] ?? 'telephone'}}
+                        {{$labels['state_id'] ?? 'state'}}
                     </th>
-                    <th>
-                        {{$labels['fax'] ?? 'fax'}}
-                    </th>
-                    <th>
-                        {{$labels['email'] ?? 'email'}}
-                    </th>
-                    <th>
-                        {{$labels['notes'] ?? 'notes'}}
-                    </th>
-
-
                     <th>
                         {{$labels['actions'] ?? 'actions'}}
                     </th>
@@ -62,11 +51,9 @@
                             <td>{{$index+1}}</td>
                             <td>{{$item->vendor_name_na ?? ""}}</td>
                             <td>{{$item->vendor_name_fo ?? ""}}</td>
-                            <td>{{$item->address ?? ""}}</td>
-                            <td>{{$item->telephone ?? ""}}</td>
-                            <td>{{$item->fax ?? ""}}</td>
-                            <td>{{$item->email ?? ""}}</td>
-                            <td>{{$item->notes ?? ""}}</td>
+                            <td>{{$item->country_id ?? ""}}</td>
+                            <td>{{$item->state_id ?? ""}}</td>
+
 
                             <td>
                                 <a href="{{route('vendors.edit',$item->id)}}"
@@ -88,6 +75,8 @@
                 @endif
                 </tbody>
             </table>
+
+
         </div>
     </div>
 
