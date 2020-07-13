@@ -35,5 +35,9 @@ class Vendor extends Model
 //    {
 //        return $this->belongsToMany('App\Models\Vendor\Vendor_Sector');
 //    }
+    public function state()
+    {
+        return $this->belongsTo('App\Models\Vendor\State','state_id');
+    }
 
 }

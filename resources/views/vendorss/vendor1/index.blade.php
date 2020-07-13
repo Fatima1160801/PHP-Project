@@ -32,7 +32,7 @@
                         {{$labels['vendor_name_fo'] ?? 'Vendor name in other language'}}
                     </th>
                     <th>
-                        {{$labels['country_id'] ?? 'countries'}}
+                        {{$labels['email'] ?? 'countries'}}
                     </th>
                     <th>
                         {{$labels['state_id'] ?? 'state'}}
@@ -51,8 +51,8 @@
                             <td>{{$index+1}}</td>
                             <td>{{$item->vendor_name_na ?? ""}}</td>
                             <td>{{$item->vendor_name_fo ?? ""}}</td>
-                            <td>{{$item->country_id ?? ""}}</td>
-                            <td>{{$item->state_id ?? ""}}</td>
+                            <td>{{$item->email ?? ""}}</td>
+                            <td>{{$item->state->city_name_no ?? ""}}</td>
 
 
                             <td>

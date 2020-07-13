@@ -55,19 +55,22 @@ class VendorController extends Controller
             1 => ['1' => 'Palestine'],
             2 => ['1' => 'فلسطين']
         ];
-
+        $messageDeleteType = getMessage('2.360');
 
         $option = [
             'vat_number' => ['inputClass' => 'check-is-number'],
             'country_id'=>['html_type' => '5', 'selectArray' => $country[Auth::user()->lang_id]],
+            'sector_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
         ];
         $vendorObj= new Vendor();
         $generator = generator(147, $option, $vendorObj);
+        $abortAdd=getMessage("2.362");
         $html = $generator[0];
         $labels = $generator[1];
         $job_list =JobTitle::get();
+        $abortSave=getMessage("2.361");
         $userPermissions = getUserPermission();
-        return view('vendorss.vendor1.create', compact('labels', 'html','job_list','userPermissions'));
+        return view('vendorss.vendor1.create', compact('abortSave','abortAdd','messageDeleteType','labels', 'html','job_list','userPermissions'));
     }
 
     public function store(Request $request)
@@ -117,6 +120,7 @@ class VendorController extends Controller
         }
         }catch (\Throwable $exception) {
             DB::rollBack();
+            dd($exception->getMessage());
             $message =  (is_numeric($exception->getMessage()) ? getMessage(2.246) : getMessage(2.245));
             return response()->json([
                 'status'=>false,
@@ -156,7 +160,8 @@ class VendorController extends Controller
 //                $ref_sector_selected[$index] = $item;
 //            }
 //        }
-
+        $abortSave=getMessage("2.361");
+        $abortAdd=getMessage("2.362");
 
         $option = [
             'vat_number' => ['inputClass' => 'check-is-number'],
@@ -174,7 +179,7 @@ class VendorController extends Controller
         $job_list =JobTitle::get();
 
             $userPermissions = getUserPermission();
-            return view('vendorss.vendor1.edit', compact('vendorObj','labels', 'html','contact','job_list','messageDeleteType', 'userPermissions'));
+            return view('vendorss.vendor1.edit', compact('vendorObj','abortSave','abortAdd','labels', 'html','contact','job_list','messageDeleteType', 'userPermissions'));
 
 
       //  return view('vendorss.vendor1.edit', compact('labels', 'html', 'userPermissions'));
@@ -235,43 +240,7 @@ class VendorController extends Controller
 //                 $vendorObject->sectors()->sync($request->sector_id, true);//dont delete old entries = false
 //                dd(122);
 
-               /* if(!empty($contactObj)){
-                    $contactObj->delete();
-                    $contactObj->update(["deleted_by"=>Auth::user()->id ]);
 
-                }*/
-                ///// add sectors
-
-               // $vendorObject->sectors()->sync($request->sector_id, true);//dont delete old entries = false
-                // dd($vendorObject);
-
-              //  foreach ($request->serial1 as $index=>$item){
-                   // $id1=$request->serial1[$index];
-                   // dd($id1);
-                   /* $contactObject = ContactPersons::find();
-                    if(empty($contactObject)){
-                        return response(['status' => false, 'message' => getMessage('2.2')]);
-                    }
-                    $contactObject->fill($field);
-                    $contactObject->updated_by=Auth::user()->id;
-                    $contactObject->save();*/
-              //  }
-              /*  if(!empty($request->job_title_id1) || !empty($request->fullname1) || !empty($request->tel1) || !empty($request->contact_email1)){
-
-                    if(!empty($request->serial1)){
-                        foreach ($request->serial1 as $index=>$item){
-                            $contactObject=new ContactPersons();
-                            $contactObject->vendor_id=$vendorObject->id;
-                            $contactObject->full_name=$request->fullname1[$index];
-                            $contactObject->job_title_id=$request->job_title_id1[$index];
-                            $contactObject->tel_number=$request->tel1[$index];
-                            $contactObject->email=$request->contact_email1[$index];
-                            $contactObject->created_by=Auth::user()->id;
-                            $contactObject->save();
-
-                        }
-                    }
-                }*/
 
 
 
@@ -294,6 +263,7 @@ class VendorController extends Controller
             }
         }catch (\Throwable $exception) {
             DB::rollBack();
+            dd($exception->getMessage());
             $message =  (is_numeric($exception->getMessage()) ? getMessage(2.246) : getMessage(2.245));
             return response()->json([
                 'status'=>false,
@@ -314,29 +284,45 @@ class VendorController extends Controller
     public function delete($id)
     {
         is_permitted(147, getClassName(__CLASS__), __FUNCTION__, 333, 4);
-        try {
+
             $vendorObject = Vendor::find($id);
             if(empty($vendorObject)){
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
-            //$arr=[\App\Models\Procurement\ItemGroups::class,\App\Models\Procurement\Service::class];
-            //$check=checkBeforeDelete($arr,"sector_id",$id);
-            //if($check) {
-                $vendorObject->delete();
-              //  if ($vendorObject) {
-                    $vendorObject->update(["deleted_by" => Auth::user()->id]);
-                //}
-            //}else{
-              //  return response(['status' => false, 'message' => getMessage('2.355')]);
-            //}
+        try {
+
+            DB::beginTransaction();
+            $contactObj=ContactPersons::where('vendor_id', $id)->get();
+            if(count($contactObj)>0){
+                foreach ($contactObj as $item){
+                    $item->delete();
+                    $item->update(["deleted_by"=>Auth::user()->id ]);
+                }
+            }
+            $vendor_sector=Vendor_Sector::where('vendor_id',$id)->delete();
+
+
+            $vendorObject->delete();
+
+            $vendorObject->update(["deleted_by" => Auth::user()->id]);
+
 
 
             $message = getMessage('2.3');
-            return response(['status' => true, 'message' => $message]);
-        } catch (\Illuminate\Database\QueryException $e) {
-            $message = getMessage('2.3');
-            return response(['status' => false, 'message' => $message]);
+
+        }catch (\Throwable $exception) {
+            DB::rollBack();
+            $message =  (is_numeric($exception->getMessage()) ? getMessage(2.246) : getMessage(2.245));
+            return response()->json([
+                'status'=>false,
+                'message' => $message,
+                'code'=>$exception->getCode(),
+                'result'=>[],
+            ]);
+        } finally {
+            DB::commit();
         }
+        return response(['status' => true, 'message' => $message]);
     }
 
     function getCity($id){
@@ -356,30 +342,30 @@ class VendorController extends Controller
     }
 
 
-    public function deleteContact($id){
-
-        is_permitted(147, getClassName(__CLASS__), __FUNCTION__, 313, 4);
-        try {
-            $contactObj = ContactPersons::find($id);
-            if(empty($contactObj)){
-                return response(['status' => false, 'message' => getMessage('2.2')]);
-            }
-
-
-                $contactObj->delete();
-
-
-
-            if($contactObj){
-                    $contactObj->update(["deleted_by"=>Auth::user()->id ]);
-            }
-
-            $message = getMessage('2.3');
-            return response(['status' => true, 'message' => $message]);
-        } catch (\Illuminate\Database\QueryException $e) {
-            $message = getMessage('2.3');
-            return response(['status' => false, 'message' => $message]);
-        }
-    }
+//    public function deleteContact($id){
+//
+//        is_permitted(147, getClassName(__CLASS__), __FUNCTION__, 333, 4);
+//        try {
+//            $contactObj = ContactPersons::find($id);
+//            if(empty($contactObj)){
+//                return response(['status' => false, 'message' => getMessage('2.2')]);
+//            }
+//
+//
+//                $contactObj->delete();
+//
+//
+//
+//            if($contactObj){
+//                    $contactObj->update(["deleted_by"=>Auth::user()->id ]);
+//            }
+//
+//            $message = getMessage('2.3');
+//            return response(['status' => true, 'message' => $message]);
+//        } catch (\Illuminate\Database\QueryException $e) {
+//            $message = getMessage('2.3');
+//            return response(['status' => false, 'message' => $message]);
+//        }
+//    }
 
 }

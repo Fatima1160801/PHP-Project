@@ -37,6 +37,25 @@
                         <i class="material-icons">add</i>
                     </button></th>
                 </thead>
+                <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control required fullname-input" name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div> </td>
+                <td><select  class="selectpicker required jobtitle" name="job_title_id[]" id="jobs"><option value=""></option>
+                        @if(!empty($job_list))
+                            @foreach($job_list  as $item1)
+
+                                <option value="{{$item1->id}}" >{{$item1->job_title_name_na ?? ""}}</option>
+
+                            @endforeach
+                        @endif
+
+                    </select>
+
+                </td>
+                <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control required tel" name="tel[]"  alt="Website" autocomplete="off"></div></div></td>;
+               <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control email required " name="contact_email[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></td>;
+             <td><button type="button"
+                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"
+                        data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
+                    <i class="material-icons">delete</i></button></td>
 
 
             </table>
@@ -67,6 +86,31 @@
 @endsection
 @section('script')
     <script>
+        $(function () {
+            active_nev_link('visit-link');
+            DataTableCall('#personal contacts',5);
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $(document).on('click', '.btnTypeDelete', function (e) {
+                e.preventDefault();
+                $this = $(this);
+                $($this).closest('tr').remove();
+
+               // $($this).closest('tr').css('background', 'red').delay(500).hide(1000);
+
+
+            });
+
+
+
+
+
+        });
+
+
+
+    </script>
+    <script>
         $(document).ready(function () {
             active_nev_link('visit-link');
             funValidateForm();
@@ -76,6 +120,10 @@
             if (!is_valid_form($(this))) {
                 return false;
             }
+            var checkInputs= checkInputNullCreate();
+            console.log(checkInputs);
+           if(checkInputs) {
+
             e.preventDefault();
             var form = new FormData($(this)[0]);
             var url = $(this).attr('action');
@@ -110,7 +158,13 @@
                 error: function (data) {
 
                 }
-            });
+            });}
+           else{
+               @if(!empty($abortSave))
+               myNotify('{{$abortSave["icon"]}}', '{{$abortSave["title"]}}', '{{$abortSave["type"]}}', '5000','{{$abortSave["text"]}}');
+               @endif
+                   return false;
+           }
         });
 
         // $(document).on('click', '#cleanScreen', function (e) {
@@ -126,27 +180,31 @@
         function myFunction() {
             /*  var d = 'Url.Action("numrow")';*/
             var table = document.getElementById("personal contacts");
+            var totalRowCount = table.rows.length;
+            if(totalRowCount-1<=9){
             var row = table.insertRow(-1);
             var job_lists = @json($job_list);
-            var itemList='<option value="0"></option>';
+            var itemList='<option value=""></option>';
             $.each(job_lists, function (index, value) {
                 itemList+='<option value=' + value.id + '>' + value["job_title_name_na"] + '</option>';
             });
-            var cell1 = row.insertCell(0).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control  " name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div>'
+            var cell1 = row.insertCell(0).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control required fullname-input" name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div>'
 
 
-            var cell2 = row.insertCell(1).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><select name="job_title_id[]"  class="contactpersons">'+itemList+'</select></div></div>';
-            var cell3 = row.insertCell(2).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control  " name="tel[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off"></div></div>';
-            var cell4 = row.insertCell(3).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control email " name="contact_email[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></div></div>';
-            var cell5 = row.insertCell(4).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-danger btn-round btn-fab" onclick="func()"><i class="material-icons">delete</i></button> </div></div>';
+            var cell2 = row.insertCell(1).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><select minlength="0" maxlength="11" name="job_title_id[]"  class="contactpersons required jobtitle">'+itemList+'</select></div></div>';
+            var cell3 = row.insertCell(2).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control required tel" name="tel[]"  alt="Website" autocomplete="off"></div></div>';
+            var cell4 = row.insertCell(3).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control email required " name="contact_email[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></div></div>';
+            var cell5 = row.insertCell(4).innerHTML = '<button type="button" rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"+data-placement="top"  title=" Delete "><i class="material-icons">delete</i></button></td>';
 
 
-            $(".contactpersons").selectpicker();
+            $(".contactpersons").selectpicker();}
            /* var cell10 = row.insertCell(9).innerHTML = '<button type="button" class="btn btn-default btn-sm" ><span class= "glyphicon glyphicon-remove-sign" ></span ></button >';
             var cell11 = row.insertCell(10).innerHTML = '<button type="button" class="btn btn-default btn-sm" ><span class= "glyphicon glyphicon-pencil" ></span ></button >';
             var cell12 = row.insertCell(11).innerHTML = '<button type="button" class="btn btn-success" onclick="func()">Save</button>'*/
 
-
+        else{
+                myNotify('{{$abortAdd["icon"]}}', '{{$abortAdd["title"]}}', '{{$abortAdd["type"]}}', '5000','{{$abortAdd["text"]}}');
+            }
 
 
         }
@@ -168,7 +226,42 @@
 
              });
          }
+
+         function checkInputNullCreate(){
+               var val=true;
+             $("input.fullname-input").each(function() {
+
+                 if(!$(this).val()){
+                     //$(this).css("background","red !important");
+
+                     val= false;
+                 }
+             });
+             $("select.jobtitle").each(function() {
+                 if(!$(this).val()){
+                     //$(this).css("background","red !important");
+
+                     val= false;
+                 }
+             });
+              $("input.tel").each(function() {
+                  if(!$(this).val()){
+                      //$(this).css("background","red !important");
+
+                      val=false;
+                 }
+             });
+             $("input.email").each(function() {
+                 if(!$(this).val()){
+                     //$(this).css("background","red !important");
+
+                     val=false;
+                 }
+             });
+             return val;
+         }
     </script>
+
 @endsection
 
 
@@ -183,6 +276,7 @@
     <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
     <script src="{{ asset('assets/js/plugins/bootstrap-selectpicker.js')}}"></script>
     <script src="{{ asset('assets/js/plugins/jasny-bootstrap.min.js')}}"></script>
+    <script src="{{ asset('js/datatables/datatables.min.js')}}"></script>
 
 
 
