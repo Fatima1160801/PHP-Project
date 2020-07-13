@@ -1,6 +1,5 @@
 @extends('layouts._layout')
 @section('content')
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <div class="card ">
         <div class="card-header card-header-rose  card-header-icon">
             <div class="card-icon">
@@ -34,8 +33,8 @@
                 <th>Job title</th>
                 <th>Telephone</th>
                 <th>Email</th>
-                <th><button type="button" class="btn btn-success" onclick="myFunction()" style="margin-bottom:+0.5em;">
-                        <span class="glyphicon glyphicon-plus"></span> Add
+                <th><button type="button" class="btn btn-sm btn-success btn-round btn-fab" onclick="myFunction()" style="margin-bottom:+0.5em;">
+                        <i class="material-icons">add</i>
                     </button></th>
                 </thead>
 
@@ -128,12 +127,21 @@
             /*  var d = 'Url.Action("numrow")';*/
             var table = document.getElementById("personal contacts");
             var row = table.insertRow(-1);
-            var cell1 = row.insertCell(0).innerHTML = '<input type="text" >';
-            var cell2 = row.insertCell(1).innerHTML = '<select   name="unit_id" data-style="btn btn-link" id="unit_id"  data-live-search="true"   ><option></optuion><option value="14">Project Manager</option> <option value="15">Project Coordinator</option><option value="16">Manager</option><option value="18">Accountant</option><option value="19">Project  coordinator</option></select>';
-            var cell3 = row.insertCell(2).innerHTML = '<input type="text" >';
-            var cell4 = row.insertCell(3).innerHTML = '<input type="text" >';
-            var cell5 = row.insertCell(4).innerHTML = '<button type="button" class="btn btn-success" onclick="func()">Save</button> <button type="button" class="btn btn-danger" onclick="func()">Delete</button>';
+            var job_lists = @json($job_list);
+            var itemList='<option value="0"></option>';
+            $.each(job_lists, function (index, value) {
+                itemList+='<option value=' + value.id + '>' + value["job_title_name_na"] + '</option>';
+            });
+            var cell1 = row.insertCell(0).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control  " name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div>'
 
+
+            var cell2 = row.insertCell(1).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><select name="job_title_id[]"  class="contactpersons">'+itemList+'</select></div></div>';
+            var cell3 = row.insertCell(2).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control  " name="tel[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off"></div></div>';
+            var cell4 = row.insertCell(3).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control email " name="contact_email[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></div></div>';
+            var cell5 = row.insertCell(4).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-danger btn-round btn-fab" onclick="func()"><i class="material-icons">delete</i></button> </div></div>';
+
+
+            $(".contactpersons").selectpicker();
            /* var cell10 = row.insertCell(9).innerHTML = '<button type="button" class="btn btn-default btn-sm" ><span class= "glyphicon glyphicon-remove-sign" ></span ></button >';
             var cell11 = row.insertCell(10).innerHTML = '<button type="button" class="btn btn-default btn-sm" ><span class= "glyphicon glyphicon-pencil" ></span ></button >';
             var cell12 = row.insertCell(11).innerHTML = '<button type="button" class="btn btn-success" onclick="func()">Save</button>'*/
@@ -142,6 +150,24 @@
 
 
         }
+
+           $( "#state_id" ).change(function() {
+                var state = $('#state_id').find(":selected").val();
+                getCity(state);
+            });
+            function getCity(state) {
+                var list ="<option selected  value=''></option>";
+                $id=state;
+                $.get('{{url('/city/by')}}'+'/'+$id,function(data){
+                 $.each(data.city, function (index, value) {
+                     list+='<option value=' +index + '>' + value + '</option>';
+                 });
+                 $("#city_id").html(list);
+                    $("#city_id").selectpicker("refresh");
+
+
+             });
+         }
     </script>
 @endsection
 

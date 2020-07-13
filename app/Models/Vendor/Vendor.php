@@ -31,5 +31,9 @@ class Vendor extends Model
 
         ];
 
+//    public function sectors()
+//    {
+//        return $this->belongsToMany('App\Models\Vendor\Vendor_Sector');
+//    }
 
 }

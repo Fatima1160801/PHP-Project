@@ -137,7 +137,7 @@ class SectorController extends Controller
             if(empty($sectorObject)){
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
-            $arr=[\App\Models\Procurement\ItemGroups::class,\App\Models\Procurement\Service::class];
+            $arr=[\App\Models\Procurement\ItemGroups::class,\App\Models\Procurement\Service::class,\App\Models\Vendor\Vendor_Sector::class];
             $check=checkBeforeDelete($arr,"sector_id",$id);
             if($check) {
                 $sectorObject->delete();

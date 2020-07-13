@@ -86,7 +86,7 @@
     <script>
         $(function () {
             active_nev_link('visit-link');
-            DataTableCall('#table',9);
+            DataTableCall('#table',6);
             $('[data-toggle="tooltip"]').tooltip();
 
             $(document).on('click', '.btnTypeDelete', function (e) {

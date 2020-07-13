@@ -179,5 +179,9 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/vendors/{id}/edit', ['uses' => 'Vendor\VendorController@edit'])->name('vendors.edit');
     Route::post('/vendors/update', ['uses' => 'Vendor\VendorController@update'])->name('vendors.update');
     Route::delete('/vendors/delete/{id}', ['uses' => 'Vendor\VendorController@delete'])->name('vendors.delete');
+    Route::delete('/vendors/delete1/{id}', ['uses' => 'Vendor\VendorController@deleteContact'])->name('vendors.deleteContact');
+
+
+    Route::get('/city/by/{id}', ['uses' => 'Vendor\VendorController@getCity'])->name('city.by.id');
 });
 

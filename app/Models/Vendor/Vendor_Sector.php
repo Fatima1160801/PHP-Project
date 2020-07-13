@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vendor_Sector extends Model
 {
-    use SoftDeletes;
     protected $table='vendor_sector';
     protected $primaryKey = 'id';
     protected $fillable =
@@ -16,6 +15,7 @@ class Vendor_Sector extends Model
             ' sector_id',
 
         ];
+    public $timestamps=false;
 
 
 }

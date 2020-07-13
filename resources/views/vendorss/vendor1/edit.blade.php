@@ -1,6 +1,7 @@
 @extends('layouts._layout')
 @section('content')
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+  <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">-->
     <div class="card ">
         <div class="card-header card-header-rose  card-header-icon">
             <div class="card-icon">
@@ -28,14 +29,15 @@
 
             {!! $html !!}
             <h3>Contact Persons</h3>
-            <table class="table" id="personal contacts">
+            <table  class="table" id="personal contacts">
                 <thead>
                 <th>full name</th>
                 <th>Job title</th>
                 <th>Telephone</th>
                 <th>Email</th>
-                <th><button type="button" class="btn btn-success" onclick="myFunction()" style="margin-bottom:+0.5em;">
-                        <span class="glyphicon glyphicon-plus"></span> Add
+                <th>
+                    <button type="button" class="btn btn-sm btn-success btn-round btn-fab" onclick="myFunction()" style="margin-bottom:+0.5em;">
+                        <i class="material-icons">add</i>
                     </button></th>
                 </thead>
                 <tbody>
@@ -43,12 +45,27 @@
                     @foreach($contact  as $index => $item)
                         <tr>
 
-                            <td><input type="text" value={{$item->full_name ?? ""}}></td>
-                            <td><select   name="unit_id" data-style="btn btn-link" id="unit_id"  data-live-search="true"    ><option></option><option selected="selected">{{$item->job_title_id ?? ""}}</option><option value="14">Project Manager</option> <option value="15">Project Coordinator</option><option value="16">Manager</option><option value="18">Accountant</option><option value="19">Project  coordinator</option></select></td>
-                            <td><input type="text"value={{$item->tel_number ?? ""}}></td>
-                            <td><input type="text"value={{$item->email ?? ""}}></td>
-                            <td><button type="button" class="btn btn-success" onclick="func()">Edit</button> <button type="button" class="btn btn-danger" onclick="func()">Delete</button>
+                            <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial1[]"/><input type="text" value={{$item->full_name ?? ""}} class="form-control"  name="fullname1[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div>
                             </td>
+                            <td><select  class="selectpicker" name="job_title_id1[]" id="jobs"><option value="0"></option>
+                                @if(!empty($job_list))
+                                    @foreach($job_list  as $item1)
+
+                                    <option value="{{$item1->id}}" @if($item->job_title_id == $item1->id) selected @endif >{{$item1->job_title_name_na ?? ""}}</option>
+
+                                        @endforeach
+                                    @endif
+
+                                </select>
+
+                            </td>
+                            <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value={{$item->tel_number ?? ""}} class="form-control"  name="tel1[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></td>
+                            <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="email" value={{$item->email ?? ""}} class="form-control   name="contact_email1[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></td>
+                          <td> <button type="button"
+                                    rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"
+                                    data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
+                                  <i class="material-icons">delete</i></button></td>
+
                         </tr>
 
                     @endforeach
@@ -82,25 +99,60 @@
 @endsection
 @section('script')
     <script>
+        $(function () {
+            active_nev_link('visit-link');
+            DataTableCall('#personal contacts',5);
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $(document).on('click', '.btnTypeDelete', function (e) {
+                e.preventDefault();
+                $this = $(this);
+                swal({
+                    text: '{{$messageDeleteType['text']}}',
+                    confirmButtonClass: 'btn btn-success  btn-sm',
+                    cancelButtonClass: 'btn btn-danger  btn-sm',
+                    buttonsStyling: false,
+                    showCancelButton: true
+                }).then(result => {
+                    if (result == true){
+
+                                    $($this).closest('tr').css('background','red').delay(1000).hide(1000);
+
+                                }else {
+                                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                                }
+
+
+                        });
+
+                })
+            });
+
+
+
+    </script>
+
+    <script>
         $(document).ready(function () {
             active_nev_link('visit-link');
             funValidateForm();
-            $('.selectpicker').selectpicker();
-            // $('.datetimepicker').datetimepicker({
-            //     icons: {
-            //         time: "fa fa-clock-o",
-            //         date: "fa fa-calendar",
-            //         up: "fa fa-chevron-up",
-            //         down: "fa fa-chevron-down",
-            //         previous: 'fa fa-chevron-left',
-            //         next: 'fa fa-chevron-right',
-            //         today: 'fa fa-screenshot',
-            //         clear: 'fa fa-trash',
-            //         close: 'fa fa-remove'
-            //     },
-            //     format: 'DD/MM/YYYY'
-            // });
+            var state = '{{$vendorObj->state_id}}';
+            console.log(state);
+            var select=getCity(state);
+            setTimeout(function(){
+                var city='{{$vendorObj->city_id}}';
+                console.log(city);
+                $('#city_id').val(city);
+                $("#city_id").selectpicker("refresh");
+                }, 2000);
+
+
+
+
+
+
         });
+
 
         $(document).on('submit', '#formVendorUpdate', function (e) {
 
@@ -146,20 +198,28 @@
 
 
     </script>
+
     <script>
         function myFunction() {
             /*  var d = 'Url.Action("numrow")';*/
             var table = document.getElementById("personal contacts");
+            var select=document.getElementById("jobs");
+            var job_lists = @json($job_list);
+            var itemList='<option value="0"></option>';
+            $.each(job_lists, function (index, value) {
+                itemList+='<option value=' + value.id + '>' + value["job_title_name_na"] + '</option>';
+            });
+
+
+
             var row = table.insertRow(-1);
-            var cell1 = row.insertCell(0).innerHTML = '<input type="text" >';
-            var cell2 = row.insertCell(1).innerHTML = '<select   name="unit_id" data-style="btn btn-link" id="unit_id"  data-live-search="true"   ><option></optuion><option value="14">Project Manager</option> <option value="15">Project Coordinator</option><option value="16">Manager</option><option value="18">Accountant</option><option value="19">Project  coordinator</option></select>';
+            var cell1 = row.insertCell(0).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/><input type="text" value="" class="form-control  " name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div>'
+            var cell2 = row.insertCell(1).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><select name="job_title_id[]"   class="contactpersons selectpicker">'+itemList+'</select></div></div>';
+            var cell3 = row.insertCell(2).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control  " name="tel[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off"></div></div>';
+            var cell4 = row.insertCell(3).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="email" value="" class="form-control  " name="contact_email[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></div></div>';
+            var cell5 = row.insertCell(4).innerHTML = '<button type="button" class="btn btn-sm btn-danger btn-round btn-fab" onclick="func()"><i class="material-icons">delete</i></button>';
 
-
-
-            var cell3 = row.insertCell(2).innerHTML = '<input type="text" >';
-            var cell4 = row.insertCell(3).innerHTML = '<input type="text" >';
-            var cell5 = row.insertCell(4).innerHTML = '<button type="button" class="btn btn-success" onclick="func()">Save</button> <button type="button" class="btn btn-danger" onclick="func()">Delete</button>';
-
+            $(".contactpersons").selectpicker();
             /* var cell10 = row.insertCell(9).innerHTML = '<button type="button" class="btn btn-default btn-sm" ><span class= "glyphicon glyphicon-remove-sign" ></span ></button >';
              var cell11 = row.insertCell(10).innerHTML = '<button type="button" class="btn btn-default btn-sm" ><span class= "glyphicon glyphicon-pencil" ></span ></button >';
              var cell12 = row.insertCell(11).innerHTML = '<button type="button" class="btn btn-success" onclick="func()">Save</button>'*/
@@ -168,7 +228,23 @@
 
 
         }
+        $( "#state_id" ).change(function() {
+            var state = $('#state_id').find(":selected").val();
+            getCity(state);
+        });
+        function getCity(state) {
+            var list ="<option selected  value=''></option>";
+            $id=state;
+            $.get('{{url('/city/by')}}'+'/'+$id,function(data){
+                $.each(data.city, function (index, value) {
+                    list+='<option value=' +index + '>' + value + '</option>';
+                });
+                $("#city_id").html(list);
+                $("#city_id").selectpicker("refresh");
+            });
+        }
     </script>
+
 @endsection
 
 
@@ -184,5 +260,6 @@
     <script src="{{ asset('assets/js/plugins/bootstrap-selectpicker.js')}}"></script>
 
     <script src="{{ asset('assets/js/plugins/jasny-bootstrap.min.js')}}"></script>
+    <script src="{{ asset('js/datatables/datatables.min.js')}}"></script>
 
 @endsection
