@@ -273,6 +273,8 @@ class VendorController extends Controller
                     }
                 }*/
 
+
+
                 if(!empty($request->job_title_id) || !empty($request->fullname) || !empty($request->tel) || !empty($request->contact_email)){
 
                     if(!empty($request->serial)){
