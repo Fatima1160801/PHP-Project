@@ -219,19 +219,36 @@
 
 
         }
+        $( "#country_id" ).change(function() {
+            var state = $('#country_id').find(":selected").val();
+            getState(state);
+        });
+        function getState(state) {
+            var list1 ="<option selected  value=''></option>";
+            $id=state;
+            $.get('{{url('/state/by/country')}}'+'/'+$id,function(data){
+                $.each(data.list, function (index, value) {
+                    list1+='<option value=' +index + '>' + value + '</option>';
+                });
+                $("#state_id").html(list1);
+                $("#state_id").selectpicker("refresh");
+
+
+            });
+        }
 
            $( "#state_id" ).change(function() {
                 var state = $('#state_id').find(":selected").val();
                 getCity(state);
             });
             function getCity(state) {
-                var list ="<option selected  value=''></option>";
+                var list2 ="<option selected  value=''></option>";
                 $id=state;
-                $.get('{{url('/city/by')}}'+'/'+$id,function(data){
-                 $.each(data.city, function (index, value) {
-                     list+='<option value=' +index + '>' + value + '</option>';
+                $.get('{{url('/city/by/state')}}'+'/'+$id,function(data){
+                 $.each(data.list, function (index, value) {
+                     list2+='<option value=' +index + '>' + value + '</option>';
                  });
-                 $("#city_id").html(list);
+                 $("#city_id").html(list2);
                     $("#city_id").selectpicker("refresh");
 
 

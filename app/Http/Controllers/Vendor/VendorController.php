@@ -70,7 +70,7 @@ class VendorController extends Controller
             'sector_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
         ];
         $vendorObj= new Vendor();
-        $vendorObj->country_id=1;
+       // $vendorObj->country_id=1;
         $generator = generator(147, $option, $vendorObj);
         $abortAdd=getMessage("2.362");
         $html = $generator[0];
@@ -201,10 +201,16 @@ class VendorController extends Controller
     {
         is_permitted(147, getClassName(__CLASS__), __FUNCTION__, 332, 2);
         $messageDeleteType = getMessage('2.360');
-        $country = [
+       /* $country = [
             1 => ['1' => 'Palestine'],
             2 => ['1' => 'فلسطين']
-        ];
+        ];*/
+        if(Auth::user()->lang_id==1){
+            $country_lang=2;
+        }else{
+            $country_lang=1;
+        }
+        $country= \App\Models\Procurement\Country::where("language_id",$country_lang)->pluck("country_name","id");
         $ref_sector_selected = [];
         $ref_sector_selected =Vendor_Sector::where('vendor_id', $id)->pluck('sector_id')->toArray();
         //dd($ref_sector_selected);
@@ -218,7 +224,7 @@ class VendorController extends Controller
        // $abortDelete=getMessage("2.363");
         $option = [
             'vat_number' => ['inputClass' => 'check-is-number'],
-            'country_id'=>['html_type' => '5', 'selectArray' => $country[Auth::user()->lang_id]],
+            'country_id'=>['html_type' => '5', 'selectArray' => $country],
             'sector_id'=> ['relatedWhere' => 'deleted_at is null', 'SelectedArray' => $ref_sector_selected],
 
             ];
@@ -423,11 +429,12 @@ class VendorController extends Controller
 
 
     function getCityByState($id){
-        if(Auth::user()->lang==1){
+        if(Auth::user()->lang_id==1){
             $city_language=2;
         }else{
             $city_language=1;
         }
+      //  dd(Auth::user()->lang);
         $arr= \App\Models\Procurement\City::where('state_id',$id)->where('language_id',$city_language)->pluck("city_name","id")->toArray();
         if(!empty($arr)){
             return response(['status' => true, 'list' => $arr]);
@@ -438,7 +445,7 @@ class VendorController extends Controller
     }
 
     function getStateByCountry($id){
-        if(Auth::user()->lang==1){
+        if(Auth::user()->lang_id==1){
             $state_language=2;
         }else{
             $state_language=1;
