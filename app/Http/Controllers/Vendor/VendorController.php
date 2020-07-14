@@ -372,4 +372,34 @@ class VendorController extends Controller
 //        }
 //    }
 
+
+    function getCityByState($id){
+        if(Auth::user()->lang==1){
+            $city_language=2;
+        }else{
+            $city_language=1;
+        }
+        $arr= \App\Models\Procurement\City::where('state_id',$id)->where('language_id',$city_language)->pluck("city_name","id")->toArray();
+        if(!empty($arr)){
+            return response(['status' => true, 'list' => $arr]);
+        }else{
+            return response(['status' => false, 'list' => []]);
+        }
+
+    }
+
+    function getStateByCountry($id){
+        if(Auth::user()->lang==1){
+            $state_language=2;
+        }else{
+            $state_language=1;
+        }
+        $arr= \App\Models\Procurement\State::where('country_id',$id)->where('language_id',$state_language)->pluck("state_name","id")->toArray();
+        if(!empty($arr)){
+            return response(['status' => true, 'list' => $arr]);
+        }else{
+            return response(['status' => false, 'list' => []]);
+        }
+
+    }
 }
