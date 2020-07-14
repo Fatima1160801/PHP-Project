@@ -120,9 +120,9 @@
             if (!is_valid_form($(this))) {
                 return false;
             }
-            var checkInputs= checkInputNullCreate();
-            console.log(checkInputs);
-           if(checkInputs) {
+           //  var checkInputs= checkInputNullCreate();
+           //  console.log(checkInputs);
+           // if(checkInputs) {
 
             e.preventDefault();
             var form = new FormData($(this)[0]);
@@ -167,13 +167,14 @@
                 error: function (data) {
 
                 }
-            });}
-           else{
-               @if(!empty($abortSave))
-               myNotify('{{$abortSave["icon"]}}', '{{$abortSave["title"]}}', '{{$abortSave["type"]}}', '5000','{{$abortSave["text"]}}');
-               @endif
-                   return false;
-           }
+            });
+        // }
+           {{--else{--}}
+           {{--    @if(!empty($abortSave))--}}
+           {{--    myNotify('{{$abortSave["icon"]}}', '{{$abortSave["title"]}}', '{{$abortSave["type"]}}', '5000','{{$abortSave["text"]}}');--}}
+           {{--    @endif--}}
+           {{--        return false;--}}
+           {{--}--}}
         });
 
         // $(document).on('click', '#cleanScreen', function (e) {

@@ -115,9 +115,13 @@ class VendorController extends Controller
                 $rules = [
 
                     'job_title_id'=> 'required',
+                    'job_title_id.*'=> 'required',
                     ' fullname'=> 'required',
+                    ' fullname.*'=> 'required',
                     'tel'=> 'required',
-                    'contact_email'=> 'required|email',
+                    'tel.*'=> 'required',
+                    'contact_email'=> 'required',
+                    'contact_email.*'=> 'required|email',
 
 
                 ];
@@ -125,14 +129,25 @@ class VendorController extends Controller
                     'job_title_id.required' => "job_title_id is required",
                     'fullname.required'=> "name is required",
                     'tel.required'=> "telephone is required",
+                    'tel.*.required'=> "All telephone is required",
                     'contact_email.required'=> "email is required",
+                    'contact_email.*.required'=> "All email is required",
                     'contact_email.email'=> "write a correct email",
+                    'contact_email.*.email'=> "All emails write a correct email",
 
                 ];
                 $validator = Validator::make($request->all(), $rules,$customMessages);
 
                 if ($validator->fails()) {
 
+
+                    if($validator->errors()->has('contact_email.*')){
+                        dd($validator->errors()->first('contact_email.*'));
+                    }
+                    if($validator->errors()->has('tel.*')){
+                        dd($validator->errors()->first('tel.*'));
+                    }
+                    dd(implode(",",array($validator->errors())));
                     return response()->json([
                         'status'=>false,
                         'message'=>$validator->errors(),
