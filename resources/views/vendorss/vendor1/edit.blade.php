@@ -119,15 +119,26 @@
         $(document).ready(function () {
             active_nev_link('visit-link');
             funValidateForm();
+            var country = '{{$vendorObj->country_id}}';
             var state = '{{$vendorObj->state_id}}';
             console.log(state);
-            var select=getCity(state);
+            var select=getState(country);
+
             setTimeout(function(){
-                var city='{{$vendorObj->city_id}}';
-                console.log(city);
-                $('#city_id').val(city);
-                $("#city_id").selectpicker("refresh");
+              {{--//  var city='{{$vendorObj->city_id}}';--}}
+               // console.log(city);
+                $('#state_id').val(state);
+                $("#state_id").selectpicker("refresh");
+                var select2=getCity(state);
+                setTimeout(function(){
+                    var city='{{$vendorObj->city_id}}';
+                    $('#city_id').val(city);
+                    $("#city_id").selectpicker("refresh");
                 }, 2000);
+
+            }, 2000);
+
+
 
 
 

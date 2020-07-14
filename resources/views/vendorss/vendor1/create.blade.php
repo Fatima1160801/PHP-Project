@@ -143,25 +143,18 @@
                     $('.loader').hide();
                     if (data.status == true) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                        $("#formVendorCreate").trigger("reset");
+                        setTimeout(() => {
+                            window.location.href = "{{route('vendors.index')}}";
+                        }, 1000);
 
                         $('.loader').hide();
-                    } else if (data.status == false) {
-                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                        @if ($errors->any())
-                    <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                            </div>
-                        @endif
+                    } else {
+                        myNotify('warning', 'warning', 'warning', '5000', data.message);
+
                     }
                     //$('#addBenf').prop("disabled", false);
-                    $("#formVendorCreate").trigger("reset");
-                    setTimeout(() => {
-                        window.location.href = "{{route('vendors.index')}}";
-                    }, 1000);
+
 
                 },
                 error: function (data) {
@@ -198,12 +191,12 @@
             $.each(job_lists, function (index, value) {
                 itemList+="<option value=" + value.id + '>' + value["job_title_name_na"] + "</option>";
             });
-            var cell1 = row.insertCell(0).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control required fullname-input" name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div>';
+            var cell1 = row.insertCell(0).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control  fullname-input" name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div>';
 
 
-            var cell2 = row.insertCell(1).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><select minlength="0" maxlength="11" name="job_title_id[]"  class="contactpersons required jobtitle">'+itemList+'</select></div></div>';
-            var cell3 = row.insertCell(2).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control required tel" name="tel[]"  alt="Website" autocomplete="off"></div></div>';
-            var cell4 = row.insertCell(3).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control email required " name="contact_email[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></div></div>';
+            var cell2 = row.insertCell(1).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><select minlength="0" maxlength="11" name="job_title_id[]"  class="contactpersons  jobtitle">'+itemList+'</select></div></div>';
+            var cell3 = row.insertCell(2).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control  tel" name="tel[]"  alt="Website" autocomplete="off"></div></div>';
+            var cell4 = row.insertCell(3).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control email  " name="contact_email[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></div></div>';
             var cell5 = row.insertCell(4).innerHTML = '<button type="button" rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"+data-placement="top"  title=" Delete "><i class="material-icons">delete</i></button></td>';
 
 

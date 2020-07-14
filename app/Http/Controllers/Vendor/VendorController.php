@@ -88,6 +88,7 @@ class VendorController extends Controller
         $input = $request->all();
         $data = fieldInDatabase(147, $input);
         $field = $data['field'];
+        /////////////////
         $optionValidator=[];
         inputValidator($data, $optionValidator);
         try {
@@ -116,8 +117,8 @@ class VendorController extends Controller
 
                     'job_title_id'=> 'required',
                     'job_title_id.*'=> 'required',
-                    ' fullname'=> 'required',
-                    ' fullname.*'=> 'required',
+                    'fullname'=> 'required',
+                    'fullname.*'=> 'required',
                     'tel'=> 'required',
                     'tel.*'=> 'required',
                     'contact_email'=> 'required',
@@ -127,7 +128,9 @@ class VendorController extends Controller
                 ];
                 $customMessages = [
                     'job_title_id.required' => "job_title_id is required",
+                    'job_title_id.*.required' => "job_title_id is required",
                     'fullname.required'=> "name is required",
+                    'fullname.*.required'=> "name is required",
                     'tel.required'=> "telephone is required",
                     'tel.*.required'=> "All telephone is required",
                     'contact_email.required'=> "email is required",
@@ -139,18 +142,23 @@ class VendorController extends Controller
                 $validator = Validator::make($request->all(), $rules,$customMessages);
 
                 if ($validator->fails()) {
-
-
+                    $error_list=[];
                     if($validator->errors()->has('contact_email.*')){
-                        dd($validator->errors()->first('contact_email.*'));
+                        $error_list[]=$validator->errors()->first('contact_email.*');
                     }
                     if($validator->errors()->has('tel.*')){
-                        dd($validator->errors()->first('tel.*'));
+                        $error_list[]=$validator->errors()->first('tel.*');
                     }
-                    dd(implode(",",array($validator->errors())));
+                    if($validator->errors()->has('fullname.*')){
+                        $error_list[]=$validator->errors()->first('fullname.*');
+                    }
+                    if($validator->errors()->has('job_title_id.*')){
+                        $error_list[]=$validator->errors()->first('job_title_id.*');
+                    }
+                  //  dd(implode(",",array($validator->errors())));
                     return response()->json([
                         'status'=>false,
-                        'message'=>$validator->errors(),
+                        'message'=>implode(", ",$error_list),
                         'code'=>404,
                         'result'=>"",
                     ]);
