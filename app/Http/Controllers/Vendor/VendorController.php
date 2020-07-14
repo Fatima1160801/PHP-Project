@@ -51,15 +51,22 @@ class VendorController extends Controller
     public function create($type = null, $id = null)
     {
         is_permitted(147, getClassName(__CLASS__), __FUNCTION__, 331, 1);
-        $country = [
-            1 => ['1' => 'Palestine'],
-            2 => ['1' => 'فلسطين']
-        ];
+       if(Auth::user()->lang_id==1){
+           $country_lang=2;
+       }else{
+           $country_lang=1;
+       }
+      $country= \App\Models\Procurement\Country::where("language_id",$country_lang)->pluck("country_name","id");
+//       dd($country);
+//        $country = [
+//            1 => ['1' => 'Palestine'],
+//            2 => ['1' => 'فلسطين']
+//        ];
         $messageDeleteType = getMessage('2.360');
 
         $option = [
             'vat_number' => ['inputClass' => 'check-is-number'],
-            'country_id'=>['html_type' => '5', 'selectArray' => $country[Auth::user()->lang_id]],
+            'country_id'=>['html_type' => '5', 'selectArray' => $country],
             'sector_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
         ];
         $vendorObj= new Vendor();
