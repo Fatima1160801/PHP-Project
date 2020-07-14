@@ -156,7 +156,7 @@
            // var totalRowCount = table.rows.length;
             //if(totalRowCount-1>0) {
                 if (checkInputNullCreate()) {
-                    alert(777);
+
                     e.preventDefault();
 
                     var form = new FormData($(this)[0]);

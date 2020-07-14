@@ -135,6 +135,58 @@ class VendorController extends Controller
                 'result'=>"",
             ]);
         }
+        $rules = [
+
+            'job_title_id'=> 'required',
+            'job_title_id.*'=> 'required',
+            'fullname'=> 'required',
+            'fullname.*'=> 'required',
+            'tel'=> 'required',
+            'tel.*'=> 'required',
+            'contact_email'=> 'required',
+            'contact_email.*'=> 'required|email',
+
+
+        ];
+
+        $customMessages = [
+            'job_title_id.required'=>getMessage("2.401")["text"] ?? "",
+            'job_title_id.*.required' => getMessage("2.402")["text"] ?? "",
+            'fullname.required'=> getMessage("2.403")["text"] ?? "",
+            'fullname.*.required'=> getMessage("2.404")["text"] ?? "",
+            'tel.required'=>getMessage("2.405")["text"] ?? "",
+            'tel.*.required'=>getMessage("2.406")["text"] ?? "",
+            'contact_email.required'=>getMessage("2.407")["text"] ?? "",
+            'contact_email.*.required'=>getMessage("2.408")["text"] ?? "",
+            'contact_email.email'=>getMessage("2.409")["text"] ?? "",
+            'contact_email.*.email'=>getMessage("2.410")["text"] ?? ""
+
+        ];
+        $validator = Validator::make($request->all(), $rules,$customMessages);
+
+        if ($validator->fails()) {
+            $error_list=[];
+            if($validator->errors()->has('contact_email.*')){
+                $error_list[]=$validator->errors()->first('contact_email.*');
+            }
+            if($validator->errors()->has('tel.*')){
+                $error_list[]=$validator->errors()->first('tel.*');
+            }
+            if($validator->errors()->has('fullname.*')){
+                $error_list[]=$validator->errors()->first('fullname.*');
+            }
+            if($validator->errors()->has('job_title_id.*')){
+                $error_list[]=$validator->errors()->first('job_title_id.*');
+            }
+            //  dd(implode(",",array($validator->errors())));
+            return response()->json([
+                'status'=>false,
+                'message'=>implode(", ",$error_list),
+                'code'=>404,
+                'result'=>"",
+            ]);
+        }
+
         $optionValidator=[];
         inputValidator($data, $optionValidator);
         try {
@@ -159,57 +211,6 @@ class VendorController extends Controller
             }
 
             if(!empty($request->job_title_id) || !empty($request->fullname) || !empty($request->tel) || !empty($request->contact_email)){
-                $rules = [
-
-                    'job_title_id'=> 'required',
-                    'job_title_id.*'=> 'required',
-                    'fullname'=> 'required',
-                    'fullname.*'=> 'required',
-                    'tel'=> 'required',
-                    'tel.*'=> 'required',
-                    'contact_email'=> 'required',
-                    'contact_email.*'=> 'required|email',
-
-
-                ];
-
-                $customMessages = [
-                    'job_title_id.required'=>getMessage("2.401")["text"] ?? "",
-                    'job_title_id.*.required' => getMessage("2.402")["text"] ?? "",
-                    'fullname.required'=> getMessage("2.403")["text"] ?? "",
-                    'fullname.*.required'=> getMessage("2.404")["text"] ?? "",
-                    'tel.required'=>getMessage("2.405")["text"] ?? "",
-                    'tel.*.required'=>getMessage("2.406")["text"] ?? "",
-                    'contact_email.required'=>getMessage("2.407")["text"] ?? "",
-                    'contact_email.*.required'=>getMessage("2.408")["text"] ?? "",
-                    'contact_email.email'=>getMessage("2.409")["text"] ?? "",
-                    'contact_email.*.email'=>getMessage("2.410")["text"] ?? ""
-
-                ];
-                $validator = Validator::make($request->all(), $rules,$customMessages);
-
-                if ($validator->fails()) {
-                    $error_list=[];
-                    if($validator->errors()->has('contact_email.*')){
-                        $error_list[]=$validator->errors()->first('contact_email.*');
-                    }
-                    if($validator->errors()->has('tel.*')){
-                        $error_list[]=$validator->errors()->first('tel.*');
-                    }
-                    if($validator->errors()->has('fullname.*')){
-                        $error_list[]=$validator->errors()->first('fullname.*');
-                    }
-                    if($validator->errors()->has('job_title_id.*')){
-                        $error_list[]=$validator->errors()->first('job_title_id.*');
-                    }
-                  //  dd(implode(",",array($validator->errors())));
-                    return response()->json([
-                        'status'=>false,
-                        'message'=>implode(", ",$error_list),
-                        'code'=>404,
-                        'result'=>"",
-                    ]);
-                }
 
 
                if(!empty($request->serial)){
@@ -356,6 +357,58 @@ class VendorController extends Controller
                 'result'=>"",
             ]);
         }
+        $rules = [
+
+            'job_title_id'=> 'required',
+            'job_title_id.*'=> 'required',
+            'fullname'=> 'required',
+            'fullname.*'=> 'required',
+            'tel'=> 'required',
+            'tel.*'=> 'required',
+            'contact_email'=> 'required',
+            'contact_email.*'=> 'required|email',
+
+
+        ];
+
+        $customMessages = [
+            'job_title_id.required'=>getMessage("2.401")["text"] ?? "",
+            'job_title_id.*.required' => getMessage("2.402")["text"] ?? "",
+            'fullname.required'=> getMessage("2.403")["text"] ?? "",
+            'fullname.*.required'=> getMessage("2.404")["text"] ?? "",
+            'tel.required'=>getMessage("2.405")["text"] ?? "",
+            'tel.*.required'=>getMessage("2.406")["text"] ?? "",
+            'contact_email.required'=>getMessage("2.407")["text"] ?? "",
+            'contact_email.*.required'=>getMessage("2.408")["text"] ?? "",
+            'contact_email.email'=>getMessage("2.409")["text"] ?? "",
+            'contact_email.*.email'=>getMessage("2.410")["text"] ?? ""
+
+        ];
+        $validator = Validator::make($request->all(), $rules,$customMessages);
+
+        if ($validator->fails()) {
+            $error_list=[];
+            if($validator->errors()->has('contact_email.*')){
+                $error_list[]=$validator->errors()->first('contact_email.*');
+            }
+            if($validator->errors()->has('tel.*')){
+                $error_list[]=$validator->errors()->first('tel.*');
+            }
+            if($validator->errors()->has('fullname.*')){
+                $error_list[]=$validator->errors()->first('fullname.*');
+            }
+            if($validator->errors()->has('job_title_id.*')){
+                $error_list[]=$validator->errors()->first('job_title_id.*');
+            }
+            //  dd(implode(",",array($validator->errors())));
+            return response()->json([
+                'status'=>false,
+                'message'=>implode(", ",$error_list),
+                'code'=>404,
+                'result'=>"",
+            ]);
+        }
+
 
 
         $optionValidator = [
@@ -405,58 +458,6 @@ class VendorController extends Controller
 
 
                 if(!empty($request->job_title_id) || !empty($request->fullname) || !empty($request->tel) || !empty($request->contact_email)){
-
-                    $rules = [
-
-                        'job_title_id'=> 'required',
-                        'job_title_id.*'=> 'required',
-                        'fullname'=> 'required',
-                        'fullname.*'=> 'required',
-                        'tel'=> 'required',
-                        'tel.*'=> 'required',
-                        'contact_email'=> 'required',
-                        'contact_email.*'=> 'required|email',
-
-
-                    ];
-
-                    $customMessages = [
-                        'job_title_id.required'=>getMessage("2.401")["text"] ?? "",
-                        'job_title_id.*.required' => getMessage("2.402")["text"] ?? "",
-                        'fullname.required'=> getMessage("2.403")["text"] ?? "",
-                        'fullname.*.required'=> getMessage("2.404")["text"] ?? "",
-                        'tel.required'=>getMessage("2.405")["text"] ?? "",
-                        'tel.*.required'=>getMessage("2.406")["text"] ?? "",
-                        'contact_email.required'=>getMessage("2.407")["text"] ?? "",
-                        'contact_email.*.required'=>getMessage("2.408")["text"] ?? "",
-                        'contact_email.email'=>getMessage("2.409")["text"] ?? "",
-                        'contact_email.*.email'=>getMessage("2.410")["text"] ?? ""
-
-                    ];
-                    $validator = Validator::make($request->all(), $rules,$customMessages);
-
-                    if ($validator->fails()) {
-                        $error_list=[];
-                        if($validator->errors()->has('contact_email.*')){
-                            $error_list[]=$validator->errors()->first('contact_email.*');
-                        }
-                        if($validator->errors()->has('tel.*')){
-                            $error_list[]=$validator->errors()->first('tel.*');
-                        }
-                        if($validator->errors()->has('fullname.*')){
-                            $error_list[]=$validator->errors()->first('fullname.*');
-                        }
-                        if($validator->errors()->has('job_title_id.*')){
-                            $error_list[]=$validator->errors()->first('job_title_id.*');
-                        }
-                        //  dd(implode(",",array($validator->errors())));
-                        return response()->json([
-                            'status'=>false,
-                            'message'=>implode(", ",$error_list),
-                            'code'=>404,
-                            'result'=>"",
-                        ]);
-                    }
 
 
 
