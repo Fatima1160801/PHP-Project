@@ -47,7 +47,7 @@
 
                             <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/><input type="text" value="{{$item->full_name ?? ""}}" class="form-control required fullname-input"  name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div>
                             </td>
-                            <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><select  class="selectpicker required jobtitle" name="job_title_id[]" id="jobs"><option value=""></option>
+                            <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><select  class="selectpicker required  jobtitle" name="job_title_id[]" id="jobs"><option value=""></option>
                                 @if(!empty($job_list))
                                     @foreach($job_list  as $item1)
 
@@ -60,7 +60,7 @@
 
                             </td>
                             <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="{{$item->tel_number ?? ""}}" class="form-control required tel" name="tel[]"  minlength="0" maxlength="200"  autocomplete="off" ></div></div></td>
-                            <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="{{$item->email ?? ""}}" class="form-control email required"   name="contact_email[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></td>
+                            <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="{{$item->email ?? ""}}" class="form-control required email "   name="contact_email[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></td>
                           <td> <button type="button"
                                     rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"
                                     data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
@@ -181,10 +181,13 @@
                             if (data.status == true) {
                                 myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                                 $('.loader').hide();
+                                setTimeout(() => {
+                                    window.location.href = "{{route('vendors.index')}}";
+                                }, 1000);
+
                             }
-                            setTimeout(() => {
-                                window.location.href = "{{route('vendors.index')}}";
-                            }, 1000);
+                            else {
+                                myNotify('warning', 'warning', 'warning', '5000', data.message);}
 
 
                         },
@@ -229,8 +232,8 @@
                 var row = table.insertRow(-1);
                 var cell1 = row.insertCell(0).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/><input type="text" value="" class="form-control required fullname-input  " name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div>'
                 var cell2 = row.insertCell(1).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><select name="job_title_id[]"   class="contactpersons selectpicker required jobtitle">' + itemList + '</select></div></div>';
-                var cell3 = row.insertCell(2).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control  required tel " name="tel[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off"></div></div>';
-                var cell4 = row.insertCell(3).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control required email " name="contact_email[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></div></div>';
+                var cell3 = row.insertCell(2).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control tel required" name="tel[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off"></div></div>';
+                var cell4 = row.insertCell(3).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control email required" name="contact_email[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></div></div>';
                 var cell5 = row.insertCell(4).innerHTML = '<button type="button" rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"+data-placement="top"  title=" Delete "><i class="material-icons">delete</i></button></td>';
 
                 $(".contactpersons").selectpicker();

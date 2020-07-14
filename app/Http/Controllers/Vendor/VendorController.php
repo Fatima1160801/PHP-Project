@@ -88,7 +88,53 @@ class VendorController extends Controller
         $input = $request->all();
         $data = fieldInDatabase(147, $input);
         $field = $data['field'];
-        /////////////////
+        $rulesVendor = [
+
+            'vendor_name_na'=> 'required',
+
+            'vendor_name_fo'=> 'required',
+
+            'vat_number'=> 'required',
+            'country_id'=> 'required',
+            'state_id'=> 'required',
+        ];
+
+        $customMessagesVendor = [
+            'vendor_name_na.required'=> getMessage("2.411")["text"] ?? "",
+            'vendor_name_fo.required' => getMessage("2.412")["text"] ?? "",
+            'vat_number.required'=> getMessage("2.413")["text"] ?? "",
+            'country_id.required'=>getMessage("2.414")["text"] ?? "",
+            'state_id.required'=>getMessage("2.415")["text"] ?? "",
+
+
+        ];
+        $validatorVendor = Validator::make($request->all(), $rulesVendor,$customMessagesVendor);
+
+        if ($validatorVendor->fails()) {
+            $error_listVendor=[];
+            if($validatorVendor->errors()->has('vendor_name_na')){
+                $error_listVendor[]=$validatorVendor->errors()->first('vendor_name_na');
+            }
+           if($validatorVendor->errors()->has('vat_number')){
+                $error_listVendor[]=$validatorVendor->errors()->first('vat_number');
+            }
+            if($validatorVendor->errors()->has('vendor_name_fo')){
+                $error_listVendor[]=$validatorVendor->errors()->first('vendor_name_fo');
+            }
+            if($validatorVendor->errors()->has('country_id')){
+                $error_listVendor[]=$validatorVendor->errors()->first('country_id'); }
+                if($validatorVendor->errors()->has('state_id')){
+                    $error_listVendor[]=$validatorVendor->errors()->first('state_id');
+
+            }
+            //  dd(implode(",",array($validator->errors())));
+            return response()->json([
+                'status'=>false,
+                'message'=>implode(", ",$error_listVendor),
+                'code'=>404,
+                'result'=>"",
+            ]);
+        }
         $optionValidator=[];
         inputValidator($data, $optionValidator);
         try {
@@ -126,17 +172,18 @@ class VendorController extends Controller
 
 
                 ];
+
                 $customMessages = [
-                    'job_title_id.required' => "job_title_id is required",
-                    'job_title_id.*.required' => "job_title_id is required",
-                    'fullname.required'=> "name is required",
-                    'fullname.*.required'=> "name is required",
-                    'tel.required'=> "telephone is required",
-                    'tel.*.required'=> "All telephone is required",
-                    'contact_email.required'=> "email is required",
-                    'contact_email.*.required'=> "All email is required",
-                    'contact_email.email'=> "write a correct email",
-                    'contact_email.*.email'=> "All emails write a correct email",
+                    'job_title_id.required'=>getMessage("2.401")["text"] ?? "",
+                    'job_title_id.*.required' => getMessage("2.402")["text"] ?? "",
+                    'fullname.required'=> getMessage("2.403")["text"] ?? "",
+                    'fullname.*.required'=> getMessage("2.404")["text"] ?? "",
+                    'tel.required'=>getMessage("2.405")["text"] ?? "",
+                    'tel.*.required'=>getMessage("2.406")["text"] ?? "",
+                    'contact_email.required'=>getMessage("2.407")["text"] ?? "",
+                    'contact_email.*.required'=>getMessage("2.408")["text"] ?? "",
+                    'contact_email.email'=>getMessage("2.409")["text"] ?? "",
+                    'contact_email.*.email'=>getMessage("2.410")["text"] ?? ""
 
                 ];
                 $validator = Validator::make($request->all(), $rules,$customMessages);
@@ -262,7 +309,53 @@ class VendorController extends Controller
         $field = $data['field'];
 
         $id = $field['id'];
+        $rulesVendor = [
 
+            'vendor_name_na'=> 'required',
+
+            'vendor_name_fo'=> 'required',
+
+            'vat_number'=> 'required',
+            'country_id'=> 'required',
+            'state_id'=> 'required',
+        ];
+
+        $customMessagesVendor = [
+            'vendor_name_na.required'=> getMessage("2.411")["text"] ?? "",
+            'vendor_name_fo.required' => getMessage("2.412")["text"] ?? "",
+            'vat_number.required'=> getMessage("2.413")["text"] ?? "",
+            'country_id.required'=>getMessage("2.414")["text"] ?? "",
+            'state_id.required'=>getMessage("2.415")["text"] ?? "",
+
+
+        ];
+        $validatorVendor = Validator::make($request->all(), $rulesVendor,$customMessagesVendor);
+
+        if ($validatorVendor->fails()) {
+            $error_listVendor=[];
+            if($validatorVendor->errors()->has('vendor_name_na')){
+                $error_listVendor[]=$validatorVendor->errors()->first('vendor_name_na');
+            }
+            if($validatorVendor->errors()->has('vat_number')){
+                $error_listVendor[]=$validatorVendor->errors()->first('vat_number');
+            }
+            if($validatorVendor->errors()->has('vendor_name_fo')){
+                $error_listVendor[]=$validatorVendor->errors()->first('vendor_name_fo');
+            }
+            if($validatorVendor->errors()->has('country_id')){
+                $error_listVendor[]=$validatorVendor->errors()->first('country_id');}
+                if($validatorVendor->errors()->has('state_id')){
+                    $error_listVendor[]=$validatorVendor->errors()->first('state_id');
+
+            }
+            //  dd(implode(",",array($validator->errors())));
+            return response()->json([
+                'status'=>false,
+                'message'=>implode(", ",$error_listVendor),
+                'code'=>404,
+                'result'=>"",
+            ]);
+        }
 
 
         $optionValidator = [
@@ -312,6 +405,60 @@ class VendorController extends Controller
 
 
                 if(!empty($request->job_title_id) || !empty($request->fullname) || !empty($request->tel) || !empty($request->contact_email)){
+
+                    $rules = [
+
+                        'job_title_id'=> 'required',
+                        'job_title_id.*'=> 'required',
+                        'fullname'=> 'required',
+                        'fullname.*'=> 'required',
+                        'tel'=> 'required',
+                        'tel.*'=> 'required',
+                        'contact_email'=> 'required',
+                        'contact_email.*'=> 'required|email',
+
+
+                    ];
+
+                    $customMessages = [
+                        'job_title_id.required'=>getMessage("2.401")["text"] ?? "",
+                        'job_title_id.*.required' => getMessage("2.402")["text"] ?? "",
+                        'fullname.required'=> getMessage("2.403")["text"] ?? "",
+                        'fullname.*.required'=> getMessage("2.404")["text"] ?? "",
+                        'tel.required'=>getMessage("2.405")["text"] ?? "",
+                        'tel.*.required'=>getMessage("2.406")["text"] ?? "",
+                        'contact_email.required'=>getMessage("2.407")["text"] ?? "",
+                        'contact_email.*.required'=>getMessage("2.408")["text"] ?? "",
+                        'contact_email.email'=>getMessage("2.409")["text"] ?? "",
+                        'contact_email.*.email'=>getMessage("2.410")["text"] ?? ""
+
+                    ];
+                    $validator = Validator::make($request->all(), $rules,$customMessages);
+
+                    if ($validator->fails()) {
+                        $error_list=[];
+                        if($validator->errors()->has('contact_email.*')){
+                            $error_list[]=$validator->errors()->first('contact_email.*');
+                        }
+                        if($validator->errors()->has('tel.*')){
+                            $error_list[]=$validator->errors()->first('tel.*');
+                        }
+                        if($validator->errors()->has('fullname.*')){
+                            $error_list[]=$validator->errors()->first('fullname.*');
+                        }
+                        if($validator->errors()->has('job_title_id.*')){
+                            $error_list[]=$validator->errors()->first('job_title_id.*');
+                        }
+                        //  dd(implode(",",array($validator->errors())));
+                        return response()->json([
+                            'status'=>false,
+                            'message'=>implode(", ",$error_list),
+                            'code'=>404,
+                            'result'=>"",
+                        ]);
+                    }
+
+
 
                     if(!empty($request->serial)){
                         foreach ($request->serial as $index=>$item){
