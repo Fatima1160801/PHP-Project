@@ -376,12 +376,16 @@ if (!function_exists('inputSelectDropdown')) {
         $attr = inputAttr($label);
         $view = "<div class='" . $label->col_all_Class . "'>";
         $view .= "<div class='row'>";
-        if($label->is_required==1){
-            $req_star='<span style="color:red;">*</span>';
-        }else{
-            $req_star="";
+        if ($label->is_required == 1) {
+            $req_star = '<span style="color:red;">*</span>';
+        } else {
+            $req_star = "";
         }
-        $view .= "<label for='" . $label->field_name . "' class='$label->col_label_Class col-form-label'>" . $label->label ." ".$req_star. "</label>";
+        if ($label->field_name == "country_id" || $label->field_name == "state_id"){
+            $view .= "<label for='" . $label->field_name . "' class='$label->col_label_Class col-form-label'>" . $label->label . " " . $req_star . "  <span id='".$label->field_name."_loader"."' class='loader ml-3 position-absolute'></span> </label>";
+        }else{
+            $view .= "<label for='" . $label->field_name . "' class='$label->col_label_Class col-form-label'>" . $label->label . " " . $req_star . "</label>";
+        }
         $view .= "<div class='$label->col_input_Class'>";
         $view .= "<div class='form-group has-default bmd-form-group'>";
         $view .= "<select class='form-control  selectpicker  " . $label->inputClass . "' name='" . $label->field_name . "' data-style='btn btn-link' id='" . $label->field_name . "' $label->attr  $attr>";
