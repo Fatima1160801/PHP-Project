@@ -63,6 +63,7 @@ class VendorController extends Controller
             'sector_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
         ];
         $vendorObj= new Vendor();
+        $vendorObj->country_id=1;
         $generator = generator(147, $option, $vendorObj);
         $abortAdd=getMessage("2.362");
         $html = $generator[0];
@@ -104,6 +105,9 @@ class VendorController extends Controller
             }
 
             if(!empty($request->job_title_id) || !empty($request->fullname) || !empty($request->tel) || !empty($request->contact_email)){
+
+
+
                if(!empty($request->serial)){
                    foreach ($request->serial as $index=>$item){
                        $contactObj=new ContactPersons();
@@ -162,7 +166,7 @@ class VendorController extends Controller
 //        }
         $abortSave=getMessage("2.361");
         $abortAdd=getMessage("2.362");
-
+        $abortDelete=getMessage("2.363");
         $option = [
             'vat_number' => ['inputClass' => 'check-is-number'],
             'country_id'=>['html_type' => '5', 'selectArray' => $country[Auth::user()->lang_id]],
@@ -179,7 +183,7 @@ class VendorController extends Controller
         $job_list =JobTitle::get();
 
             $userPermissions = getUserPermission();
-            return view('vendorss.vendor1.edit', compact('vendorObj','abortSave','abortAdd','labels', 'html','contact','job_list','messageDeleteType', 'userPermissions'));
+            return view('vendorss.vendor1.edit', compact('vendorObj','abortSave','abortDelete','abortAdd','labels', 'html','contact','job_list','messageDeleteType', 'userPermissions'));
 
 
       //  return view('vendorss.vendor1.edit', compact('labels', 'html', 'userPermissions'));

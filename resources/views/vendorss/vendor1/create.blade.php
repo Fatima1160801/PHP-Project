@@ -27,7 +27,7 @@
 
             {!! $html !!}
             <h3>Contact Persons</h3>
-            <table class="table" id="personal contacts">
+            <table class="table" id="personal_contacts">
                 <thead>
                 <th>full name</th>
                 <th>Job title</th>
@@ -88,7 +88,7 @@
     <script>
         $(function () {
             active_nev_link('visit-link');
-            DataTableCall('#personal contacts',5);
+           // DataTableCall('#personal_contacts',5);
             $('[data-toggle="tooltip"]').tooltip();
 
             $(document).on('click', '.btnTypeDelete', function (e) {
@@ -179,16 +179,16 @@
     <script>
         function myFunction() {
             /*  var d = 'Url.Action("numrow")';*/
-            var table = document.getElementById("personal contacts");
+            var table = document.getElementById("personal_contacts");
             var totalRowCount = table.rows.length;
             if(totalRowCount-1<=9){
             var row = table.insertRow(-1);
             var job_lists = @json($job_list);
-            var itemList='<option value=""></option>';
+            var itemList="<option value=''></option>";
             $.each(job_lists, function (index, value) {
-                itemList+='<option value=' + value.id + '>' + value["job_title_name_na"] + '</option>';
+                itemList+="<option value=" + value.id + '>' + value["job_title_name_na"] + "</option>";
             });
-            var cell1 = row.insertCell(0).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control required fullname-input" name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div>'
+            var cell1 = row.insertCell(0).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control required fullname-input" name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div>';
 
 
             var cell2 = row.insertCell(1).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><select minlength="0" maxlength="11" name="job_title_id[]"  class="contactpersons required jobtitle">'+itemList+'</select></div></div>';
@@ -197,7 +197,8 @@
             var cell5 = row.insertCell(4).innerHTML = '<button type="button" rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"+data-placement="top"  title=" Delete "><i class="material-icons">delete</i></button></td>';
 
 
-            $(".contactpersons").selectpicker();}
+            $(".contactpersons").selectpicker();
+            }
            /* var cell10 = row.insertCell(9).innerHTML = '<button type="button" class="btn btn-default btn-sm" ><span class= "glyphicon glyphicon-remove-sign" ></span ></button >';
             var cell11 = row.insertCell(10).innerHTML = '<button type="button" class="btn btn-default btn-sm" ><span class= "glyphicon glyphicon-pencil" ></span ></button >';
             var cell12 = row.insertCell(11).innerHTML = '<button type="button" class="btn btn-success" onclick="func()">Save</button>'*/

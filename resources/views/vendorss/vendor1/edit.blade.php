@@ -142,51 +142,60 @@
             if (!is_valid_form($(this))) {
                 return false;
             }
-            if(checkInputNullCreate()) {
+            var table = document.getElementById("personal contacts");
+            var totalRowCount = table.rows.length;
+            if(totalRowCount-1>0) {
+                if (checkInputNullCreate()) {
 
-                e.preventDefault();
+                    e.preventDefault();
 
-                var form = new FormData($(this)[0]);
-                var url = $(this).attr('action');
-                //checkInputNull()
-                // alert($(this).attr('action'));s
-                $.ajax({
-                    url: url,
-                    data: form,
-                    type: 'post',
-                    processData: false,
-                    contentType: false,
-                    beforeSend: function () {
-                        $('#btnEditvendor').attr("disabled", true);
-                        $('.loader').show();
+                    var form = new FormData($(this)[0]);
+                    var url = $(this).attr('action');
+                    //checkInputNull()
+                    // alert($(this).attr('action'));s
+                    $.ajax({
+                        url: url,
+                        data: form,
+                        type: 'post',
+                        processData: false,
+                        contentType: false,
+                        beforeSend: function () {
+                            $('#btnEditvendor').attr("disabled", true);
+                            $('.loader').show();
 
-                    },
-                    success: function (data) {
-                        $('#btnEditvendor').attr("disabled", false);
-                        $('.loader').hide();
-                        if (data.status == true) {
-                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                        },
+                        success: function (data) {
+                            $('#btnEditvendor').attr("disabled", false);
                             $('.loader').hide();
+                            if (data.status == true) {
+                                myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                                $('.loader').hide();
+                            }
+                            setTimeout(() => {
+                                window.location.href = "{{route('vendors.index')}}";
+                            }, 1000);
+
+
+                        },
+                        error: function (data) {
+
                         }
-                        setTimeout(() => {
-                            window.location.href = "{{route('vendors.index')}}";
-                        }, 1000);
+                    });
+                } else {
+                    @if(!empty($abortSave))
+                    myNotify('{{$abortSave["icon"]}}', '{{$abortSave["title"]}}', '{{$abortSave["type"]}}', '5000', '{{$abortSave["text"]}}');
+                    @endif
+                        return false;
 
-
-                    },
-                    error: function (data) {
-
-                    }
-                });
+                }
             }
-            else{
-                @if(!empty($abortSave))
-                myNotify('{{$abortSave["icon"]}}', '{{$abortSave["title"]}}', '{{$abortSave["type"]}}', '5000','{{$abortSave["text"]}}');
+            else {
+                @if(!empty($abortDelete))
+                myNotify('{{$abortDelete["icon"]}}', '{{$abortDelete["title"]}}', '{{$abortDelete["type"]}}', '5000', '{{$abortDelete["text"]}}');
                 @endif
                     return false;
-
             }
-        });
+            });
 
 
 
