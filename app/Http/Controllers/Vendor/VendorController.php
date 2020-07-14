@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Vendor;
 
 use App\Helpers\Log;
 use App\Http\Controllers\Controller;
-
+use Validator;
 use App\Models\Procurement\Brand;
 use App\Models\Vendor\City;
 use App\Models\Vendor\ContactPersons;
@@ -105,7 +105,34 @@ class VendorController extends Controller
             }
 
             if(!empty($request->job_title_id) || !empty($request->fullname) || !empty($request->tel) || !empty($request->contact_email)){
+                $rules = [
 
+                    'job_title_id'=> 'required',
+                    ' fullname'=> 'required',
+                    'tel'=> 'required',
+                    'contact_email'=> 'required|email',
+
+
+                ];
+                $customMessages = [
+                    'job_title_id.required' => "job_title_id is required",
+                    'fullname.required'=> "name is required",
+                    'tel.required'=> "telephone is required",
+                    'contact_email.required'=> "email is required",
+                    'contact_email.email'=> "write a correct email",
+
+                ];
+                $validator = Validator::make($request->all(), $rules,$customMessages);
+
+                if ($validator->fails()) {
+
+                    return response()->json([
+                        'status'=>false,
+                        'message'=>$validator->errors(),
+                        'code'=>404,
+                        'result'=>"",
+                    ]);
+                }
 
 
                if(!empty($request->serial)){
@@ -166,7 +193,7 @@ class VendorController extends Controller
 //        }
         $abortSave=getMessage("2.361");
         $abortAdd=getMessage("2.362");
-        $abortDelete=getMessage("2.363");
+       // $abortDelete=getMessage("2.363");
         $option = [
             'vat_number' => ['inputClass' => 'check-is-number'],
             'country_id'=>['html_type' => '5', 'selectArray' => $country[Auth::user()->lang_id]],
@@ -183,7 +210,7 @@ class VendorController extends Controller
         $job_list =JobTitle::get();
 
             $userPermissions = getUserPermission();
-            return view('vendorss.vendor1.edit', compact('vendorObj','abortSave','abortDelete','abortAdd','labels', 'html','contact','job_list','messageDeleteType', 'userPermissions'));
+            return view('vendorss.vendor1.edit', compact('vendorObj','abortSave','abortAdd','labels', 'html','contact','job_list','messageDeleteType', 'userPermissions'));
 
 
       //  return view('vendorss.vendor1.edit', compact('labels', 'html', 'userPermissions'));

@@ -29,7 +29,7 @@
 
             {!! $html !!}
             <h3>Contact Persons</h3>
-            <table  class="table" id="personal contacts">
+            <table  class="table" id="personal_contacts">
                 <thead>
                 <th>full name</th>
                 <th>Job title</th>
@@ -47,7 +47,7 @@
 
                             <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/><input type="text" value="{{$item->full_name ?? ""}}" class="form-control required fullname-input"  name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div>
                             </td>
-                            <td><select  class="selectpicker required jobtitle" name="job_title_id[]" id="jobs"><option value=""></option>
+                            <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><select  class="selectpicker required jobtitle" name="job_title_id[]" id="jobs"><option value=""></option>
                                 @if(!empty($job_list))
                                     @foreach($job_list  as $item1)
 
@@ -56,7 +56,7 @@
                                         @endforeach
                                     @endif
 
-                                </select>
+                                        </select></div></div>
 
                             </td>
                             <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="{{$item->tel_number ?? ""}}" class="form-control required tel" name="tel[]"  minlength="0" maxlength="200"  autocomplete="off" ></div></div></td>
@@ -142,9 +142,9 @@
             if (!is_valid_form($(this))) {
                 return false;
             }
-            var table = document.getElementById("personal contacts");
-            var totalRowCount = table.rows.length;
-            if(totalRowCount-1>0) {
+            var table = document.getElementById("personal_contacts");
+           // var totalRowCount = table.rows.length;
+            //if(totalRowCount-1>0) {
                 if (checkInputNullCreate()) {
 
                     e.preventDefault();
@@ -181,13 +181,13 @@
 
                         }
                     });
-                } else {
-                    @if(!empty($abortSave))
-                    myNotify('{{$abortSave["icon"]}}', '{{$abortSave["title"]}}', '{{$abortSave["type"]}}', '5000', '{{$abortSave["text"]}}');
-                    @endif
+              /*  } else {
+                    if(!empty($abortSave))
+                   myNotify()
+                    endif
                         return false;
 
-                }
+                }*/
             }
             else {
                 @if(!empty($abortDelete))
@@ -204,7 +204,7 @@
     <script>
         function myFunction() {
             /*  var d = 'Url.Action("numrow")';*/
-            var table = document.getElementById("personal contacts");
+            var table = document.getElementById("personal_contacts");
             var totalRowCount = table.rows.length;
             if(totalRowCount-1<=9) {
                 var select = document.getElementById("jobs");

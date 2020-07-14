@@ -36,22 +36,22 @@
                 <th><button type="button" class="btn btn-sm btn-success btn-round btn-fab" onclick="myFunction()" style="margin-bottom:+0.5em;">
                         <i class="material-icons">add</i>
                     </button></th>
-                </thead>
-                <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control required fullname-input" name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div> </td>
-                <td><select  class="selectpicker required jobtitle" name="job_title_id[]" id="jobs"><option value=""></option>
-                        @if(!empty($job_list))
+               </thead>
+               <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control required fullname-input" name="fullname[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div> </td>
+                <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><select  class="selectpicker required jobtitle" name="job_title_id[]" id="jobs"><option value=""></option>
+                       @if(!empty($job_list))
                             @foreach($job_list  as $item1)
 
                                 <option value="{{$item1->id}}" >{{$item1->job_title_name_na ?? ""}}</option>
 
-                            @endforeach
+                           @endforeach
                         @endif
 
-                    </select>
+                    </select></div></div>
 
                 </td>
-                <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control required tel" name="tel[]"  alt="Website" autocomplete="off"></div></div></td>;
-               <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control email required " name="contact_email[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></td>;
+                <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control required tel" name="tel[]"  alt="Website" autocomplete="off"></div></div></td>
+                         <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control email required " name="contact_email[]"  minlength="0" maxlength="200" alt="Website" autocomplete="off" ></div></div></td>
              <td><button type="button"
                         rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"
                         data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
@@ -147,6 +147,15 @@
                         $('.loader').hide();
                     } else if (data.status == false) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                        @if ($errors->any())
+                    <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            </div>
+                        @endif
                     }
                     //$('#addBenf').prop("disabled", false);
                     $("#formVendorCreate").trigger("reset");
