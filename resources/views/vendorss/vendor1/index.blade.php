@@ -52,7 +52,8 @@
                             <td>{{$item->vendor_name_na ?? ""}}</td>
                             <td>{{$item->vendor_name_fo ?? ""}}</td>
                             <td>{{$item->email ?? ""}}</td>
-                            <td>{{$item->state->city_name_no ?? ""}}</td>
+                            <td></td>
+{{--                            <td>{{$item->state->state_name ?? ""}}</td>--}}
 
 
                             <td>

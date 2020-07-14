@@ -382,7 +382,7 @@ if (!function_exists('inputSelectDropdown')) {
             $req_star = "";
         }
         if ($label->field_name == "country_id" || $label->field_name == "state_id"){
-            $view .= "<label for='" . $label->field_name . "' class='$label->col_label_Class col-form-label'>" . $label->label . " " . $req_star . "  <span id='".$label->field_name."_loader"."' style='width: 20px !important;height: 20px !important;' class='loader ml-3 position-absolute'></span> </label>";
+            $view .= "<label for='" . $label->field_name . "' class='$label->col_label_Class col-form-label'>" . $label->label . " " . $req_star . "  <span id='".$label->field_name."_loader"."' style='width: 20px !important;height: 20px !important;display:none;' class='loader ml-3 position-absolute'></span> </label>";
         }else{
             $view .= "<label for='" . $label->field_name . "' class='$label->col_label_Class col-form-label'>" . $label->label . " " . $req_star . "</label>";
         }

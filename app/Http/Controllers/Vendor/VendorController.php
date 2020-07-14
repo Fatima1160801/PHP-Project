@@ -276,7 +276,7 @@ class VendorController extends Controller
 //        }
         $abortSave=getMessage("2.361");
         $abortAdd=getMessage("2.362");
-       // $abortDelete=getMessage("2.363");
+        $abortDelete=getMessage("2.361");
         $option = [
             'vat_number' => ['inputClass' => 'check-is-number'],
             'country_id'=>['html_type' => '5', 'selectArray' => $country],
@@ -293,7 +293,7 @@ class VendorController extends Controller
         $job_list =JobTitle::get();
 
             $userPermissions = getUserPermission();
-            return view('vendorss.vendor1.edit', compact('vendorObj','abortSave','abortAdd','labels', 'html','contact','job_list','messageDeleteType', 'userPermissions'));
+            return view('vendorss.vendor1.edit', compact('abortDelete','vendorObj','abortSave','abortAdd','labels', 'html','contact','job_list','messageDeleteType', 'userPermissions'));
 
 
       //  return view('vendorss.vendor1.edit', compact('labels', 'html', 'userPermissions'));

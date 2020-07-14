@@ -120,9 +120,9 @@
             if (!is_valid_form($(this))) {
                 return false;
             }
-           //  var checkInputs= checkInputNullCreate();
+            var checkInputs= checkInputNullCreate();
            //  console.log(checkInputs);
-           // if(checkInputs) {
+            if(checkInputs) {
 
             e.preventDefault();
             var form = new FormData($(this)[0]);
@@ -161,13 +161,13 @@
 
                 }
             });
-        // }
-           {{--else{--}}
-           {{--    @if(!empty($abortSave))--}}
-           {{--    myNotify('{{$abortSave["icon"]}}', '{{$abortSave["title"]}}', '{{$abortSave["type"]}}', '5000','{{$abortSave["text"]}}');--}}
-           {{--    @endif--}}
-           {{--        return false;--}}
-           {{--}--}}
+         }
+           else{
+               @if(!empty($abortSave))
+               myNotify('{{$abortSave["icon"]}}', '{{$abortSave["title"]}}', '{{$abortSave["type"]}}', '5000','{{$abortSave["text"]}}');
+               @endif
+                   return false;
+           }
         });
 
         // $(document).on('click', '#cleanScreen', function (e) {
@@ -217,6 +217,7 @@
             getState(state);
         });
         function getState(state) {
+            $("#country_id_loader").show();
             var list1 ="<option selected  value=''></option>";
             $id=state;
             $.get('{{url('/state/by/country')}}'+'/'+$id,function(data){
@@ -226,7 +227,7 @@
                 $("#state_id").html(list1);
                 $("#state_id").selectpicker("refresh");
 
-
+                $("#country_id_loader").hide();
             });
         }
 
@@ -235,6 +236,7 @@
                 getCity(state);
             });
             function getCity(state) {
+                $("#state_id_loader").show();
                 var list2 ="<option selected  value=''></option>";
                 $id=state;
                 $.get('{{url('/city/by/state')}}'+'/'+$id,function(data){
@@ -244,7 +246,7 @@
                  $("#city_id").html(list2);
                     $("#city_id").selectpicker("refresh");
 
-
+                    $("#state_id_loader").hide();
              });
          }
 
