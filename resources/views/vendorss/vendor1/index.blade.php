@@ -52,9 +52,8 @@
                             <td>{{$item->vendor_name_na ?? ""}}</td>
                             <td>{{$item->vendor_name_fo ?? ""}}</td>
                             <td>{{$item->email ?? ""}}</td>
-                               <td></td>
 
-{{--                            <td>{{$item->state->state_name ?? ""}}</td>--}}
+                            <td>{{$item->state->where("language_id",Auth::user()->lang_id){0}->state_name ?? ""}}</td>
 
 
                             <td>

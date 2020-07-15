@@ -37,7 +37,7 @@ class Vendor extends Model
 //    }
     public function state()
     {
-        return $this->belongsTo('App\Models\Procurement\State','state_id')->where("language_id",2);
+      return $this->hasMany('App\Models\Procurement\State','id','state_id');
     }
 
 }
