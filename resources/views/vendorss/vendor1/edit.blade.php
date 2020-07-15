@@ -203,8 +203,8 @@
                 }*/
             }
             else {
-                @if(!empty($abortDelete))
-                myNotify('{{$abortDelete["icon"]}}', '{{$abortDelete["title"]}}', '{{$abortDelete["type"]}}', '5000', '{{$abortDelete["text"]}}');
+                @if(!empty($abortSave))
+                myNotify('{{$abortSave["icon"]}}', '{{$abortSave["title"]}}', '{{$abortSave["type"]}}', '5000', '{{$abortSave["text"]}}');
                 @endif
                     return false;
             }
