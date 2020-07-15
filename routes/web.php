@@ -172,7 +172,6 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/screen', ['uses' => 'Procurement\ItemController@screensetting'])->name('screen.index');
 
 
-
     Route::get('/vendors', ['uses' => 'Vendor\VendorController@index'])->name('vendors.index');
     Route::get('/vendors/create/{type?}/{id?}', ['uses' => 'Vendor\VendorController@create'])->name('vendors.create');
     Route::post('/vendors/store', ['uses' => 'Vendor\VendorController@store'])->name('vendors.store');
@@ -180,7 +179,6 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::post('/vendors/update', ['uses' => 'Vendor\VendorController@update'])->name('vendors.update');
     Route::delete('/vendors/delete/{id}', ['uses' => 'Vendor\VendorController@delete'])->name('vendors.delete');
     Route::delete('/vendors/delete1/{id}', ['uses' => 'Vendor\VendorController@deleteContact'])->name('vendors.deleteContact');
-
 
     Route::get('/city/by/{id}', ['uses' => 'Vendor\VendorController@getCity'])->name('city.by.id');
     Route::get('/city/by/state/{id}', ['uses' => 'Vendor\VendorController@getCityByState'])->name('city.by.state.id');

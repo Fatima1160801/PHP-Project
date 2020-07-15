@@ -4,6 +4,7 @@ namespace App\Models\Vendor;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Vendor extends Model
 {
@@ -31,13 +32,17 @@ class Vendor extends Model
 
         ];
 
+    public $appends=["state_name"];
+
 //    public function sectors()
 //    {
 //        return $this->belongsToMany('App\Models\Vendor\Vendor_Sector');
 //    }
-    public function state()
+    public function getStateNameAttribute()
     {
-      return $this->hasMany('App\Models\Procurement\State','id','state_id');
+       $info= \App\Models\Procurement\State::where("id",$this->attributes['state_id'])->where("language_id",Auth::user()->lang_id ==1 ?2:1)->first();
+        return $info->state_name ?? "";
+     // return $this->hasMany('App\Models\Procurement\State','id','state_id');
     }
 
 }
