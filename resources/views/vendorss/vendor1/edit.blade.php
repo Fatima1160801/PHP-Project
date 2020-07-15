@@ -171,15 +171,14 @@
                         contentType: false,
                         beforeSend: function () {
                             $('#btnEditvendor').attr("disabled", true);
-                            $('.loader').show();
+                            $('#btnAddvendor div.loader').show();
 
                         },
                         success: function (data) {
                             $('#btnEditvendor').attr("disabled", false);
-                            $('.loader').hide();
+                            $('#btnAddvendor div.loader').hide();
                             if (data.status == true) {
                                 myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                                $('.loader').hide();
                                 setTimeout(() => {
                                     window.location.href = "{{route('vendors.index')}}";
                                 }, 1000);

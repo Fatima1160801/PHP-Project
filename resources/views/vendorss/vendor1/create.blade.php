@@ -135,20 +135,18 @@
                 contentType: false,
                 beforeSend: function () {
                     $('#btnAddvendor').attr("disabled", true);
-                    $('.loader').show();
+                    $('#btnAddvendor div.loader').show();
                 },
                 success: function (data) {
 
                     $('#btnAddvendor').attr("disabled", false);
-                    $('.loader').hide();
+                    $('#btnAddvendor div.loader').hide();
                     if (data.status == true) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                         $("#formVendorCreate").trigger("reset");
                         setTimeout(() => {
                             window.location.href = "{{route('vendors.index')}}";
                         }, 1000);
-
-                        $('.loader').hide();
                     } else {
                        myNotify('warning', 'warning', 'warning', '5000', data.message);
                         //myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
