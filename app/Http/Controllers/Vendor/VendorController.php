@@ -73,12 +73,13 @@ class VendorController extends Controller
        // $vendorObj->country_id=1;
         $generator = generator(147, $option, $vendorObj);
         $abortAdd=getMessage("2.362");
+        $abortWeb=getMessage("2.416");
         $html = $generator[0];
         $labels = $generator[1];
         $job_list =JobTitle::get();
         $abortSave=getMessage("2.361");
         $userPermissions = getUserPermission();
-        return view('vendorss.vendor1.create', compact('abortSave','abortAdd','messageDeleteType','labels', 'html','job_list','userPermissions'));
+        return view('vendorss.vendor1.create', compact('abortWeb','abortSave','abortAdd','messageDeleteType','labels', 'html','job_list','userPermissions'));
     }
 
     public function store(Request $request)
@@ -189,7 +190,7 @@ class VendorController extends Controller
             }
         }
         $optionValidator=[];
-        inputValidator($data, $optionValidator);
+        //inputValidator($data, $optionValidator);
         try {
 
             DB::beginTransaction();
@@ -278,7 +279,7 @@ class VendorController extends Controller
 //        }
         $abortSave=getMessage("2.361");
         $abortAdd=getMessage("2.362");
-
+        $abortWeb=getMessage("2.416");
         $option = [
             'vat_number' => ['inputClass' => 'check-is-number'],
             'country_id'=>['html_type' => '5', 'selectArray' => $country],
@@ -295,7 +296,7 @@ class VendorController extends Controller
         $job_list =JobTitle::get();
 
             $userPermissions = getUserPermission();
-            return view('vendorss.vendor1.edit', compact('vendorObj','abortSave','abortAdd','labels', 'html','contact','job_list','messageDeleteType', 'userPermissions'));
+            return view('vendorss.vendor1.edit', compact('abortWeb','vendorObj','abortSave','abortAdd','labels', 'html','contact','job_list','messageDeleteType', 'userPermissions'));
 
 
       //  return view('vendorss.vendor1.edit', compact('labels', 'html', 'userPermissions'));
@@ -415,7 +416,7 @@ class VendorController extends Controller
 
         $optionValidator = [
         ];
-        inputValidator($data, $optionValidator);
+      //  inputValidator($data, $optionValidator);
         $vendorObject = Vendor::find($id);
 
         if(empty($vendorObject)){

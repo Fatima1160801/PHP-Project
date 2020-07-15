@@ -28,13 +28,13 @@
             @endif
 
             {!! $html !!}
-            <h3>Contact Persons</h3>
+            <h3>{{$labels['contactpersons'] ?? 'contact person'}}</h3>
             <table  class="table" id="personal_contacts">
                 <thead>
-                <th>full name</th>
-                <th>Job title</th>
-                <th>Telephone</th>
-                <th>Email</th>
+                <th>{{$labels['fullname'] ?? 'Full Names'}}</th>
+                <th>{{$labels['jobtitle'] ?? 'Job Titles'}}</th>
+                <th>{{$labels['telephone'] ?? 'Telephoness'}}</th>
+                <th>{{$labels['email'] ?? 'Emails'}}</th>
                 <th>
                     <button type="button" class="btn btn-sm btn-success btn-round btn-fab" onclick="myFunction()" style="margin-bottom:+0.5em;">
                         <i class="material-icons">add</i>
@@ -156,52 +156,61 @@
            // var totalRowCount = table.rows.length;
             //if(totalRowCount-1>0) {
                 if (checkInputNullCreate()) {
+                    var website = document.getElementById("website").value;
+                    //alert(website);
+                    var urlTest = isValidURL(website)
+                    if (urlTest) {
+                        e.preventDefault();
 
-                    e.preventDefault();
+                        var form = new FormData($(this)[0]);
+                        var url = $(this).attr('action');
+                        //checkInputNull()
+                        // alert($(this).attr('action'));s
+                        $.ajax({
+                            url: url,
+                            data: form,
+                            type: 'post',
+                            processData: false,
+                            contentType: false,
+                            beforeSend: function () {
+                                $('#btnEditvendor').attr("disabled", true);
+                                $('#btnAddvendor div.loader').show();
 
-                    var form = new FormData($(this)[0]);
-                    var url = $(this).attr('action');
-                    //checkInputNull()
-                    // alert($(this).attr('action'));s
-                    $.ajax({
-                        url: url,
-                        data: form,
-                        type: 'post',
-                        processData: false,
-                        contentType: false,
-                        beforeSend: function () {
-                            $('#btnEditvendor').attr("disabled", true);
-                            $('#btnAddvendor div.loader').show();
+                            },
+                            success: function (data) {
+                                $('#btnEditvendor').attr("disabled", false);
+                                $('#btnAddvendor div.loader').hide();
+                                if (data.status == true) {
+                                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                                    setTimeout(() => {
+                                        window.location.href = "{{route('vendors.index')}}";
+                                    }, 1000);
 
-                        },
-                        success: function (data) {
-                            $('#btnEditvendor').attr("disabled", false);
-                            $('#btnAddvendor div.loader').hide();
-                            if (data.status == true) {
-                                myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                                setTimeout(() => {
-                                    window.location.href = "{{route('vendors.index')}}";
-                                }, 1000);
+                                } else {
+                                    myNotify('warning', 'warning', 'warning', '5000', data.message);
+                                }
+
+
+                            },
+                            error: function (data) {
 
                             }
-                            else {
-                                myNotify('warning', 'warning', 'warning', '5000', data.message);}
+                        });
+                        /*  } else {
+                              if(!empty($abortSave))
+                             myNotify()
+                              endif
+                                  return false;
 
+                          }*/
+                    } else {
+                        @if(!empty($abortWeb))
+                        myNotify('{{$abortWeb["icon"]}}', '{{$abortWeb["title"]}}', '{{$abortWeb["type"]}}', '5000', '{{$abortWeb["text"]}}');
+                        @endif
+                            return false;
+                    }
 
-                        },
-                        error: function (data) {
-
-                        }
-                    });
-              /*  } else {
-                    if(!empty($abortSave))
-                   myNotify()
-                    endif
-                        return false;
-
-                }*/
-            }
-            else {
+                } else {
                 @if(!empty($abortSave))
                 myNotify('{{$abortSave["icon"]}}', '{{$abortSave["title"]}}', '{{$abortSave["type"]}}', '5000', '{{$abortSave["text"]}}');
                 @endif
@@ -317,6 +326,16 @@
                     val=false;
                 }
             });
+            return val;
+        }
+        function isValidURL(url) {
+            var RegExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+            var val=false;
+            if(url=="")
+                val=true;
+           else if (RegExp.test(url)) {
+                val= true;
+            }
             return val;
         }
     </script>
