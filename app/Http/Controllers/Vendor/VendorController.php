@@ -231,7 +231,6 @@ class VendorController extends Controller
         }
         }catch (\Throwable $exception) {
             DB::rollBack();
-            dd($exception->getMessage());
             $message =  (is_numeric($exception->getMessage()) ? getMessage(2.246) : getMessage(2.245));
             return response()->json([
                 'status'=>false,
