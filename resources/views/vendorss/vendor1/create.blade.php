@@ -26,36 +26,36 @@
             @endif
 
             {!! $html !!}
-            <h3>{{$labels['contactpersons'] ?? 'contact person'}}</h3>
+            <h3><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['contactpersons'] ?? 'contact person'}}<span style="color: red">*</span></div></div></h3>
             <table class="table" id="personal_contacts">
                 <thead>
-                <th>{{$labels['fullname'] ?? 'Full Names'}}</th>
-                <th>{{$labels['jobtitle'] ?? 'Job Titles'}}</th>
-                <th>{{$labels['telephone'] ?? 'Telephoness'}}</th>
-                <th>{{$labels['email'] ?? 'Emails'}}</th>
-                <th><button type="button" class="btn btn-sm btn-success btn-round btn-fab" onclick="myFunction()" style="margin-bottom:+0.5em;">
+                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['fullname'] ?? 'Full Names'}}<span style="color: red">*</span></div></div></th>
+                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['jobtitle'] ?? 'Job Titles'}}<span style="color: red">*</span></div></div></th>
+                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['telephone'] ?? 'Telephoness'}}<span style="color: red">*</span></div></div></th>
+                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['email'] ?? 'Emails'}}<span style="color: red">*</span></div></div></th>
+                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-success btn-round btn-fab" onclick="myFunction()" style="margin-bottom:+0.5em;">
                         <i class="material-icons">add</i>
-                    </button></th>
+                            </button></div></div></th>
                </thead>
-               <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control required fullname-input" name="fullname[]"  minlength="0" maxlength="200"  autocomplete="off" ></div></div> </td>
-                <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><select  class="selectpicker required jobtitle" name="job_title_id[]" id="jobs"><option value=""></option>
-                       @if(!empty($job_list))
-                            @foreach($job_list  as $item1)
+{{--               <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control  fullname-input" name="fullname[]"  minlength="0" maxlength="200"  autocomplete="off" ></div></div> </td>--}}
+{{--                <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><select  class="selectpicker jobtitle" name="job_title_id[]" id="jobs"><option value=""></option>--}}
+{{--                       @if(!empty($job_list))--}}
+{{--                            @foreach($job_list  as $item1)--}}
 
-                                <option value="{{$item1->id}}" >{{$item1->job_title_name_na ?? ""}}</option>
+{{--                                <option value="{{$item1->id}}" >{{$item1->job_title_name_na ?? ""}}</option>--}}
 
-                           @endforeach
-                        @endif
+{{--                           @endforeach--}}
+{{--                        @endif--}}
 
-                    </select></div></div>
+{{--                    </select></div></div>--}}
 
-                </td>
-                <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control required tel" name="tel[]"   autocomplete="off"></div></div></td>
-                         <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control email required " name="contact_email[]"  minlength="0" maxlength="200"  autocomplete="off" ></div></div></td>
-             <td><button type="button"
-                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"
-                        data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
-                    <i class="material-icons">delete</i></button></td>
+{{--                </td>--}}
+{{--                <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control  tel check-is-number" name="tel[]"   autocomplete="off"></div></div></td>--}}
+{{--                         <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control email " name="contact_email[]"  minlength="0" maxlength="200"  autocomplete="off" ></div></div></td>--}}
+{{--             <td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button"--}}
+{{--                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"--}}
+{{--                        data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">--}}
+{{--                             <i class="material-icons">delete</i></button></div></div>--}}
 
 
             </table>
@@ -143,15 +143,20 @@
                                 $('#btnAddvendor div.loader').show();
                             },
                             success: function (data) {
-
                                 $('#btnAddvendor').attr("disabled", false);
                                 $('#btnAddvendor div.loader').hide();
                                 if (data.status == true) {
+                                  //  document.getElementById("idForEdit").value=data.id
                                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                                    $("#formVendorCreate").trigger("reset");
-                                    setTimeout(() => {
-                                        window.location.href = "{{route('vendors.index')}}";
-                                    }, 1000);
+                                    var update_url="{{route("vendors.update")}}"
+                                    $("#formVendorCreate").attr("action",update_url);
+                                    $("#id").val(data.id);
+
+
+                                    {{--$("#formVendorCreate").trigger("reset");--}}
+                                    {{--setTimeout(() => {--}}
+                                    {{--    window.location.href = "{{route('vendors.edit',131)}}";--}}
+                                    {{--}, 1000);--}}
                                 } else {
                                     myNotify('warning', 'warning', 'warning', '5000', data.message);
                                     //myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
@@ -204,13 +209,13 @@
             $.each(job_lists, function (index, value) {
                 itemList+="<option value=" + value.id + '>' + value["job_title_name_na"] + "</option>";
             });
-            var cell1 = row.insertCell(0).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control required fullname-input" name="fullname[]"  minlength="0" maxlength="200"  autocomplete="off" ></div></div>';
+            var cell1 = row.insertCell(0).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="hidden" value="1" name="serial[]"/> <input type="text" value="" class="form-control  fullname-input" name="fullname[]"  minlength="0" maxlength="200"  autocomplete="off" ></div></div>';
 
 
-            var cell2 = row.insertCell(1).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><select minlength="0" maxlength="11" name="job_title_id[]"  class="contactpersons required  jobtitle">'+itemList+'</select></div></div>';
-            var cell3 = row.insertCell(2).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control required tel" name="tel[]"   autocomplete="off"></div></div>';
-            var cell4 = row.insertCell(3).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control email required  " name="contact_email[]"  minlength="0" maxlength="200"  autocomplete="off" ></div></div></div></div>';
-            var cell5 = row.insertCell(4).innerHTML = '<button type="button" rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"+data-placement="top"  title=" Delete "><i class="material-icons">delete</i></button></td>';
+            var cell2 = row.insertCell(1).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><select minlength="0" maxlength="11" name="job_title_id[]"  class="contactpersons   jobtitle">'+itemList+'</select></div></div>';
+            var cell3 = row.insertCell(2).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control  tel check-is-number" name="tel[]"   autocomplete="off"></div></div>';
+            var cell4 = row.insertCell(3).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><input type="text" value="" class="form-control    " name="contact_email[]"  minlength="0" maxlength="200"  autocomplete="off" ></div></div></div></div>';
+            var cell5 = row.insertCell(4).innerHTML = '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"+data-placement="top"  title=" Delete "><i class="material-icons">delete</i></button></div></div>';
 
 
             $(".contactpersons").selectpicker();
@@ -297,7 +302,9 @@
              return val;
          }
         function isValidURL(url) {
-            var RegExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+            //var RegExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+            //var RegExp=/([a-z][a-z])[.][a-z][a-z]);
+            var RegExp=/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/g;
              var val=false;
              if(url=="")
                  val=true;

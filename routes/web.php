@@ -183,5 +183,8 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/city/by/{id}', ['uses' => 'Vendor\VendorController@getCity'])->name('city.by.id');
     Route::get('/city/by/state/{id}', ['uses' => 'Vendor\VendorController@getCityByState'])->name('city.by.state.id');
     Route::get('/state/by/country/{id}', ['uses' => 'Vendor\VendorController@getStateByCountry'])->name('state.by.country.id');
+
+
+    Route::get('/vendors/query', ['uses' => 'Vendor\VendorQueryController@index'])->name('vendorsquery.index');
 });
 

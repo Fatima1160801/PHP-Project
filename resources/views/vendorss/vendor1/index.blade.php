@@ -29,13 +29,16 @@
                         {{$labels['vendor_name_na'] ?? 'Vendor name'}}
                     </th>
                     <th>
-                        {{$labels['vendor_name_fo'] ?? 'Vendor name in other language'}}
-                    </th>
-                    <th>
-                        {{$labels['email'] ?? 'countries'}}
+                        {{$labels['vat_number'] ?? 'Vendor name in other language'}}
                     </th>
                     <th>
                         {{$labels['state_id'] ?? 'state'}}
+                    </th>
+                    <th>
+                        {{$labels['telephone'] ?? 'telephone'}}
+                    </th>
+                    <th>
+                        {{$labels['fax'] ?? 'fax'}}
                     </th>
                     <th>
                         {{$labels['actions'] ?? 'actions'}}
@@ -50,11 +53,10 @@
                         <tr>
                             <td>{{$index+1}}</td>
                             <td>{{$item->vendor_name_na ?? ""}}</td>
-                            <td>{{$item->vendor_name_fo ?? ""}}</td>
-                            <td>{{$item->email ?? ""}}</td>
-
+                            <td>{{$item->vat_number ?? ""}}</td>
                             <td>{{$item->state_name ?? ""}}</td>
-
+                            <td>{{$item->telephone ?? ""}}</td>
+                            <td>{{$item->fax ?? ""}}</td>
 
                             <td>
                                 <a href="{{route('vendors.edit',$item->id)}}"
@@ -87,7 +89,7 @@
     <script>
         $(function () {
             active_nev_link('visit-link');
-            DataTableCall('#table',6);
+            DataTableCall('#table',7);
             $('[data-toggle="tooltip"]').tooltip();
 
             $(document).on('click', '.btnTypeDelete', function (e) {

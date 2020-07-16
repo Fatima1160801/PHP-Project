@@ -68,6 +68,8 @@ class VendorController extends Controller
             'vat_number' => ['inputClass' => 'check-is-number'],
             'country_id'=>['html_type' => '5', 'selectArray' => $country],
             'sector_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
+            'telephone'=> ['inputClass' => 'check-is-number'],
+            'fax'=> ['inputClass' => 'check-is-number'],
         ];
         $vendorObj= new Vendor();
        // $vendorObj->country_id=1;
@@ -250,7 +252,7 @@ class VendorController extends Controller
 
             $secvend->save();
         }*/
-        return response(['status' => true, 'message' => getMessage('2.1')]);
+        return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$vendorObj->id]);
 
 
     }
@@ -284,6 +286,8 @@ class VendorController extends Controller
             'vat_number' => ['inputClass' => 'check-is-number'],
             'country_id'=>['html_type' => '5', 'selectArray' => $country],
             'sector_id'=> ['relatedWhere' => 'deleted_at is null', 'SelectedArray' => $ref_sector_selected],
+            'telephone'=> ['inputClass' => 'check-is-number'],
+            'fax'=> ['inputClass' => 'check-is-number'],
 
             ];
 
