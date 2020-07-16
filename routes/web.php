@@ -194,5 +194,13 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/vendors/report/reportExportExcel', ['uses' => 'Vendor\VendorQueryController@reportExportExcel'])->name('vendors.reportExportExcel');
     Route::get('/vendors/report/btnReportPDF', ['uses' => 'Vendor\VendorQueryController@reportExportPDF'])->name('vendors.btnReportPDF');
 
+
+    Route::get('/donors/project/report/search', ['uses' => 'Project\DonorController@search'])->name('donors.project.search');
+    Route::get('reports/prepare/{id?}', ['uses' => 'Report\ReportController@prepare'])->name('reports.prepare');
+    Route::get('/donors/project/report/btnReportPDF', ['uses' => 'Project\DonorController@reportExportPDF'])->name('donors.project.btnReportPDF');
+    Route::get('/donors/project/report/reportExportExcel', ['uses' => 'Project\DonorController@reportExportExcel'])->name('donors.project.reportExportExcel');
+    Route::get('reports/{id}/getData', ['uses' => 'Report\ReportController@getReportData'])->name('reports.getData');
+
+
 });
 
