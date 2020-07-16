@@ -186,5 +186,13 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
 
 
     Route::get('/vendors/query', ['uses' => 'Vendor\VendorQueryController@index'])->name('vendorsquery.index');
+
+
+    //////////////////////////////////////////////////////////////////////////////
+    Route::get('/vendors/report', ['uses' => 'Vendor\VendorQueryController@reportVendors'])->name('vendors.report');
+    Route::get('/vendors/report/search', ['uses' => 'Vendor\VendorQueryController@search'])->name('vendors.search');
+    Route::get('/vendors/report/reportExportExcel', ['uses' => 'Vendor\VendorQueryController@reportExportExcel'])->name('vendors.reportExportExcel');
+    Route::get('/vendors/report/btnReportPDF', ['uses' => 'Vendor\VendorQueryController@reportExportPDF'])->name('vendors.btnReportPDF');
+
 });
 
