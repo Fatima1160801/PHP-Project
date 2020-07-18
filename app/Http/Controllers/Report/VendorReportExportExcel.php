@@ -9,6 +9,8 @@ use App\Models\Report\Project\ReportProject;
 use App\Models\Report\Project\ReportProjectDonor;
 use App\Models\Report\ReportMaster;
 use App\Models\Report\ReportMasterUser;
+use App\Models\Vendor\Vendor_Report_Vw;
+use App\Models\Vendor\Vendor_Sector;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +18,7 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ProjectDonorReportExportExcel implements FromView
+class VendorReportExportExcel implements FromView
 {
     use Exportable;
 
@@ -78,48 +80,50 @@ class ProjectDonorReportExportExcel implements FromView
 //        $report_data = DB::table($report_master->rep_source)
 //            ->get($reportDetailColumnsNames);
 
-        $query = ReportProjectDonor::query();
+        $query = Vendor_Report_Vw::query();
         $query->select($reportDetailColumnsNames);
 
-        if ($this->request->has('program_id') && $this->request->get('program_id') != null) {
-            $query->whereIn('program_id',$this->request->get('program_id'));
+        if ($this->request->has('vendor_name_na') && $this->request->get('vendor_name_na') != null) {
+            $query->where('vendor_name_na', 'like', '%' . $this->request->get('vendor_name_na') . '%');
         }
-        if ($this->request->has('is_hidden') && $this->request->get('is_hidden') != null) {
-            $query->where('is_hidden', '=', $this->request->get('is_hidden'));
+        if ($this->request->has('vendor_name_fo') && $this->request->get('vendor_name_fo') != null) {
+            $query->where('vendor_name_fo','like', '%' . $this->request->get('vendor_name_fo') . '%');
         }
-        if ($this->request->has('project_name_na') && $this->request->get('project_name_na') != null) {
-            $query->where('project_name_na', 'like', '%' . $this->request->get('project_name_na') . '%');
+        if ($this->request->has('vat_number') && $this->request->get('vat_number') != null) {
+            $query->where('vat_number','like', '%' . $this->request->get('vat_number') . '%');
         }
-        if ($this->request->has('project_name_fo') && $this->request->get('project_name_fo') != null) {
-            $query->where('project_name_fo', 'like', '%' . $this->request->get('project_name_fo') . '%');
+        if ($this->request->has('country_id') && $this->request->get('country_id') != null) {
+            $query->where('country_id',$this->request->get('country_id'));
         }
-        if ($this->request->has('plan_start_date') && $this->request->get('plan_start_date') != null) {
-            $query->whereDate('plan_start_date', '>=', dateFormatDataBase($this->request->get('plan_start_date')));
+        if ($this->request->has('state_id') && $this->request->get('state_id') != null) {
+            $query->where('state_id',$this->request->get('state_id'));
         }
-        if ($this->request->has('plan_end_date') && $this->request->get('plan_end_date') != null) {
-            $query->whereDate('plan_end_date', '>=', dateFormatDataBase($this->request->get('plan_end_date')));
+        if ($this->request->has('city_id') && $this->request->get('city_id') != null) {
+            $query->where('city_id',$this->request->get('city_id'));
         }
-        if ($this->request->has('manager_id') && $this->request->get('manager_id') != null) {
-            $query->where('manager_id', $this->request->get('manager_id'));
-        }  if ($this->request->has('category_id') && $this->request->get('category_id') != null) {
-            $query->where('category_id', $this->request->get('category_id'));
+        if ($this->request->has('address') && $this->request->get('address') != null) {
+            $query->where('address','like', '%' . $this->request->get('address') . '%');
         }
-        if ($this->request->has('coordinator_id') && $this->request->get('coordinator_id') != null) {
-            $query->where('coordinator_id', $this->request->get('coordinator_id'));
-        }
-        if ($this->request->has('donor_id') && $this->request->get('donor_id') != null) {
-            $query->where('donor_id', $this->request->get('donor_id'));
-        }
+        if ($this->request->has('sector_id') && $this->request->get('sector_id') != null) {
+            foreach ($this->request->sector_id as $sector) {
+                $list=  Vendor_Sector::where('sector_id',$sector)->get();
+                if(!empty($list)){
+                    foreach($list  as $index => $item)
+                        $query->where('id',$item->vendor_id );
+                }
 
-        if ($this->request->has('act_budget_min') && $this->request->get('act_budget_min') != null
-            && $this->request->has('act_budget_max') && $this->request->get('act_budget_max') != null) {
-            $query->whereBetween('act_budget', [$this->request->get('act_budget_min'), $this->request->get('act_budget_max')]);
-        } elseif ($this->request->has('act_budget_min') && $this->request->get('act_budget_min') != null) {
-            $query->where('act_budget', '>=', $this->request->get('act_budget_min'));
-        } elseif ($this->request->has('act_budget_max') && $this->request->get('act_budget_max') != null) {
-            $query->where('act_budget', '<=', $this->request->get('act_budget_max'));
+            }
         }
+        $sort_by=$this->request->get('sort_by');
+        $sort_then=$this->request->get('sort_then');
         $report_data = $query->get();
+        if($sort_by!=0 && $sort_then!=0){
+            $report_data = $query->orderBy($this->getSortName($sort_by), 'ASC')
+                ->orderBy($this->getSortName($sort_then), 'ASC')->get();
+        }
+        else if($sort_by!=0){
+            $report_data = $query->orderBy($this->getSortName($sort_by), 'ASC')->get();
+        }
 
   //dd($report_data);
 
@@ -133,5 +137,15 @@ class ProjectDonorReportExportExcel implements FromView
         ]);
 // Excel::download($report_html, '1.xlsx');
 
+    }
+    public function getSortName($value){
+        if($value==1)
+            return "vendor_name_na";
+        else if($value==2)
+            return "sectors_name_na";
+        else if($value==3)
+            return "state_name_na";
+        else
+            return "city_name_na";
     }
 }

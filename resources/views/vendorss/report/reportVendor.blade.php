@@ -120,7 +120,8 @@
             });
         }
         $( "#sort_by" ).change(function() {
-
+          //  $("#sort_then select").prop("disabled", false);
+            document.getElementById("sort_then").disabled=false;
             var len=document.getElementById("sort_then").options.length;
 
             for ( var i = 0; i < len; i++ ) {
@@ -128,24 +129,25 @@
 
             }
             var sort_val =$( "#sort_by option:selected" ).val();
-            alert(sort_val);
+
             var val=document.getElementById("sort_by").options[document.getElementById("sort_by").selectedIndex].value;
-            if(sort_val==0){
-                $("#sort_then select").prop("disabled", true);
+             if(sort_val==0){
+                 document.getElementById("sort_then").value=0;
+                 document.getElementById("sort_then").disabled=true;
 
 
             }
             else{
-                $("#sort_then select").prop("disabled", false);
-                // for (var i = 1; i < len; i++) {
-                //     opt = document.getElementById("sort_then").options[i];
-                //     if (opt.value === val) {
-                //         opt.disabled = true;
-                //     }
-                // }
+                //$("#sort_then select").prop("disabled", false);
+                for (var i = 1; i < len; i++) {
+                    opt = document.getElementById("sort_then").options[i];
+                    if (opt.value === val) {
+                        opt.disabled = true;
+                    }
+                }
 
                 }
-            $("#sort_then").selectpicker();
+         //   $("#sort_then").selectpicker();
             // }
             // else{
             //     document.getElementById("sort_then").disabled=true;

@@ -13,14 +13,10 @@
     @foreach($report_data as $data)
         <tr>
             @foreach($reportDetailColumnsNames as $columnsNames)
-                @if($columnsNames == 'planed_start_date' or $columnsNames == 'planed_end_date'
-                or $columnsNames =='plan_end_date' or $columnsNames =='act_start_date' or $columnsNames =='act_end_date'or $columnsNames =='date' )
-                    <td class="text-center">{{ dateFormatSite($data->$columnsNames) }}</td>
-                @elseif($columnsNames =='planed_budget' or $columnsNames =='act_budget')
-                    <td class="text-center">{{ round($data->$columnsNames,2) }}</td>
-                @else
+
+
                     <td class="text-center">{{ $data->$columnsNames }}</td>
-                @endif
+
 
                 {{--<td>{{$data->$columnsNames}}</td>--}}
             @endforeach

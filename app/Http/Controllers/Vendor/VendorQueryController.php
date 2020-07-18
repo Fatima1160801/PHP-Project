@@ -15,10 +15,10 @@ use App\Models\Vendor\JobTitle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use App\Http\Controllers\Report\ProjectDonorReportExportExcel;
+use App\Http\Controllers\Report\VendorReportExportExcel;
 use App\Models\Donor\Donor;
 use App\Models\Project\Project;
-use App\Models\Report\Project\ReportProjectDonor;
+
 use App\Models\Report\ReportMaster;
 use App\Models\Report\ReportMasterUser;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
@@ -46,47 +46,47 @@ class VendorQueryController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
-    {
-
-        is_permitted(149, getClassName(__CLASS__), __FUNCTION__, 330, 7);
-        if(Auth::user()->lang_id==1){
-            $country_lang=2;
-        }else{
-            $country_lang=1;
-        }
-        $country= \App\Models\Procurement\Country::where("language_id",$country_lang)->pluck("country_name","id");
-
-        $sort_by = [
-            1 => ['0'=>'' ,'1' => 'Name', '2' => 'Sector','3'=>'Governorate','4'=>'Location'],
-            2 => ['0'=>'','1' => 'الأسم', '2' => 'القطاع','3'=>'المحافظة','4'=>'المدينة'],
-        ];
-        $sort_then = [
-            1 => ['0'=>'','1' => 'Name', '2' => 'Sector','3'=>'Governorate','4'=>'Location'],
-            2 => ['0'=>'','1' => 'الأسم', '2' => 'القطاع','3'=>'المحافظة','4'=>'المدينة'],
-        ];
-        $option = [
-            'vat_number' => ['inputClass' => 'check-is-number'],
-            'country_id'=>['html_type' => '5', 'selectArray' => $country],
-            'sector_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
-            'tel_number'=> ['inputClass' => 'check-is-number'],
-            'sort_by'=>['html_type' => '5', 'selectArray' => $sort_by[Auth::user()->lang_id]],
-            'sort_then'=>['html_type' => '5', 'selectArray' => $sort_then[Auth::user()->lang_id]],
-        ];
-        $vendorObj= new Vendor();
-        $vendorObj->sortList=0;
-        $generator = generator(149, $option, $vendorObj);
-        $html = $generator[0];
-        $labels = $generator[1];
-        $userPermissions = getUserPermission();
-        return view('vendorss.vendor1.vendorquery', compact('labels', 'html', 'userPermissions'));
-    }
+//    public function index()
+//    {
+//
+//        is_permitted(149, getClassName(__CLASS__), __FUNCTION__, 330, 7);
+//        if(Auth::user()->lang_id==1){
+//            $country_lang=2;
+//        }else{
+//            $country_lang=1;
+//        }
+//        $country= \App\Models\Procurement\Country::where("language_id",$country_lang)->pluck("country_name","id");
+//
+//        $sort_by = [
+//            1 => ['0'=>'' ,'1' => 'Name', '2' => 'Sector','3'=>'Governorate','4'=>'Location'],
+//            2 => ['0'=>'','1' => 'الأسم', '2' => 'القطاع','3'=>'المحافظة','4'=>'المدينة'],
+//        ];
+//        $sort_then = [
+//            1 => ['0'=>'','1' => 'Name', '2' => 'Sector','3'=>'Governorate','4'=>'Location'],
+//            2 => ['0'=>'','1' => 'الأسم', '2' => 'القطاع','3'=>'المحافظة','4'=>'المدينة'],
+//        ];
+//        $option = [
+//            'vat_number' => ['inputClass' => 'check-is-number'],
+//            'country_id'=>['html_type' => '5', 'selectArray' => $country],
+//            'sector_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
+//            'tel_number'=> ['inputClass' => 'check-is-number'],
+//            'sort_by'=>['html_type' => '5', 'selectArray' => $sort_by[Auth::user()->lang_id]],
+//            'sort_then'=>['html_type' => '5', 'selectArray' => $sort_then[Auth::user()->lang_id]],
+//        ];
+//        $vendorObj= new Vendor();
+//        $vendorObj->sortList=0;
+//        $generator = generator(149, $option, $vendorObj);
+//        $html = $generator[0];
+//        $labels = $generator[1];
+//        $userPermissions = getUserPermission();
+//        return view('vendorss.vendor1.vendorquery', compact('labels', 'html', 'userPermissions'));
+//    }
 
     /////////////////vendor report section ///////////////////////////
 
     public function reportVendors()
     {
-        is_permitted(149, getClassName(__CLASS__), __FUNCTION__, 330, 7);
+        is_permitted(149, getClassName(__CLASS__), __FUNCTION__, 334, 7);
        /* $donors = Donor::pluck('donor_name_'.lang_character(), 'id')->toArray();
         $project = new Project();
 
@@ -125,17 +125,17 @@ class VendorQueryController extends Controller
         //   $act_budget_min = ['col_all_Class' => 'col-md-3', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-5'];
         //   $act_budget_max = ['col_all_Class' => 'col-md-3', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-5'];
 
-        $act_budget_min = ['html_type' => '13'];
-        $act_budget_max = ['html_type' => '13'];
-        $plan_start_date = ['html_type' => '13'];
-        $plan_end_date = ['html_type' => '13'];
-        $program_id = ['html_type' => '13'];
-        $manager_id = ['html_type' => '13'];
-        $coordinator_id = ['html_type' => '13'];
-        $project_name_na = ['html_type' => '13'];
-        $project_name_fo = ['html_type' => '13'];
-        $is_hidden = ['html_type' => '13'];
-        $category_id = ['html_type' => '13'];
+//        $act_budget_min = ['html_type' => '13'];
+//        $act_budget_max = ['html_type' => '13'];
+//        $plan_start_date = ['html_type' => '13'];
+//        $plan_end_date = ['html_type' => '13'];
+//        $program_id = ['html_type' => '13'];
+//        $manager_id = ['html_type' => '13'];
+//        $coordinator_id = ['html_type' => '13'];
+//        $project_name_na = ['html_type' => '13'];
+//        $project_name_fo = ['html_type' => '13'];
+//        $is_hidden = ['html_type' => '13'];
+//        $category_id = ['html_type' => '13'];
 
         /* $option = [
             *'program_id' => $program_id,
@@ -221,7 +221,12 @@ class VendorQueryController extends Controller
             }
             if ($request->has('sector_id') && $request->get('sector_id') != null) {
                 foreach ($request->sector_id as $sector) {
-                    $query->where('sectors_ids', $request->get('sector_id'));
+                  $list=  Vendor_Sector::where('sector_id',$sector)->get();
+                  if(!empty($list)){
+                      foreach($list  as $index => $item)
+                          $query->where('id',$item->vendor_id );
+                  }
+
                 }
             }
             $sort_by=$request->get('sort_by');
@@ -253,7 +258,7 @@ class VendorQueryController extends Controller
         $reportMasterUser = ReportMasterUser::where('rep_master_id', $rep_master_id)
             ->where('user_id', Auth::id())
             ->first();
-        return \Maatwebsite\Excel\Facades\Excel::download(new ProjectDonorReportExportExcel($rep_master_id, $request), $reportMasterUser->rep_label . '.xlsx');
+        return \Maatwebsite\Excel\Facades\Excel::download(new VendorReportExportExcel($rep_master_id, $request), $reportMasterUser->rep_label . '.xlsx');
     }
 
     public function reportExportPDF(Request $request)
@@ -333,11 +338,26 @@ class VendorQueryController extends Controller
             $query->where('address','like', '%' . $request->get('address') . '%');
         }
         if ($request->has('sector_id') && $request->get('sector_id') != null) {
-            $query->whereIn('sectors_ids', $request->get('sector_id'));
+            foreach ($request->sector_id as $sector) {
+                $list=  Vendor_Sector::where('sector_id',$sector)->get();
+                if(!empty($list)){
+                    foreach($list  as $index => $item)
+                        $query->where('id',$item->vendor_id );
+                }
+
+            }
         }
 
+        $sort_by=$request->get('sort_by');
+        $sort_then=$request->get('sort_then');
         $report_data = $query->get();
-        //dd($report_data);
+        if($sort_by!=0 && $sort_then!=0){
+            $report_data = $query->orderBy($this->getSortName($sort_by), 'ASC')
+                ->orderBy($this->getSortName($sort_then), 'ASC')->get();
+        }
+        else if($sort_by!=0){
+            $report_data = $query->orderBy($this->getSortName($sort_by), 'ASC')->get();
+        }
 
         $pdf = Pdf::loadView('report.pdfDataExport',
             [

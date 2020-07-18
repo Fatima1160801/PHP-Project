@@ -200,6 +200,9 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/donors/project/report/btnReportPDF', ['uses' => 'Project\DonorController@reportExportPDF'])->name('donors.project.btnReportPDF');
     Route::get('/donors/project/report/reportExportExcel', ['uses' => 'Project\DonorController@reportExportExcel'])->name('donors.project.reportExportExcel');
     Route::get('reports/{id}/getData', ['uses' => 'Report\ReportController@getReportData'])->name('reports.getData');
+    Route::get('reports/updatemaster', ['uses' => 'Report\ReportController@updateMasterUser'])->name('reports.updateMaster');
+    Route::get('reports/updatedetailuser', ['uses' => 'Report\ReportController@updateDetailUser'])->name('reports.customize');
+
 
 
 });
