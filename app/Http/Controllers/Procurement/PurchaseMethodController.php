@@ -50,8 +50,8 @@ class PurchaseMethodController extends Controller
 
 
         $option = [
-            'method_name_na' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
-            'method_name_fo' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
+           // 'method_name_na' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-8'],
+            //'method_name_fo' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-8'],
         ];
         $purchaseObj= new Purchase();
         $generator = generator(144, $option, $purchaseObj);
@@ -89,8 +89,8 @@ class PurchaseMethodController extends Controller
 
 
         $option = [
-            'method_name_na' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
-            'method_name_fo' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
+          //  'method_name_na' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
+           // 'method_name_fo' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
         ];
 
         $purchaseObj = Purchase::findOrfail($id);

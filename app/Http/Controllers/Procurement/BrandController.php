@@ -49,7 +49,7 @@ class BrandController extends Controller
 
 
         $option = [
-            'brand_name' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
+         //   'brand_name' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-9'],
 
         ];
         $brandObj= new Brand();
@@ -87,7 +87,7 @@ class BrandController extends Controller
 
 
         $option = [
-            'brand_name' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
+           // 'brand_name' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-9'],
 
         ];
 

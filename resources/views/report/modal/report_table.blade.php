@@ -17,14 +17,14 @@
                 <tr >
                     @foreach($reportDetailUser as $rdu)
                         @php $name=$rdu->column_name @endphp
-                    @if($name == 'planed_start_date' or $name == 'planed_end_date'
-                    or $name =='plan_end_date'  or $name =='act_start_date' or $name =='act_end_date'or $name =='date' )
-                            <td class="text-center">{{ dateFormatSite($data->$name) }}</td>
-                        @elseif($name =='planed_budget' or $name =='act_budget')
-                            <td class="text-center">{{ round($data->$name,2) }}</td>
-                        @else
+{{--                    @if($name == 'planed_start_date' or $name == 'planed_end_date'--}}
+{{--                    or $name =='plan_end_date'  or $name =='act_start_date' or $name =='act_end_date'or $name =='date' )--}}
+{{--                            <td class="text-center">{{ dateFormatSite($data->$name) }}</td>--}}
+{{--                        @elseif($name =='planed_budget' or $name =='act_budget')--}}
+{{--                            <td class="text-center">{{ round($data->$name,2) }}</td>--}}
+{{--                        @else--}}
                             <td class="text-center" >{{ $data->$name }}</td>
-                        @endif
+{{--                        @endif--}}
                     @endforeach
                 </tr>
             @endforeach

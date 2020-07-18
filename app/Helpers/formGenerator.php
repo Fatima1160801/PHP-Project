@@ -592,9 +592,9 @@ if (!function_exists('inputFile2')) {
             $view .= "<div class=' col-md-12'>";
 
             if ($label->table_name == "strategic_plan") {
-                 $view .= "<div class='row'> <label class='col-md-2 col-form-label'>$label->label</label> <div class='col-md-10'> <a class='btn btn-info btn-sm' href='" . asset('images/strategic/') . "/" . $data['file'] . "'>" . $data['file_name'] . "</a></div> </div>";
+                $view .= "<div class='row'> <label class='col-md-2 col-form-label'>$label->label</label> <div class='col-md-10'> <a class='btn btn-info btn-sm' href='" . asset('images/strategic/') . "/" . $data['file'] . "'>" . $data['file_name'] . "</a></div> </div>";
             } else if ($label->table_name == "visits") {
-                 $view .= "<div class='row'> <label class='col-md-2 col-form-label'>$label->label</label> <div class='col-md-10'><a class='btn btn-info btn-sm' href='" . asset('images/visit/') . "/" . $data[$label->db_field_name] . "'>" . $data[$label->db_field_name] . "</a></div> </div>";
+                $view .= "<div class='row'> <label class='col-md-2 col-form-label'>$label->label</label> <div class='col-md-10'><a class='btn btn-info btn-sm' href='" . asset('images/visit/') . "/" . $data[$label->db_field_name] . "'>" . $data[$label->db_field_name] . "</a></div> </div>";
             }
             $view .= "</div>";
         }
@@ -607,8 +607,35 @@ if (!function_exists('inputFile2')) {
         $view .= "<label for='" . $label->field_name . "' class='$label->col_label_Class col-form-label'> " . $change . $label->label . "</label>";
 
         $view .= "<div class='fileinput fileinput-new text-center' data-provides='fileinput'>";
-
-
+    //    $view .= "<div class='fileinput-preview fileinput-exists thumbnail img-raised'>";
+        if ($label->field_name == "icon"){
+            if (!empty($data->icon)) {
+                $view .= "<img  style=' max-height: 100px; width: 100px; ' src =" . asset('') . '/' . $data->icon . " alt= '...' >";
+            } else {
+                $view .= "<img style=' max-height: 100px; width: 100px; ' src =" . asset('assets/img/placeholder.png') . " alt = '...' >";
+            }
+    }
+       else if ($label->field_name == "thumb"){
+            if (!empty($data->thumb)) {
+                $view .= "<img  style=' max-height: 100px; width: 100px; ' src =" . asset('') . '/' . $data->thumb . " alt= '...' >";
+            } else {
+                $view .= "<img style=' max-height: 100px; width: 100px; ' src =" . asset('assets/img/placeholder.png') . " alt = '...' >";
+            }
+        }
+      else  if ($label->field_name == "photo"){
+            if (!empty($data->photo)) {
+                $view .= "<img  style=' max-height: 100px; width: 100px; ' src =" . asset('') . '/' . $data->photo . " alt= '...' >";
+            } else {
+                $view .= "<img style=' max-height: 100px; width: 100px; ' src =" . asset('assets/img/placeholder.png') . " alt = '...' >";
+            }
+        }
+      else  if ($label->field_name == "image_icon"){
+          if (!empty($data->image_icon)) {
+              $view .= "<img  style=' max-height: 100px; width: 100px; ' src =" . asset('') . '/' . $data->image_icon . " alt= '...' >";
+          } else {
+              $view .= "<img style=' max-height: 100px; width: 100px; ' src =" . asset('assets/img/placeholder.png') . " alt = '...' >";
+          }
+      }
         $view .= "<div class='fileinput-preview fileinput-exists thumbnail img-raised'>";
         $view .= "</div>";
         $view .= "<div'>";

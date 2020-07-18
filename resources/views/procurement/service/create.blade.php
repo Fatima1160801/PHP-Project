@@ -78,12 +78,13 @@
                 },
                 success: function (data) {
 
-                    $('#btnAddservice').attr("disabled", false);
+
+                   // $('#btnAddservice').attr("disabled", true);
                     $('.loader').hide();
                     if (data.status == true) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
 
-                        $('.loader').hide();
+                       // $('.loader').hide();
                     } else if (data.status == false) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     }

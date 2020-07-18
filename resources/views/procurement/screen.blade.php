@@ -2,6 +2,14 @@
 @extends('layouts._layout')
 @section('content')
 
+
+            <h4 class="card-title">
+
+                {{$labels['procurementsetting'] ?? 'Procurement Settings'}}
+            </h4>
+            <br>
+
+
     <div class="col-md-12">
         <div class="col-lg-4 col-md-4 col-sm-4 text-left pull-left" >
             <a href="{{route("brands.index")}}"><div class="card">
@@ -225,7 +233,7 @@
             </a>
         </div>
         <div class="clearfix"></div>
-    </div>
+
 
 @endsection
 

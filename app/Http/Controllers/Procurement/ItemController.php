@@ -54,8 +54,8 @@ class ItemController extends Controller
 
 
         $status = [
-            1 => ['1' => 'Active', '0' => 'Inactive'],
-            2 => ['1' => 'فعال', '0' => 'غيرفعال']
+            1 => ['0' => 'Active', '1' => 'Inactive'],
+            2 => ['0' => 'فعال', '1' => 'غيرفعال']
         ];
 
         $option = [
@@ -136,8 +136,8 @@ class ItemController extends Controller
         is_permitted(146, getClassName(__CLASS__), __FUNCTION__, 328, 2);
 
         $status = [
-            1 => ['1' => 'Active', '0' => 'Inactive'],
-            2 => ['1' => 'فعال', '0' => 'غيرفعال']
+            1 => ['0' => 'Active', '1' => 'Inactive'],
+            2 => ['0' => 'فعال', '1' => 'غيرفعال']
         ];
 
         $option = [

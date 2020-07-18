@@ -76,7 +76,7 @@
                 },
                 success: function (data) {
 
-                    $('#btnAdditem').attr("disabled", false);
+                  //  $('#btnAdditem').attr("disabled", false);
                     $('.loader').hide();
                     if (data.status == true) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Vendor;
 
 use App\Helpers\Log;
 use App\Http\Controllers\Controller;
+use App\Models\Vendor\Vendor_Report_Vw;
 use Validator;
 use App\Models\Procurement\Brand;
 use App\Models\Vendor\City;
@@ -56,21 +57,21 @@ class VendorQueryController extends Controller
         }
         $country= \App\Models\Procurement\Country::where("language_id",$country_lang)->pluck("country_name","id");
 
-        $sortList = [
+        $sort_by = [
             1 => ['0'=>'' ,'1' => 'Name', '2' => 'Sector','3'=>'Governorate','4'=>'Location'],
             2 => ['0'=>'','1' => 'الأسم', '2' => 'القطاع','3'=>'المحافظة','4'=>'المدينة'],
         ];
-        $repeatedSortList = [
-            1 => [''=>'','0' => 'Name', '1' => 'Sector','2'=>'Governorate','3'=>'Location'],
-            2 => [''=>'','0' => 'الأسم', '1' => 'القطاع','2'=>'المحافظة','3'=>'المدينة'],
+        $sort_then = [
+            1 => ['0'=>'','1' => 'Name', '2' => 'Sector','3'=>'Governorate','4'=>'Location'],
+            2 => ['0'=>'','1' => 'الأسم', '2' => 'القطاع','3'=>'المحافظة','4'=>'المدينة'],
         ];
         $option = [
             'vat_number' => ['inputClass' => 'check-is-number'],
             'country_id'=>['html_type' => '5', 'selectArray' => $country],
             'sector_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
             'tel_number'=> ['inputClass' => 'check-is-number'],
-            'sortList'=>['html_type' => '5', 'selectArray' => $sortList[Auth::user()->lang_id]],
-            'repeatedSortList'=>['html_type' => '5', 'selectArray' => $repeatedSortList[Auth::user()->lang_id]],
+            'sort_by'=>['html_type' => '5', 'selectArray' => $sort_by[Auth::user()->lang_id]],
+            'sort_then'=>['html_type' => '5', 'selectArray' => $sort_then[Auth::user()->lang_id]],
         ];
         $vendorObj= new Vendor();
         $vendorObj->sortList=0;
@@ -85,12 +86,38 @@ class VendorQueryController extends Controller
 
     public function reportVendors()
     {
-        $donors = Donor::pluck('donor_name_'.lang_character(), 'id')->toArray();
+        is_permitted(149, getClassName(__CLASS__), __FUNCTION__, 330, 7);
+       /* $donors = Donor::pluck('donor_name_'.lang_character(), 'id')->toArray();
         $project = new Project();
-        $project->act_budget_min = null;
+
+        $project->act_budget_min = null;*/
+        $vendor=new Vendor();
+        if(Auth::user()->lang_id==1){
+            $country_lang=2;
+        }else{
+            $country_lang=1;
+        }
+        $country= \App\Models\Procurement\Country::where("language_id",$country_lang)->pluck("country_name","id");
+
+        $sort_by = [
+            1 => ['0'=>'' ,'1' => 'Name', '2' => 'Sector','3'=>'Governorate','4'=>'Location'],
+            2 => ['0'=>'','1' => 'الأسم', '2' => 'القطاع','3'=>'المحافظة','4'=>'المدينة'],
+        ];
+        $sort_then = [
+            1 => ['0'=>'','1' => 'Name', '2' => 'Sector','3'=>'Governorate','4'=>'Location'],
+            2 => ['0'=>'','1' => 'الأسم', '2' => 'القطاع','3'=>'المحافظة','4'=>'المدينة'],
+        ];
+        $option = [
+            'vat_number' => ['inputClass' => 'check-is-number'],
+            'country_id'=>['html_type' => '5', 'selectArray' => $country],
+            'sector_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'deleted_at is null'],
+            'tel_number'=> ['inputClass' => 'check-is-number'],
+            'sort_by'=>['html_type' => '5', 'selectArray' => $sort_by[Auth::user()->lang_id]],
+            'sort_then'=>['html_type' => '5', 'selectArray' => $sort_then[Auth::user()->lang_id]],
+        ];
         //$program_id = ['attr' => ' data-live-search="true" ', 'col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'];
         // $is_hidden = ['selectArray' => ['0' => 'Active', '1' => 'UnActive']];
-        $donor_id = ['selectArray' => $donors, 'attr' => ' data-live-search="true" ', 'col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'];
+        //$donor_id = ['selectArray' => $donors, 'attr' => ' data-live-search="true" ', 'col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'];
 
         //  $manager_id = ['attr' => ' data-live-search="true" '];
         //  $coordinator_id = ['attr' => ' data-live-search="true" ', 'col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'];
@@ -110,21 +137,21 @@ class VendorQueryController extends Controller
         $is_hidden = ['html_type' => '13'];
         $category_id = ['html_type' => '13'];
 
-        $option = [
-            'program_id' => $program_id,
-            'is_hidden' => $is_hidden,
-            'manager_id' => $manager_id,
-            'coordinator_id' => $coordinator_id,
-            'donor_id' => $donor_id,
-            'act_budget_min' => $act_budget_min,
-            'act_budget_max' => $act_budget_max,
-            'project_name_na' => $project_name_na,
-            'project_name_fo' => $project_name_fo,
-            'plan_start_date' => $plan_start_date,
-            'plan_end_date' => $plan_end_date,
-            'category_id' => $category_id,
-        ];
-        $generator = generator(149, $option, $project);
+        /* $option = [
+            *'program_id' => $program_id,
+             'is_hidden' => $is_hidden,
+             'manager_id' => $manager_id,
+             'coordinator_id' => $coordinator_id,
+             'donor_id' => $donor_id,
+             'act_budget_min' => $act_budget_min,
+             'act_budget_max' => $act_budget_max,
+             'project_name_na' => $project_name_na,
+             'project_name_fo' => $project_name_fo,
+             'plan_start_date' => $plan_start_date,
+             'plan_end_date' => $plan_end_date,
+             'category_id' => $category_id,
+        ];*/
+        $generator = generator(149, $option, $vendor);
         $html = $generator[0];
         // dd($html);
         $labels = $generator[1];
@@ -169,47 +196,47 @@ class VendorQueryController extends Controller
                 $y = DB::table($report_master->rep_source)->pluck($x->column_name);
                 $x->values = array_values((array)$y)[0];
             }
-            $query = ReportProjectDonor::query();
+            $query = Vendor_Report_Vw::query();
             $query->select($reportDetailColumnsNames);
-            if ($request->has('program_id') && $request->get('program_id') != null) {
-                $query->whereIn('program_id', $input['program_id']);
+            if ($request->has('vendor_name_na') && $request->get('vendor_name_na') != null) {
+                $query->where('vendor_name_na','like', '%' . $input['vendor_name_na'] . '%');
             }
-            if ($request->has('is_hidden') && $request->get('is_hidden') != null) {
-                $query->where('is_hidden', '=', $input['is_hidden']);
+            if ($request->has('vendor_name_fo') && $request->get('vendor_name_fo') != null) {
+                $query->where('vendor_name_fo','like', '%' . $input['vendor_name_fo'] . '%');
             }
-            if ($request->has('project_name_na') && $request->get('project_name_na') != null) {
-                $query->where('project_name_na', 'like', '%' . $input['project_name_na'] . '%');
+            if ($request->has('vat_number') && $request->get('vat_number') != null) {
+                $query->where('vat_number','like', '%' . $input['vat_number'] . '%');
             }
-            if ($request->has('project_name_fo') && $request->get('project_name_fo') != null) {
-                $query->where('project_name_fo', 'like', '%' . $input['project_name_fo'] . '%');
+            if ($request->has('country_id') && $request->get('country_id') != null) {
+                $query->where('country_id',$input['country_id']);
             }
-            if ($request->has('plan_start_date') && $request->get('plan_start_date') != null) {
-                $query->whereDate('plan_start_date', '>=', dateFormatDataBase($input['plan_start_date']));
+            if ($request->has('state_id') && $request->get('state_id') != null) {
+                $query->where('state_id',$input['state_id']);
             }
-            if ($request->has('plan_end_date') && $request->get('plan_end_date') != null) {
-                $query->whereDate('plan_end_date', '>=', dateFormatDataBase($input['plan_end_date']));
+            if ($request->has('city_id') && $request->get('city_id') != null) {
+                $query->where('city_id',$input['city_id']);
             }
-            if ($request->has('manager_id') && $request->get('manager_id') != null) {
-                $query->where('manager_id', $input['manager_id']);
+            if ($request->has('address') && $request->get('address') != null) {
+                $query->where('address','like', '%' . $input['address'] . '%');
             }
-            if ($request->has('coordinator_id') && $request->get('coordinator_id') != null) {
-                $query->where('coordinator_id', $input['coordinator_id']);
+            if ($request->has('sector_id') && $request->get('sector_id') != null) {
+                foreach ($request->sector_id as $sector) {
+                    $query->where('sectors_ids', $request->get('sector_id'));
+                }
             }
-            if ($request->has('donor_id') && $request->get('donor_id') != null) {
-                $query->where('donor_id', $input['donor_id']);
-            }
-            if ($request->has('category_id') && $request->get('category_id') != null) {
-                $query->where('category_id', $input['category_id']);
-            }
-            if ($request->has('act_budget_min') && $request->get('act_budget_min') != null
-                && $request->has('act_budget_max') && $request->get('act_budget_max') != null) {
-                $query->whereBetween('act_budget', [$input['act_budget_min'], $input['act_budget_max']]);
-            } elseif ($request->has('act_budget_min') && $request->get('act_budget_min') != null) {
-                $query->where('act_budget', '>=', $input['act_budget_min']);
-            } elseif ($request->has('act_budget_max') && $request->get('act_budget_max') != null) {
-                $query->where('act_budget', '<=', $input['act_budget_max']);
-            }
+            $sort_by=$request->get('sort_by');
+            $sort_then=$request->get('sort_then');
             $report_data = $query->get();
+            if($sort_by!=0 && $sort_then!=0){
+                $report_data = $query->orderBy($this->getSortName($sort_by), 'ASC')
+                    ->orderBy($this->getSortName($sort_then), 'ASC')->get();
+            }
+            else if($sort_by!=0){
+                $report_data = $query->orderBy($this->getSortName($sort_by), 'ASC')->get();
+            }
+
+
+
             $userPermissions = getUserPermission();
             return view('report.modal.report_table', compact('report_master', 'reportMasterUser', 'reportDetailUser', 'reportDetailColumnsNames', 'report_data','userPermissions'));
         } else {
@@ -280,48 +307,35 @@ class VendorQueryController extends Controller
             ->toArray();
         // dd($reportDetailColumnsAggregation);
 
-        $query = ReportProjectDonor::query();
+        $query = Vendor_Report_Vw::query();
         $query->select($reportDetailColumnsNames);
 //        dd($request->get('is_hidden'));
-        if ($request->has('program_id') && $request->get('program_id') != null) {
-            $query->whereIn('program_id', $request->get('program_id'));
+
+        if ($request->has('vendor_name_na') && $request->get('vendor_name_na') != null) {
+            $query->where('vendor_name_na', 'like', '%' . $request->get('vendor_name_na') . '%');
         }
-        if ($request->has('is_hidden') && $request->get('is_hidden') != null) {
-            $query->where('is_hidden', '=', $request->get('is_hidden'));
+        if ($request->has('vendor_name_fo') && $request->get('vendor_name_fo') != null) {
+            $query->where('vendor_name_fo','like', '%' . $request->get('vendor_name_fo') . '%');
         }
-        if ($request->has('project_name_na') && $request->get('project_name_na') != null) {
-            $query->where('project_name_na', 'like', '%' . $request->get('project_name_na') . '%');
+        if ($request->has('vat_number') && $request->get('vat_number') != null) {
+            $query->where('vat_number','like', '%' . $request->get('vat_number') . '%');
         }
-        if ($request->has('project_name_fo') && $request->get('project_name_fo') != null) {
-            $query->where('project_name_fo', 'like', '%' . $request->get('project_name_fo') . '%');
+        if ($request->has('country_id') && $request->get('country_id') != null) {
+            $query->where('country_id',$request->get('country_id'));
         }
-        if ($request->has('plan_start_date') && $request->get('plan_start_date') != null) {
-            $query->whereDate('plan_start_date', '>=', dateFormatDataBase($request->get('plan_start_date')));
+        if ($request->has('state_id') && $request->get('state_id') != null) {
+            $query->where('state_id',$request->get('state_id'));
         }
-        if ($request->has('plan_end_date') && $request->get('plan_end_date') != null) {
-            $query->whereDate('plan_end_date', '>=', dateFormatDataBase($request->get('plan_end_date')));
+        if ($request->has('city_id') && $request->get('city_id') != null) {
+            $query->where('city_id',$request->get('city_id'));
         }
-        if ($request->has('manager_id') && $request->get('manager_id') != null) {
-            $query->where('manager_id', $request->get('manager_id'));
+        if ($request->has('address') && $request->get('address') != null) {
+            $query->where('address','like', '%' . $request->get('address') . '%');
         }
-        if ($request->has('category_id') && $request->get('category_id') != null) {
-            $query->where('category_id', $request->get('category_id'));
-        }
-        if ($request->has('coordinator_id') && $request->get('coordinator_id') != null) {
-            $query->where('coordinator_id', $request->get('coordinator_id'));
-        }
-        if ($request->has('donor_id') && $request->get('donor_id') != null) {
-            $query->where('donor_id', $request->get('donor_id'));
+        if ($request->has('sector_id') && $request->get('sector_id') != null) {
+            $query->whereIn('sectors_ids', $request->get('sector_id'));
         }
 
-        if ($request->has('act_budget_min') && $request->get('act_budget_min') != null
-            && $request->has('act_budget_max') && $request->get('act_budget_max') != null) {
-            $query->whereBetween('act_budget', [$request->get('act_budget_min'), $request->get('act_budget_max')]);
-        } elseif ($request->has('act_budget_min') && $request->get('act_budget_min') != null) {
-            $query->where('act_budget', '>=', $request->get('act_budget_min'));
-        } elseif ($request->has('act_budget_max') && $request->get('act_budget_max') != null) {
-            $query->where('act_budget', '<=', $request->get('act_budget_max'));
-        }
         $report_data = $query->get();
         //dd($report_data);
 
@@ -351,6 +365,16 @@ class VendorQueryController extends Controller
         return $pdf->stream($reportMasterUser->rep_label . '.pdf');
 
 
+    }
+    public function getSortName($value){
+        if($value==1)
+            return "vendor_name_na";
+        else if($value==2)
+            return "sectors_name_na";
+        else if($value==3)
+            return "state_name_na";
+        else
+            return "city_name_na";
     }
 
     /////////////////////end vendor report section /////////////
