@@ -58,12 +58,12 @@
 @section('script')
     <script>
         $(document).ready(function () {
-           retriveReportData();
-            document.getElementById("sort_then").disabled = true;
-       // }
-        {{--    $('.selectpicker').selectpicker();--}}
-        {{--    datetimepicker();--}}
-        {{--    active_nev_link('{{$id}}');--}}
+            retriveReportData();
+            // document.getElementById("sort_then").disabled = true;
+            // }
+            {{--    $('.selectpicker').selectpicker();--}}
+            {{--    datetimepicker();--}}
+            {{--    active_nev_link('{{$id}}');--}}
         });
 
         {{--function datetimepicker() {--}}
@@ -119,25 +119,30 @@
                 $("#state_id_loader").hide();
             });
         }
-        $( "#sort_by" ).change(function() {
-          //  $("#sort_then select").prop("disabled", false);
-            document.getElementById("sort_then").disabled=false;
-            var len=document.getElementById("sort_then").options.length;
-
-            for ( var i = 0; i < len; i++ ) {
-                 document.getElementById("sort_then").options[i].disabled=false;
-
-            }
+        $(document).on('change', '#sort_by', function (e) {
+            //$( "#sort_by" ).change(function() {
             var sort_val =$( "#sort_by option:selected" ).val();
-
+            var len=document.getElementById("sort_then").options.length;
             var val=document.getElementById("sort_by").options[document.getElementById("sort_by").selectedIndex].value;
-             if(sort_val==0){
-                 document.getElementById("sort_then").value=0;
-                 document.getElementById("sort_then").disabled=true;
 
-
+            if(sort_val=="" || sort_val==null){
+                document.getElementById("sort_then").value="";
+                $("#sort_then").attr('disabled',true);
+                $('#sort_then').selectpicker('refresh');
+                //document.getElementById("sort_then").disabled=true;
+                //$("#sort_then").prop("disabled", true);
             }
             else{
+                //  $("#sort_then select").prop("disabled", false);
+
+                // document.getElementById("sort_then").disabled=false;
+                for ( var i = 0; i < len; i++ ) {
+                    document.getElementById("sort_then").options[i].disabled=false;
+                }
+                // var sort_val =$( "#sort_by option:selected" ).val();
+                // var val=document.getElementById("sort_by").options[document.getElementById("sort_by").selectedIndex].value;
+
+
                 //$("#sort_then select").prop("disabled", false);
                 for (var i = 1; i < len; i++) {
                     opt = document.getElementById("sort_then").options[i];
@@ -145,9 +150,11 @@
                         opt.disabled = true;
                     }
                 }
+                $("#sort_then").attr('disabled',false);
+                $('#sort_then').selectpicker('refresh');
 
-                }
-         //   $("#sort_then").selectpicker();
+            }
+            //   $("#sort_then").selectpicker();
             // }
             // else{
             //     document.getElementById("sort_then").disabled=true;
@@ -166,7 +173,7 @@
             }
             var val=document.getElementById("sort_then").options[document.getElementById("sort_then").selectedIndex].value;
             // if(val) {
-           // document.getElementById("sort_then").disabled = false;
+            // document.getElementById("sort_then").disabled = false;
             for (var i = 1; i < len; i++) {
                 opt = document.getElementById("sort_by").options[i];
                 if (opt.value === val) {
@@ -238,9 +245,9 @@
                 success: function (data) {
                     $('#report-data').empty();
                     $('#report-data').html(data);
-                   // $('.selectpicker').selectpicker();
+                    // $('.selectpicker').selectpicker();
                     setTimeout(function(){
-                     //   DataTableCall('#table');
+                        //   DataTableCall('#table');
                     }, 1000);
 
                 },
