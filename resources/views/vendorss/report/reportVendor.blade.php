@@ -281,9 +281,13 @@
 
         var reports_getData = "{{route('reports.getData',2)}}";
         $(document).on('click', '#clear', function (e) {
-           // $("#formProjectSearch")[0].reset();
+            e.preventDefault();
+            $("#formProjectSearch")[0].reset();
+            $('#report-data').empty();
+            $('.selectpicker').selectpicker("refresh");
+            return true;
            // window.reset();
-           location.reload();
+           //location.reload();
         });
     </script>
 

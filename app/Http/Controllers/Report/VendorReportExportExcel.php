@@ -105,13 +105,10 @@ class VendorReportExportExcel implements FromView
             $query->where('address','like', '%' . $this->request->get('address') . '%');
         }
         if ($this->request->has('sector_id') && $this->request->get('sector_id') != null) {
-            foreach ($this->request->sector_id as $sector) {
-                $list=  Vendor_Sector::where('sector_id',$sector)->get();
-                if(!empty($list)){
-                    foreach($list  as $index => $item)
-                        $query->where('id',$item->vendor_id );
-                }
 
+            $find = Vendor_Sector::whereIn('sector_id', $this->request->get('sector_id'))->pluck("vendor_id")->toArray();
+            if (!empty($find)) {
+                $query->whereIn('id', $find);
             }
         }
         $sort_by=$this->request->get('sort_by');
@@ -140,12 +137,12 @@ class VendorReportExportExcel implements FromView
     }
     public function getSortName($value){
         if($value==1)
-            return "vendor_name_na";
+            return "vendor_name_".lang_character();
         else if($value==2)
-            return "sectors_name_na";
+            return "sectors_name_".lang_character();
         else if($value==3)
-            return "state_name_na";
+            return "state_name_".lang_character();
         else
-            return "city_name_na";
+            return "city_name_".lang_character();
     }
 }

@@ -100,12 +100,12 @@ class VendorQueryController extends Controller
         $country= \App\Models\Procurement\Country::where("language_id",$country_lang)->pluck("country_name","id");
 
         $sort_by = [
-            1 => ['0'=>'' ,'1' => 'Name', '2' => 'Sector','3'=>'Governorate','4'=>'Location'],
-            2 => ['0'=>'','1' => 'الأسم', '2' => 'القطاع','3'=>'المحافظة','4'=>'المدينة'],
+            1 => [ '1' => 'Name', '2' => 'Sector','3'=>'Governorate','4'=>'Location'],
+            2 => ['1' => 'الأسم', '2' => 'القطاع','3'=>'المحافظة','4'=>'المدينة'],
         ];
         $sort_then = [
-            1 => ['0'=>'','1' => 'Name', '2' => 'Sector','3'=>'Governorate','4'=>'Location'],
-            2 => ['0'=>'','1' => 'الأسم', '2' => 'القطاع','3'=>'المحافظة','4'=>'المدينة'],
+            1 => ['1' => 'Name', '2' => 'Sector','3'=>'Governorate','4'=>'Location'],
+            2 => ['1' => 'الأسم', '2' => 'القطاع','3'=>'المحافظة','4'=>'المدينة'],
         ];
         $option = [
             'vat_number' => ['inputClass' => 'check-is-number'],
@@ -221,14 +221,19 @@ class VendorQueryController extends Controller
             }
             if ($request->has('sector_id') && $request->get('sector_id') != null) {
 
-               foreach ($request->sector_id as $sector) {
-                  $list=  Vendor_Sector::where('sector_id',$sector)->get();
-                  if(!empty($list)) {
-                      foreach ($list as $index => $item)
-                          $query->where('id', $item->vendor_id);
-
-                  }
+               $find= Vendor_Sector::whereIn('sector_id',$request->get('sector_id'))->pluck("vendor_id")->toArray();
+                if(!empty($find)){
+                    $query->whereIn('id',$find);
                 }
+               //
+//               foreach ($request->sector_id as $sector) {
+//                  $list=  Vendor_Sector::where('sector_id',$sector)->get();
+//                  if(!empty($list)) {
+//                      foreach ($list as $index => $item)
+//                          $query->where('id', $item->vendor_id);
+//
+//                  }
+//                }
             }
             $sort_by=$request->get('sort_by');
             $sort_then=$request->get('sort_then');
@@ -339,13 +344,10 @@ class VendorQueryController extends Controller
             $query->where('address','like', '%' . $request->get('address') . '%');
         }
         if ($request->has('sector_id') && $request->get('sector_id') != null) {
-            foreach ($request->sector_id as $sector) {
-                $list=  Vendor_Sector::where('sector_id',$sector)->get();
-                if(!empty($list)){
-                    foreach($list  as $index => $item)
-                        $query->where('id',$item->vendor_id );
-                }
 
+            $find = Vendor_Sector::whereIn('sector_id', $request->get('sector_id'))->pluck("vendor_id")->toArray();
+            if (!empty($find)) {
+                $query->whereIn('id', $find);
             }
         }
 
@@ -389,13 +391,13 @@ class VendorQueryController extends Controller
     }
     public function getSortName($value){
         if($value==1)
-            return "vendor_name_na";
+            return 'vendor_name_'.lang_character();
         else if($value==2)
-            return "sectors_name_na";
+            return "sectors_name_".lang_character();
         else if($value==3)
-            return "state_name_na";
+            return "state_name_".lang_character();
         else
-            return "city_name_na";
+            return "city_name_".lang_character();
     }
 
     /////////////////////end vendor report section /////////////
