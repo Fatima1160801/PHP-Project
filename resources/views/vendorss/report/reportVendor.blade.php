@@ -27,6 +27,12 @@
                     {{$labels['search'] ?? 'search'}}
                     <div class="loader pull-left" style="display: none;"></div>
                 </button>
+
+                <button btn="btnToggleDisabled"  class="btn   btn-primary   btn-sm pull-right"
+                        id="clear">
+                    {{$labels['clear'] ?? 'Clear'}}
+                    <div class="loader pull-left" style="display: none;"></div>
+                </button>
                 <a href="{{route('reports.prepare',23)}}" class="btn btn-sm btn-danger "
                    rel="tooltip" data-placement="top" id="btnOpenModalReport"
                    data-toggle="modal" data-target="#modalReport"
@@ -267,6 +273,11 @@
         });
 
         var reports_getData = "{{route('reports.getData',2)}}";
+        $(document).on('click', '#clear', function (e) {
+           // $("#formProjectSearch")[0].reset();
+           // window.reset();
+           location.reload();
+        });
     </script>
 
 @endsection

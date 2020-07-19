@@ -220,13 +220,14 @@ class VendorQueryController extends Controller
                 $query->where('address','like', '%' . $input['address'] . '%');
             }
             if ($request->has('sector_id') && $request->get('sector_id') != null) {
-                foreach ($request->sector_id as $sector) {
-                  $list=  Vendor_Sector::where('sector_id',$sector)->get();
-                  if(!empty($list)){
-                      foreach($list  as $index => $item)
-                          $query->where('id',$item->vendor_id );
-                  }
 
+               foreach ($request->sector_id as $sector) {
+                  $list=  Vendor_Sector::where('sector_id',$sector)->get();
+                  if(!empty($list)) {
+                      foreach ($list as $index => $item)
+                          $query->where('id', $item->vendor_id);
+
+                  }
                 }
             }
             $sort_by=$request->get('sort_by');
