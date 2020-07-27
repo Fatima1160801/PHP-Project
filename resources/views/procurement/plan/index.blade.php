@@ -110,133 +110,75 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="card card-signup card-plain">
-                       <div  class="modal-header">
-                            <h5 class="modal-title card-title" id="comments_modal_title"></h5>
+                        <div  class="modal-header mt-3">
+                            <h3 class="modal-title card-title" id="comments_modal_title">Search Project</h3>
                             <a type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <i class="material-icons">clear</i>
                             </a>
                         </div>
                         <div class="modal-body">
 
-
-                            <h3 class="text-center p-2 bolder mt-0" id="approved_reject_title"></h3>
-
-                            <div class="col-md-12">
-                                <div class="col-md-12">
-                                    <div class="col-md-6">
-                                            <div class='row'>
-                                                <div class=' col-md-12'>
-                                                    <div class='form-group has-default bmd-form-group'>
-                                                        <input type='text'  value=''  class='form-control pull-left'  name='budget' id='budget'    required minLength='0' maxLength='100'   alt='Budget'   autocomplete='off'   ></div>
-                                                </div>
-
-                                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class='row'>
+                                        <div class=' col-md-12 ml-3'>
+                                            <div class='form-group has-default bmd-form-group'>
+                                                <input type='text'  value=''  class='form-control'  name='budget' id='budget'    required minLength='0' maxLength='100'   alt='Budget'   autocomplete='off'   ></div>
+                                        </div>
 
                                     </div>
-                                    <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-next btn-sm  mt-2 btn-rose" style="line-height: 23px;">
+                                        <div class="loader pull-left" style="display: none;"></div>
+                                        {{$labels['save'] ?? 'save'}}
+                                    </button>
+                                </div>
+
+                            </div>
+                            <table id="projectInfo" class="table dataTable no-footer table-bordered">
+                                <tbody>
+                                @if(!empty($project_list))
+                                    @foreach($project_list  as $item)
+                                        <tr style="" >
+                                            <td style="padding: 10px !important;"><input type="radio"  name="projectid" value="{{$item->id}}"></td>
+
+                                            <td ><p class="ml-2">{{$item->{'project_name_'.lang_character()} ?? "" }}</p></td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                                </tbody>
+                            </table>
+
+
+                            <div class="col-md-12">
+                                <div class="card-footer ml-auto mr-auto">
+                                    <div class="ml-auto mr-auto">
+                                        <a data-dismiss="modal" aria-label="Close" id="modal-dismiss-f" href="#"  class="btn btn-sm btn-default">
+                                            {{$labels['cancel'] ?? 'cancel'}}
+                                        </a>
                                         <button type="submit" class="btn btn-next btn-sm btn-rose pull-right">
                                             <div class="loader pull-left" style="display: none;"></div>
                                             {{$labels['save'] ?? 'save'}}
                                         </button>
                                     </div>
                                 </div>
-                                <div class="clearfix"></div>
-
-
-                                <div class="col-md-12">
-
-                            <div class="col-md-12">
-                                <table id="projectInfo" class="table dataTable no-footer table-bordered">
-{{--                                    <tr>--}}
-{{--                                        <th></th>--}}
-{{--                                        <th>Project Name</th>--}}
-{{--                                        </tr>--}}
-                                    <tbody>
-                                    @if(!empty($project_list))
-                                        @foreach($project_list  as $item)
-                                        <tr style="" >
-                                            <td style=""><input type="radio"  name="projectid" value="{{$item->id}}"></td>
-
-                                            <td>{{$item->{'project_name_'.lang_character()} ?? "" }}</td>
-                                        </tr>
-                                        @endforeach
-                                    @endif
-                                    </tbody>
-
-
-
-
-                                </table>
-                                <label for='edit_note' class='col-form-label bolder'></label>
-                                <div class='form-group has-default bmd-form-group' >
-
-                                    <input type="hidden" value="" name="type" id="approved_reject_type">
-                                    <input type="hidden" value="" name="opp_id" id="approved_reject_opp_id">
-                                </div>
                             </div>
 
 
-                            <div class="col-md-12">
-                                <div class="card-footer ml-auto mr-auto">
-                                    <div class="ml-auto mr-auto">
-                                        <a data-dismiss="modal" aria-label="Close" id="modal-dismiss-f" href="#"  class="btn btn-sm btn-default ">
-                                            {{$labels['cancel'] ?? 'cancel'}}
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            {!! Form::close() !!}
 
-
-                            <div class="modal fade" id="activityModal" tabindex="-1" role="dialog">
-                                <div class="modal-dialog modal-lg" role="document">
-                                    <div class="modal-content">
-                                        <div class="card card-signup card-plain">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title card-title" id="comments_modal_title"></h5>
-                                                <a type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <i class="material-icons">clear</i>
-                                                </a>
-                                            </div>
-                                            <div class="modal-body">
-
-
-                                                <h3 class="text-center p-2 bolder mt-0" id="approved_reject_title"></h3>
-
-                                                <div class="col-md-12">
-                                                    <label for="edit_note" class="col-form-label bolder">Date :</label>
-                                                    <label for="edit_note" class="col-form-label">{{\Carbon\Carbon::now()->format('d/m/Y')}} , {{\Carbon\Carbon::now()->format('H:i')}}</label>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <label for='edit_note' class='col-form-label bolder'>Activity Name:</label>
-                                                    <div class='form-group has-default bmd-form-group'>
-                                                        <textarea class='form-control'  name='note' id='approved_reject_note' ></textarea>
-                                                        <input type="hidden" value="" name="type" id="approved_reject_type">
-                                                        <input type="hidden" value="" name="opp_id" id="approved_reject_opp_id">
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="col-md-12">
-                                                    <div class="card-footer ml-auto mr-auto">
-                                                        <div class="ml-auto mr-auto">
-                                                            <a data-dismiss="modal" aria-label="Close" id="modal-dismiss-f" href="#"  class="btn btn-sm btn-default">
-                                                                {{$labels['cancel'] ?? 'cancel'}}
-                                                            </a>
-                                                            <button type="submit" class="btn btn-next btn-sm btn-rose pull-right">
-                                                                <div class="loader pull-left" style="display: none;"></div>
-                                                                {{$labels['search'] ?? 'search'}}
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-
-                                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+    </div>
+
 @endsection
         @section('script')
             <script>
