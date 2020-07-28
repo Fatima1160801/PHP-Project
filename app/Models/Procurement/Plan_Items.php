@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\plan;
+namespace App\Models\Procurement;
 
 use App\Models\Permission\UserDataPermission;
 use App\Models\Permission\UserDataPermissionModule;
@@ -10,23 +10,30 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Auth;
 
-class Plan extends Model
+class Plan_Items extends Model
 {
 
-    use SoftDeletes;
+    // use SoftDeletes;
 
-    protected $table = 'proc_plans';
+    protected $table = 'proc_plan_items';
     protected $primaryKey = 'id';
     protected $fillable =
         [
             'id',
-            'project_id',
+            'plan_id',
 
-            'activity_id',
+            'item',
+            'sector_id',
+            'service_type_id',
+            'item_group_id',
+            'budget',
+            'currency_id',
+            'start_date',
+            'delivery_date',
+            'purchase_method_id',
             'created_by',
-            'updated_by',
-            'deleted_by',
-            'updated_at'
 
         ];
+
+
 }

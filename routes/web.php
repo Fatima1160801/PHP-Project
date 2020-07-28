@@ -208,6 +208,8 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/plans/project', ['uses' => 'Procurement\ProcurementPlanController@projectplan'])->name('plans.project');
     Route::get('/search/{id}', ['uses' => 'Procurement\ProcurementPlanController@search'])->name('search.id');
     Route::get('/searchAct/{id}', ['uses' => 'Procurement\ProcurementPlanController@searchAct'])->name('searchAct.id');
+    Route::post('/plans/store/{project_id}/{activity_id?}', ['uses' => 'Procurement\ProcurementPlanController@store'])->name('plans.store');
+
 
 });
 

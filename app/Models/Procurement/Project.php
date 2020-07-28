@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\plan;
+namespace App\Models\Procurement;
 
 use App\Models\Permission\User;
 use App\Models\Permission\UserDataPermission;
