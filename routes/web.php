@@ -209,6 +209,12 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/search/{id}', ['uses' => 'Procurement\ProcurementPlanController@search'])->name('search.id');
     Route::get('/searchAct/{id}', ['uses' => 'Procurement\ProcurementPlanController@searchAct'])->name('searchAct.id');
     Route::post('/plans/store/{project_id}/{activity_id?}', ['uses' => 'Procurement\ProcurementPlanController@store'])->name('plans.store');
+    Route::get('/projectPlan/{id}', ['uses' => 'Procurement\ProcurementPlanController@getProjectPlan'])->name('projectplan.id');
+    Route::get('/projectactivity/{project_id}/{activity_id?}', ['uses' => 'Procurement\ProcurementPlanController@getProjectActivityPlan'])->name('plans.activityproject');
+    Route::get('/getrelation/{sector}/{service}/{item}/{purchase}', ['uses' => 'Procurement\ProcurementPlanController@getReletionsName'])->name('plans.relationname');
+    Route::get('/currency/{id}', ['uses' => 'Procurement\ProcurementPlanController@getCurrency'])->name('currency.id');
+    Route::delete('/plans/delete/{id}', ['uses' => 'Procurement\ProcurementPlanController@delete'])->name('plans.delete');
+    Route::post('/plans/update/{project_id}/{activity_id?}', ['uses' => 'Procurement\ProcurementPlanController@update'])->name('plans.update');
 
 
 });

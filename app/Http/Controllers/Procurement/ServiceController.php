@@ -140,9 +140,15 @@ class ServiceController extends Controller
             if(empty($serviceObj)){
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
+            $arr=[\App\Models\Procurement\Plan_Items::class];
+            $check=checkBeforeDelete($arr,"service_type_id",$id);
+            if($check) {
             $serviceObj->delete();
             if($serviceObj){
                 $serviceObj->update(["deleted_by"=>Auth::user()->id ]);
+            }
+            }else{
+                return response(['status' => false, 'message' => getMessage('2.355')]);
             }
 
 

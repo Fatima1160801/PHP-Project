@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Procurement;
 use App\Helpers\Log;
 use App\Http\Controllers\Controller;
 
+use App\Models\Procurement\Plan_Items;
 use App\Models\Procurement\Sector;
 use App\Models\Setting\OppStatus;
 use Illuminate\Http\Request;
@@ -137,7 +138,7 @@ class SectorController extends Controller
             if(empty($sectorObject)){
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
-            $arr=[\App\Models\Procurement\ItemGroups::class,\App\Models\Procurement\Service::class,\App\Models\Vendor\Vendor_Sector::class];
+            $arr=[\App\Models\Procurement\ItemGroups::class,\App\Models\Procurement\Service::class,\App\Models\Vendor\Vendor_Sector::class,\App\Models\Procurement\Plan_Items::class];
             $check=checkBeforeDelete($arr,"sector_id",$id);
             if($check) {
                 $sectorObject->delete();

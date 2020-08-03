@@ -174,7 +174,7 @@ class ItemGroupsController extends Controller
             if(empty($item_groupsObject)){
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
-            $arr=[\App\Models\Procurement\Item::class];
+            $arr=[\App\Models\Procurement\Item::class,\App\Models\Procurement\Plan_Items::class];
             $check=checkBeforeDelete($arr,"item_group_id",$id);
             if($check){
             $item_groupsObject->delete();

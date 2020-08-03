@@ -28,8 +28,7 @@
                             <hr>
                 <input type="hidden" name="project_id" id="selectedproject" value="0">
                 <input name="activity_id" type="hidden" id="selectedactivity" value="0">
-                <form action="" method="post" id="formVendorCreate" novalidate="novalidate">
-{{--                    {!! Form::open(['route' => '','novalidate'=>'novalidate','action'=>'post' ,'id'=>'formVendorCreate']) !!}--}}
+                <form action="" method="post" id="formPlanCreate" novalidate="novalidate">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -45,26 +44,7 @@
                     <input name="selectedcurrency" type="hidden" id="selectedcurrency" value="0">
 
                     <div id="info"></div>
-{{--            <table id="plan" class="table" id="plans">--}}
-{{--                <thead>--}}
-{{--                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['serial'] ?? 'Serial'}}</div></div></th>--}}
-{{--                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['item'] ?? 'Item'}}</div></div></th>--}}
-{{--                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['budget'] ?? 'Budget'}}</div></div></th>--}}
-{{--                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['purchaseway'] ?? 'Purchase Way'}}</div></div></th>--}}
-{{--                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['servicetype'] ?? 'Service Type'}}</div></div></th>--}}
-{{--                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['itemgroup'] ?? 'Item Group'}}</div></div></th>--}}
-{{--                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['start date'] ?? 'Start Date'}}</div></div></th>--}}
-{{--                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['deliverydate'] ?? 'Delivery Date'}}</div></div></th>--}}
-{{--                <th></th>--}}
-{{--                <th></th>--}}
-{{--                <th><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-success btn-round btn-fab" onclick="myFunction()" style="margin-bottom:+0.5em;">--}}
-{{--                                <i class="material-icons">add</i>--}}
-{{--                            </button></div></div></th>--}}
-{{--                </thead>--}}
-{{--                <tbody>--}}
 
-{{--                </tbody>--}}
-{{--            </table>--}}
 
 
 
@@ -86,20 +66,21 @@
 
             </div>
                 <table id="plan" class="table" >
-                    <thead>
+               <thead>
                     <tr>
-                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['serial'] ?? 'Serial'}}</div></div></th>
-                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['item'] ?? 'Item'}}</div></div></th>
-                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['sector'] ?? 'Sector'}}</div></div></th>
-                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['service'] ?? 'Service'}}</div></div></th>
-                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['itemgroup'] ?? 'Item Group'}}</div></div></th>
-                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['budget'] ?? 'Budget'}}</div></div></th>
-                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['start date'] ?? 'Start Date'}}</div></div></th>
-                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['deliverydate'] ?? 'Delivery Date'}}</div></div></th>
-                        <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['purchaseway'] ?? 'Purchase Way'}}</div></div></th>
+                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['serial'] ?? 'Serials'}}</div></div></th>
+                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['item'] ?? 'Items'}}</div></div></th>
+                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['sector'] ?? 'Sectors'}}</div></div></th>
+                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['service'] ?? 'Services'}}</div></div></th>
+                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['itemgroup'] ?? 'Item Groups'}}</div></div></th>
+                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['budget'] ?? 'Budgets'}}</div></div></th>
+                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['start_date'] ?? 'Start Dates'}}</div></div></th>
+                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['delivery_date'] ?? 'Delivery Dates'}}</div></div></th>
+                        <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['purchaseway'] ?? 'Purchase Ways'}}</div></div></th>
 
                         <th><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></th>
                     <th><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></th>
+                        <th id="load"><div class="loader pull-left" style="display: none;"></div></th>
 
                     </thead>
                     <tbody>
@@ -140,7 +121,7 @@
 
                                 </div>
                                 <div class="col-md-4">
-                                    <button onclick="myFunction()" class="btn btn-next btn-sm  mt-2 btn-rose" style="line-height: 23px;">
+                                    <button  id="searchProject" onclick="myFunction()" class="btn btn-next btn-sm  mt-2 btn-rose" style="line-height: 23px;">
                                         <div class="loader pull-left" style="display: none;"></div>
                                         {{$labels['search'] ?? 'search'}}
                                     </button>
@@ -150,8 +131,22 @@
                             <table id="projectInfo" class="table dataTable no-footer table-bordered">
                                 <tbody>
 
+                                @if(!empty($project_list))
+                                    @foreach($project_list  as $index => $item)
+                                        @if($index<10)
 
-                               </tbody>
+                                        <tr> <td style="padding: 10px !important;"><input type=radio data-curr-name='{{$item->currency->currency_name_fo}}'  name="projectid" value='{{$item->id}}'></td> <td ><p class="ml-2">{{$item->{'project_name_'.lang_character()} ?? ""}}</td></tr>
+
+
+
+                                            @endif  @endforeach
+                                @endif
+
+
+
+
+
+                                </tbody>
                             </table>
 
 
@@ -161,9 +156,13 @@
                                         <a data-dismiss="modal" aria-label="Close" id="modal-dismiss-f" href="#"  class="btn btn-sm btn-default">
                                             {{$labels['cancel'] ?? 'cancel'}}
                                         </a>
-                                        <button type="submit" onclick="addProjectName()" class="btn btn-next btn-sm btn-rose pull-right">
+                                        <button  type="submit" onclick="addProjectName()" class="btn btn-next btn-sm btn-rose pull-right">
                                             <div class="loader pull-left" style="display: none;"></div>
                                             {{$labels['select'] ?? 'select'}}
+                                        </button>
+                                        <button type="submit" onclick="removeChecked()" class="btn btn-next btn-sm btn-info pull-right">
+                                            <div class="loader pull-left" style="display: none;"></div>
+                                            {{$labels['clear'] ?? 'clear'}}
                                         </button>
                                     </div>
                                 </div>
@@ -201,7 +200,7 @@
 
                                 </div>
                                 <div class="col-md-4">
-                                    <button onclick="myFunction1()" class="btn btn-next btn-sm  mt-2 btn-rose" style="line-height: 23px;">
+                                    <button id="searchAct" onclick="myFunction1()" class="btn btn-next btn-sm  mt-2 btn-rose" style="line-height: 23px;">
                                         <div class="loader pull-left" style="display: none;"></div>
                                         {{$labels['search'] ?? 'search'}}
                                     </button>
@@ -210,6 +209,12 @@
                             </div>
                             <table id="activityInfo" class="table dataTable no-footer table-bordered">
                                 <tbody>
+                                @if(!empty($activity_list))
+                                    @foreach($activity_list  as $index => $item)
+                                        @if($index<10)
+                                            <tr> <td style="padding: 10px !important;"><input type=radio  name="activityid" value='{{$item->id}}'></td> <td ><p class="ml-2">{{$item->{'activity_name_'.lang_character()} ?? ""}}</td></tr>
+                                        @endif  @endforeach
+                                @endif
 
                                 </tbody>
                             </table>
@@ -224,6 +229,10 @@
                                         <button type="submit" onclick="addActivityName()" class="btn btn-next btn-sm btn-rose pull-right">
                                             <div class="loader pull-left" style="display: none;"></div>
                                             {{$labels['select'] ?? 'select'}}
+                                        </button>
+                                        <button type="submit" onclick="removeChecked()" class="btn btn-next btn-sm btn-info pull-right">
+                                            <div class="loader pull-left" style="display: none;"></div>
+                                            {{$labels['clear'] ?? 'clear'}}
                                         </button>
                                     </div>
                                 </div>
@@ -254,15 +263,19 @@
                 $(document).ready(function () {
                     datetimepicker();
                 });
-                $(document).on('submit', '#formVendorCreate', function (e) {
+                $(document).on('submit', '#formPlanCreate', function (e) {
                     if (!is_valid_form($(this))) {
                         return false;
                     }
                     e.preventDefault();
+                    var currency_name=$("#currency_id").val();
                     var form = new FormData($(this)[0]);
-                    var url = '{{url('plans/store/')}}';
                     var project=$("#selectedproject").val();
                     var activity=$("#selectedactivity").val();
+                    if($("#id").val()==0){
+                    var url = '{{url('plans/store/')}}';
+
+
                     $.ajax({
                         url: url+'/'+project+'/'+activity,
                         data: form,
@@ -277,178 +290,107 @@
                             $('#btnAddvendor').attr("disabled", false);
                             $('#btnAddvendor div.loader').hide();
                             if (data.status == true) {
-                               var table = document.getElementById("plan");
-                                var totalRowCount = table.rows.length;
+                                appendTableObj(data.list,data.lang);
 
-
-                                tableBody = $("#plan tbody");
-
-                                if(data.service!=null && data.itemgroup!=null){
-                                if(data.lang==1){
-                                            markup = '<tr> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.service.service_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                                '                                <i class="material-icons">edit</i>\n' +
-                                                '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-danger btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                                '                                <i class="material-icons">delete</i>\n' +
-                                                '                            </button></div></div></td></tr>';
-
-
-
-                                        tableBody.append(markup);}
-                                else{
-
-                                    markup = '<tr> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                        '                                <i class="material-icons">edit</i>\n' +
-                                        '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-danger btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                        '                                <i class="material-icons">delete</i>\n' +
-                                        '                            </button></div></div></td></tr>';
-
-
-
-                                    tableBody.append(markup);}
-
-                              /*  });*/
-
-                            }
-                                else if(data.service!=null && data.itemgroup==null){
-                                    if(data.lang==1){
-                                        markup = '<tr> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.service.service_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                            '                                <i class="material-icons">edit</i>\n' +
-                                            '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-danger btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                            '                                <i class="material-icons">delete</i>\n' +
-                                            '                            </button></div></div></td></tr>';
-
-
-
-                                        tableBody.append(markup);}
-                                    else{
-
-                                        markup = '<tr> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.service.service_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                            '                                <i class="material-icons">edit</i>\n' +
-                                            '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-danger btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                            '                                <i class="material-icons">delete</i>\n' +
-                                            '                            </button></div></div></td></tr>';
-
-
-
-                                        tableBody.append(markup);}
-
-                                    /*  });*/
-
-                                }
-                                else if(data.service==null && data.itemgroup!=null){
-                                    if(data.lang==1){
-                                        markup = '<tr> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                            '                                <i class="material-icons">edit</i>\n' +
-                                            '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-danger btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                            '                                <i class="material-icons">delete</i>\n' +
-                                            '                            </button></div></div></td></tr>';
-
-
-
-                                        tableBody.append(markup);}
-                                    else{
-
-                                        markup = '<tr> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                            '                                <i class="material-icons">edit</i>\n' +
-                                            '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-danger btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                            '                                <i class="material-icons">delete</i>\n' +
-                                            '                            </button></div></div></td></tr>';
-
-
-
-                                        tableBody.append(markup);}
-
-                                    /*  });*/
-
-                                }
-                                else{
-
-                                    if(data.lang==1){
-                                        markup = '<tr> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                            '                                <i class="material-icons">edit</i>\n' +
-                                            '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-danger btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                            '                                <i class="material-icons">delete</i>\n' +
-                                            '                            </button></div></div></td></tr>';
-
-
-
-                                        tableBody.append(markup);}
-                                    else{
-
-                                        markup = '<tr> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.list.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                            '                                <i class="material-icons">edit</i>\n' +
-                                            '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-danger btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
-                                            '                                <i class="material-icons">delete</i>\n' +
-                                            '                            </button></div></div></td></tr>';
-
-
-
-                                        tableBody.append(markup);}
-
-                                    /*  });*/
-
-                            }
 
                                 myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                                document.getElementById("formVendorCreate").reset();
+                                document.getElementById("formPlanCreate").reset();
                                 $('.selectpicker').selectpicker('render');
+                                $("#currency_id").val(currency_name);
 
 
 
 
                             } else {
-                                myNotify('warning', 'warning', 'warning', '5000', data.message);
-                               // myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+
+                                myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                             }
                         },
-                    });
+                    });}
+                    else{
+                        var url = '{{url('plans/update/')}}';
+                        $.ajax({
+                             url: url+'/'+project+'/'+activity,
+                            data: form,
+                            type: 'post',
+                            processData: false,
+                            contentType: false,
+                            beforeSend: function () {
+                                $('#btnAddvendor').attr("disabled", true);
+                                $('#btnAddvendor div.loader').show();
+                            },
+                            success: function (data) {
+                                $('#btnAddvendor').attr("disabled", false);
+                                $('#btnAddvendor div.loader').hide();
+                                if (data.status == true) {
+
+
+                                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                                    appendTableObj(data.list,data.lang);
+                                    document.getElementById("formPlanCreate").reset();
+                                    $('.selectpicker').selectpicker('render');
+                                    $("#currency_id").val(currency_name);
+
+
+                                }
+                            }
+
                 });
+                    }    });
             </script>
             <script>
                 function myFunction(){
+                    $('#searchProject').attr("disabled", true);
+                    $('#searchProject div.loader').show();
+
                     var val=document.getElementById("select").value;
-                    $id=val;
+                    if(val!=0) {
 
-                   $.get('{{url('/search')}}'+'/'+$id,function(data) {
-                       if (data.status != 'false') {
-                           let rowNo = 0;
-                           //     $('#projectInfo').empty();
-                           //     $('#projectInfo').html(data.project);
-                           tableBody = $("#projectInfo tbody");
-                           tableBody.empty();
+                        $id = val;
+
+                        $.get('{{url('/search')}}' + '/' + $id, function (data) {
+                            if (data.status != false) {
 
 
+                                tableBody = $("#projectInfo tbody");
+                                tableBody.empty();
 
 
+                                $.each(data.project, function (index, value) {
+
+                                    if (data.id == 1) {
+                                        markup = '<tr> <td style="padding: 10px !important;"><input type=radio data-curr-name="' + value.currency.currency_name_na + '" name="projectid" value=' + value.id + '></td> <td ><p class="ml-2">' + value.project_name_na + '</td></tr>';
+                                    } else {
+                                        markup = '<tr> <td style="padding: 10px !important;"><input type=radio data-curr-name="' + value.currency.currency_name_fo + '" name="projectid" value=' + value.id + '></td> <td ><p class="ml-2">' + value.project_name_fo + '</td></tr>';
+
+                                    }
 
 
-                           $.each(data.project, function (index, value) {
-                               if(rowNo<10){
-                                   if(data.id==1){
-                               markup = '<tr> <td style="padding: 10px !important;"><input type=radio  name="projectid" value='+data.project[index].id+'></td> <td ><p class="ml-2">'+data.project[index].project_name_na+'</td></tr>';
-                               }
-                                   else{
-                                       markup = '<tr> <td style="padding: 10px !important;"><input type=radio  name="projectid" value='+data.project[index].id+'></td> <td ><p class="ml-2">'+data.project[index].project_name_fo+'</td></tr>';
+                                    tableBody.append(markup);
 
-                                   }
-
-
-                                           tableBody.append(markup);
-                                           rowNo++;}
-                                            });
-                                   }
-
-
-                               });
+                                });
+                                $('#searchProject div.loader').hide();
+                                $('#searchProject').attr("disabled", false);
                             }
 
 
+                        });
+                    }
+                    else{
+                    $('#searchProject div.loader').hide();
+                    $('#searchProject').attr("disabled", false);
+                            }
+                }
+
                 function myFunction1(){
+                    $('#searchAct').attr("disabled", true);
+                    $('#searchAct div.loader').show();
                     var val=document.getElementById("selectact").value;
+                    if(val!=0) {
                     $id=val;
 
                     $.get('{{url('/searchAct')}}'+'/'+$id,function(data) {
-                        if (data.status != 'false') {
+                        if (data.status != false) {
                             let rowNo = 0;
                             tableBody = $("#activityInfo tbody");
                             tableBody.empty();
@@ -459,85 +401,102 @@
 
 
                             $.each(data.activity, function (index, value) {
-                                if(rowNo<10){
+
                                     if(data.id==1){
-                                        markup = '<tr> <td style="padding: 10px !important;"><input type=radio  name="activityid" value='+data.activity[index].id+'></td> <td ><p class="ml-2">'+data.activity[index].activity_name_na+'</td></tr>';
+                                        markup = '<tr> <td style="padding: 10px !important;"><input type=radio  name="activityid" value='+value.id+'></td> <td ><p class="ml-2">'+value.activity_name_na+'</td></tr>';
                                     }
                                     else{
-                                        markup = '<tr> <td style="padding: 10px !important;"><input type=radio  name="activityid" value='+data.activity[index].id+'></td> <td ><p class="ml-2">'+data.activity[index].activity_name_fo+'</td></tr>';
+                                        markup = '<tr> <td style="padding: 10px !important;"><input type=radio  name="activityid" value='+value.id+'></td> <td ><p class="ml-2">'+value.activity_name_fo+'</td></tr>';
 
                                     }
 
 
                                     tableBody.append(markup);
-                                    rowNo++;}
+
                             });
+                            $('#searchAct div.loader').hide();
+                            $('#searchAct').attr("disabled", false);
                         }
 
 
                     });
                 }
+                    else{
+                        $('#searchAct div.loader').hide();
+                        $('#searchAct').attr("disabled", false);
+                    }
+                }
 
 
 
-                function addProjectName(){
-                                var project_lists = @json($project_list);
-                                var id=@json($id);
-                                var ele = document.getElementsByName('projectid');
-                                var ele1=0;
+                function addProjectName() {
+                    $('#load div.loader').show();
+                    var project_lists = @json($project_list);
+                    var id =@json($id);
+                    var ele = document.getElementsByName('projectid');
 
-                                for(var i = 0; i < ele.length; i++) {
-                                    if(ele[i].checked){
-                                        document.getElementById("selectedproject").value
-                                            = ele[i].value;
+                    var project_id =$('input[name="projectid"]:checked').val();
+                    var currency_name =$('input[name="projectid"]:checked').attr("data-curr-name");
+                    document.getElementById("selectedproject").value=project_id;
 
-                                        ele1=ele[i].value;
-                                }
-
-                                }
+                    $("#currency_id").val(currency_name);
 
                     tableBody = $("#activityproject tbody");
                     tableBody.empty();
-                                $.each(project_lists, function (index, value) {
-                                    if(project_lists[index].id==ele1) {
-                                        if (id==1){
+                    $.each(project_lists, function (index, value) {
+                        if (project_lists[index].id == project_id) {
+                            if (id == 1) {
 
 
-                                        $("#projectlabel").html(project_lists[index].project_name_na);
+                                $("#projectlabel").html(project_lists[index].project_name_na);
 
-                                    }else
+                            } else
 
-                                       $("#projectlabel").html(project_lists[index].project_name_fo);
+                                $("#projectlabel").html(project_lists[index].project_name_fo);
 
-                                        document.getElementById("selectedcurrency").value
-                                            = project_lists[index].currency_id;
-                                        //document.getElementById("currency_id").innerHTML=project_lists[index].currency.currency_name
-                                }
-                                });
+                            document.getElementById("selectedcurrency").value
+                                = project_lists[index].currency_id;
 
-                               $("#opportunityApproveConfirmModal").modal('hide');
-                    tableBody = $("#plan tbody");
-                      tableBody.empty();
+                        }
+                    });
 
-                            }
+                    $("#opportunityApproveConfirmModal").modal('hide');
+                    Body = $("#plan tbody");
+                    Body.empty();
+                    $id = project_id;
+                    var totalRowCount = 1;
+
+                    $.get('{{url('/projectPlan')}}' + '/' + $id, function (data) {
+                        if (data.status != false) {
+                            appendTable(data.plan,data.lang);
+
+
+
+
+
+                        }
+
+                        $('#load div.loader').hide();
+
+
+                    });
+
+                }
 
 
                 function addActivityName(){
+                    $('#load div.loader').show();
                     var activity_lists = @json($activity_list);
                     var id=@json($id);
                     var ele = document.getElementsByName('activityid');
-                    var ele1=0;
 
-                    for(var i = 0; i < ele.length; i++) {
-                        if(ele[i].checked){
-                            document.getElementById("selectedactivity").value
-                                = ele[i].value;
+                    var activity_id =$('input[name="activityid"]:checked').val();
+                    document.getElementById("selectedactivity").value=activity_id;
 
-                            ele1=ele[i].value;
-                        }
-                    }
+
+
                     $.each(activity_lists, function (index, value) {
-                        if(activity_lists[index].id==ele1) {
+                        if(activity_lists[index].id==activity_id) {
                             if (id==1)
 
                                 $("#activitylabel").html(activity_lists[index].activity_name_na);
@@ -545,10 +504,30 @@
                                 $("#activitylabel").html(activity_lists[index].activity_name_fo);
                         }
                     });
+
                     $("#activityModal").modal('hide');
-                    tableBody = $("#plan tbody");
-                      tableBody.empty();
+                    Body = $("#plan tbody");
+                      Body.empty();
+                    Body = $("#plan tbody");
+                    Body.empty();
+                    $activity =activity_id;
+                    var totalRowCount = 1;
+$project= document.getElementById("selectedproject").value
+
+                    $.get('{{url('/projectactivity')}}' + '/' + $project+'/' + $activity, function (data) {
+                        if (data.status != false) {
+                            appendTable(data.plan,data.lang);
+
+                        }
+
+                         $('#load div.loader').hide();
+
+                    });
+
+
+
                 }
+
 
                 function datetimepicker() {
                     $('.datetimepicker').datetimepicker({
@@ -566,9 +545,293 @@
                         format: 'DD/MM/YYYY'
                     });
                 }
+function removeChecked(){
+
+    $('input[name="activityid"]:checked').prop( "checked", false );
+    $('input[name="projectid"]:checked').prop( "checked", false );
+}
 
 
                         </script>
+            <script>
+                //need to delete
+                $(document).on('click', '.btnTypeDelete', function (e) {
+                    e.preventDefault();
+                    $this = $(this);
+                    swal({
+                        text: '{{$messageDeleteType['text']}}',
+                        confirmButtonClass: 'btn btn-success  btn-sm',
+                        cancelButtonClass: 'btn btn-danger  btn-sm',
+                        buttonsStyling: false,
+                        showCancelButton: true
+                    }).then(result => {
+                        if (result == true){
+                            // var project_id = $('#formProjectMain #id').val();
+                            url = $(this).attr('href');
+                            // alert(url);
+                            $.ajax({
+                                url: url,
+                                type: 'delete',
+                                beforeSend: function () {
+                                },
+                                success: function (data) {
+                                    if (data.status == true) {
+                                        $($this).closest('tr').css('background','red').delay(1000).hide(1000);
+                                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                                        $('#contentModal .close').click();
+                                    }else {
+                                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                                    }
+                                },
+                                error: function () {
+                                }
+                            });
+                        }
+                    })
+                });
+
+
+//need to edit
+
+
+                            $(document).on("click", ".edit", function (e) {
+                                var tds=$(this).closest('tr').find('td');
+                                var idClmn = tds.eq(0);
+
+
+                                  $("#item").val(tds.eq(2).text());
+                            //  $("#sector_id").val(tds.eq(12).val());
+                               $("#sector_id option:selected").text(tds.eq(3).text());
+
+                                        $("#id").val(tds.eq(0).text());
+
+
+                                 $("#item_grup_id").val(tds.eq(5).text());
+                                 $("#budget").val(tds.eq(6).text());
+                                 $("#start_date").val(tds.eq(7).text());
+                                $("#delivery_date").val(tds.eq(8).text());
+                                 $("#purchase_method_id").val(tds.eq(9).text());
+                                 $("#service_type_id").val(tds.eq(4).text());
+
+                                $(this).closest('tr').remove();
+
+
+
+
+
+                            });
+                            function appendTable(arr,lang){
+                                Body = $("#plan tbody");
+                                Body.empty();
+                                var totalRowCount = 1;
+                                for(var i = 0; i < arr.length; i++) {
+                                    var url = '{{ route("plans.delete", ":id") }}';
+                                    url = url.replace(':id', arr[i].id);
+                                    if(lang==1){
+
+
+                                    if (arr[i].service != null && arr[i].itemgroup != null) {
+
+
+                                        markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_na + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].service.service_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].itemgroup.item_group_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                            '                                <i class="material-icons">edit</i>\n' +
+                                            '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="' + url + '" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
+                                            '                                <i class="material-icons">delete</i>\n' +
+                                            '                            </button></div></div></td><td value=' + arr[i].sector_id + ' style="display:none;" class="id">' + arr[i].sector_id + '</td></tr>';
+                                    } else if (arr[i].service != null && arr[i].itemgroup == null) {
+
+                                        markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_na + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].service.service_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                            '                                <i class="material-icons">edit</i>\n' +
+                                            '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="' + url + '" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
+                                            '                                <i class="material-icons">delete</i>\n' +
+                                            '                            </button></div></div></td></tr>';
+                                    } else if (arr[i].service == null && arr[i].itemgroup != null) {
+
+                                        markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_na + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].itemgroup.item_group_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                            '                                <i class="material-icons">edit</i>\n' +
+                                            '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="' + url + '" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
+                                            '                                <i class="material-icons">delete</i>\n' +
+                                            '                            </button></div></div></td></tr>';
+
+                                    } else {
+
+                                        markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_na + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                            '                                <i class="material-icons">edit</i>\n' +
+                                            '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="' + url + '" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
+                                            '                                <i class="material-icons">delete</i>\n' +
+                                            '                            </button></div></div></td></tr>';
+
+                                    }
+
+
+                                    Body.append(markup);
+                                    totalRowCount++;
+                                }
+                                     else{
+                                        if (arr[i].service != null && arr[i].itemgroup != null) {
+
+
+                                            markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_fo + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].service.service_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].itemgroup.item_group_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                                '                                <i class="material-icons">edit</i>\n' +
+                                                '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
+                                                '                                <i class="material-icons">delete</i>\n' +
+                                                '                            </button></div></div></td></tr>';
+                                        } else if (arr[i].service != null && arr[i].itemgroup == null) {
+
+                                            markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_fo + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].service.service_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                                '                                <i class="material-icons">edit</i>\n' +
+                                                '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
+                                                '                                <i class="material-icons">delete</i>\n' +
+                                                '                            </button></div></div></td></tr>';
+                                        } else if (arr[i].service == null && arr[i].itemgroup != null) {
+
+                                            markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_fo + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].itemgroup.item_group_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                                '                                <i class="material-icons">edit</i>\n' +
+                                                '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
+                                                '                                <i class="material-icons">delete</i>\n' +
+                                                '                            </button></div></div></td></tr>';
+
+                                        } else {
+
+                                            markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_fo + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                                '                                <i class="material-icons">edit</i>\n' +
+                                                '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
+                                                '                                <i class="material-icons">delete</i>\n' +
+                                                '                            </button></div></div></td></tr>';
+
+                                        }
+
+
+                                        Body.append(markup);
+                                        totalRowCount++;
+                                    }
+                                }
+
+                            }
+                            function appendTableObj(data,lang){
+                                var url = '{{ route("plans.delete", ":id") }}';
+                                url = url.replace(':id', data.id);
+                    var table = document.getElementById("plan");
+                 var totalRowCount = table.rows.length;
+
+
+                 tableBody = $("#plan tbody");
+
+                 if(data.service!=null && data.itemgroup!=null){
+
+                    if(lang==1){
+                                markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.service.service_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                    '                                <i class="material-icons">edit</i>\n' +
+                                    '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
+                                    '                                <i class="material-icons">delete</i>\n' +
+                                    '                            </button></div></div></td></tr>';
+
+
+
+                           tableBody.append(markup);} //href="{{route("plans.delete",'+ data.list.id+')}}"
+                    else{
+
+                        markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                            '                                <i class="material-icons">edit</i>\n' +
+                            '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
+                            '                                <i class="material-icons">delete</i>\n' +
+                            '                            </button></div></div></td></tr>';
+
+
+
+                        tableBody.append(markup);}
+
+                  /*  });*/
+
+                }
+                    else if(data.list.service!=null && data.list.itemgroup==null){
+                        if(data.lang==1){
+                            markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.service.service_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                                '                                <i class="material-icons">edit</i>\n' +
+                                '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
+                                '                                <i class="material-icons">delete</i>\n' +
+                                '                            </button></div></div></td></tr>';
+
+
+
+                            tableBody.append(markup);}
+                        else{
+
+                            markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.service.service_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                                '                                <i class="material-icons">edit</i>\n' +
+                                '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypedelete"  style="margin-bottom:+0.5em;">\n' +
+                                '                                <i class="material-icons">delete</i>\n' +
+                                '                            </button></div></div></td></tr>';
+
+
+
+                            tableBody.append(markup);}
+
+                        /*  });*/
+
+                    }
+                    else if(data.list.service==null && data.list.itemgroup!=null){
+                        if(data.lang==1){
+                            markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                                '                                <i class="material-icons">edit</i>\n' +
+                                '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypedelete"  style="margin-bottom:+0.5em;">\n' +
+                                '                                <i class="material-icons">delete</i>\n' +
+                                '                            </button></div></div></td></tr>';
+
+
+
+                            tableBody.append(markup);}
+                        else{
+
+                            markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                                '                                <i class="material-icons">edit</i>\n' +
+                                '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypedelete"  style="margin-bottom:+0.5em;">\n' +
+                                '                                <i class="material-icons">delete</i>\n' +
+                                '                            </button></div></div></td></tr>';
+
+
+
+                            tableBody.append(markup);}
+
+                        /*  });*/
+
+                    }
+                    else{
+
+                        if(data.lang==1){
+                            markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                                '                                <i class="material-icons">edit</i>\n' +
+                                '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
+                                '                                <i class="material-icons">delete</i>\n' +
+                                '                            </button></div></div></td></tr>';
+
+
+
+                            tableBody.append(markup);}
+                        else{
+
+                            markup = '<tr> <td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td><td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                                '                                <i class="material-icons">edit</i>\n' +
+                                '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
+                                '                                <i class="material-icons">delete</i>\n' +
+                                '                            </button></div></div></td></tr>';
+
+
+
+                            tableBody.append(markup);}
+
+                        /*  });*/
+
+                }
+
+                }
+
+
+
+
+
+
+            </script>
                 @endsection
             @section('js')
                 <!-- Forms Validations Plugin -->

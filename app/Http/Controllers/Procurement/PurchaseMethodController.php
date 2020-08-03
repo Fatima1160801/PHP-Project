@@ -137,10 +137,17 @@ class PurchaseMethodController extends Controller
             if(empty($purchaseObject)){
                 return response(['status' => false, 'message' => getMessage('2.2')]);
             }
+            $arr=[\App\Models\Procurement\Plan_Items::class];
+            $check=checkBeforeDelete($arr,"purchase_method_id",$id);
+            if($check) {
             $purchaseObject->delete();
             if($purchaseObject){
                 $purchaseObject->update(["deleted_by"=>Auth::user()->id ]);
             }
+                        }else{
+                return response(['status' => false, 'message' => getMessage('2.355')]);
+            }
+
 
 
             $message = getMessage('2.3');
