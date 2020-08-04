@@ -286,5 +286,9 @@ class Activity extends Model
 //        }
 //        return $result;
 //    }
+    public function cities()
+    {
 
+        return $this->hasMany('App\Models\Procurement\ActivityLocationView','activity_id','id');
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Procurement;
 use App\Helpers\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Procurement\Activity;
+use App\Models\Procurement\ActivityLocationView;
 use App\Models\Procurement\Currencies;
 use App\Models\Procurement\Plan;
 use App\Models\Procurement\Plan_Items;
@@ -118,13 +119,14 @@ class ProcurementPlanController extends Controller
                    $project = Plan::where('project_id', $project_id)->pluck("id")->toArray();
                    $budgetSum = Plan_Items:: whereIn('plan_id', $project)
                        ->sum('budget');
+
                    if (($budgetSum + $request->budget) <= $projectBudget->plan_budget) {
 
 
                        if (!empty($activity_id)) {
 
                            $activitydate = Activity::where('id', $activity_id)->first();
-                           if ($planObject->delivery_date <= $activitydate->act_end_date && $planObject->delivery_date >= $activitydate->act_start_date) {
+                           if ((empty($activitydate->act_end_date)&&empty($activitydate->act_start_date))||($planObject->delivery_date <= $activitydate->act_end_date && $planObject->delivery_date >= $activitydate->act_start_date)) {
                                $query1 = $query->where('activity_id', $activity_id)->first();
                                if (!empty($query1)) {
 
@@ -243,30 +245,50 @@ public function getProjectPlan($id){
         return response(['status' => false, 'plan' => []]);
 }
     public function getProjectActivityPlan($project,$activity){
+if($activity!=0){
+    $city=Activity::find($activity)->cities()->get();
+    //dd($citystate);
+   // $city=ActivityLocationView::where('activity_id',$activity)->get();
 
         $list=\App\Models\Procurement\Plan::where('project_id',$project)->where('activity_id',$activity)->pluck("id")->toArray();
         if (!empty($list)) {
             $query = Plan_Items::where('plan_id', $list)->with(["sector"])->with(["service"])->with(["itemgroup"])->with(["purchase"])->get();
 
             if (!empty($query)) {
-                return response(['status' => true, 'plan' => $query,'lang'=>Auth::user()->lang_id]);
+
+                return response(['status' => true,'state'=>$city, 'plan' => $query,'lang'=>Auth::user()->lang_id]);
             } else {
-                return response(['status' => false, 'plan' => []]);
+                return response(['status' => false, 'plan' => [],'state'=>$city]);
             }
         }
         else
-            return response(['status' => false, 'plan' => []]);
+            return response(['status' => false, 'plan' => [],'state'=>$city]);
     }
+else{
+    $list=\App\Models\Procurement\Plan::where('project_id',$project)->whereNull('activity_id')->pluck("id")->toArray();
+    if (!empty($list)) {
+        $query = Plan_Items::where('plan_id', $list)->with(["sector"])->with(["service"])->with(["itemgroup"])->with(["purchase"])->get();
 
+        if (!empty($query)) {
+            return response(['status' => true, 'plan' => $query,'lang'=>Auth::user()->lang_id]);
+        } else {
+            return response(['status' => false, 'plan' => []]);
+        }
+    }
+    else
+        return response(['status' => false, 'plan' => []]);
+}
+}
     public function update(Request $request,$project_id,$activity_id)
     {
         is_permitted(150, getClassName(__CLASS__), __FUNCTION__, 337, 2);
 
         $planObject = Plan_Items::find($request->id);
         if (empty($planObject)) {
-            return response(['status' => false, 'message' => getMessage('2.3')]);
+            return response(['status' => false, 'message' => getMessage('2.422')]);
         }
-
+        $planObject1 = Plan_Items::where('id',$request->id)->first();
+       $oldBudget=$planObject1->budget;
         $planObject->item = $request->item;
         $planObject->sector_id = $request->sector_id;
         $planObject->service_type_id = $request->service_type_id;
@@ -276,19 +298,25 @@ public function getProjectPlan($id){
         $planObject->item_group_id = $request->item_group_id;
 
         $projectBudget = \App\Models\Procurement\Project::where('id', $project_id)->first();
+        if($request->start_date!=null && $request->delivery_date!=null){
 
         $planObject->start_date = dateFormatDataBase($request->start_date);
-        $planObject->delivery_date = dateFormatDataBase($request->delivery_date);
+        $planObject->delivery_date = dateFormatDataBase($request->delivery_date);}
+        else{
+            $planObject->start_date=$planObject1->start_date;
+            $planObject->delivery_date=$planObject1->delivery_date;
+
+        }
         $project = Plan::where('project_id', $project_id)->pluck("id")->toArray();
         $budgetSum = Plan_Items:: whereIn('plan_id', $project)
             ->sum('budget');
-        if (($budgetSum + $request->budget) <= $projectBudget->plan_budget) {
+        if ($oldBudget==$request->budget ||(($budgetSum + $request->budget) <= $projectBudget->plan_budget)) {
 
 
-            if (!empty($activity_id)) {
+            if (!empty($activity_id)&& $activity_id!=0) {
 
                 $activitydate = Activity::where('id', $activity_id)->first();
-                if ($planObject->delivery_date <= $activitydate->act_end_date && $planObject->delivery_date >= $activitydate->act_start_date) {
+                if ((empty($activitydate->act_end_date)&&empty($activitydate->act_start_date))||($planObject->delivery_date <= $activitydate->act_end_date && $planObject->delivery_date >= $activitydate->act_start_date)) {
 
 
                     $planObject->updated_by = Auth::user()->id;
@@ -303,6 +331,16 @@ public function getProjectPlan($id){
                 }
 
             }
+            else if($activity_id==0){
+                $planObject->updated_by = Auth::user()->id;
+                $planObject->save();
+                $obj = Plan_Items::where('id', $request->id)->with(["sector"])->with(["service"])->with(["itemgroup"])->with(["purchase"])->first();
+
+
+                return response(['status' => true, 'message' => getMessage('2.2'), 'list' => $obj, 'lang' => Auth::user()->lang_id]);
+
+            }
+
         }
         else{
             return response(['status' => false, 'message' => getMessage('2.421')]);
@@ -334,5 +372,13 @@ public function getProjectPlan($id){
             $message = getMessage('2.3');
             return response(['status' => false, 'message' => $message]);
         }
+
+    }
+    public function getCity($id){
+
+        return ActivityLocationView::where('activity_id',$id)->get();
+
+
+
     }
 }

@@ -12,12 +12,14 @@
         </div>
         <div class="card-body ">
 
-            &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  <button type="button" id="rejectBtn" data-toggle="modal" data-target="#opportunityApproveConfirmModal"  class="btn btn-rose  btn-sm ">
+
+            &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  <button type="button" id="rejectBtn" onclick="removeChecked()" data-toggle="modal" data-target="#opportunityApproveConfirmModal"  class="btn btn-rose  btn-sm ">
                 {{$labels['select_project'] ?? 'select project'}}
             </button> &nbsp; &nbsp; &nbsp; <label class="form-control-sm" id="projectlabel"></label><br>
-            &nbsp; &nbsp;  &nbsp; &nbsp;   &nbsp; &nbsp; &nbsp; &nbsp;  <button type="button" id="rejectBtn1" data-toggle="modal" data-target="#activityModal"  class="btn btn-primary  btn-sm ">
+            &nbsp; &nbsp;  &nbsp; &nbsp;   &nbsp; &nbsp; &nbsp; &nbsp;  <button type="button" onclick="removeChecked()" id="rejectBtn1" data-toggle="modal" data-target="#activityModal"  class="btn btn-primary  btn-sm ">
                 {{$labels['select_activity'] ?? 'select activity'}}
             </button> &nbsp; &nbsp; &nbsp;<label class="form-control-sm" id="activitylabel"></label>
+            <button type="button" value="0" id="buttonForNull" hidden></button>
 
 
 
@@ -61,10 +63,21 @@
                             class="btn btn-next btn-rose pull-right btn-sm">
                         <div class="loader pull-left" style="display: none;"></div> {{$labels['save'] ?? 'save'}}
                     </button>
+                    <div id="load"><div class="loader pull-center" style="display: none;width: 30px;
+ height: 30px;"></div></div>
+
 
                 </div>
 
             </div>
+                <label><h4>{{$labels['project'] ?? 'Project:'}}</h4></label> &nbsp; &nbsp;&nbsp;<label id="projectname"></label><br/>
+                <label><h4>{{$labels['activity'] ?? 'Activity:'}}</h4></label>&nbsp; &nbsp;&nbsp;<label id="activityname"></label><br/>
+                <label><h4>{{$labels['location'] ?? 'Location:'}}</h4></label>&nbsp; &nbsp;&nbsp;<label id="location"></label><br/>
+                <label><h4>{{$labels['governorate'] ?? 'governorate:'}}</h4></label>&nbsp; &nbsp;&nbsp;<label id="governorate"></label><br/>
+                <label><h4>{{$labels['currency'] ?? 'Currency'}}</h4></label>&nbsp; &nbsp;&nbsp;<label id="currencyname"></label><br/>
+
+
+
                 <table id="plan" class="table" >
                <thead>
                     <tr>
@@ -80,7 +93,8 @@
 
                         <th><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></th>
                     <th><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></th>
-                        <th id="load"><div class="loader pull-left" style="display: none;"></div></th>
+{{--                        <th id="load"><div class="loader pull-center" style="display: none;width: 10em;--}}
+{{-- height: 10em;"></div></th>--}}
 
                     </thead>
                     <tbody>
@@ -128,14 +142,15 @@
                                 </div>
 
                             </div>
-                            <table id="projectInfo" class="table dataTable no-footer table-bordered">
+
+                             <table id="projectInfo" class="table dataTable no-footer table-bordered">
                                 <tbody>
 
                                 @if(!empty($project_list))
                                     @foreach($project_list  as $index => $item)
                                         @if($index<10)
 
-                                        <tr> <td style="padding: 10px !important;"><input type=radio data-curr-name='{{$item->currency->currency_name_fo}}'  name="projectid" value='{{$item->id}}'></td> <td ><p class="ml-2">{{$item->{'project_name_'.lang_character()} ?? ""}}</td></tr>
+                                        <tr> <td style="padding: 10px !important;"><input  type=radio data-curr-name='{{$item->currency->currency_name_na}}'  name="projectid" value='{{$item->id}}'></td> <td ><p class="ml-2">{{$item->{'project_name_'.lang_character()} ?? ""}}</td></tr>
 
 
 
@@ -262,6 +277,7 @@
 
                 $(document).ready(function () {
                     datetimepicker();
+
                 });
                 $(document).on('submit', '#formPlanCreate', function (e) {
                     if (!is_valid_form($(this))) {
@@ -323,16 +339,20 @@
                                 $('#btnAddvendor').attr("disabled", false);
                                 $('#btnAddvendor div.loader').hide();
                                 if (data.status == true) {
+                                    $("#id").val(0);
 
 
                                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                                     appendTableObj(data.list,data.lang);
                                     document.getElementById("formPlanCreate").reset();
-                                    $('.selectpicker').selectpicker('render');
+                                    $('.selectpicker').selectpicker('refresh');
                                     $("#currency_id").val(currency_name);
 
 
                                 }
+                                else{
+                                myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                            }
                             }
 
                 });
@@ -430,6 +450,7 @@
 
 
                 function addProjectName() {
+
                     $('#load div.loader').show();
                     var project_lists = @json($project_list);
                     var id =@json($id);
@@ -440,22 +461,30 @@
                     document.getElementById("selectedproject").value=project_id;
 
                     $("#currency_id").val(currency_name);
+                    $("#currencyname").html(currency_name);
 
                     tableBody = $("#activityproject tbody");
                     tableBody.empty();
+                    $("#activitylabel").html("");
+
+
                     $.each(project_lists, function (index, value) {
                         if (project_lists[index].id == project_id) {
                             if (id == 1) {
 
 
                                 $("#projectlabel").html(project_lists[index].project_name_na);
+                                $("#projectname").html(project_lists[index].project_name_na);
 
-                            } else
+                            } else{
 
                                 $("#projectlabel").html(project_lists[index].project_name_fo);
+                                $("#projectname").html(project_lists[index].project_name_fo);
 
+                            }
                             document.getElementById("selectedcurrency").value
                                 = project_lists[index].currency_id;
+
 
                         }
                     });
@@ -480,50 +509,72 @@
 
 
                     });
-
+                    $('input[name="activityid"]:checked').prop( "checked", false );
+                    $('input[name="projectid"]:checked').prop( "checked", false );
                 }
 
 
                 function addActivityName(){
+                    $("#start_date").attr('disabled',false);
+                    $("#delivery_date").attr('disabled',false);
+
+                    $("#buttonForNull").val(2);
+                    $("#location").html("");
+                    $("#governorate").html("");
+                    $("#activitylabel").html("");
+                   $ ("#activityname").html("");
                     $('#load div.loader').show();
                     var activity_lists = @json($activity_list);
                     var id=@json($id);
                     var ele = document.getElementsByName('activityid');
 
                     var activity_id =$('input[name="activityid"]:checked').val();
+                   if(activity_id==null){
+                       activity_id=0;
+                       $("#buttonForNull").val(1);
+                //   alert(activity_id);
+                }
                     document.getElementById("selectedactivity").value=activity_id;
 
 
 
                     $.each(activity_lists, function (index, value) {
                         if(activity_lists[index].id==activity_id) {
-                            if (id==1)
+                            if (id==1){
 
                                 $("#activitylabel").html(activity_lists[index].activity_name_na);
-                            else
+                                $("#activityname").html(activity_lists[index].activity_name_na);
+                        }else{
                                 $("#activitylabel").html(activity_lists[index].activity_name_fo);
-                        }
+                                $("#activityname").html(activity_lists[index].activity_name_fo);
+                        }}
                     });
 
                     $("#activityModal").modal('hide');
                     Body = $("#plan tbody");
-                      Body.empty();
-                    Body = $("#plan tbody");
                     Body.empty();
                     $activity =activity_id;
-                    var totalRowCount = 1;
 $project= document.getElementById("selectedproject").value
 
                     $.get('{{url('/projectactivity')}}' + '/' + $project+'/' + $activity, function (data) {
                         if (data.status != false) {
                             appendTable(data.plan,data.lang);
 
+
                         }
+                        $.each(data.state, function (index, value) {
+                            $("#location").append(value.district_name_na+',');
+                            $("#governorate").append(value.city_name_na+',');
+
+                        });
 
                          $('#load div.loader').hide();
 
+
                     });
 
+                    $('input[name="activityid"]:checked').prop( "checked", false );
+                    $('input[name="projectid"]:checked').prop( "checked", false );
 
 
                 }
@@ -595,25 +646,40 @@ function removeChecked(){
 
 
                             $(document).on("click", ".edit", function (e) {
-                                var tds=$(this).closest('tr').find('td');
-                                var idClmn = tds.eq(0);
+                                $("#start_date").attr('disabled',false);
+                                $("#delivery_date").attr('disabled',false);
+
+                                  $("#item").val($(this).attr("data-rowitem"));
+                              $("#sector_id").val($(this).attr("data-rowsectorid"));
+
+                              $("#sector_id").selectpicker("refresh");
 
 
-                                  $("#item").val(tds.eq(2).text());
-                            //  $("#sector_id").val(tds.eq(12).val());
-                               $("#sector_id option:selected").text(tds.eq(3).text());
-
-                                        $("#id").val(tds.eq(0).text());
+                                        $("#id").val($(this).attr("data-rowid"));
 
 
-                                 $("#item_grup_id").val(tds.eq(5).text());
-                                 $("#budget").val(tds.eq(6).text());
-                                 $("#start_date").val(tds.eq(7).text());
-                                $("#delivery_date").val(tds.eq(8).text());
-                                 $("#purchase_method_id").val(tds.eq(9).text());
-                                 $("#service_type_id").val(tds.eq(4).text());
 
-                                $(this).closest('tr').remove();
+                                 $("#item_group_id").val($(this).attr("data-rowitemgroupid"));
+                                 $("#item_group_id").selectpicker("refresh");
+                                 $("#budget").val($(this).attr("data-rowbudget"));
+                                 $("#start_date").val($(this).attr("data-rowsdate"));
+                                $("#delivery_date").val($(this).attr("data-rowddate"));
+                                 $("#purchase_method_id").val($(this).attr("data-rowpurchase"));
+                                $("#purchase_method_id").selectpicker("refresh");
+                                 $("#service_type_id").val($(this).attr("data-rowserviceid"));
+                                $("#service_type_id").selectpicker("refresh");
+                                var activity=$("#buttonForNull").val();
+                                var val=$("#buttonForNull").val();
+
+
+
+                                if(activity==0){
+                                    $("#start_date").attr('disabled',true);
+                                    $("#delivery_date").attr('disabled',true);
+                                }
+
+                                $(this).closest('tr').hide();
+
 
 
 
@@ -633,21 +699,21 @@ function removeChecked(){
                                     if (arr[i].service != null && arr[i].itemgroup != null) {
 
 
-                                        markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_na + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].service.service_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].itemgroup.item_group_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
-                                            '                                <i class="material-icons">edit</i>\n' +
+                                        markup = '<tr> <td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_na + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].service.service_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].itemgroup.item_group_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_na + '</div></div></td><td>'+
+                                            '<div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+arr[i].id+'" data-rowitem="'+arr[i].item+'" data-rowsectorid="'+arr[i].sector_id+'" data-rowserviceid="'+arr[i].service_type_id+'" data-rowitemgroupid="'+arr[i].item_group_id+'" data-rowbudget="'+arr[i].budget+'" data-rowsdate="'+arr[i].start_date+'" data-rowddate="'+arr[i].delivery_date+'" data-rowpurchase="'+arr[i].purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">' +                                            '                                <i class="material-icons">edit</i>\n' +
                                             '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="' + url + '" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
                                             '                                <i class="material-icons">delete</i>\n' +
                                             '                            </button></div></div></td><td value=' + arr[i].sector_id + ' style="display:none;" class="id">' + arr[i].sector_id + '</td></tr>';
                                     } else if (arr[i].service != null && arr[i].itemgroup == null) {
 
-                                        markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_na + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].service.service_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                        markup = '<tr> <td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_na + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].service.service_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+arr[i].id+'" data-rowitem="'+arr[i].item+'" data-rowsectorid="'+arr[i].sector_id+'" data-rowserviceid="'+arr[i].service_type_id+'" data-rowitemgroupid="'+arr[i].item_group_id+'" data-rowbudget="'+arr[i].budget+'" data-rowsdate="'+arr[i].start_date+'" data-rowddate="'+arr[i].delivery_date+'" data-rowpurchase="'+arr[i].purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                             '                                <i class="material-icons">edit</i>\n' +
                                             '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="' + url + '" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
                                             '                                <i class="material-icons">delete</i>\n' +
                                             '                            </button></div></div></td></tr>';
                                     } else if (arr[i].service == null && arr[i].itemgroup != null) {
 
-                                        markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_na + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].itemgroup.item_group_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                        markup = '<tr> <td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_na + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].itemgroup.item_group_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+arr[i].id+'" data-rowitem="'+arr[i].item+'" data-rowsectorid="'+arr[i].sector_id+'" data-rowserviceid="'+arr[i].service_type_id+'" data-rowitemgroupid="'+arr[i].item_group_id+'" data-rowbudget="'+arr[i].budget+'" data-rowsdate="'+arr[i].start_date+'" data-rowddate="'+arr[i].delivery_date+'" data-rowpurchase="'+arr[i].purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                             '                                <i class="material-icons">edit</i>\n' +
                                             '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="' + url + '" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
                                             '                                <i class="material-icons">delete</i>\n' +
@@ -655,7 +721,7 @@ function removeChecked(){
 
                                     } else {
 
-                                        markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_na + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                        markup = '<tr> <td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_na + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_na + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+arr[i].id+'" data-rowitem="'+arr[i].item+'" data-rowsectorid="'+arr[i].sector_id+'" data-rowserviceid="'+arr[i].service_type_id+'" data-rowitemgroupid="'+arr[i].item_group_id+'" data-rowbudget="'+arr[i].budget+'" data-rowsdate="'+arr[i].start_date+'" data-rowddate="'+arr[i].delivery_date+'" data-rowpurchase="'+arr[i].purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                             '                                <i class="material-icons">edit</i>\n' +
                                             '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="' + url + '" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
                                             '                                <i class="material-icons">delete</i>\n' +
@@ -671,21 +737,21 @@ function removeChecked(){
                                         if (arr[i].service != null && arr[i].itemgroup != null) {
 
 
-                                            markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_fo + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].service.service_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].itemgroup.item_group_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                            markup = '<tr> <td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_fo + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].service.service_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].itemgroup.item_group_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+arr[i].id+'" data-rowitem="'+arr[i].item+'" data-rowsectorid="'+arr[i].sector_id+'" data-rowserviceid="'+arr[i].service_type_id+'" data-rowitemgroupid="'+arr[i].item_group_id+'" data-rowbudget="'+arr[i].budget+'" data-rowsdate="'+arr[i].start_date+'" data-rowddate="'+arr[i].delivery_date+'" data-rowpurchase="'+arr[i].purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                                 '                                <i class="material-icons">edit</i>\n' +
                                                 '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
                                                 '                                <i class="material-icons">delete</i>\n' +
                                                 '                            </button></div></div></td></tr>';
                                         } else if (arr[i].service != null && arr[i].itemgroup == null) {
 
-                                            markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_fo + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].service.service_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                            markup = '<tr><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_fo + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].service.service_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+arr[i].id+'" data-rowitem="'+arr[i].item+'" data-rowsectorid="'+arr[i].sector_id+'" data-rowserviceid="'+arr[i].service_type_id+'" data-rowitemgroupid="'+arr[i].item_group_id+'" data-rowbudget="'+arr[i].budget+'" data-rowsdate="'+arr[i].start_date+'" data-rowddate="'+arr[i].delivery_date+'" data-rowpurchase="'+arr[i].purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                                 '                                <i class="material-icons">edit</i>\n' +
                                                 '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
                                                 '                                <i class="material-icons">delete</i>\n' +
                                                 '                            </button></div></div></td></tr>';
                                         } else if (arr[i].service == null && arr[i].itemgroup != null) {
 
-                                            markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_fo + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].itemgroup.item_group_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                            markup = '<tr><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_fo + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].itemgroup.item_group_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+arr[i].id+'" data-rowitem="'+arr[i].item+'" data-rowsectorid="'+arr[i].sector_id+'" data-rowserviceid="'+arr[i].service_type_id+'" data-rowitemgroupid="'+arr[i].item_group_id+'" data-rowbudget="'+arr[i].budget+'" data-rowsdate="'+arr[i].start_date+'" data-rowddate="'+arr[i].delivery_date+'" data-rowpurchase="'+arr[i].purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                                 '                                <i class="material-icons">edit</i>\n' +
                                                 '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
                                                 '                                <i class="material-icons">delete</i>\n' +
@@ -693,7 +759,7 @@ function removeChecked(){
 
                                         } else {
 
-                                            markup = '<tr><td value=' + arr[i].id + ' style="display:none;" class="id">' + arr[i].id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_fo + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                            markup = '<tr> <td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + totalRowCount + '</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].item + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].sector.sector_name_fo + '</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].budget + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].start_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].delivery_date + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">' + arr[i].purchase.method_name_fo + '</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+arr[i].id+'" data-rowitem="'+arr[i].item+'" data-rowsectorid="'+arr[i].sector_id+'" data-rowserviceid="'+arr[i].service_type_id+'" data-rowitemgroupid="'+arr[i].item_group_id+'" data-rowbudget="'+arr[i].budget+'" data-rowsdate="'+arr[i].start_date+'" data-rowddate="'+arr[i].delivery_date+'" data-rowpurchase="'+arr[i].purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                                 '                                <i class="material-icons">edit</i>\n' +
                                                 '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
                                                 '                                <i class="material-icons">delete</i>\n' +
@@ -720,7 +786,7 @@ function removeChecked(){
                  if(data.service!=null && data.itemgroup!=null){
 
                     if(lang==1){
-                                markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.service.service_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
+                                markup = '<tr> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.service.service_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+data.id+'" data-rowitem="'+data.item+'" data-rowsectorid="'+data.sector_id+'" data-rowserviceid="'+data.service_type_id+'" data-rowitemgroupid="'+data.item_group_id+'" data-rowbudget="'+data.budget+'" data-rowsdate="'+data.start_date+'" data-rowddate="'+data.delivery_date+'" data-rowpurchase="'+data.purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                     '                                <i class="material-icons">edit</i>\n' +
                                     '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
                                     '                                <i class="material-icons">delete</i>\n' +
@@ -731,7 +797,7 @@ function removeChecked(){
                            tableBody.append(markup);} //href="{{route("plans.delete",'+ data.list.id+')}}"
                     else{
 
-                        markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                        markup = '<tr> <td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+data.id+'" data-rowitem="'+data.item+'" data-rowsectorid="'+data.sector_id+'" data-rowserviceid="'+data.service_type_id+'" data-rowitemgroupid="'+data.item_group_id+'" data-rowbudget="'+data.budget+'" data-rowsdate="'+data.start_date+'" data-rowddate="'+data.delivery_date+'" data-rowpurchase="'+data.purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                             '                                <i class="material-icons">edit</i>\n' +
                             '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
                             '                                <i class="material-icons">delete</i>\n' +
@@ -744,9 +810,9 @@ function removeChecked(){
                   /*  });*/
 
                 }
-                    else if(data.list.service!=null && data.list.itemgroup==null){
-                        if(data.lang==1){
-                            markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.service.service_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                    else if(data.service!=null && data.itemgroup==null){
+                        if(lang==1){
+                            markup = '<tr><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.service.service_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+data.id+'" data-rowitem="'+data.item+'" data-rowsectorid="'+data.sector_id+'" data-rowserviceid="'+data.service_type_id+'" data-rowitemgroupid="'+data.item_group_id+'" data-rowbudget="'+data.budget+'" data-rowsdate="'+data.start_date+'" data-rowddate="'+data.delivery_date+'" data-rowpurchase="'+data.purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                 '                                <i class="material-icons">edit</i>\n' +
                                 '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
                                 '                                <i class="material-icons">delete</i>\n' +
@@ -757,7 +823,7 @@ function removeChecked(){
                             tableBody.append(markup);}
                         else{
 
-                            markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.service.service_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                            markup = '<tr><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.service.service_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+data.id+'" data-rowitem="'+data.item+'" data-rowsectorid="'+data.sector_id+'" data-rowserviceid="'+data.service_type_id+'" data-rowitemgroupid="'+data.item_group_id+'" data-rowbudget="'+data.budget+'" data-rowsdate="'+data.start_date+'" data-rowddate="'+data.delivery_date+'" data-rowpurchase="'+data.purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                 '                                <i class="material-icons">edit</i>\n' +
                                 '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypedelete"  style="margin-bottom:+0.5em;">\n' +
                                 '                                <i class="material-icons">delete</i>\n' +
@@ -770,9 +836,9 @@ function removeChecked(){
                         /*  });*/
 
                     }
-                    else if(data.list.service==null && data.list.itemgroup!=null){
-                        if(data.lang==1){
-                            markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                    else if(data.service==null && data.itemgroup!=null){
+                        if(lang==1){
+                            markup = '<tr><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+data.id+'" data-rowitem="'+data.item+'" data-rowsectorid="'+data.sector_id+'" data-rowserviceid="'+data.service_type_id+'" data-rowitemgroupid="'+data.item_group_id+'" data-rowbudget="'+data.budget+'" data-rowsdate="'+data.start_date+'" data-rowddate="'+data.delivery_date+'" data-rowpurchase="'+data.purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                 '                                <i class="material-icons">edit</i>\n' +
                                 '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypedelete"  style="margin-bottom:+0.5em;">\n' +
                                 '                                <i class="material-icons">delete</i>\n' +
@@ -783,7 +849,7 @@ function removeChecked(){
                             tableBody.append(markup);}
                         else{
 
-                            markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                            markup = '<tr><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.itemgroup.item_group_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+data.id+'" data-rowitem="'+data.item+'" data-rowsectorid="'+data.sector_id+'" data-rowserviceid="'+data.service_type_id+'" data-rowitemgroupid="'+data.item_group_id+'" data-rowbudget="'+data.budget+'" data-rowsdate="'+data.start_date+'" data-rowddate="'+data.delivery_date+'" data-rowpurchase="'+data.purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                 '                                <i class="material-icons">edit</i>\n' +
                                 '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypedelete"  style="margin-bottom:+0.5em;">\n' +
                                 '                                <i class="material-icons">delete</i>\n' +
@@ -798,8 +864,8 @@ function removeChecked(){
                     }
                     else{
 
-                        if(data.lang==1){
-                            markup = '<tr><td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                        if(lang==1){
+                            markup = '<tr><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_na+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_na+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+data.id+'" data-rowitem="'+data.item+'" data-rowsectorid="'+data.sector_id+'" data-rowserviceid="'+data.service_type_id+'" data-rowitemgroupid="'+data.item_group_id+'" data-rowbudget="'+data.budget+'" data-rowsdate="'+data.start_date+'" data-rowddate="'+data.delivery_date+'" data-rowpurchase="'+data.purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                 '                                <i class="material-icons">edit</i>\n' +
                                 '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
                                 '                                <i class="material-icons">delete</i>\n' +
@@ -810,7 +876,7 @@ function removeChecked(){
                             tableBody.append(markup);}
                         else{
 
-                            markup = '<tr> <td value=' + data.id + ' style="display:none;" class="id">' + data.id + '</td><td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" class="btn btn-sm btn-primary btn-round btn-fab"  style="margin-bottom:+0.5em;">\n' +
+                            markup = '<tr><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+totalRowCount+'</div></div></td> <td ><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.item+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.sector.sector_name_fo+'</di></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.budget+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.start_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.delivery_date+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group">'+data.purchase.method_name_fo+'</div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" data-rowid="'+data.id+'" data-rowitem="'+data.item+'" data-rowsectorid="'+data.sector_id+'" data-rowserviceid="'+data.service_type_id+'" data-rowitemgroupid="'+data.item_group_id+'" data-rowbudget="'+data.budget+'" data-rowsdate="'+data.start_date+'" data-rowddate="'+data.delivery_date+'" data-rowpurchase="'+data.purchase_method_id+'" class="btn btn-sm btn-primary btn-round btn-fab edit"  style="margin-bottom:+0.5em;">\n' +
                                 '                                <i class="material-icons">edit</i>\n' +
                                 '                            </button></div></div></td><td><div class="col-md-12"><div class="form-group has-default bmd-form-group"><button type="button" href="'+url+'" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"  style="margin-bottom:+0.5em;">\n' +
                                 '                                <i class="material-icons">delete</i>\n' +
