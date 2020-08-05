@@ -215,6 +215,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/currency/{id}', ['uses' => 'Procurement\ProcurementPlanController@getCurrency'])->name('currency.id');
     Route::delete('/plans/delete/{id}', ['uses' => 'Procurement\ProcurementPlanController@delete'])->name('plans.delete');
     Route::post('/plans/update/{project_id}/{activity_id?}', ['uses' => 'Procurement\ProcurementPlanController@update'])->name('plans.update');
+    Route::get('/plans/export/{project_id}/{activity_id?}/{act?}', ['uses' => 'Procurement\ProcurementPlanController@export'])->name('plans.export');
 
 
 });

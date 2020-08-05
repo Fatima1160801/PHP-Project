@@ -38,6 +38,8 @@ class Plan_Items extends Model
 
         ];
 
+    public $appends=["activity_dates"];
+
     public function sector()
     {
 
@@ -57,5 +59,16 @@ class Plan_Items extends Model
     {
 
         return $this->belongsTo('App\Models\Procurement\Purchase','purchase_method_id','id');
+    }
+    //public $appends=["start_date","delivery_date"];
+
+    public function getActivityDatesAttribute(){
+        $activity_data=Plan::where("id",$this->plan_id)->first(["activity_id"]);
+        if(!empty($activity_data)){
+           $act_info= Activity::where("id",$activity_data->activity_id)->first(["act_start_date","act_end_date"]);
+        }else{
+            $act_info=null;
+        }
+        return $act_info;
     }
 }

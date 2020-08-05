@@ -209,7 +209,7 @@ class ProcurementPlanController extends Controller
            }
 
 
-$obj=Plan_Items::where('id',$planObject->id)->with(["sector"])->with(["service"])->with(["itemgroup"])->with(["purchase"])->first();
+$obj=Plan_Items::where('id',$planObject->id)->with(["service","sector","itemgroup","purchase"])->first();
 
 
         }catch (\Throwable $exception) {
@@ -233,8 +233,8 @@ public function getProjectPlan($id){
 
         $list=\App\Models\Procurement\Plan::where('project_id',$id)->pluck("id")->toArray();
     if (!empty($list)) {
-        $query = Plan_Items::whereIn('plan_id', $list)->with(["sector"])->with(["service"])->with(["itemgroup"])->with(["purchase"])->get();
-
+        $query = Plan_Items::whereIn('plan_id', $list)->with(["service","sector","itemgroup","purchase"])->get();
+          // dd($query);
         if (!empty($query)) {
             return response(['status' => true, 'plan' => $query,'lang'=>Auth::user()->lang_id]);
         } else {
@@ -246,13 +246,14 @@ public function getProjectPlan($id){
 }
     public function getProjectActivityPlan($project,$activity){
 if($activity!=0){
+
     $city=Activity::find($activity)->cities()->get();
     //dd($citystate);
    // $city=ActivityLocationView::where('activity_id',$activity)->get();
 
         $list=\App\Models\Procurement\Plan::where('project_id',$project)->where('activity_id',$activity)->pluck("id")->toArray();
         if (!empty($list)) {
-            $query = Plan_Items::where('plan_id', $list)->with(["sector"])->with(["service"])->with(["itemgroup"])->with(["purchase"])->get();
+            $query = Plan_Items::where('plan_id', $list)->with(["service","sector","itemgroup","purchase"])->get();
 
             if (!empty($query)) {
 
@@ -267,7 +268,7 @@ if($activity!=0){
 else{
     $list=\App\Models\Procurement\Plan::where('project_id',$project)->whereNull('activity_id')->pluck("id")->toArray();
     if (!empty($list)) {
-        $query = Plan_Items::where('plan_id', $list)->with(["sector"])->with(["service"])->with(["itemgroup"])->with(["purchase"])->get();
+        $query = Plan_Items::where('plan_id', $list)->with(["service","sector","itemgroup","purchase"])->get();
 
         if (!empty($query)) {
             return response(['status' => true, 'plan' => $query,'lang'=>Auth::user()->lang_id]);
@@ -298,15 +299,8 @@ else{
         $planObject->item_group_id = $request->item_group_id;
 
         $projectBudget = \App\Models\Procurement\Project::where('id', $project_id)->first();
-        if($request->start_date!=null && $request->delivery_date!=null){
-
         $planObject->start_date = dateFormatDataBase($request->start_date);
-        $planObject->delivery_date = dateFormatDataBase($request->delivery_date);}
-        else{
-            $planObject->start_date=$planObject1->start_date;
-            $planObject->delivery_date=$planObject1->delivery_date;
-
-        }
+        $planObject->delivery_date = dateFormatDataBase($request->delivery_date);
         $project = Plan::where('project_id', $project_id)->pluck("id")->toArray();
         $budgetSum = Plan_Items:: whereIn('plan_id', $project)
             ->sum('budget');
@@ -314,14 +308,11 @@ else{
 
 
             if (!empty($activity_id)&& $activity_id!=0) {
-
-                $activitydate = Activity::where('id', $activity_id)->first();
-                if ((empty($activitydate->act_end_date)&&empty($activitydate->act_start_date))||($planObject->delivery_date <= $activitydate->act_end_date && $planObject->delivery_date >= $activitydate->act_start_date)) {
-
-
+                if(($request->actStartDate==null && $request->actEndDate==null)||($planObject->delivery_date <= $request->actEndDate && $planObject->delivery_date >= $request->actStartDate)){
+                 //   dd([$request->actStartDate,$request->actEndDate]);
                     $planObject->updated_by = Auth::user()->id;
                     $planObject->save();
-                    $obj = Plan_Items::where('id', $request->id)->with(["sector"])->with(["service"])->with(["itemgroup"])->with(["purchase"])->first();
+                    $obj = Plan_Items::where('id', $request->id)->with(["service","sector","itemgroup","purchase"])->first();
 
 
                     return response(['status' => true, 'message' => getMessage('2.2'), 'list' => $obj, 'lang' => Auth::user()->lang_id]);
@@ -331,14 +322,19 @@ else{
                 }
 
             }
-            else if($activity_id==0){
-                $planObject->updated_by = Auth::user()->id;
-                $planObject->save();
-                $obj = Plan_Items::where('id', $request->id)->with(["sector"])->with(["service"])->with(["itemgroup"])->with(["purchase"])->first();
+            else if($activity_id==0) {
+                if (($request->actStartDate == null && $request->actEndDate == null) || ($planObject->delivery_date <= $request->actEndDate && $planObject->delivery_date >= $request->actStartDate)) {
+                    $planObject->updated_by = Auth::user()->id;
+                    $planObject->save();
+                    $obj = Plan_Items::where('id', $request->id)->with(["service", "sector", "itemgroup", "purchase"])->first();
 
 
-                return response(['status' => true, 'message' => getMessage('2.2'), 'list' => $obj, 'lang' => Auth::user()->lang_id]);
+                    return response(['status' => true, 'message' => getMessage('2.2'), 'list' => $obj, 'lang' => Auth::user()->lang_id]);
 
+                }
+                else {
+                        return response(['status' => false, 'message' => getMessage('2.418')]);
+                }
             }
 
         }
@@ -374,11 +370,66 @@ else{
         }
 
     }
-    public function getCity($id){
+   public function export($projectId,$activityId,$act){
+        if($projectId==0){
+            $arr=[];
+            $city=[];
+            $project='';
+            $activity='';
+            $currency='';
+   }
+        else{
+            $projectt=\App\Models\Procurement\Project::where('id',$projectId)->with(["currency"])->first();
+            $project=$projectt->project_name_na;
+            $currency=$projectt->currency->currency_name_na;
+            if($activityId==0 && $act==0){
+                $list=\App\Models\Procurement\Plan::where('project_id',$projectId)->pluck("id")->toArray();
+            if (!empty($list)) {
+                $query = Plan_Items::whereIn('plan_id', $list)->with(["service","sector","itemgroup","purchase"])->get();
+                if (!empty($query)) {
+                    $arr=$query;
+                } else {
+                    $arr=[];
+                }
+            }
+            $city=[];
+            $activity='';
+        }
+            else if($activityId==0 && $act==1){
+                $list=\App\Models\Procurement\Plan::where('project_id',$projectId)->whereNull('activity_id')->pluck("id")->toArray();
+                if (!empty($list)) {
+                    $query = Plan_Items::where('plan_id', $list)->with(["service","sector","itemgroup","purchase"])->get();
 
-        return ActivityLocationView::where('activity_id',$id)->get();
+                    if (!empty($query)) {
+                        $arr=$query;
+                    } else {
+                        $arr=[];
+                    }
+                }
+                else
+                    $arr=[];
+                $city=[];
+                $activity='';
+            }
+            else{
+                $Activityn=Activity::where('id',$activityId)->first();
+                $activity=$Activityn->activity_name_na;
+                $city=Activity::find($activityId)->cities()->get();
+                $list=\App\Models\Procurement\Plan::where('project_id',$projectId)->where('activity_id',$activityId)->pluck("id")->toArray();
+                if (!empty($list)) {
+                    $query = Plan_Items::where('plan_id', $list)->with(["service","sector","itemgroup","purchase"])->get();
 
+                    if (!empty($query)) {
 
-
-    }
+                        $arr=$query;
+                    } else {
+                        $arr=[];
+                    }
+                }
+                else
+                    $arr=[];
+            }
+            }
+        return view('procurement.plan.export',compact('arr','city','project','activity','currency'));
+   }
 }

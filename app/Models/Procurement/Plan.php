@@ -29,4 +29,13 @@ class Plan extends Model
             'updated_at'
 
         ];
+  // public $appends=["start_date","delivery_date"];
+
+    public function activity(){
+        if($this->activity_id!=null)
+      // return  $this->belongsTo('App\Models\Procurement\Activity','activity_id');
+        $info=Activity::whereNotNull($this->activity_id)->where('id',$this->activity_id)->first();
+        return $info;
+
+    }
 }
