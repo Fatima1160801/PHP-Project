@@ -1,10 +1,3 @@
-<?php
-header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
-header("Content-Disposition: attachment; filename=plan.xls");  //File name extension was wrong
-header("Expires: 0");
-header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-header("Cache-Control: private",false);
-?>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -15,13 +8,12 @@ header("Cache-Control: private",false);
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <style>
         #plan   {
-            border:solid;
+            border:1px solid #ebebeb;
         }
 
         .new_style{
             margin: auto;
-            width: 90%;
-            padding-top: 20px;
+            width: 95%;
         }
 
     </style>
@@ -92,3 +84,9 @@ header("Cache-Control: private",false);
 </div>
 </body>
 </html>
+
+
+
+
+
+

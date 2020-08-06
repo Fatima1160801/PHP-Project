@@ -62,7 +62,7 @@
                                           target="_blank" id="btnReportPdf" data-export="pdf" data-toggle="tooltip" data-placement="top" title="Export PDF">
                         <i class="material-icons" >print</i> PDF
                     </button>
-                    <button type="button" data-export="excel" class="btn btn-sm btn-info pull-right exportPdf"
+                    <button type="button" data-export="excel" class="btn btn-sm btn-info pull-right exportExcel"
                        data-toggle="tooltip" data-placement="top" title="Export Excel " id="btnReportExcel">
                         <i class="material-icons">print</i> Excel
                     </button></div>
@@ -666,8 +666,16 @@ function removeCheckedProjectActivity(){
                     var pid=$("#selectedproject").val();
                     var aid=$("#selectedactivity").val();
                     var act=$("#checkForActivityNull").val();
-                    var exportType=$(this).attr("data-export");
-                    window.location.href = '{{url('/plans/export')}}' + '/' + pid+ '/' + aid+ '/' + act+ '/' + exportType ;
+                    window.location.href = '{{url('/plans/export/1')}}' + '/' + pid+ '/' + aid+ '/' + act ;
+                });
+
+                $(document).on("click", ".exportExcel", function (e) {
+                    var act=0;
+                    var project=0;
+                    var pid=$("#selectedproject").val();
+                    var aid=$("#selectedactivity").val();
+                    var act=$("#checkForActivityNull").val();
+                    window.location.href = '{{url('/plans/export/2')}}' + '/' + pid+ '/' + aid+ '/' + act;
                 });
                 $( "#sector_id" ).change(function() {
                     var sector = $('#sector_id').find(":selected").val();

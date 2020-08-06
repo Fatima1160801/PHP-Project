@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 use DB;
+use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class ProcurementPlanController extends Controller
 {
@@ -370,7 +371,7 @@ else{
         }
 
     }
-   public function export($projectId,$activityId,$act,$export){
+   public function export($export_id,$projectId,$activityId,$act){
        is_permitted(150, getClassName(__CLASS__), __FUNCTION__, 335, 7);
        $option=[];
        $vendor=new Plan();
@@ -437,7 +438,29 @@ else{
                     $arr=[];
             }
             }
-        return view('procurement.plan.export',compact('arr','city','project','activity','currency','export','html','labels'));
+
+       if($export_id ==1){
+           $pdf = PDF::loadView('procurement.plan.pdf',
+               [
+                   'arr' => $arr,
+                   'city' => $city,
+                   'project' => $project,
+                   'activity' => $activity,
+                   'currency' => $currency,
+               ], [],
+               [
+                   'format' => 'A4-L',
+                   'mode' => 'utf-8',
+                   'margin_top' =>10,
+                   'margin_left' => 0,
+                   'margin_button' => 10,
+                   'margin_right' => 0,
+               ]
+           );
+           return $pdf->download('plan.pdf');
+       }else{
+           return view('procurement.plan.export',compact('arr','city','project','activity','currency'));
+       }
    }
     function getServiceBySector($id){
         if(Auth::user()->lang_id==1)
