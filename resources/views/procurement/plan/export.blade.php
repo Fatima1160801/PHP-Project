@@ -6,12 +6,13 @@
 //header("Cache-Control: private",false);
 
 
-//header("Content-Type: application/pdf");
-//header("Cache-Control: max-age=0");
+header("Content-Type: application/pdf");
+header("Cache-Control: max-age=0");
 //header("Accept-Ranges: none");
-//header("Content-Disposition: attachment; filename=\"google_com.pdf\"");
-//header("Content-Description: PHP Generated Data");
-//header("Content-Transfer-Encoding: binary");
+header("Content-Disposition: attachment; filename=\"google_com.pdf\"");
+header("Content-Description: PHP Generated Data");
+header("Content-Transfer-Encoding: binary");
+
 ?>
 
 <html>
@@ -105,7 +106,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
 
 <script>
-    var doc = new jsPDF();
+    var doc = new jsPDF({
+        orientation:'landscape'
+    });
     var specialElementHandlers = {
         '#editor': function (element, renderer) {
             return true;
