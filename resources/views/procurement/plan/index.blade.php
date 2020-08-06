@@ -665,8 +665,9 @@ function removeCheckedProjectActivity(){
                     var pid=$("#selectedproject").val();
                     var aid=$("#selectedactivity").val();
                     var act=$("#checkForActivityNull").val();
-                    $.get('{{url('/plans/export')}}' + '/' + pid+ '/' + aid+ '/' + act, function (data) {
-                    });
+                    window.location.href = '{{url('/plans/export')}}' + '/' + pid+ '/' + aid+ '/' + act;
+                    {{--$.get('{{url('/plans/export')}}' + '/' + pid+ '/' + aid+ '/' + act, function (data) {--}}
+                    {{--});--}}
                 });
             </script>
                 @endsection

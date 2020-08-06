@@ -22,19 +22,27 @@ header("Content-Transfer-Encoding: binary");
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
         #plan   {
             border:solid;
         }
 
+        .new_style{
+            margin: auto;
+            width: 90%;
+            padding-top: 20px;
+        }
+
     </style>
 </head>
 <body>
-<div id="content">
-    <table id="info" >
+<div id="content" class="new_style">
+    <table id="info" class="p-5">
         <tr>
-            <th>title</th>
-            <th>value</th>
+            <th></th>
+            <th></th>
         </tr>
         <tr><td>Project</td>
             <td>{{$project}}</td>
@@ -60,7 +68,7 @@ header("Content-Transfer-Encoding: binary");
 
     </table>
     <br>
-    <table id="plan" class="table" border=1 frame=hsides rules=rows >
+    <table id="plan" class="table table-bordered"  >
         <thead>
         <tr>
             <th>{{$labels['serial'] ?? 'Serials'}}</th>
@@ -175,7 +183,7 @@ header("Content-Transfer-Encoding: binary");
     function printDiv()
     {
 
-        var divToPrint=document.getElementById('DivIdToPrint');
+        var divToPrint=document.getElementById('content');
 
         var newWin=window.open('','Print-Window');
 
