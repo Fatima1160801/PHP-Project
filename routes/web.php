@@ -204,7 +204,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('reports/updatedetailuser', ['uses' => 'Report\ReportController@updateDetailUser'])->name('reports.customize');
 
 
-    Route::get('/plans', ['uses' => 'Procurement\ProcurementPlanController@index'])->name('plans.index');
+    Route::get('/plans/{type?}/{project_id?}/{activity_id?}', ['uses' => 'Procurement\ProcurementPlanController@index'])->name('plans.index');
     Route::get('/plans/project', ['uses' => 'Procurement\ProcurementPlanController@projectplan'])->name('plans.project');
     Route::get('/search/{id}', ['uses' => 'Procurement\ProcurementPlanController@search'])->name('search.id');
     Route::get('/searchAct/{id}', ['uses' => 'Procurement\ProcurementPlanController@searchAct'])->name('searchAct.id');

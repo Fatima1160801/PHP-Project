@@ -44,7 +44,7 @@ class ProcurementPlanController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index($type=1,$project_id=null,$activity_id=null)
     {
         is_permitted(150, getClassName(__CLASS__), __FUNCTION__, 335, 7);
        $project_list=\App\Models\Procurement\Project::get();
