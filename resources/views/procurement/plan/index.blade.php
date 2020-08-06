@@ -46,22 +46,23 @@
                             class="btn btn-next btn-rose pull-right btn-sm">
                         <div class="loader pull-left" style="display: none;"></div> {{$labels['save'] ?? 'save'}}
                     </button>
-                    <a href="{{route('sectors.index')}}" class="btn btn-default btn-sm">
-                        {{$labels['clear'] ?? 'clear'}}
-                    </a>
+                    <button type="button" onclick="clearPlanScreen()"
+                            class="btn btn-next btn-info pull-right btn-sm btnClear">
+                        <div class="loader pull-left" style="display: none;"></div> {{$labels['clear'] ?? 'clear'}}
+                    </button>
                 </div>
             </div>
-                <label><h5>{{$labels['project'] ?? 'Project:'}}</h5></label> &nbsp; &nbsp;&nbsp;<label id="projectname"></label><br/>
-                <label><h5>{{$labels['activity'] ?? 'Activity:'}}</h5></label>&nbsp; &nbsp;&nbsp;<label id="activityname"></label><br/>
-                <label><h5>{{$labels['location'] ?? 'Location:'}}</h5></label>&nbsp; &nbsp;&nbsp;<label id="location"></label><br/>
-                <label><h5>{{$labels['governorate'] ?? 'governorate:'}}</h5></label>&nbsp; &nbsp;&nbsp;<label id="governorate"></label><br/>
-                <label><h5>{{$labels['currency'] ?? 'Currency'}}</h5></label>&nbsp; &nbsp;&nbsp;<label id="currencyname"></label><br/>
+                <label><h6>{{$labels['project'] ?? 'Project:'}}</h6></label> &nbsp; &nbsp;&nbsp;<label id="projectname"></label><br/>
+                <label><h6>{{$labels['activity'] ?? 'Activity:'}}</h6></label>&nbsp; &nbsp;&nbsp;<label id="activityname"></label><br/>
+                <label><h6>{{$labels['location'] ?? 'Location:'}}</h6></label>&nbsp; &nbsp;&nbsp;<label id="location"></label><br/>
+                <label><h6>{{$labels['governorate'] ?? 'governorate:'}}</h6></label>&nbsp; &nbsp;&nbsp;<label id="governorate"></label><br/>
+                <label><h6>{{$labels['currency'] ?? 'Currency'}}</h6></label>&nbsp; &nbsp;&nbsp;<label id="currencyname"></label><br/>
                 <div class="col-md-6 pull-right"><div id="load" class="pull-center"><div class="loader pull-center" style="display: none;width: 30px;
  height: 30px;"></div></div><button type="button" class="btn btn-sm btn-primary pull-right exportPdf"
-                                          target="_blank" id="btnReportPdf" data-toggle="tooltip" data-placement="top" title="Export PDF">
+                                          target="_blank" id="btnReportPdf" data-export="pdf" data-toggle="tooltip" data-placement="top" title="Export PDF">
                         <i class="material-icons" >print</i> PDF
                     </button>
-                    <button type="button" href="{{route('vendors.reportExportExcel')}}" class="btn btn-sm btn-info pull-right"
+                    <button type="button" data-export="excel" class="btn btn-sm btn-info pull-right exportPdf"
                        data-toggle="tooltip" data-placement="top" title="Export Excel " id="btnReportExcel">
                         <i class="material-icons">print</i> Excel
                     </button></div>
@@ -665,10 +666,59 @@ function removeCheckedProjectActivity(){
                     var pid=$("#selectedproject").val();
                     var aid=$("#selectedactivity").val();
                     var act=$("#checkForActivityNull").val();
-                    window.location.href = '{{url('/plans/export')}}' + '/' + pid+ '/' + aid+ '/' + act;
-                    {{--$.get('{{url('/plans/export')}}' + '/' + pid+ '/' + aid+ '/' + act, function (data) {--}}
-                    {{--});--}}
+                    var exportType=$(this).attr("data-export");
+                    window.location.href = '{{url('/plans/export')}}' + '/' + pid+ '/' + aid+ '/' + act+ '/' + exportType ;
                 });
+                $( "#sector_id" ).change(function() {
+                    var sector = $('#sector_id').find(":selected").val();
+                    getService(sector);
+                    getItemGroup(sector);
+                });
+                function getService(sector) {
+                    $("#service_type_id_loader").show();
+                    var list1 ="<option selected  value=''></option>";
+                    $id=sector;
+                    $.get('{{url('/service/by/sector')}}'+'/'+$id,function(data){
+                        $.each(data.list, function (index, value) {
+                            list1+='<option value=' +index + '>' + value + '</option>';
+                        });
+                        $("#service_type_id").html(list1);
+                        $("#service_type_id").selectpicker("refresh");
+                        $("#service_type_id_loader").hide();
+                    });
+                }
+                function getItemGroup(sector) {
+                    $("#item_group_id_loader").show();
+                    var list1 ="<option selected  value=''></option>";
+                    $id=sector;
+                    $.get('{{url('/itemgroup/by/sector')}}'+'/'+$id,function(data){
+                        $.each(data.list, function (index, value) {
+                            list1+='<option value=' +index + '>' + value + '</option>';
+                        });
+                        $("#item_group_id").html(list1);
+                        $("#item_group_id").selectpicker("refresh");
+                        $("#item_group_id_loader").hide();
+                    });
+                }
+                function clearPlanScreen(){
+                    document.getElementById("formPlanCreate").reset();
+                    $('.selectpicker').selectpicker('refresh');
+                    $("#activitylabel").html("");
+                    $("#projectlabel").html("");
+                    $("#selectedproject").val(0);
+                    $("#selectedactivity").val(0);
+                    $("#checkForActivityNull").val(0);
+                    $("#actStartDate").val(0);
+                    $("#actEndDate").val(0);
+                    $ ("#activityname").html("");
+                    $ ("#projectname").html("");
+                    $ ("#currencyname").html("");
+                    $ ("#location").html("");
+                    $ ("#governorate").html("");
+                    $("#plan tbody").empty();
+
+
+                }
             </script>
                 @endsection
             @section('js')

@@ -113,104 +113,104 @@ class ProcurementPlanController extends Controller
             $planObject->start_date=dateFormatDataBase($request->start_date);
             $planObject->delivery_date=dateFormatDataBase($request->delivery_date);
             $projectBudget = \App\Models\Procurement\Project::where('id', $project_id)->first();
-           if(!empty($project_id)){
-               $query=Plan::where('project_id',$project_id)->first();
-               if(!empty($query)) {
-                   $project = Plan::where('project_id', $project_id)->pluck("id")->toArray();
-                   $budgetSum = Plan_Items:: whereIn('plan_id', $project)
-                       ->sum('budget');
+            if($planObject->start_date < $planObject->delivery_date ||$planObject->start_date == $planObject->delivery_date) {
+                if (!empty($project_id)) {
+                    $query = Plan::where('project_id', $project_id)->first();
+                    if (!empty($query)) {
+                        $project = Plan::where('project_id', $project_id)->pluck("id")->toArray();
+                        $budgetSum = Plan_Items:: whereIn('plan_id', $project)
+                            ->sum('budget');
 
-                   if (($budgetSum + $request->budget) <= $projectBudget->plan_budget) {
-
-
-                       if (!empty($activity_id)) {
-
-                           $activitydate = Activity::where('id', $activity_id)->first();
-                           if ((empty($activitydate->act_end_date)&&empty($activitydate->act_start_date))||($planObject->delivery_date <= $activitydate->act_end_date && $planObject->delivery_date >= $activitydate->act_start_date)) {
-                               $query1 = $query->where('activity_id', $activity_id)->first();
-                               if (!empty($query1)) {
-
-                                   $planObject->plan_id = $query1->id;
-                                   $planObject->created_by = Auth::user()->id;
-                                   $planObject->save();
-
-                               } else {
-                                   $newPlanObj = new Plan();
-                                   $newPlanObj->project_id = $project_id;
-                                   $newPlanObj->activity_id = $activity_id;
-                                   $newPlanObj->created_by = Auth::user()->id;
-                                   $newPlanObj->save();
-                                   $planObject->plan_id = $newPlanObj->id;
-                                   $planObject->created_by = Auth::user()->id;
-                                   $planObject->save();
-                               }
-                           } else {
-                               return response(['status' => false, 'message' => getMessage('2.418')]);
-                           }
-                       } else {
-                           $query2 = $query->whereNull('activity_id')->first();
-                           if (!empty($query2)) {
-                               $planObject->plan_id = $query2->id;
-
-                               $planObject->created_by = Auth::user()->id;
-                               $planObject->save();
-
-                           } else {
-                               $newPlanObj = new Plan();
-                               $newPlanObj->project_id = $project_id;
-                               $newPlanObj->activity_id = null;
-                               $newPlanObj->created_by = Auth::user()->id;
-                               $newPlanObj->save();
-                               $planObject->plan_id = $newPlanObj->id;
-                               $planObject->created_by = Auth::user()->id;
-                               $planObject->save();
-                           }
-                       }
+                        if (($budgetSum + $request->budget) <= $projectBudget->plan_budget) {
 
 
-                   }
-                   else{
-                   return response(['status' => false, 'message' => getMessage('2.421')]);
-               }
-               }
-               else {
-                   if($request->budget <= $projectBudget->plan_budget){
-                   if (!empty($activity_id)) {
-                       $newPlanObj = new Plan();
-                       $newPlanObj->project_id = $project_id;
-                       $newPlanObj->activity_id = $activity_id;
-                       $newPlanObj->created_by = Auth::user()->id;
-                       $newPlanObj->save();
-                       $planObject->plan_id = $newPlanObj->id;
-                       $planObject->created_by = Auth::user()->id;
-                       $planObject->save();
-                   } else {
-                       $newPlanObj = new Plan();
-                       $newPlanObj->project_id = $project_id;
-                       $newPlanObj->activity_id = null;
-                       $newPlanObj->created_by = Auth::user()->id;
-                       $newPlanObj->save();
-                       //$planObject->fill($field);
-                       $planObject->plan_id = $newPlanObj->id;
-                       $planObject->created_by = Auth::user()->id;
-                       $planObject->save();
-                   }
-               }
-                   else{
-                       return response(['status' => false, 'message' => getMessage('2.421')]);
-                   }
-           }
+                            if (!empty($activity_id)) {
+
+                                $activitydate = Activity::where('id', $activity_id)->first();
+                                if ((empty($activitydate->act_end_date) && empty($activitydate->act_start_date)) || (($planObject->delivery_date < $activitydate->act_end_date || $planObject->delivery_date == $activitydate->act_end_date) && ($planObject->delivery_date > $activitydate->act_start_date || $planObject->delivery_date == $activitydate->act_start_date))) {
+                                    $query1 = $query->where('activity_id', $activity_id)->first();
+                                    if (!empty($query1)) {
+
+                                        $planObject->plan_id = $query1->id;
+                                        $planObject->created_by = Auth::user()->id;
+                                        $planObject->save();
+
+                                    } else {
+                                        $newPlanObj = new Plan();
+                                        $newPlanObj->project_id = $project_id;
+                                        $newPlanObj->activity_id = $activity_id;
+                                        $newPlanObj->created_by = Auth::user()->id;
+                                        $newPlanObj->save();
+                                        $planObject->plan_id = $newPlanObj->id;
+                                        $planObject->created_by = Auth::user()->id;
+                                        $planObject->save();
+                                    }
+                                } else {
+                                    return response(['status' => false, 'message' => getMessage('2.418')]);
+                                }
+                            } else {
+                                $query2 = $query->whereNull('activity_id')->first();
+                                if (!empty($query2)) {
+                                    $planObject->plan_id = $query2->id;
+
+                                    $planObject->created_by = Auth::user()->id;
+                                    $planObject->save();
+
+                                } else {
+                                    $newPlanObj = new Plan();
+                                    $newPlanObj->project_id = $project_id;
+                                    $newPlanObj->activity_id = null;
+                                    $newPlanObj->created_by = Auth::user()->id;
+                                    $newPlanObj->save();
+                                    $planObject->plan_id = $newPlanObj->id;
+                                    $planObject->created_by = Auth::user()->id;
+                                    $planObject->save();
+                                }
+                            }
 
 
-               }
-//           }
-         else{
-              return response(['status' => false, 'message' => getMessage('2.419')]);
-           }
+                        } else {
+                            return response(['status' => false, 'message' => getMessage('2.421')]);
+                        }
+                    } else {
+                        if ($request->budget <= $projectBudget->plan_budget) {
+                            if (!empty($activity_id)) {
+                                $newPlanObj = new Plan();
+                                $newPlanObj->project_id = $project_id;
+                                $newPlanObj->activity_id = $activity_id;
+                                $newPlanObj->created_by = Auth::user()->id;
+                                $newPlanObj->save();
+                                $planObject->plan_id = $newPlanObj->id;
+                                $planObject->created_by = Auth::user()->id;
+                                $planObject->save();
+                            } else {
+                                $newPlanObj = new Plan();
+                                $newPlanObj->project_id = $project_id;
+                                $newPlanObj->activity_id = null;
+                                $newPlanObj->created_by = Auth::user()->id;
+                                $newPlanObj->save();
+                                //$planObject->fill($field);
+                                $planObject->plan_id = $newPlanObj->id;
+                                $planObject->created_by = Auth::user()->id;
+                                $planObject->save();
+                            }
+                        } else {
+                            return response(['status' => false, 'message' => getMessage('2.421')]);
+                        }
+                    }
 
 
-$obj=Plan_Items::where('id',$planObject->id)->with(["service","sector","itemgroup","purchase"])->first();
+                } //           }
+                else {
+                    return response(['status' => false, 'message' => getMessage('2.419')]);
+                }
 
+
+                $obj = Plan_Items::where('id', $planObject->id)->with(["service", "sector", "itemgroup", "purchase"])->first();
+
+            }
+            else
+                return response(['status' => false, 'message' => getMessage('2.423')]);
 
         }catch (\Throwable $exception) {
             DB::rollBack();
@@ -304,46 +304,46 @@ else{
         $project = Plan::where('project_id', $project_id)->pluck("id")->toArray();
         $budgetSum = Plan_Items:: whereIn('plan_id', $project)
             ->sum('budget');
-        if ($oldBudget==$request->budget ||(($budgetSum + $request->budget) <= $projectBudget->plan_budget)) {
+        if($planObject->start_date < $planObject->delivery_date ||$planObject->start_date == $planObject->delivery_date) {
+
+            if ($oldBudget == $request->budget || (($budgetSum + $request->budget) <= $projectBudget->plan_budget)) {
 
 
-            if (!empty($activity_id)&& $activity_id!=0) {
-                if(($request->actStartDate==null && $request->actEndDate==null)||($planObject->delivery_date <= $request->actEndDate && $planObject->delivery_date >= $request->actStartDate)){
-                 //   dd([$request->actStartDate,$request->actEndDate]);
-                    $planObject->updated_by = Auth::user()->id;
-                    $planObject->save();
-                    $obj = Plan_Items::where('id', $request->id)->with(["service","sector","itemgroup","purchase"])->first();
+                if (!empty($activity_id) && $activity_id != 0) {
+                    if (($request->actStartDate == null && $request->actEndDate == null) || (($planObject->delivery_date < $request->actEndDate || $planObject->delivery_date == $request->actEndDate )&& ($planObject->delivery_date > $request->actStartDate || $planObject->delivery_date > $request->actStartDate))) {
+                        //   dd([$request->actStartDate,$request->actEndDate]);
+                        $planObject->updated_by = Auth::user()->id;
+                        $planObject->save();
+                        $obj = Plan_Items::where('id', $request->id)->with(["service", "sector", "itemgroup", "purchase"])->first();
 
 
-                    return response(['status' => true, 'message' => getMessage('2.2'), 'list' => $obj, 'lang' => Auth::user()->lang_id]);
-                } else {
-                    return response(['status' => false, 'message' => getMessage('2.418')]);
-
-                }
-
-            }
-            else if($activity_id==0) {
-                if (($request->actStartDate == null && $request->actEndDate == null) || ($planObject->delivery_date <= $request->actEndDate && $planObject->delivery_date >= $request->actStartDate)) {
-                    $planObject->updated_by = Auth::user()->id;
-                    $planObject->save();
-                    $obj = Plan_Items::where('id', $request->id)->with(["service", "sector", "itemgroup", "purchase"])->first();
-
-
-                    return response(['status' => true, 'message' => getMessage('2.2'), 'list' => $obj, 'lang' => Auth::user()->lang_id]);
-
-                }
-                else {
+                        return response(['status' => true, 'message' => getMessage('2.2'), 'list' => $obj, 'lang' => Auth::user()->lang_id]);
+                    } else {
                         return response(['status' => false, 'message' => getMessage('2.418')]);
+
+                    }
+
+                } else if ($activity_id == 0) {
+                    if (($request->actStartDate == null && $request->actEndDate == null) || (($planObject->delivery_date < $request->actEndDate || $planObject->delivery_date == $request->actEndDate) && ($planObject->delivery_date > $request->actStartDate || $planObject->delivery_date == $request->actStartDate))) {
+                        $planObject->updated_by = Auth::user()->id;
+                        $planObject->save();
+                        $obj = Plan_Items::where('id', $request->id)->with(["service", "sector", "itemgroup", "purchase"])->first();
+
+
+                        return response(['status' => true, 'message' => getMessage('2.2'), 'list' => $obj, 'lang' => Auth::user()->lang_id]);
+
+                    } else {
+                        return response(['status' => false, 'message' => getMessage('2.418')]);
+                    }
                 }
+
+            } else {
+                return response(['status' => false, 'message' => getMessage('2.421')]);
+
             }
-
         }
-        else{
-            return response(['status' => false, 'message' => getMessage('2.421')]);
-
-        }
-        $planObject->updated_by = Auth::user()->id;
-        $planObject->save();
+        else
+            return response(['status' => false, 'message' => getMessage('2.423')]);
     }
 
 
@@ -365,13 +365,20 @@ else{
             $message = getMessage('2.3');
             return response(['status' => true, 'message' => $message]);
         } catch (\Illuminate\Database\QueryException $e) {
-            $message = getMessage('2.3');
+            $message = getMessage('2.424');
             return response(['status' => false, 'message' => $message]);
         }
 
     }
-   public function export($projectId,$activityId,$act){
-        if($projectId==0){
+   public function export($projectId,$activityId,$act,$export){
+       is_permitted(150, getClassName(__CLASS__), __FUNCTION__, 335, 7);
+       $option=[];
+       $vendor=new Plan();
+       $generator = generator(150,$option,$vendor);
+       $html = $generator[0];
+       $labels = $generator[1];
+       $userPermissions = getUserPermission();
+       if($projectId==0){
             $arr=[];
             $city=[];
             $project='';
@@ -430,6 +437,33 @@ else{
                     $arr=[];
             }
             }
-        return view('procurement.plan.export',compact('arr','city','project','activity','currency'));
+        return view('procurement.plan.export',compact('arr','city','project','activity','currency','export','html','labels'));
    }
+    function getServiceBySector($id){
+        if(Auth::user()->lang_id==1)
+        $arr= \App\Models\Procurement\Service::where('sector_id',$id)->pluck("service_name_na","id")->toArray();
+        else
+            $arr= \App\Models\Procurement\Service::where('sector_id',$id)->pluck("service_name_fo","id")->toArray();
+
+        if(!empty($arr)){
+            return response(['status' => true, 'list' => $arr]);
+        }else{
+            return response(['status' => false, 'list' => []]);
+        }
+
+    }
+    function getItemGroupBySector($id){
+        if(Auth::user()->lang_id==1)
+            $arr= \App\Models\Procurement\ItemGroups::where('sector_id',$id)->pluck("item_group_name_na","id")->toArray();
+        else
+            $arr= \App\Models\Procurement\ItemGroups::where('sector_id',$id)->pluck("item_group_name_fo","id")->toArray();
+
+        if(!empty($arr)){
+            return response(['status' => true, 'list' => $arr]);
+        }else{
+
+            return response(['status' => false, 'list' => []]);
+        }
+
+    }
 }

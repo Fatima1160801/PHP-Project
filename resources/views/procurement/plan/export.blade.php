@@ -1,19 +1,22 @@
+@if($export=="excel")
 <?php
-//header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
-//header("Content-Disposition: attachment; filename=abc.xls");  //File name extension was wrong
-//header("Expires: 0");
-//header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-//header("Cache-Control: private",false);
-
-
+header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
+header("Content-Disposition: attachment; filename=abc.xls");  //File name extension was wrong
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+header("Cache-Control: private",false);
+?>
+@endif
+@if($export=="pdf")
+<?php
 header("Content-Type: application/pdf");
 header("Cache-Control: max-age=0");
-//header("Accept-Ranges: none");
+header("Accept-Ranges: none");
 header("Content-Disposition: attachment; filename=\"google_com.pdf\"");
 header("Content-Description: PHP Generated Data");
 header("Content-Transfer-Encoding: binary");
-
 ?>
+@endif
 
 <html>
 <head>
@@ -44,25 +47,25 @@ header("Content-Transfer-Encoding: binary");
             <th></th>
             <th></th>
         </tr>
-        <tr><td>Project</td>
+        <tr><td>{{$labels['project'] ?? 'Project:'}}</td>
             <td>{{$project}}</td>
         </tr>
-        <tr><td>Activity</td>
+        <tr><td>{{$labels['activity'] ?? 'Activity:'}}</td>
             <td>{{$activity}}</td>
         </tr>
-        <tr><td>Location</td><td>@if(!empty($city))
+        <tr><td>{{$labels['location'] ?? 'Location:'}}</td><td>@if(!empty($city))
                     @foreach($city  as $index => $item )
                         {{$item->district_name_na ?? ""}},
                     @endforeach
                 @endif
             </td></tr>
-        <tr><td>Governorate</td><td>@if(!empty($city))
+        <tr><td>{{$labels['governorate'] ?? 'governorate:'}}</td><td>@if(!empty($city))
                     @foreach($city  as $index => $item )
                         {{$item->city_name_na ?? ""}},
                     @endforeach
                 @endif
             </td></tr>
-        <tr><td>Currency</td>
+        <tr><td>{{$labels['currency'] ?? 'Currency'}}</td>
             <td>{{$currency}}</td>
         </tr>
 
