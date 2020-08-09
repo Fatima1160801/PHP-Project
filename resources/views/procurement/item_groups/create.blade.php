@@ -80,16 +80,19 @@
                     $('.loader').hide();
                     if (data.status == true) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-
-                        $('.loader').hide();
+                        var update_url="{{route("item.groups.update")}}"
+                        $("#formItemCreate").attr("action",update_url);
+                        $("#id").val(data.id);
+                        $('#btnAdditem').attr("disabled", false);
+                        $('#btnAdditem div.loader').hide();
                     } else if (data.status == false) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     }
                     //$('#addBenf').prop("disabled", false);
                     //$("#formItemCreate").trigger("reset");
-                    setTimeout(() => {
-                        window.location.href = "{{route('items.groups.index')}}";
-                    }, 1000);
+                    {{--setTimeout(() => {--}}
+                    {{--    window.location.href = "{{route('items.groups.index')}}";--}}
+                    {{--}, 1000);--}}
 
                 },
                 error: function (data) {

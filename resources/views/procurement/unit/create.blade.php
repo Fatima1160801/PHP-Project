@@ -82,16 +82,20 @@
                     $('.loader').hide();
                     if (data.status == true) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-
+                        var update_url="{{route("units.update")}}"
+                        $("#formUnitCreate").attr("action",update_url);
+                        $("#id").val(data.id);
+                        $('#btnAddunit').attr("disabled", false);
                         $('.loader').hide();
+
                     } else if (data.status == false) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     }
                     //$('#addBenf').prop("disabled", false);
                     //$("#formUnitCreate").trigger("reset");
-                    setTimeout(() => {
-                        window.location.href = "{{route('units.index')}}";
-                    }, 1000);
+                    {{--setTimeout(() => {--}}
+                    {{--    window.location.href = "{{route('units.index')}}";--}}
+                    {{--}, 1000);--}}
 
                 },
                 error: function (data) {

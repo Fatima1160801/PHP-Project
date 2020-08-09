@@ -63,12 +63,35 @@ class ProcurementPlanController extends Controller
             'start_date'=> ['inputType' => 'Date'],
         ];
         $vendor=new Plan();
+        $vendor=new Plan();
 
         $generator = generator(150, $option,$vendor);
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.plan.index', compact('labels', 'html', 'userPermissions','activity_list','project_list','id','messageDeleteType'));
+        $activityProjectName=[];
+        $currencyName=[];
+        $city=[];
+        $projectName=[];
+        $projectValue = \App\Models\Procurement\Project::find($project_id);
+        if (($type==2 ||$type==3 )&& empty($projectValue)) {
+            return response(['status' => false, 'message' => getMessage('2.425')]);
+        }
+        $activityValue=Activity::find($activity_id);
+        if ($type==3 &&empty($activityValue)) {
+            return response(['status' => false, 'message' => getMessage('2.426')]);
+        }
+        if($project_id !=null && $activity_id!=null ){
+            $activityProjectName=Activity::where('id',$activity_id)->with("project")->first();
+          //  $currencyName=\App\Models\Procurement\Project::where('id',$activityProjectName->project_id)->with("currency")->first();
+            $currencyName=\App\Models\Procurement\Project::where('id',$project_id)->with("currency")->first();
+            $city=Activity::find($activity_id)->cities()->get();
+           // $project_id=$activityProjectName->project_id;
+        }
+        else if($project_id !=null){
+            $projectName=\App\Models\Procurement\Project::where('id',$project_id)->with("currency")->first();
+        }
+        return view('procurement.plan.index', compact('labels', 'html', 'userPermissions','activity_list','project_list','id','messageDeleteType','type','activityProjectName','currencyName','city','projectName','project_id','activity_id'));
     }
     public function search( $id)
     {
@@ -84,10 +107,20 @@ class ProcurementPlanController extends Controller
 
 
 
-    public function searchAct( $id)
+    public function searchAct($id,$project)
     {
-        $query = Activity::query();
-        $data_list= $query->where('activity_name_na','like', '%' . $id . '%')->orWhere('activity_name_fo','like', '%' . $id . '%')->take(10)->get();
+       // $query = Activity::query();
+//        if(Auth::user()->lang_id==1)
+        $data_list= Activity::where('project_id',$project)
+            ->where(function ($query) use ($id) {
+                $query->where('activity_name_na','like', '%' . $id . '%')
+                    ->orWhere('activity_name_fo','like', '%' . $id . '%');
+            })->take(10)->get();
+
+//       -> where('activity_name_na','like', '%' . $id . '%')->take(10)->get();
+//       else
+//           $data_list= Activity::where('project_id',$project)->where('activity_name_fo','like', '%' . $id . '%')->take(10)->get();
+
         if(!empty($data_list)){
             return response(['status' => true, 'activity' => $data_list,'id'=>Auth::user()->lang_id]);
         }else{
@@ -128,7 +161,7 @@ class ProcurementPlanController extends Controller
                             if (!empty($activity_id)) {
 
                                 $activitydate = Activity::where('id', $activity_id)->first();
-                                if ((empty($activitydate->act_end_date) && empty($activitydate->act_start_date)) || (($planObject->delivery_date < $activitydate->act_end_date || $planObject->delivery_date == $activitydate->act_end_date) && ($planObject->delivery_date > $activitydate->act_start_date || $planObject->delivery_date == $activitydate->act_start_date))) {
+                                if ((empty($activitydate->act_end_date) && empty($activitydate->act_start_date)) || (($planObject->delivery_date < dateFormatDataBase($activitydate->act_end_date) || $planObject->delivery_date == dateFormatDataBase($activitydate->act_end_date)) && ($planObject->delivery_date > dateFormatDataBase($activitydate->act_start_date) || $planObject->delivery_date == dateFormatDataBase($activitydate->act_start_date)))) {
                                     $query1 = $query->where('activity_id', $activity_id)->first();
                                     if (!empty($query1)) {
 
@@ -176,6 +209,8 @@ class ProcurementPlanController extends Controller
                     } else {
                         if ($request->budget <= $projectBudget->plan_budget) {
                             if (!empty($activity_id)) {
+                                $activitydate = Activity::where('id', $activity_id)->first();
+                                if ((empty($activitydate->act_end_date) && empty($activitydate->act_start_date)) || (($planObject->delivery_date < dateFormatDataBase($activitydate->act_end_date) || $planObject->delivery_date == dateFormatDataBase($activitydate->act_end_date)) && ($planObject->delivery_date > dateFormatDataBase($activitydate->act_start_date) || $planObject->delivery_date == dateFormatDataBase($activitydate->act_start_date)))) {
                                 $newPlanObj = new Plan();
                                 $newPlanObj->project_id = $project_id;
                                 $newPlanObj->activity_id = $activity_id;
@@ -184,6 +219,9 @@ class ProcurementPlanController extends Controller
                                 $planObject->plan_id = $newPlanObj->id;
                                 $planObject->created_by = Auth::user()->id;
                                 $planObject->save();
+                            } else {
+                                return response(['status' => false, 'message' => getMessage('2.418')]);
+                            }
                             } else {
                                 $newPlanObj = new Plan();
                                 $newPlanObj->project_id = $project_id;
@@ -216,7 +254,7 @@ class ProcurementPlanController extends Controller
         }catch (\Throwable $exception) {
             DB::rollBack();
             $message =  (is_numeric($exception->getMessage()) ? getMessage(2.246) : getMessage(2.245));
-            dd($exception->getMessage());
+//            dd($exception->getMessage());
             return response()->json([
                 'status'=>false,
                 'message' => $message,
@@ -235,7 +273,6 @@ public function getProjectPlan($id){
         $list=\App\Models\Procurement\Plan::where('project_id',$id)->pluck("id")->toArray();
     if (!empty($list)) {
         $query = Plan_Items::whereIn('plan_id', $list)->with(["service","sector","itemgroup","purchase"])->get();
-          // dd($query);
         if (!empty($query)) {
             return response(['status' => true, 'plan' => $query,'lang'=>Auth::user()->lang_id]);
         } else {
@@ -311,8 +348,7 @@ else{
 
 
                 if (!empty($activity_id) && $activity_id != 0) {
-                    if (($request->actStartDate == null && $request->actEndDate == null) || (($planObject->delivery_date < $request->actEndDate || $planObject->delivery_date == $request->actEndDate )&& ($planObject->delivery_date > $request->actStartDate || $planObject->delivery_date > $request->actStartDate))) {
-                        //   dd([$request->actStartDate,$request->actEndDate]);
+                    if (($request->actStartDate == null && $request->actEndDate == null) || (($planObject->delivery_date < dateFormatDataBase($request->actEndDate) || $planObject->delivery_date == dateFormatDataBase($request->actEndDate) )&& ($planObject->delivery_date > dateFormatDataBase($request->actStartDate) || $planObject->delivery_date == dateFormatDataBase($request->actStartDate)))) {
                         $planObject->updated_by = Auth::user()->id;
                         $planObject->save();
                         $obj = Plan_Items::where('id', $request->id)->with(["service", "sector", "itemgroup", "purchase"])->first();
@@ -325,7 +361,7 @@ else{
                     }
 
                 } else if ($activity_id == 0) {
-                    if (($request->actStartDate == null && $request->actEndDate == null) || (($planObject->delivery_date < $request->actEndDate || $planObject->delivery_date == $request->actEndDate) && ($planObject->delivery_date > $request->actStartDate || $planObject->delivery_date == $request->actStartDate))) {
+                    if (($request->actStartDate == null && $request->actEndDate == null) || (($planObject->delivery_date < dateFormatDataBase($request->actEndDate) || $planObject->delivery_date == dateFormatDataBase($request->actEndDate)) && ($planObject->delivery_date > dateFormatDataBase($request->actStartDate) || $planObject->delivery_date == dateFormatDataBase($request->actStartDate)))) {
                         $planObject->updated_by = Auth::user()->id;
                         $planObject->save();
                         $obj = Plan_Items::where('id', $request->id)->with(["service", "sector", "itemgroup", "purchase"])->first();
@@ -486,6 +522,15 @@ else{
         }else{
 
             return response(['status' => false, 'list' => []]);
+        }
+
+    }
+    function searchModal($id){
+        $activity=Activity::where('project_id',$id)->take(10)->get();
+        if(!empty($activity)){
+            return response(['status' => true, 'activity' => $activity,'id'=>Auth::user()->lang_id]);
+        }else{
+            return response(['status' => false, 'activity' => []]);
         }
 
     }

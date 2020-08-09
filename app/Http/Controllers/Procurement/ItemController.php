@@ -126,7 +126,7 @@ class ItemController extends Controller
         // dd($field);
         $itemObject->save();
 
-        return response(['status' => true, 'message' => getMessage('2.1')]);
+        return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$itemObject->id]);
 
 
     }
@@ -228,7 +228,7 @@ class ItemController extends Controller
         $itemObject->updated_by = Auth::user()->id;
         $itemObject->save();
 
-        return response(['status' => true, 'message' => getMessage('2.2')]);
+        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$itemObject->id]);
     }
 
     public function delete($id)

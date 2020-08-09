@@ -94,7 +94,7 @@ class ItemGroupsController extends Controller
         // dd($field);
         $item_groupsObj->save();
 
-        return response(['status' => true, 'message' => getMessage('2.1')]);
+        return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$item_groupsObj->id]);
 
 
     }
@@ -163,7 +163,7 @@ class ItemGroupsController extends Controller
         $item_groupsObject->updated_by=Auth::user()->id;
         $item_groupsObject->save();
 
-        return response(['status' => true, 'message' => getMessage('2.2')]);
+        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$item_groupsObject->id]);
     }
 
     public function delete($id)

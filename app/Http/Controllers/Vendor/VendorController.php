@@ -499,7 +499,7 @@ class VendorController extends Controller
 
 
 
-        return response(['status' => true, 'message' => getMessage('2.2')]);
+        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$vendorObject->id]);
     }
 
     public function delete($id)

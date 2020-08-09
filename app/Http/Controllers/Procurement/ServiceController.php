@@ -80,7 +80,7 @@ class ServiceController extends Controller
         // dd($field);
         $serviceObj->save();
 
-        return response(['status' => true, 'message' => getMessage('2.1')]);
+        return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$serviceObj->id]);
 
 
     }
@@ -129,7 +129,7 @@ class ServiceController extends Controller
         $serviceObj->updated_by=Auth::user()->id;
         $serviceObj->save();
 
-        return response(['status' => true, 'message' => getMessage('2.2')]);
+        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$serviceObj->id]);
     }
 
     public function delete($id)

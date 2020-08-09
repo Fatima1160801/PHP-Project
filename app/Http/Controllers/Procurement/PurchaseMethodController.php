@@ -78,7 +78,7 @@ class PurchaseMethodController extends Controller
         // dd($field);
         $purchaseObj->save();
 
-        return response(['status' => true, 'message' => getMessage('2.1')]);
+        return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$purchaseObj->id]);
 
 
     }
@@ -126,7 +126,7 @@ class PurchaseMethodController extends Controller
         $purchaseObject->updated_by=Auth::user()->id;
         $purchaseObject->save();
 
-        return response(['status' => true, 'message' => getMessage('2.2')]);
+        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$purchaseObject->id]);
     }
 
     public function delete($id)

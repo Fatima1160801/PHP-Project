@@ -79,7 +79,7 @@ class UnitsController extends Controller
         $unitObj->created_by=Auth::user()->id;
         $unitObj->save();
 
-        return response(['status' => true, 'message' => getMessage('2.1')]);
+        return response(['status' => true, 'message' => getMessage('2.1'),'id'=> $unitObj->id]);
 
 
     }
@@ -124,7 +124,7 @@ class UnitsController extends Controller
         $unitObject->updated_by=Auth::user()->id;
         $unitObject->save();
 
-        return response(['status' => true, 'message' => getMessage('2.2')]);
+        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$unitObject->id]);
     }
 
     public function delete($id)

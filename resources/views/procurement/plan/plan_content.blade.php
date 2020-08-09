@@ -1,11 +1,14 @@
-
+@if($type==1)
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  <button type="button" id="rejectBtn" onclick="removeCheckedProjectActivity()" data-toggle="modal" data-target="#opportunityApproveConfirmModal"  class="btn btn-rose  btn-sm ">
     {{$labels['select_project'] ?? 'select project'}}
-</button> &nbsp; &nbsp; &nbsp; <label class="form-control-sm" id="projectlabel"></label><br>
+</button>@else &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <label style="font-weight:bold;font-size: 40px;" > {{$labels['projectname'] ?? 'Project name'}}</label>&nbsp;&nbsp;&nbsp;@endif &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <label class="form-control-sm" id="projectlabel"></label><br>
+                   @if($type==1 || $type==2)
 &nbsp; &nbsp;  &nbsp; &nbsp;   &nbsp; &nbsp; &nbsp; &nbsp;  <button type="button" onclick="removeCheckedProjectActivity()" id="rejectBtn1" data-toggle="modal" data-target="#activityModal"  class="btn btn-primary  btn-sm ">
     {{$labels['select_activity'] ?? 'select activity'}}
-</button> &nbsp; &nbsp; &nbsp;<label class="form-control-sm" id="activitylabel"></label>
+</button>@if($type==1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@endif @else &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<label style="font-weight:bold;font-size: 40px;"> {{$labels['activityname'] ?? 'Activity name'}}</label> @if($type==3) &nbsp;&nbsp;&nbsp;&nbsp; @endif &nbsp;&nbsp;&nbsp;@endif &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<label class="form-control-sm" id="activitylabel"></label>
 <input type="hidden" value="0" name="checkForActivityNull" id="checkForActivityNull" >
+<input type="hidden" value="0" name="idprojectforsearchactivity" id="idprojectforsearchactivity" >
+
 <div class="col-md-12" style="padding-right:+10em;"><div class="form-group has-default bmd-form-group">  &nbsp; &nbsp; &nbsp; <label class="form-control-sm" id="projectlabel"></label>&nbsp; &nbsp; &nbsp; &nbsp;
         &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; <label class="form-control-sm" id="activitylabel"></label></div></div>
 <div id="result-msg">
@@ -40,10 +43,11 @@
                     </button>
                 </div>
             </div>
-            <label><h6>{{$labels['project'] ?? 'Project:'}}</h6></label> &nbsp; &nbsp;&nbsp;<label id="projectname"></label><br/>
-            <label><h6>{{$labels['activity'] ?? 'Activity:'}}</h6></label>&nbsp; &nbsp;&nbsp;<label id="activityname"></label><br/>
-            <label><h6>{{$labels['location'] ?? 'Location:'}}</h6></label>&nbsp; &nbsp;&nbsp;<label id="location"></label><br/>
-            <label><h6>{{$labels['governorate'] ?? 'governorate:'}}</h6></label>&nbsp; &nbsp;&nbsp;<label id="governorate"></label><br/>
+            <label><h6>{{$labels['project'] ?? 'Project:'}}</h6></label><p style="margin-bottom: 1em;margin-top:-1em;" id="projectname"></p>
+            @if($type==1 || $type==3) <label><h6>{{$labels['activity'] ?? 'Activity:'}}</h6></label><p style="margin-bottom: 1em;margin-top:-1em; " id="activityname"></p>
+            <label><h6>{{$labels['location'] ?? 'Location:'}}</h6></label><p style="margin-bottom: 1em;margin-top:-1em;" id="location"></p>
+
+            <label><h6>{{$labels['governorate'] ?? 'governorate:'}}</h6></label><p style="margin-bottom: 1em;margin-top:-1em;" id="governorate"></p>@endif
             <label><h6>{{$labels['currency'] ?? 'Currency'}}</h6></label>&nbsp; &nbsp;&nbsp;<label id="currencyname"></label><br/>
             <div class="col-md-6 pull-right"><div id="load" class="pull-center"><div class="loader pull-center" style="display: none;width: 30px;
  height: 30px;"></div></div><button type="button" class="btn btn-sm btn-primary pull-right exportPdf"
@@ -58,7 +62,10 @@
                 <thead>
                 <tr>
                     <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['serial'] ?? 'Serials'}}</div></div></th>
-                    <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['item'] ?? 'Items'}}</div></div></th>
+                    @if($type==2)
+                        <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['activities'] ?? 'Activity'}}</div></div></th>
+                               @endif
+                        <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['item'] ?? 'Items'}}</div></div></th>
                     <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['sector'] ?? 'Sectors'}}</div></div></th>
                     <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['service'] ?? 'Services'}}</div></div></th>
                     <th><div class="col-md-12"><div class="form-group has-default bmd-form-group">{{$labels['itemgroup'] ?? 'Item Groups'}}</div></div></th>
@@ -165,12 +172,12 @@
                     </div>
                     <table id="activityInfo" class="table dataTable no-footer table-bordered">
                         <tbody>
-                        @if(!empty($activity_list))
-                            @foreach($activity_list  as $index => $item)
-                                @if($index<10)
-                                    <tr> <td style="padding: 10px !important;"><input type=radio  name="activityid" value='{{$item->id}}'></td> <td ><p class="ml-2">{{$item->{'activity_name_'.lang_character()} ?? ""}}</td></tr>
-                                @endif  @endforeach
-                        @endif
+{{--                        @if(!empty($activity_list))--}}
+{{--                            @foreach($activity_list  as $index => $item)--}}
+{{--                                @if($index<10)--}}
+{{--                                    <tr> <td style="padding: 10px !important;"><input type=radio  name="activityid" value='{{$item->id}}'></td> <td ><p class="ml-2">{{$item->{'activity_name_'.lang_character()} ?? ""}}</td></tr>--}}
+{{--                                @endif  @endforeach--}}
+{{--                        @endif--}}
                         </tbody>
                     </table>
                     <div class="col-md-12">

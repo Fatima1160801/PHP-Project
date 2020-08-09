@@ -76,7 +76,7 @@ class BrandController extends Controller
         $brandObj->created_by=Auth::user()->id;
         $brandObj->save();
 
-        return response(['status' => true, 'message' => getMessage('2.1')]);
+        return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$brandObj->id]);
 
 
     }
@@ -124,7 +124,7 @@ class BrandController extends Controller
         $brandObject->updated_by=Auth::user()->id;
         $brandObject->save();
 
-        return response(['status' => true, 'message' => getMessage('2.2')]);
+        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$brandObject->id]);
     }
 
     public function delete($id)

@@ -80,16 +80,19 @@
                     $('.loader').hide();
                     if (data.status == true) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-
+                        var update_url="{{route("items.update")}}"
+                        $("#formItemCreate").attr("action",update_url);
+                        $("#id").val(data.id);
+                        $('#btnAdditem').attr("disabled", false);
                         $('.loader').hide();
                     } else if (data.status == false) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     }
                     //$('#addBenf').prop("disabled", false);
                    // $("#formSectorCreate").trigger("reset");
-                    setTimeout(() => {
-                        window.location.href = "{{route('items.index')}}";
-                    }, 1000);
+                   {{-- setTimeout(() => {--}}
+                   {{--     window.location.href = "{{route('items.index')}}";--}}
+                   {{-- }, 1000);--}}
 
                 },
                 error: function (data) {

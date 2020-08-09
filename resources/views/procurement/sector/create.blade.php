@@ -80,16 +80,19 @@
                     $('.loader').hide();
                     if (data.status == true) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-
+                        var update_url="{{route("sectors.update")}}"
+                        $("#formSectorCreate").attr("action",update_url);
+                        $("#id").val(data.id);
+                        $('#btnAddsector').attr("disabled", false);
                         $('.loader').hide();
                     } else if (data.status == false) {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     }
                     //$('#addBenf').prop("disabled", false);
-                    $("#formSectorCreate").trigger("reset");
-                    setTimeout(() => {
-                        window.location.href = "{{route('sectors.index')}}";
-                    }, 1000);
+                    {{--$("#formSectorCreate").trigger("reset");--}}
+                    {{--setTimeout(() => {--}}
+                    {{--    window.location.href = "{{route('sectors.index')}}";--}}
+                    {{--}, 1000);--}}
 
                 },
                 error: function (data) {

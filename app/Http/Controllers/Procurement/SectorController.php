@@ -79,7 +79,7 @@ class SectorController extends Controller
         // dd($field);
         $sectorObj->save();
 
-        return response(['status' => true, 'message' => getMessage('2.1')]);
+        return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$sectorObj->id]);
 
 
     }
@@ -127,7 +127,7 @@ class SectorController extends Controller
         $sectorObject->updated_by=Auth::user()->id;
         $sectorObject->save();
 
-        return response(['status' => true, 'message' => getMessage('2.2')]);
+        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$sectorObject->id]);
     }
 
     public function delete($id)

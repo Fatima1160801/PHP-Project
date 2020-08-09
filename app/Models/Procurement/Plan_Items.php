@@ -38,7 +38,8 @@ class Plan_Items extends Model
 
         ];
 
-    public $appends=["activity_dates"];
+    public $appends=["activity_dates","activity_names"];
+
 
     public function sector()
     {
@@ -66,6 +67,15 @@ class Plan_Items extends Model
         $activity_data=Plan::where("id",$this->plan_id)->first(["activity_id"]);
         if(!empty($activity_data)){
            $act_info= Activity::where("id",$activity_data->activity_id)->first(["act_start_date","act_end_date"]);
+        }else{
+            $act_info=null;
+        }
+        return $act_info;
+    }
+    public function getActivityNamesAttribute(){
+        $activity_data=Plan::where("id",$this->plan_id)->first(["activity_id"]);
+        if(!empty($activity_data)){
+            $act_info= Activity::where("id",$activity_data->activity_id)->first(["activity_name_na","activity_name_fo"]);
         }else{
             $act_info=null;
         }

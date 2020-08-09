@@ -207,7 +207,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/plans/{type?}/{project_id?}/{activity_id?}', ['uses' => 'Procurement\ProcurementPlanController@index'])->name('plans.index');
     Route::get('/plans/project', ['uses' => 'Procurement\ProcurementPlanController@projectplan'])->name('plans.project');
     Route::get('/search/{id}', ['uses' => 'Procurement\ProcurementPlanController@search'])->name('search.id');
-    Route::get('/searchAct/{id}', ['uses' => 'Procurement\ProcurementPlanController@searchAct'])->name('searchAct.id');
+    Route::get('/searchAct/{id}/{project}', ['uses' => 'Procurement\ProcurementPlanController@searchAct'])->name('searchAct.id');
     Route::post('/plans/store/{project_id}/{activity_id?}', ['uses' => 'Procurement\ProcurementPlanController@store'])->name('plans.store');
     Route::get('/projectPlan/{id}', ['uses' => 'Procurement\ProcurementPlanController@getProjectPlan'])->name('projectplan.id');
     Route::get('/projectactivity/{project_id}/{activity_id?}', ['uses' => 'Procurement\ProcurementPlanController@getProjectActivityPlan'])->name('plans.activityproject');
@@ -218,6 +218,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/plans/export/{export_id}/{project_id}/{activity_id?}/{act?}', ['uses' => 'Procurement\ProcurementPlanController@export'])->name('plans.export');
     Route::get('/service/by/sector/{id}', ['uses' => 'Procurement\ProcurementPlanController@getServiceBySector'])->name('service.by.sector.id');
     Route::get('/itemgroup/by/sector/{id}', ['uses' => 'Procurement\ProcurementPlanController@getItemGroupBySector'])->name('itemgroup.by.sector.id');
+    Route::get('/searchmodal/{id}', ['uses' => 'Procurement\ProcurementPlanController@searchModal'])->name('searchmodal.id');
 
 
 });

@@ -81,6 +81,10 @@
                    // $('#btnAddmethod').attr("disabled", false);
                     $('.loader').hide();
                     if (data.status == true) {
+                        var update_url="{{route("purchasemethods.update")}}"
+                        $("#formMethodCreate").attr("action",update_url);
+                        $("#id").val(data.id);
+                        $('#btnAddmethod').attr("disabled", false);
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
 
                         $('.loader').hide();
@@ -88,10 +92,10 @@
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     }
                     //$('#addBenf').prop("disabled", false);
-                    $("#formMethodCreate").trigger("reset");
-                    setTimeout(() => {
-                        window.location.href = "{{route('purchasemethods.index')}}";
-                    }, 1000);
+                    {{--$("#formMethodCreate").trigger("reset");--}}
+                    {{--setTimeout(() => {--}}
+                    {{--    window.location.href = "{{route('purchasemethods.index')}}";--}}
+                    {{--}, 1000);--}}
 
                 },
                 error: function (data) {
