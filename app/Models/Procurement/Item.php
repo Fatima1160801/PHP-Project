@@ -26,7 +26,7 @@ protected $fillable =
 'upc',
 'ean',
 'mpn',
-'isbn', 'icon', 'thumb', 'photo','status'
+'isbn','status'
 ];
 
 

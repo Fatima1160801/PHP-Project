@@ -607,33 +607,34 @@ if (!function_exists('inputFile2')) {
         $view .= "<label for='" . $label->field_name . "' class='$label->col_label_Class col-form-label'> " . $change . $label->label . "</label>";
 
         $view .= "<div class='fileinput fileinput-new text-center' data-provides='fileinput'>";
+
     //    $view .= "<div class='fileinput-preview fileinput-exists thumbnail img-raised'>";
         if ($label->field_name == "icon"){
             if (!empty($data->icon)) {
-                $view .= "<img  style=' max-height: 100px; width: 100px; ' src =" . asset('') . '/' . $data->icon . " alt= '...' >";
+                $view .= "<img  style=' max-height: 100px; width: 100px; ' src =" . asset('') . '/' . $data->icon . " alt= '...' class='def-icon-ic' >";
             } else {
-                $view .= "<img style=' max-height: 100px; width: 100px; ' src =" . asset('assets/img/placeholder.png') . " alt = '...' >";
+                $view .= "<img style=' max-height: 100px; width: 100px; ' src =" . asset('assets/img/box-default.png') . " alt = '...' class='def-icon-ic'>";
             }
     }
        else if ($label->field_name == "thumb"){
             if (!empty($data->thumb)) {
-                $view .= "<img  style=' max-height: 100px; width: 100px; ' src =" . asset('') . '/' . $data->thumb . " alt= '...' >";
+                $view .= "<img  style=' max-height: 100px; width: 100px; ' src =" . asset('') . '/' . $data->thumb . " alt= '...' class='def-icon-thumb'>";
             } else {
-                $view .= "<img style=' max-height: 100px; width: 100px; ' src =" . asset('assets/img/placeholder.png') . " alt = '...' >";
+                $view .= "<img style=' max-height: 100px; width: 100px; ' src =" . asset('assets/img/box-default.png') . " alt = '...' class='def-icon-thumb' >";
             }
         }
       else  if ($label->field_name == "photo"){
             if (!empty($data->photo)) {
-                $view .= "<img  style=' max-height: 100px; width: 100px; ' src =" . asset('') . '/' . $data->photo . " alt= '...' >";
+                $view .= "<img  style=' max-height: 100px; width: 100px; ' src =" . asset('') . '/' . $data->photo . " alt= '...'class='def-icon-photo' >";
             } else {
-                $view .= "<img style=' max-height: 100px; width: 100px; ' src =" . asset('assets/img/placeholder.png') . " alt = '...' >";
+                $view .= "<img style=' max-height: 100px; width: 100px; ' src =" . asset('assets/img/box-default.png') . " alt = '...' class='def-icon-photo'>";
             }
         }
       else  if ($label->field_name == "image_icon"){
           if (!empty($data->image_icon)) {
-              $view .= "<img  style=' max-height: 100px; width: 100px; ' src =" . asset('') . '/' . $data->image_icon . " alt= '...' >";
+              $view .= "<img  style=' max-height: 100px; width: 100px; ' src =" . asset('') . '/' . $data->image_icon . " alt= '...' class='def-icon'>";
           } else {
-              $view .= "<img style=' max-height: 100px; width: 100px; ' src =" . asset('assets/img/placeholder.png') . " alt = '...' >";
+              $view .= "<img style=' max-height: 100px; width: 100px; ' src =" . asset('assets/img/box-default.png') . " alt = '...' class='def-icon' >";
           }
       }
         $view .= "<div class='fileinput-preview fileinput-exists thumbnail img-raised'>";

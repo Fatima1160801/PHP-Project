@@ -16,7 +16,6 @@ class ItemGroups extends Model
             'item_group_name_na',
             'item_group_name_fo',
             'description',
-            'image_icon',
             'sector_id',
             'unit_id',
             'updated_at',

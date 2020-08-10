@@ -103,9 +103,9 @@
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                         $('.loader').hide();
                     }
-                    setTimeout(() => {
-                        window.location.href = "{{route('items.groups.index')}}";
-                    }, 1000);
+                    {{--setTimeout(() => {--}}
+                    {{--    window.location.href = "{{route('items.groups.index')}}";--}}
+                    {{--}, 1000);--}}
 
 
                 },
@@ -116,7 +116,11 @@
 
         });
 
-
+        $("#image_icon").change(function (){
+            //  var fileName = $(this).val();
+            // $(".filename").html(fileName);
+            $(".def-icon").css("display","none");
+        });
 
     </script>
 @endsection

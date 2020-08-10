@@ -100,6 +100,17 @@
                 }
             });
         });
+        $("#image_icon").change(function (){
+            //  var fileName = $(this).val();
+            // $(".filename").html(fileName);
+            $(".def-icon").css("display","none");
+        });
+        // $(document).on('click', '.btn-danger', function () {
+        //   //  var fileName = $(this).val();
+        //    // $(".filename").html(fileName);
+        //     $(".def-icon").css("display","block !important");
+        // });
+
 
         // $(document).on('click', '#cleanScreen', function (e) {
         //     e.preventDefault();

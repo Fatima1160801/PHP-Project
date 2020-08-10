@@ -89,7 +89,7 @@
                 contentType: false,
                 beforeSend: function () {
                     $('#btnEdititem').attr("disabled", true);
-                    $('.loader').show();
+                    $('#btnEdititem div.loader').show();
                 },
                 success: function (data) {
                     $('#btnEdititem').attr("disabled", false);
@@ -98,9 +98,9 @@
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                         $('.loader').hide();
                     }
-                    setTimeout(() => {
-                        window.location.href = "{{route('items.index')}}";
-                    }, 1000);
+                    {{--setTimeout(() => {--}}
+                    {{--    window.location.href = "{{route('items.index')}}";--}}
+                    {{--}, 1000);--}}
 
 
                 },
@@ -110,7 +110,15 @@
             });
 
         });
-
+        $("#icon").change(function (){
+            $(".def-icon-ic").css("display","none");
+        });
+        $("#photo").change(function (){
+            $(".def-icon-photo").css("display","none");
+        });
+        $("#thumb").change(function (){
+            $(".def-icon-thumb").css("display","none");
+        });
 
 
     </script>

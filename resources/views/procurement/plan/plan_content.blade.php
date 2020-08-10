@@ -1,3 +1,18 @@
+{{--<style>--}}
+{{--    #loadScreen {--}}
+{{--        position: fixed;--}}
+{{--        z-index: 999;--}}
+{{--        height: 2em;--}}
+{{--        width: 2em;--}}
+{{--        margin: auto;--}}
+{{--        top: 0;--}}
+{{--        left: 0;--}}
+{{--        bottom: 0;--}}
+{{--        right: 0;--}}
+{{--    }--}}
+{{--</style>--}}
+
+<div id="scrolldiv"></div>
 @if($type==1)
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  <button type="button" id="rejectBtn" onclick="removeCheckedProjectActivity()" data-toggle="modal" data-target="#opportunityApproveConfirmModal"  class="btn btn-rose  btn-sm ">
     {{$labels['select_project'] ?? 'select project'}}
@@ -25,6 +40,8 @@
                 </ul>
             </div>
         @endif
+            <div id="loadScreen"><div class="loader pull-center" style="display: none;width: 30px;
+ height: 30px;"></div></div>
         {!! $html !!}
         <input name="selectedcurrency" type="hidden" id="selectedcurrency" value="0">
         <input name="actStartDate"  id="actStartDate" type="hidden"value="0" >

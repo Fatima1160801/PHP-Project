@@ -102,9 +102,9 @@
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                         $('.loader').hide();
                     }
-                    setTimeout(() => {
-                        window.location.href = "{{route('purchasemethods.index')}}";
-                    }, 1000);
+                    {{--setTimeout(() => {--}}
+                    {{--    window.location.href = "{{route('purchasemethods.index')}}";--}}
+                    {{--}, 1000);--}}
 
 
                 },

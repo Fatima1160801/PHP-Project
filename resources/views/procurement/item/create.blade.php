@@ -72,7 +72,7 @@
                 contentType: false,
                 beforeSend: function () {
                     $('#btnAdditem').attr("disabled", true);
-                    $('.loader').show();
+                    $('#btnAdditem div.loader').show();
                 },
                 success: function (data) {
 
@@ -106,6 +106,16 @@
         //     $('#formOppStatusCreate')[0].reset();
         //     // $('#beneficiary_id').selectpicker('refresh')
         // })
+
+        $("#icon").change(function (){
+            $(".def-icon-ic").css("display","none");
+        });
+        $("#photo").change(function (){
+            $(".def-icon-photo").css("display","none");
+        });
+        $("#thumb").change(function (){
+            $(".def-icon-thumb").css("display","none");
+        });
 
 
 

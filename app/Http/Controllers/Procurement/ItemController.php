@@ -46,7 +46,8 @@ class ItemController extends Controller
 
     public function screensetting(){
         $labels = inputButton(Auth::user()->lang_id, 0);
-        return view('procurement.screen', compact('labels'));
+        $userPermissions = getUserPermission();
+        return view('procurement.screen', compact('labels','userPermissions'));
     }
     public function create($type = null, $id = null)
     {
@@ -201,26 +202,26 @@ class ItemController extends Controller
             }
         }
         if ($request->hasFile('thumb')) {
-            $fileG = time() . '.' . $request->file('thumb')->getClientOriginalExtension();
+            $fileG2 = time() . '.' . $request->file('thumb')->getClientOriginalExtension();
             $filename_new = $request->file('thumb')->getClientOriginalName();
             if ($filename_old1 != $filename_new) {
                 // $itemObject->file = $fileG;
-                $itemObject->icon = 'images/item/thumb/'.$fileG;
-                $request->file('thumb')->move($path_thumb, $fileG);
+                $itemObject->thumb = 'images/item/thumb/'.$fileG2;
+                $request->file('thumb')->move($path_thumb, $fileG2);
             }else{
                 $itemObject->thumb=  $filename_old1;
                 //$itemObject->file=   $fileG_old ;
             }
         }
         if ($request->hasFile('photo')) {
-            $fileG = time() . '.' . $request->file('photo')->getClientOriginalExtension();
+            $fileG3 = time() . '.' . $request->file('photo')->getClientOriginalExtension();
             $filename_new = $request->file('photo')->getClientOriginalName();
             if ($filename_old2 != $filename_new) {
                 // $itemObject->file = $fileG;
-                $itemObject->icon = 'images/item/photo/'.$fileG;
-                $request->file('photo')->move($path_photo, $fileG);
+                $itemObject->photo = 'images/item/photo/'.$fileG3;
+                $request->file('photo')->move($path_photo, $fileG3);
             }else{
-                $itemObject->icon=  $filename_old2;
+                $itemObject->photo=  $filename_old2;
                 //$itemObject->file=   $fileG_old ;
             }
         }
