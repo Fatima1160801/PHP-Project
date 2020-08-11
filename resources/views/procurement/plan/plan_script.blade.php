@@ -299,6 +299,11 @@
         // $('html, body').animate({
         //     scrollTop: $(".scrolldiv").offset().top
         // }, 'slow');
+            loader.begin();
+
+            setTimeout(function(){
+                loader.stop();
+            }, 3000);
     });
     // $(".editItem").click(function() {
     //     $('html,body').animate({
