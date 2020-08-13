@@ -3,25 +3,29 @@
 @section('content')
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
-            <h4 class="card-title">
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+
+{{--                {{$labels['sectors'] ?? 'Sector'}}--}}
+{{--            </h4>--}}
+
+
+{{--        </div>--}}
+        <div class="card-body ">
+            <h4 class="card-title settingsTitle" ><span>
 
                 {{$labels['sectors'] ?? 'Sector'}}
-            </h4>
 
-
-        </div>
-        <div class="card-body ">
-            <a href="{{route('sectors.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
+            <a href="{{route('sectors.create')}}" class="btn btn-primary  btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
                title="{{$labels['addsector'] ?? 'Add sectors'}}" >
                 <i class="material-icons">add</i></a>
+                </span>   </h4>
 
-
-            <table class="table" id="table">
+            <table class="table dataTable no-footer  table-bordered" id="table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -66,6 +70,8 @@
                @endif
                 </tbody>
             </table>
+            <button type="button" class="btn  btn-sm btn-default" onclick='location.href="{{ route('screen.index')}}"'>Back</button>
+
         </div>
     </div>
 

@@ -223,6 +223,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/layout', ['uses' => 'Procurement\ProcurementPlanController@layout'])->name('plans.layout');
     Route::get('/sidebar', ['uses' => 'Procurement\ProcurementPlanController@sidebar'])->name('plans.sidebar');
     Route::get('/tabs2', ['uses' => 'Procurement\ProcurementPlanController@tabs2'])->name('plans.tabs2');
+    Route::get('/screen2', ['uses' => 'Procurement\ProcurementPlanController@screen2'])->name('plans.screen2');
 
 
 });

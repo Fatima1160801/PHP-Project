@@ -3,29 +3,33 @@
 @section('content')
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
-            <h4 class="card-title">
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+
+{{--                {{$labels['brands'] ?? 'Brand'}}--}}
+{{--            </h4>--}}
+
+
+{{--        </div>--}}
+        <div class="card-body ">
+            <h4 class="card-title">  <span>
 
                 {{$labels['brands'] ?? 'Brand'}}
-            </h4>
 
-
-        </div>
-        <div class="card-body ">
             <a href="{{route('brands.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
                title="{{$labels['addbrand'] ?? 'Add Brand'}}" >
                 <i class="material-icons">add</i></a>
+</span></h4>
 
-
-            <table class="table" id="table">
+            <table class="table dataTable no-footer table-bordered" style="width:40em;" id="table">
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>
+                    <th style="width: 30em;">
                         {{$labels['brand_name'] ?? 'Brand name'}}
                     </th>
 
@@ -42,7 +46,7 @@
                     @foreach($list  as $index => $item)
                         <tr>
                             <td>{{$index+1}}</td>
-                            <td>{{$item->brand_name ?? ""}}</td>
+                            <td style="width: 30em;">{{$item->brand_name ?? ""}}</td>
 
                             <td>
                                 <a href="{{route('brands.edit',$item->id)}}"
@@ -64,9 +68,12 @@
                 @endif
                 </tbody>
             </table>
+{{--            <a href="{{route('screen.index')}}" class="btn  btn-sm backButtons">--}}
+{{--                {{$labels['back'] ?? 'back'}}--}}
+{{--            </a>--}}
+            <button type="button" class="btn  btn-sm btn-default" onclick='location.href="{{ route('screen.index')}}"'>Back</button>
         </div>
     </div>
-
 
 @endsection
 @section('script')

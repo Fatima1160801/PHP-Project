@@ -3,25 +3,28 @@
 @section('content')
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
-            <h4 class="card-title">
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+
+{{--                {{$labels['item'] ?? 'Item'}}--}}
+{{--            </h4>--}}
+
+
+{{--        </div>--}}
+        <div class="card-body ">
+            <h4 class="card-title "><span>
 
                 {{$labels['item'] ?? 'Item'}}
-            </h4>
-
-
-        </div>
-        <div class="card-body ">
-            <a href="{{route('items.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
+            <a href="{{route('items.create')}}" class="btn  btn-primary btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
                title="{{$labels['additem'] ?? 'Add Items'}}" >
                 <i class="material-icons">add</i></a>
+                </span></h4>
 
-
-            <table class="table" id="table">
+            <table class="table dataTable no-footer table-bordered"style="width:75em;" id="table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -90,6 +93,8 @@
                 @endif
                 </tbody>
             </table>
+            <button type="button" class="btn  btn-sm btn-default" onclick='location.href="{{ route('screen.index')}}"'>Back</button>
+
         </div>
     </div>
 

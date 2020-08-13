@@ -3,32 +3,36 @@
 @section('content')
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
-            <h4 class="card-title">
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+
+{{--                {{$labels['purchasemethods'] ?? 'Purchase Method'}}--}}
+{{--            </h4>--}}
+
+
+{{--        </div>--}}
+        <div class="card-body ">
+            <h4 class="card-title settingsTitle"><span>
 
                 {{$labels['purchasemethods'] ?? 'Purchase Method'}}
-            </h4>
 
-
-        </div>
-        <div class="card-body ">
-            <a href="{{route('purchasemethods.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
+            <a href="{{route('purchasemethods.create')}}" class="btn btn-primary  btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
                title="{{$labels['addmethod'] ?? 'Add purchasemethod'}}" >
                 <i class="material-icons">add</i></a>
+            </span></h4>
 
-
-            <table class="table" id="table">
+            <table class="table dataTable no-footer  table-bordered"  id="table" style="width:70em;">
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>
+                    <th style="width: 30em;">
                         {{$labels['method_name_na'] ?? 'Purchase Method name'}}
                     </th>
-                    <th>
+                    <th style="width: 30em;">
                         {{$labels['method_name_fo'] ?? 'purchase Method name in other language'}}
                     </th>
 
@@ -66,6 +70,8 @@
                 @endif
                 </tbody>
             </table>
+            <button type="button" class="btn  btn-sm btn-default" onclick='location.href="{{ route('screen.index')}}"'>Back</button>
+
         </div>
     </div>
 

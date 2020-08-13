@@ -2,9 +2,9 @@
 @section('content')
     <div class="card ">
         <div class="card-header card-header-rose  card-header-icon">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
             <h4 class="card-title">
                 {{$labels['edititemgroup'] ?? 'Edit Item Groups'}}
             </h4>
@@ -36,7 +36,7 @@
 
                 <div class="card-footer ml-auto mr-auto">
                     <div class="ml-auto mr-auto">
-                        <a href="{{route('items.groups.index')}}" class="btn btn-default btn-sm">
+                        <a href="{{route('items.groups.index')}}" class="btn btn-sm btn-default">
                             {{$labels['back'] ?? 'back'}}
                         </a>
                         <button btn="btnToggleDisabled" type="submit" id="btnEdititem"

@@ -1,10 +1,11 @@
 @extends('layouts._layout')
+
 @section('content')
     <div class="card ">
         <div class="card-header card-header-rose  card-header-icon">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
             <h4 class="card-title">
                 {{$labels['addbrand'] ?? 'Add Brands'}}
             </h4>
@@ -32,11 +33,11 @@
 
                 <div class="card-footer ml-auto mr-auto">
                     <div class="ml-auto mr-auto">
-                        <a href="{{route('brands.index')}}" class="btn btn-default btn-sm">
+                        <a href="{{route('brands.index')}}" class="btn  btn-sm btn-default backButtons">
                             {{$labels['back'] ?? 'back'}}
                         </a>
                         <button btn="btnToggleDisabled" type="submit" id="btnAddbrand"
-                                class="btn btn-next btn-rose pull-right btn-sm">
+                                class="btn btn-next pull-right btn-sm btn-rose saveButtons">
                             <div class="loader pull-left" style="display: none;"></div> {{$labels['save'] ?? 'save'}}
                         </button>
 

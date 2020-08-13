@@ -3,44 +3,48 @@
 @section('content')
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
-            <h4 class="card-title">
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+
+{{--                {{$labels['vendors'] ?? 'Vendor'}}--}}
+{{--            </h4>--}}
+
+
+{{--        </div>--}}
+        <div class="card-body ">
+            <h4 class="card-title "><span>
 
                 {{$labels['vendors'] ?? 'Vendor'}}
-            </h4>
 
-
-        </div>
-        <div class="card-body ">
-            <a href="{{route('vendors.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
+            <a href="{{route('vendors.create')}}" class="btn btn-primary btn-sm btn-round btn-fab "
                data-toggle="tooltip" data-placement="top"
                title="{{$labels['addvendor'] ?? 'Add vendor'}}" >
                 <i class="material-icons">add</i></a>
+            </span> </h4>
 
-
-            <table class="table" id="table">
+            <table class="table dataTable no-footer settingInfo table-bordered" style="width:70em;" id="table">
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>
+                    <th style="width:15em;">
                         {{$labels['vendor_name_na'] ?? 'Vendor name'}}
                     </th>
-                    <th>
+                    <th style="width:10em;">
                         {{$labels['vat_number'] ?? 'Vendor name in other language'}}
                     </th>
-                    <th>
+                    <th style="width:10em;">
                         {{$labels['state_id'] ?? 'state'}}
                     </th>
-                    <th>
+                    <th style="width:15em;">
                         {{$labels['telephone'] ?? 'telephone'}}
                     </th>
-                    <th>
+                    <th style="width:15em;">
                         {{$labels['fax'] ?? 'fax'}}
                     </th>
-                    <th>
+                    <th style="width:10em;">
                         {{$labels['actions'] ?? 'actions'}}
                     </th>
 
@@ -78,7 +82,7 @@
                 @endif
                 </tbody>
             </table>
-
+            <button type="button" class="btn  btn-sm btn-default" onclick='location.href="{{ route('screen.index')}}"'>Back</button>
 
         </div>
     </div>

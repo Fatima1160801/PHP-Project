@@ -4,9 +4,9 @@
   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">-->
     <div class="card ">
         <div class="card-header card-header-rose  card-header-icon">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
             <h4 class="card-title">
                 {{$labels['editvendor'] ?? 'Edit Vendors'}}
             </h4>

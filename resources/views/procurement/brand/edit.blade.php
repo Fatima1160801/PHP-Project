@@ -2,9 +2,9 @@
 @section('content')
     <div class="card ">
         <div class="card-header card-header-rose  card-header-icon">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
             <h4 class="card-title">
                 {{$labels['editbrand'] ?? 'Edit Brands'}}
             </h4>
@@ -39,7 +39,8 @@
                             {{$labels['back'] ?? 'back'}}
                         </a>
                         <button btn="btnToggleDisabled" type="submit" id="btnEditbrand"
-                                class="btn-sm btn btn-next btn-rose pull-right">
+                                class="btn-sm btn btn-next  pull-right btn-rose
+">
                             <div class="loader pull-left " style="display: none;"></div> {{$labels['save'] ?? 'save'}}
                         </button>
                     </div>

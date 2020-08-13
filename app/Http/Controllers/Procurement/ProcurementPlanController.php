@@ -565,4 +565,7 @@ else{
         $c=2;
         return view('procurement.tabs2',compact('c','p'));
     }
+    function screen2(){
+        return view('procurement.screen2');
+    }
 }
