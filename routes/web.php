@@ -215,10 +215,14 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/currency/{id}', ['uses' => 'Procurement\ProcurementPlanController@getCurrency'])->name('currency.id');
     Route::delete('/plans/delete/{id}', ['uses' => 'Procurement\ProcurementPlanController@delete'])->name('plans.delete');
     Route::post('/plans/update/{project_id}/{activity_id?}', ['uses' => 'Procurement\ProcurementPlanController@update'])->name('plans.update');
-    Route::get('/plans/export/{export_id}/{project_id}/{activity_id?}/{act?}', ['uses' => 'Procurement\ProcurementPlanController@export'])->name('plans.export');
+    Route::get('/plans/export/{export_id}/{project_id}/{activity_id?}/{act?}/{screentype?}', ['uses' => 'Procurement\ProcurementPlanController@export'])->name('plans.export');
     Route::get('/service/by/sector/{id}', ['uses' => 'Procurement\ProcurementPlanController@getServiceBySector'])->name('service.by.sector.id');
     Route::get('/itemgroup/by/sector/{id}', ['uses' => 'Procurement\ProcurementPlanController@getItemGroupBySector'])->name('itemgroup.by.sector.id');
     Route::get('/searchmodal/{id}', ['uses' => 'Procurement\ProcurementPlanController@searchModal'])->name('searchmodal.id');
+    Route::get('/tabs', ['uses' => 'Procurement\ProcurementPlanController@tabs'])->name('plans.tabs');
+    Route::get('/layout', ['uses' => 'Procurement\ProcurementPlanController@layout'])->name('plans.layout');
+    Route::get('/sidebar', ['uses' => 'Procurement\ProcurementPlanController@sidebar'])->name('plans.sidebar');
+    Route::get('/tabs2', ['uses' => 'Procurement\ProcurementPlanController@tabs2'])->name('plans.tabs2');
 
 
 });

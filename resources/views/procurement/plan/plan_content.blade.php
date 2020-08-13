@@ -11,7 +11,6 @@
 {{--        right: 0;--}}
 {{--    }--}}
 {{--</style>--}}
-
 <div id="scrolldiv"></div>
 @if($type==1)
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  <button type="button" id="rejectBtn" onclick="removeCheckedProjectActivity()" data-toggle="modal" data-target="#opportunityApproveConfirmModal"  class="btn btn-rose  btn-sm ">
@@ -132,7 +131,7 @@
                         @if(!empty($project_list))
                             @foreach($project_list  as $index => $item)
                                 @if($index<10)
-                                    <tr> <td style="padding: 10px !important;"><input  type=radio data-curr-name='{{$item->currency->currency_name_na}}'  name="projectid" value='{{$item->id}}'></td> <td ><p class="ml-2">{{$item->{'project_name_'.lang_character()} ?? ""}}</td></tr>
+                                    <tr> <td style="padding: 10px !important;"><input  type=radio data-curr-name='{{$item->currency->{'currency_name_'.lang_character()} ?? ""}}'  name="projectid" value='{{$item->id}}'></td> <td ><p class="ml-2">{{$item->{'project_name_'.lang_character()} ?? ""}}</td></tr>
                                 @endif  @endforeach
                         @endif
                         </tbody>

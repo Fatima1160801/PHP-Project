@@ -147,8 +147,9 @@ class ProcurementPlanController extends Controller
             $planObject->start_date=dateFormatDataBase($request->start_date);
             $planObject->delivery_date=dateFormatDataBase($request->delivery_date);
             $projectBudget = \App\Models\Procurement\Project::where('id', $project_id)->first();
+            if (!empty($project_id)&& $project_id!=0) {
             if($planObject->start_date < $planObject->delivery_date ||$planObject->start_date == $planObject->delivery_date) {
-                if (!empty($project_id)) {
+//                if (!empty($project_id)&& $project_id!=0) {
                     $query = Plan::where('project_id', $project_id)->first();
                     if (!empty($query)) {
                         $project = Plan::where('project_id', $project_id)->pluck("id")->toArray();
@@ -158,7 +159,7 @@ class ProcurementPlanController extends Controller
                         if (($budgetSum + $request->budget) <= $projectBudget->plan_budget) {
 
 
-                            if (!empty($activity_id)) {
+                            if (!empty($activity_id) && $activity_id!=0) {
 
                                 $activitydate = Activity::where('id', $activity_id)->first();
                                 if ((empty($activitydate->act_end_date) && empty($activitydate->act_start_date)) || (($planObject->delivery_date < dateFormatDataBase($activitydate->act_end_date) || $planObject->delivery_date == dateFormatDataBase($activitydate->act_end_date)) && ($planObject->delivery_date > dateFormatDataBase($activitydate->act_start_date) || $planObject->delivery_date == dateFormatDataBase($activitydate->act_start_date)))) {
@@ -183,7 +184,7 @@ class ProcurementPlanController extends Controller
                                     return response(['status' => false, 'message' => getMessage('2.418')]);
                                 }
                             } else {
-                                $query2 = $query->whereNull('activity_id')->first();
+                                $query2 = Plan::where('project_id', $project_id)->whereNull('activity_id')->first();
                                 if (!empty($query2)) {
                                     $planObject->plan_id = $query2->id;
 
@@ -241,7 +242,7 @@ class ProcurementPlanController extends Controller
 
                 } //           }
                 else {
-                    return response(['status' => false, 'message' => getMessage('2.419')]);
+                    return response(['status' => false, 'message' => getMessage('2.423')]);
                 }
 
 
@@ -249,7 +250,7 @@ class ProcurementPlanController extends Controller
 
             }
             else
-                return response(['status' => false, 'message' => getMessage('2.423')]);
+                return response(['status' => false, 'message' => getMessage('2.419')]);
 
         }catch (\Throwable $exception) {
             DB::rollBack();
@@ -344,7 +345,7 @@ else{
             ->sum('budget');
         if($planObject->start_date < $planObject->delivery_date ||$planObject->start_date == $planObject->delivery_date) {
 
-            if ($oldBudget == $request->budget || (($budgetSum + $request->budget) <= $projectBudget->plan_budget)) {
+            if ($oldBudget == $request->budget || (($budgetSum + $request->budget-$oldBudget) <= $projectBudget->plan_budget)) {
 
 
                 if (!empty($activity_id) && $activity_id != 0) {
@@ -407,10 +408,11 @@ else{
         }
 
     }
-   public function export($export_id,$projectId,$activityId,$act){
+   public function export($export_id,$projectId,$activityId,$act,$screentype){
        is_permitted(150, getClassName(__CLASS__), __FUNCTION__, 335, 7);
        $option=[];
        $vendor=new Plan();
+       $id=Auth::user()->lang_id;
        $generator = generator(150,$option,$vendor);
        $html = $generator[0];
        $labels = $generator[1];
@@ -421,11 +423,17 @@ else{
             $project='';
             $activity='';
             $currency='';
+           $projectfo='';
+           $activityfo='';
+           $currencyfo='';
+
    }
         else{
             $projectt=\App\Models\Procurement\Project::where('id',$projectId)->with(["currency"])->first();
             $project=$projectt->project_name_na;
             $currency=$projectt->currency->currency_name_na;
+            $projectfo=$projectt->project_name_fo;
+            $currencyfo=$projectt->currency->currency_name_fo;
             if($activityId==0 && $act==0){
                 $list=\App\Models\Procurement\Plan::where('project_id',$projectId)->pluck("id")->toArray();
             if (!empty($list)) {
@@ -438,6 +446,7 @@ else{
             }
             $city=[];
             $activity='';
+                $activityfo='';
         }
             else if($activityId==0 && $act==1){
                 $list=\App\Models\Procurement\Plan::where('project_id',$projectId)->whereNull('activity_id')->pluck("id")->toArray();
@@ -454,10 +463,12 @@ else{
                     $arr=[];
                 $city=[];
                 $activity='';
+                $activityfo='';
             }
             else{
-                $Activityn=Activity::where('id',$activityId)->first();
-                $activity=$Activityn->activity_name_na;
+                $activityn=Activity::where('id',$activityId)->first();
+                $activity=$activityn->activity_name_na;
+                $activityfo=$activityn->activity_name_fo;
                 $city=Activity::find($activityId)->cities()->get();
                 $list=\App\Models\Procurement\Plan::where('project_id',$projectId)->where('activity_id',$activityId)->pluck("id")->toArray();
                 if (!empty($list)) {
@@ -483,6 +494,10 @@ else{
                    'project' => $project,
                    'activity' => $activity,
                    'currency' => $currency,
+                   'projectfo'=>$projectfo,
+                   'currencyfo'=>$currencyfo,
+                   'activityfo'=>$activityfo,
+
                ], [],
                [
                    'format' => 'A4-L',
@@ -495,7 +510,7 @@ else{
            );
            return $pdf->download('plan.pdf');
        }else{
-           return view('procurement.plan.export',compact('arr','city','project','activity','currency'));
+           return view('procurement.plan.export',compact('arr','city','project','activity','currency','projectfo','activityfo','currencyfo','screentype','id'));
        }
    }
     function getServiceBySector($id){
@@ -533,5 +548,21 @@ else{
             return response(['status' => false, 'activity' => []]);
         }
 
+    }
+    function tabs(){
+        $p="edit";
+        $c=2;
+        return view('procurement.tabs',compact('c','p'));
+    }
+    function layout(){
+        return view('procurement.layout');
+    }
+    function sidebar(){
+        return view('procurement.sidebar');
+    }
+    function tabs2(){
+        $p="edit";
+        $c=2;
+        return view('procurement.tabs2',compact('c','p'));
     }
 }

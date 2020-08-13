@@ -20,6 +20,8 @@
         var activity=$("#selectedactivity").val();
         if($("#id").val()==0){
             var url = '{{url('plans/store/')}}';
+            // alert(project);
+            // alert(activity);
             $.ajax({
                 url: url+'/'+project+'/'+activity,
                 data: form,
@@ -138,11 +140,25 @@
     function addProjectName() {
         document.getElementById("formPlanCreate").reset();
         $('.selectpicker').selectpicker('refresh');
+        $("#projectname").html("");
+         $("#projectlabel").html("");
+         $("#currency_id").val('');
+         $("#currencyname").html('');
+         $("#activityname").html('');
+         $("#location").html('');
+         $("#governorate").html('');
+        $("#selectedactivity").val(0);
+         $("#selectedproject").val(0);
+         $("#checkForActivityNull").val(0);
         $('#load div.loader').show();
         var project_lists = @json($project_list);
         var id =@json($id);
         var ele = document.getElementsByName('projectid');
         var project_id =$('input[name="projectid"]:checked').val();
+        if(project_id==null){
+            project_id=0;
+
+        }
         $("#idprojectforsearchactivity").val(project_id);
         var currency_name =$('input[name="projectid"]:checked').attr("data-curr-name");
         document.getElementById("selectedproject").value=project_id;
@@ -165,6 +181,8 @@
             }
         });
         appendActivityModal(project_id);
+        $("#select").val('');
+        fillProjectsName();
         $("#opportunityApproveConfirmModal").modal('hide');
         Body = $("#plan tbody");
         Body.empty();
@@ -204,11 +222,14 @@
                     $("#activityname").html(activity_lists[index].activity_name_fo);
                 }}
         });
+        $project= document.getElementById("selectedproject").value
+        $("#selectact").val('');
+        appendActivityModal($project);
         $("#activityModal").modal('hide');
         Body = $("#plan tbody");
         Body.empty();
         $activity =activity_id;
-        $project= document.getElementById("selectedproject").value
+
         $.get('{{url('/projectactivity')}}' + '/' + $project+'/' + $activity, function (data) {
             if (data.status != false) {
                 appendTableItem(data.plan,data.lang);
@@ -299,11 +320,7 @@
         // $('html, body').animate({
         //     scrollTop: $(".scrolldiv").offset().top
         // }, 'slow');
-            loader.begin();
 
-            setTimeout(function(){
-                loader.stop();
-            }, 3000);
     });
     // $(".editItem").click(function() {
     //     $('html,body').animate({
@@ -623,7 +640,8 @@
         var pid=$("#selectedproject").val();
         var aid=$("#selectedactivity").val();
         var act=$("#checkForActivityNull").val();
-        window.location.href = '{{url('/plans/export/1')}}' + '/' + pid+ '/' + aid+ '/' + act;
+        var type=@json($type);
+        window.location.href = '{{url('/plans/export/1')}}' + '/' + pid+ '/' + aid+ '/' + act+ '/' + type;
     });
 
     $(document).on("click", ".exportExcel", function (e) {
@@ -632,7 +650,8 @@
         var pid=$("#selectedproject").val();
         var aid=$("#selectedactivity").val();
         var act=$("#checkForActivityNull").val();
-        window.location.href = '{{url('/plans/export/2')}}' + '/' + pid+ '/' + aid+ '/' + act;
+        var type=@json($type);
+        window.location.href = '{{url('/plans/export/2')}}' + '/' + pid+ '/' + aid+ '/' + act+ '/' + type;
     });
     $( "#sector_id" ).change(function() {
         var sector = $('#sector_id').find(":selected").val();
@@ -783,7 +802,7 @@ var type=@json($type);
        id=@json($id);
        if(id==1){
            var currency_name=currency.currency.currency_name_na;
-           var project_name=actproject.project.project_name_na;
+           var project_name=currency.project_name_na;
            var activity_name=actproject.activity_name_na
            $.each(city, function (index, value) {
                $("#location").append(value.district_name_na+',');
@@ -791,7 +810,7 @@ var type=@json($type);
            });
        }else{
            var currency_name=currency.currency.currency_name_fo;
-           var project_name=actproject.project.project_name_fo;
+           var project_name=currency.project_name_fo;
            var activity_name=actproject.activity_name_fo
            $.each(city, function (index, value) {
                $("#location").append(value.district_name_fo+',');
@@ -818,6 +837,25 @@ var type=@json($type);
            }
            $('#load div.loader').hide();
        });
+
+    }
+    function fillProjectsName(){
+        var project_lists = @json($project_list);
+        tableBody = $("#projectInfo tbody");
+        tableBody.empty();
+        var id=@json($id);
+        var count=1;
+        $.each(project_lists, function (index, value) {
+            if(count<=10){
+            if(id==1){
+                markup = '<tr> <td style="padding: 10px !important;"><input type=radio data-curr-name="' + value.currency.currency_name_na + '" name="projectid" value=' + value.id + '></td> <td ><p class="ml-2">' + value.project_name_na + '</td></tr>';
+            } else {
+                markup = '<tr> <td style="padding: 10px !important;"><input type=radio data-curr-name="' + value.currency.currency_name_fo + '" name="projectid" value=' + value.id + '></td> <td ><p class="ml-2">' + value.project_name_fo + '</td></tr>';
+            }
+        tableBody.append(markup);
+            count++;
+            }
+        });
 
     }
 </script>
