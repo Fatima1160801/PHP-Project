@@ -332,6 +332,14 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::PUT('/jobtitle/update', ['uses' => 'Project\JobTitleController@update'])->name('project.jobtitle.update');
     Route::DELETE('/jobtitle/{id}', ['uses' => 'Project\JobTitleController@destroy'])->name('project.jobtitle.destroy');
 
+    Route::get('staff/index', ['uses' => 'Project\StaffController@index'])->name('project.staff.index');
+    Route::get('staff/create', ['uses' => 'Project\StaffController@create'])->name('project.staff.create');
+    Route::post('/staff/store', ['uses' => 'Project\StaffController@store'])->name('project.staff.store');
+    Route::get('staff/{id}/edit', ['uses' => 'Project\StaffController@edit'])->name('project.staff.edit');
+    Route::PATCH('/staff/update', ['uses' => 'Project\StaffController@update'])->name('project.staff.update');
+    Route::DELETE('/staff/{id}', ['uses' => 'Project\StaffController@destroy'])->name('project.staff.destroy');
+    Route::get('staff/{id}', ['uses' => 'Project\StaffController@show'])->name('project.staff.show');
+
 
 
     //////////////////////settings screen end/////////////////////////
