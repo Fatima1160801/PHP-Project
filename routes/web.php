@@ -381,6 +381,21 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::put('/donors/contact/update', ['uses' => 'Project\DonorContactsController@update'])->name('project.donors.contact.update');
     Route::delete('/donors/contact/delete/{id}', ['uses' => 'Project\DonorContactsController@destroy'])->name('project.donors.contact.delete');
 
+    Route::get('goals/indicators/measure/units/index', ['uses' => 'Goals\IndicatorsMeasureUnitController@index'])->name('goals.indicators.measure.unit.index');
+    Route::get('goals/indicators/measure/units/create', ['uses' => 'Goals\IndicatorsMeasureUnitController@create'])->name('goals.indicators.measure.unit.create');
+    Route::post('goals/indicators/measure/units/store', ['uses' => 'Goals\IndicatorsMeasureUnitController@store'])->name('goals.indicators.measure.unit.store');
+    Route::get('goals/indicators/measure/units/{id}/edit', ['uses' => 'Goals\IndicatorsMeasureUnitController@edit'])->name('goals.indicators.measure.unit.edit');
+    Route::put('goals/indicators/measure/units/update', ['uses' => 'Goals\IndicatorsMeasureUnitController@update'])->name('goals.indicators.measure.unit.update');
+    Route::delete('goals/indicators/measure/units/{id}/delete', ['uses' => 'Goals\IndicatorsMeasureUnitController@destroy'])->name('goals.indicators.measure.unit.delete');
+
+
+    Route::get('goals/indicators/type/index', ['uses' => 'Goals\IndicatorsTypeController@index'])->name('goals.indicators.type.index');
+    Route::get('goals/indicators/type/create', ['uses' => 'Goals\IndicatorsTypeController@create'])->name('goals.indicators.type.create');
+    Route::post('goals/indicators/type/store', ['uses' => 'Goals\IndicatorsTypeController@store'])->name('goals.indicators.type.store');
+    Route::get('goals/indicators/type/{id}/edit', ['uses' => 'Goals\IndicatorsTypeController@edit'])->name('goals.indicators.type.edit');
+    Route::put('goals/indicators/type/update', ['uses' => 'Goals\IndicatorsTypeController@update'])->name('goals.indicators.type.update');
+    Route::delete('goals/indicators/type/delete/{id}', ['uses' => 'Goals\IndicatorsTypeController@destroy'])->name('goals.indicators.type.delete');
+
 
     //////////////////////settings screen end/////////////////////////
 
