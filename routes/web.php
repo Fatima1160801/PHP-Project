@@ -426,6 +426,15 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('settings/notifications', ['uses' => 'Setting\NotificationSettingController@index', 'as' => 'settings.notifications']);
     Route::post('settings/notifications/save', ['uses' => 'Setting\NotificationSettingController@saveNotiSettings', 'as' => 'settings.notifications.save']);
 
+
+    Route::get('settings/visit/type/index', ['uses' => 'Setting\VisitTypeController@index', 'as' => 'settings.visit.type.index']);
+    Route::get('settings/visit/type/create', ['uses' => 'Setting\VisitTypeController@getCreate', 'as' => 'settings.visit.type.create']);
+    Route::post('settings/visit/type/store', ['uses' => 'Setting\VisitTypeController@store', 'as' => 'settings.visit.type.store']);
+    Route::get('settings/visit/type/{id}/edit', ['uses' => 'Setting\VisitTypeController@getEdit', 'as' => 'settings.visit.type.edit']);
+    Route::post('settings/visit/type/update', ['uses' => 'Setting\VisitTypeController@update', 'as' => 'settings.visit.type.update']);
+    Route::delete('settings/visit/type/delete/{id}', ['uses' => 'Setting\VisitTypeController@delete', 'as' => 'settings.visit.type.delete']);
+
+
     //////////////////////settings screen end/////////////////////////
 
 });
