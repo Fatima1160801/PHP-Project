@@ -423,6 +423,8 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('attachments/not/fixed/edit/{id?}', ['uses' => 'Setting\AttachmentsController@editNotFixed'])->name('attachments.not.fixed.edit');
     Route::post('attachments/not/fixed/store', ['uses' => 'Setting\AttachmentsController@storeNotFixed'])->name('attachments.not.fixed.store');
 
+    Route::get('settings/notifications', ['uses' => 'Setting\NotificationSettingController@index', 'as' => 'settings.notifications']);
+    Route::post('settings/notifications/save', ['uses' => 'Setting\NotificationSettingController@saveNotiSettings', 'as' => 'settings.notifications.save']);
 
     //////////////////////settings screen end/////////////////////////
 
