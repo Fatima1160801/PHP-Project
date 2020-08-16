@@ -356,6 +356,32 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::DELETE('/donors/types/{id}', ['uses' => 'Project\DonorTypeController@destroy'])->name('project.donors.types.destroy');
     Route::get('/donors/types/desc/{id?}', ['uses' => 'Project\DonorTypeController@getDesc'])->name('project.donors.types.desc');
 
+
+    Route::get('donors/wizard/{id?}', ['uses' => 'Project\DonorController@donorWizard'])->name('project.donors.donorWizard');
+    Route::get('donors/index', ['uses' => 'Project\DonorController@index'])->name('project.donors.index');
+    Route::get('donors/create', ['uses' => 'Project\DonorController@create'])->name('project.donors.create');
+    Route::post('/donors/store', ['uses' => 'Project\DonorController@store'])->name('project.donors.store');
+    Route::get('donors/{id}/edit', ['uses' => 'Project\DonorController@edit'])->name('project.donors.edit');
+    Route::post('/donors/update', ['uses' => 'Project\DonorController@update'])->name('project.donors.update');
+    Route::delete('/donors/delete/{id}', ['uses' => 'Project\DonorController@destroy'])->name('project.donors.destroy');
+    Route::get('donors/{id}', ['uses' => 'Project\DonorController@show'])->name('project.donors.show');
+
+    Route::get('donors/types/index', ['uses' => 'Project\DonorTypeController@index'])->name('project.donors.types.index');
+    Route::get('donors/types/create', ['uses' => 'Project\DonorTypeController@create'])->name('project.donors.types.create');
+    Route::post('/donors/types/store', ['uses' => 'Project\DonorTypeController@store'])->name('project.donors.types.store');
+    Route::get('donors/types/{id}/edit', ['uses' => 'Project\DonorTypeController@edit'])->name('project.donors.types.edit');
+    Route::put('/donors/types/update', ['uses' => 'Project\DonorTypeController@update'])->name('project.donors.types.update');
+    Route::DELETE('/donors/types/{id}', ['uses' => 'Project\DonorTypeController@destroy'])->name('project.donors.types.destroy');
+    Route::get('/donors/types/desc/{id?}', ['uses' => 'Project\DonorTypeController@getDesc'])->name('project.donors.types.desc');
+
+    Route::get('/donors/contact/{donor_id?}', ['uses' => 'Project\DonorContactsController@index'])->name('project.donors.contact.index');
+    Route::get('/donors/contact/create/{donor_id?}', ['uses' => 'Project\DonorContactsController@create'])->name('project.donors.contact.create');
+    Route::post('/donors/contact/store', ['uses' => 'Project\DonorContactsController@store'])->name('project.donors.contact.store');
+    Route::get('/donors/contact/{id?}/edit', ['uses' => 'Project\DonorContactsController@edit'])->name('project.donors.contact.edit');
+    Route::put('/donors/contact/update', ['uses' => 'Project\DonorContactsController@update'])->name('project.donors.contact.update');
+    Route::delete('/donors/contact/delete/{id}', ['uses' => 'Project\DonorContactsController@destroy'])->name('project.donors.contact.delete');
+
+
     //////////////////////settings screen end/////////////////////////
 
 });
