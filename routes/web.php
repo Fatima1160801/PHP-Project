@@ -341,6 +341,13 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('staff/{id}', ['uses' => 'Project\StaffController@show'])->name('project.staff.show');
 
 
+    Route::get('projectcategories/index', ['uses' => 'Project\ProjectCategoryController@index'])->name('project.projectcategories.index');
+    Route::get('projectcategories/create', ['uses' => 'Project\ProjectCategoryController@create'])->name('project.projectcategories.create');
+    Route::post('/projectcategories/store', ['uses' => 'Project\ProjectCategoryController@store'])->name('project.projectcategories.store');
+    Route::get('projectcategories/{id}/edit', ['uses' => 'Project\ProjectCategoryController@edit'])->name('project.projectcategories.edit');
+    Route::PATCH('/projectcategories/update', ['uses' => 'Project\ProjectCategoryController@update'])->name('project.projectcategories.update');
+    Route::DELETE('/projectcategories/{id}', ['uses' => 'Project\ProjectCategoryController@destroy'])->name('project.projectcategories.destroy');
+
 
     //////////////////////settings screen end/////////////////////////
 
