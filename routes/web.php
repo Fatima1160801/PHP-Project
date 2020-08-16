@@ -399,6 +399,31 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('settings/email/index', ['uses' => 'Setting\EmailSettingController@index'])->name('settings.email.index');
     Route::post('settings/email/index', ['uses' => 'Setting\EmailSettingController@index'])->name('settings.email.store');
 
+
+
+    Route::get('attachments', ['uses' => 'Setting\AttachmentsController@index'])->name('attachments.index');
+    Route::get('attachments/create', ['uses' => 'Setting\AttachmentsController@create'])->name('attachments.create');
+    Route::get('attachments/{id}/edit', ['uses' => 'Setting\AttachmentsController@getEdit'])->name('attachments.edit');
+    Route::delete('attachments/delete/{id}', ['uses' => 'Setting\AttachmentsController@delete'])->name('attachments.delete');
+    Route::post('attachments/store', ['uses' => 'Setting\AttachmentsController@store'])->name('attachments.store');
+
+    Route::get('attachments/{activity_type?}/{primary_id?}', ['uses' => 'Setting\AttachmentsController@getByActivity'])->name('attachments.get_by_activity');
+
+    Route::get('attachments/get/mainActivitiesList/{project_id?}', ['uses' => 'Setting\AttachmentsController@getMainActivitiesList'])->name('attachments.getMainActivitiesList');
+    Route::get('attachments/get/subActivitiesList/{main_activity_id?}', ['uses' => 'Setting\AttachmentsController@getSubActivitiesList'])->name('attachments.getSubActivitiesList');
+    Route::get('attachment/search', ['uses' => 'Setting\AttachmentsController@search'])->name('attachments.search');
+
+    Route::get('attachments/fixed/create/{attachment_type_id}', ['uses' => 'Setting\AttachmentsController@createFixed'])->name('attachments.fixed.create');
+    Route::post('attachments/fixed/store', ['uses' => 'Setting\AttachmentsController@storeFixed'])->name('attachments.fixed.store');
+    Route::get('attachments/fixed/edit/{id?}', ['uses' => 'Setting\AttachmentsController@editFixed'])->name('attachments.fixed.edit');
+    Route::get('attachments/fixed/index/{primary_id?}/{interface_id?}', ['uses' => 'Setting\AttachmentsController@indexFixed'])->name('attachments.fixed.index');
+
+    Route::get('attachments/not/fixed/index/{primary_id?}/{interface_id?}', ['uses' => 'Setting\AttachmentsController@indexNotFixed'])->name('attachments.not.fixed.index');
+    Route::get('attachments/not/fixed/create/{attachment_type_id?}', ['uses' => 'Setting\AttachmentsController@createNotFixed'])->name('attachments.not.fixed.create');
+    Route::get('attachments/not/fixed/edit/{id?}', ['uses' => 'Setting\AttachmentsController@editNotFixed'])->name('attachments.not.fixed.edit');
+    Route::post('attachments/not/fixed/store', ['uses' => 'Setting\AttachmentsController@storeNotFixed'])->name('attachments.not.fixed.store');
+
+
     //////////////////////settings screen end/////////////////////////
 
 });
