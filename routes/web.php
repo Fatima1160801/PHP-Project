@@ -348,6 +348,13 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::PATCH('/projectcategories/update', ['uses' => 'Project\ProjectCategoryController@update'])->name('project.projectcategories.update');
     Route::DELETE('/projectcategories/{id}', ['uses' => 'Project\ProjectCategoryController@destroy'])->name('project.projectcategories.destroy');
 
+    Route::get('donors/types/index', ['uses' => 'Project\DonorTypeController@index'])->name('project.donors.types.index');
+    Route::get('donors/types/create', ['uses' => 'Project\DonorTypeController@create'])->name('project.donors.types.create');
+    Route::post('/donors/types/store', ['uses' => 'Project\DonorTypeController@store'])->name('project.donors.types.store');
+    Route::get('donors/types/{id}/edit', ['uses' => 'Project\DonorTypeController@edit'])->name('project.donors.types.edit');
+    Route::put('/donors/types/update', ['uses' => 'Project\DonorTypeController@update'])->name('project.donors.types.update');
+    Route::DELETE('/donors/types/{id}', ['uses' => 'Project\DonorTypeController@destroy'])->name('project.donors.types.destroy');
+    Route::get('/donors/types/desc/{id?}', ['uses' => 'Project\DonorTypeController@getDesc'])->name('project.donors.types.desc');
 
     //////////////////////settings screen end/////////////////////////
 
