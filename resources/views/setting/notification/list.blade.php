@@ -1,0 +1,3 @@
+@foreach($notifications as $notification)
+    <a class="dropdown-item notifi {{$notification->notification_status != 2 ? 'noti-not-seen' : ''}}" href="{{$notification->notification->notification_url}}" data-n-id="{{$notification->id}}">{{$notification->notification->notification_desc}} <small style="margin-left:15px" class="pull-right">{{time_elapsed_string($notification->notification->created_on)}}</small></a>
+@endforeach
