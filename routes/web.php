@@ -297,6 +297,33 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::delete('settings/issues/type/delete/{id}', ['uses' => 'Activity\LessonsTypeController@delete', 'as' => 'activity.lessons.type.delete']);
 
 
+    Route::get('/interfaces', ['uses' => 'Setting\Opportunity\InterfaceController@index'])->name('interfaces.index');
+    Route::get('/interfaces/create/{type?}/{id?}', ['uses' => 'Setting\Opportunity\InterfaceController@create'])->name('interfaces.create');
+    Route::post('/interfaces/store', ['uses' => 'Setting\Opportunity\InterfaceController@store'])->name('interfaces.store');
+    Route::get('/interfaces/{id}/edit', ['uses' => 'Setting\Opportunity\InterfaceController@edit'])->name('interfaces.edit');
+    Route::post('/interfaces/update', ['uses' => 'Setting\Opportunity\InterfaceController@update'])->name('interfaces.update');
+    Route::delete('/interfaces/delete/{id}', ['uses' => 'Setting\Opportunity\InterfaceController@delete'])->name('interfaces.delete');
+
+    Route::get('/optstatuses', ['uses' => 'Setting\Opportunity\OppStatusController@index'])->name('optstatuses.index');
+    Route::get('/optstatuses/create/{type?}/{id?}', ['uses' => 'Setting\Opportunity\OppStatusController@create'])->name('optstatuses.create');
+    Route::post('/optstatuses/store', ['uses' => 'Setting\Opportunity\OppStatusController@store'])->name('optstatuses.store');
+    Route::get('/optstatuses/{id}/edit', ['uses' => 'Setting\Opportunity\OppStatusController@edit'])->name('optstatuses.edit');
+    Route::post('/optstatuses/update', ['uses' => 'Setting\Opportunity\OppStatusController@update'])->name('optstatuses.update');
+    Route::delete('/optstatuses/delete/{id}', ['uses' => 'Setting\Opportunity\OppStatusController@delete'])->name('optstatuses.delete');
+
+    Route::get('/labelsSettings', ['uses' => 'Setting\LabelSettingController@index'])->name('labelsSettings.index');
+    Route::post('/labelsSettings', ['uses' => 'Setting\LabelSettingController@index'])->name('labelsSettings.index');
+
+    Route::get('settings/achievement/type', ['uses' => 'Setting\AchievementTypesController@index', 'as' => 'settings.achievement.type']);
+    Route::get('settings/achievement/type/create', ['uses' => 'Setting\AchievementTypesController@create', 'as' => 'settings.achievement.type.create']);
+    Route::post('settings/achievement/type/store', ['uses' => 'Setting\AchievementTypesController@store', 'as' => 'settings.achievement.type.store']);
+    Route::get('settings/achievement/type/{id}/edit', ['uses' => 'Setting\AchievementTypesController@edit', 'as' => 'settings.achievement.type.edit']);
+    Route::post('settings/achievement/type/update/{id}', ['uses' => 'Setting\AchievementTypesController@update', 'as' => 'settings.achievement.type.update']);
+    Route::delete('settings/achievement/type/delete/{id}', ['uses' => 'Setting\AchievementTypesController@delete', 'as' => 'settings.achievement.type.delete']);
+    Route::delete('settings/achievement/metric/delete/{id}', ['uses' => 'Setting\AchievementTypesController@deleteAchievement', 'as' => 'settings.achievement.metric.delete']);
+
+
+
     //////////////////////settings screen end/////////////////////////
 
 });
