@@ -396,6 +396,8 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::put('goals/indicators/type/update', ['uses' => 'Goals\IndicatorsTypeController@update'])->name('goals.indicators.type.update');
     Route::delete('goals/indicators/type/delete/{id}', ['uses' => 'Goals\IndicatorsTypeController@destroy'])->name('goals.indicators.type.delete');
 
+    Route::get('settings/email/index', ['uses' => 'Setting\EmailSettingController@index'])->name('settings.email.index');
+    Route::post('settings/email/index', ['uses' => 'Setting\EmailSettingController@index'])->name('settings.email.store');
 
     //////////////////////settings screen end/////////////////////////
 
