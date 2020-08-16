@@ -225,6 +225,79 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/tabs2', ['uses' => 'Procurement\ProcurementPlanController@tabs2'])->name('plans.tabs2');
     Route::get('/screen2', ['uses' => 'Procurement\ProcurementPlanController@screen2'])->name('plans.screen2');
 
+    //////////////////////settings screen start/////////////////////////
+
+    Route::get('settings/cities', ['uses' => 'Setting\C\CityController@index', 'as' => 'settings.cities']);
+    Route::get('settings/cities/create', ['uses' => 'Setting\C\CityController@getCreate', 'as' => 'settings.cities.create']);
+    Route::post('settings/cities/store', ['uses' => 'Setting\C\CityController@store', 'as' => 'settings.cities.store']);
+    Route::get('settings/cities/{id}/edit', ['uses' => 'Setting\C\CityController@getEdit', 'as' => 'settings.cities.edit']);
+    Route::post('settings/cities/update', ['uses' => 'Setting\C\CityController@update', 'as' => 'settings.cities.update']);
+    Route::delete('settings/cities/delete/{id}', ['uses' => 'Setting\C\CityController@delete', 'as' => 'settings.cities.delete']);
+
+
+    Route::get('settings/currency', ['uses' => 'Setting\C\CurrencyController@index', 'as' => 'settings.currency']);
+    Route::get('settings/currency/create', ['uses' => 'Setting\C\CurrencyController@getCreate', 'as' => 'settings.currency.create']);
+    Route::post('settings/currency/store', ['uses' => 'Setting\C\CurrencyController@store', 'as' => 'settings.currency.store']);
+    Route::get('settings/currency/{id}/edit', ['uses' => 'Setting\C\CurrencyController@getEdit', 'as' => 'settings.currency.edit']);
+    Route::post('settings/currency/update', ['uses' => 'Setting\C\CurrencyController@update', 'as' => 'settings.currency.update']);
+    Route::delete('settings/currency/delete/{id}', ['uses' => 'Setting\C\CurrencyController@delete', 'as' => 'settings.currency.delete']);
+
+
+    Route::get('settings/attachment_types', ['uses' => 'Setting\C\AttachmentTypesController@index', 'as' => 'settings.attachment_types']);
+    Route::get('settings/attachment_types/create', ['uses' => 'Setting\C\AttachmentTypesController@getCreate', 'as' => 'settings.attachment_types.create']);
+    Route::post('settings/attachment_types/store', ['uses' => 'Setting\C\AttachmentTypesController@store', 'as' => 'settings.attachment_types.store']);
+    Route::get('settings/attachment_types/{id}/edit', ['uses' => 'Setting\C\AttachmentTypesController@getEdit', 'as' => 'settings.attachment_types.edit']);
+    Route::post('settings/attachment_types/update', ['uses' => 'Setting\C\AttachmentTypesController@update', 'as' => 'settings.attachment_types.update']);
+    Route::delete('settings/attachment_types/delete/{id}', ['uses' => 'Setting\C\AttachmentTypesController@delete', 'as' => 'settings.attachment_types.delete']);
+
+
+
+    Route::get('strategic/index', ['uses' => 'Strategic\StrategicPlanController@index', 'as' => 'strategic.index']);
+    Route::get('strategic/create', ['uses' => 'Strategic\StrategicPlanController@create', 'as' => 'strategic.create']);
+    Route::post('strategic/store', ['uses' => 'Strategic\StrategicPlanController@store', 'as' => 'strategic.store']);
+    Route::get('strategic/{id}/edit', ['uses' => 'Strategic\StrategicPlanController@edit', 'as' => 'strategic.edit']);
+    Route::post('strategic/update', ['uses' => 'Strategic\StrategicPlanController@update', 'as' => 'strategic.update']);
+    Route::delete('strategic/delete/{id}', ['uses' => 'Strategic\StrategicPlanController@delete', 'as' => 'strategic.delete']);
+
+
+    Route::get('settings/districts', ['uses' => 'Setting\C\DistrictController@index', 'as' => 'settings.districts']);
+    Route::get('settings/districts/create', ['uses' => 'Setting\C\DistrictController@getCreate', 'as' => 'settings.districts.create']);
+    Route::post('settings/districts/store', ['uses' => 'Setting\C\DistrictController@store', 'as' => 'settings.districts.store']);
+    Route::get('settings/districts/{id}/edit', ['uses' => 'Setting\C\DistrictController@getEdit', 'as' => 'settings.districts.edit']);
+    Route::post('settings/districts/update', ['uses' => 'Setting\C\DistrictController@update', 'as' => 'settings.districts.update']);
+    Route::delete('settings/districts/delete/{id}', ['uses' => 'Setting\C\DistrictController@delete', 'as' => 'settings.districts.delete']);
+
+    Route::get('settings/incomeRange', ['uses' => 'Setting\IncomeRangeController@index', 'as' => 'settings.incomeRange.index']);
+    Route::get('settings/incomeRange/create', ['uses' => 'Setting\IncomeRangeController@create', 'as' => 'settings.incomeRange.create']);
+    Route::post('settings/incomeRange/store', ['uses' => 'Setting\IncomeRangeController@store', 'as' => 'settings.incomeRange.store']);
+    Route::get('settings/incomeRange/{id}/edit', ['uses' => 'Setting\IncomeRangeController@edit', 'as' => 'settings.incomeRange.edit']);
+    Route::post('settings/incomeRange/update', ['uses' => 'Setting\IncomeRangeController@update', 'as' => 'settings.incomeRange.update']);
+    Route::delete('settings/incomeRange/delete/{id}', ['uses' => 'Setting\IncomeRangeController@delete', 'as' => 'settings.incomeRange.delete']);
+
+    Route::get('settings/activity_types', ['uses' => 'Setting\C\ActivityTypeController@index', 'as' => 'settings.activity_types']);
+    Route::get('settings/activity_types/create', ['uses' => 'Setting\C\ActivityTypeController@getCreate', 'as' => 'settings.activity_types.create']);
+    Route::post('settings/activity_types/store', ['uses' => 'Setting\C\ActivityTypeController@store', 'as' => 'settings.activity_types.store']);
+    Route::get('settings/activity_types/{id}/edit', ['uses' => 'Setting\C\ActivityTypeController@getEdit', 'as' => 'settings.activity_types.edit']);
+    Route::post('settings/activity_types/update', ['uses' => 'Setting\C\ActivityTypeController@update', 'as' => 'settings.activity_types.update']);
+    Route::delete('settings/activity_types/delete/{id}', ['uses' => 'Setting\C\ActivityTypeController@delete', 'as' => 'settings.activity_types.delete']);
+
+
+    Route::get('settings/issues/related', ['uses' => 'Activity\LessonsRelatedController@index', 'as' => 'activity.lessons.related']);
+    Route::get('settings/issues/related/create', ['uses' => 'Activity\LessonsRelatedController@getCreate', 'as' => 'activity.lessons.related.create']);
+    Route::post('settings/issues/related/store', ['uses' => 'Activity\LessonsRelatedController@store', 'as' => 'activity.lessons.related.store']);
+    Route::get('settings/issues/related/{id}/edit', ['uses' => 'Activity\LessonsRelatedController@getEdit', 'as' => 'activity.lessons.related.edit']);
+    Route::post('settings/issues/related/update', ['uses' => 'Activity\LessonsRelatedController@update', 'as' => 'activity.lessons.related.update']);
+    Route::delete('settings/issues/related/delete/{id}', ['uses' => 'Activity\LessonsRelatedController@delete', 'as' => 'activity.lessons.related.delete']);
+
+    Route::get('settings/issues/type', ['uses' => 'Activity\LessonsTypeController@index', 'as' => 'activity.lessons.type']);
+    Route::get('settings/issues/type/create', ['uses' => 'Activity\LessonsTypeController@getCreate', 'as' => 'activity.lessons.type.create']);
+    Route::post('settings/issues/type/store', ['uses' => 'Activity\LessonsTypeController@store', 'as' => 'activity.lessons.type.store']);
+    Route::get('settings/issues/type/{id}/edit', ['uses' => 'Activity\LessonsTypeController@getEdit', 'as' => 'activity.lessons.type.edit']);
+    Route::post('settings/issues/type/update', ['uses' => 'Activity\LessonsTypeController@update', 'as' => 'activity.lessons.type.update']);
+    Route::delete('settings/issues/type/delete/{id}', ['uses' => 'Activity\LessonsTypeController@delete', 'as' => 'activity.lessons.type.delete']);
+
+
+    //////////////////////settings screen end/////////////////////////
 
 });
 
