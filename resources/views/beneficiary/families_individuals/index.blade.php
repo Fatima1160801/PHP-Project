@@ -1,7 +1,9 @@
-<?php $__env->startSection('css'); ?>
+@extends('layouts._layout')
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('content'); ?>
+@section('css')
+
+@stop
+@section('content')
 
 
     <div class="card ">
@@ -10,32 +12,31 @@
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                <?php echo e($labels['beneficiary_families_individuals'] ?? 'beneficiary_families_individuals'); ?>
-
+                {{$labels['beneficiary_families_individuals'] ?? 'beneficiary_families_individuals'}}
             </h4>
 
 
         </div>
         <div class="card-body ">
-            <a href="<?php echo e(route('beneficiary.fam_indev.create')); ?>"
+            <a href="{{route('beneficiary.fam_indev.create')}}"
                class="btn btn-primary btn-round btn-fab btn-sm"
                data-toggle="tooltip" data-placement="top"
-               title="<?php echo e($labels['add_beneficiary'] ?? 'add_beneficiary'); ?> ">
+               title="{{$labels['add_beneficiary'] ?? 'add_beneficiary'}} ">
                 <i class="material-icons">add</i>
             </a>
 
-            <?php if( Auth::user()->id == 1 || in_array(175,$userPermissions)): ?>
-                <a href="<?php echo e(route('beneficiary.famindv.report.form')); ?>"
+            @if( Auth::user()->id == 1 || in_array(175,$userPermissions))
+                <a href="{{route('beneficiary.famindv.report.form')}}"
                    class="btn btn-primary  btn-sm btn-round btn-fab"
                    rel="tooltip" data-placement="top"
-                   title="<?php echo e($labels['search'] ?? 'search'); ?>">
+                   title="{{$labels['search'] ?? 'search'}}">
                     <i class="material-icons">search</i>
                 </a>
-            <?php endif; ?>
-            <a href="<?php echo e(route('beneficiary.fam_indev.settings')); ?>"
+            @endif
+            <a href="{{route('beneficiary.fam_indev.settings')}}"
                class="btn btn-primary  btn-sm btn-round btn-fab"
                rel="tooltip" data-placement="top"
-               title="<?php echo e(Auth::user()->lang_id == 1 ? 'Settings' : 'إعدادات'); ?>">
+               title="{{Auth::user()->lang_id == 1 ? 'Settings' : 'إعدادات'}}">
                 <i class="material-icons">settings</i>
             </a>
 
@@ -45,59 +46,53 @@
                 <tr>
                     <th>#</th>
                     <th>
-                        <?php echo e($labels['beneficiary_name'] ?? 'beneficiary_name'); ?>
-
+                        {{$labels['beneficiary_name'] ?? 'beneficiary_name'}}
                     </th>
                     <th>
-                        <?php echo e($labels['beneficiary_type'] ?? 'beneficiary_type'); ?>
-
+                        {{$labels['beneficiary_type'] ?? 'beneficiary_type'}}
                     </th>
                     <th>
-                        <?php echo e($labels['identification_number'] ?? 'identification_number'); ?>
-
+                        {{$labels['identification_number'] ?? 'identification_number'}}
                     </th>
                     <th>
-                        <?php echo e($labels['added_at'] ?? 'added_at'); ?>
-
+                        {{$labels['added_at'] ?? 'added_at'}}
                     </th>
                     <th>
-                        <?php echo e($labels['actions'] ?? 'actions'); ?>
-
+                        {{$labels['actions'] ?? 'actions'}}
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php $__currentLoopData = $beneficiaries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index=>$beneficiary): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                @foreach($beneficiaries  as $index=>$beneficiary)
 
                     <tr>
-                        <td><?php echo e($index+1); ?></td>
-                        <td><?php echo e($beneficiary->{'ben_name_'.lang_character()}); ?></td>
+                        <td>{{$index+1}}</td>
+                        <td>{{$beneficiary->{'ben_name_'.lang_character()} }}</td>
                         <td>
-                            <?php echo e($beneficiary->beneficiaryType->{'beneficieris_types_name_'.lang_character()}); ?>
-
+                            {{$beneficiary->beneficiaryType->{'beneficieris_types_name_'.lang_character()} }}
                         </td>
-                        <td><?php echo e($beneficiary->ben_idno); ?></td>
-                        <td><?php echo e(dateFormatSite($beneficiary->created_at)); ?></td>
+                        <td>{{$beneficiary->ben_idno}}</td>
+                        <td>{{dateFormatSite($beneficiary->created_at)}}</td>
                         <td>
-                            <a href="<?php echo e(route('beneficiary.fam_indev.getedit',$beneficiary->id)); ?>"
+                            <a href="{{route('beneficiary.fam_indev.getedit',$beneficiary->id)}}"
                                class="btn btn-sm btn-success btn-round btn-fab" data-toggle="tooltip"
                                data-placement="top"
-                               title="<?php echo e($labels['edit'] ?? 'edit'); ?> "
+                               title="{{$labels['edit'] ?? 'edit'}} "
                             >
                                 <i class="material-icons">edit</i>
                             </a>
 
 
-                            <a href="<?php echo e(route('beneficiary.fam_indev.delete',$beneficiary->id )); ?>"
+                            <a href="{{ route('beneficiary.fam_indev.delete',$beneficiary->id )}}"
                                id="btnBeneficiaryDelete" rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab"
-                               data-placement="top" title=" <?php echo e($labels['delete'] ?? 'delete'); ?> ">
+                               data-placement="top" title=" {{$labels['delete'] ?? 'delete'}} ">
                                 <i class="material-icons">delete</i>
                             </a>
 
-                            <a href="<?php echo e(route('activity.beneficiaries.beneficiaryForm',[$beneficiary->id ,$beneficiary->ben_type_id] )); ?>"
+                            <a href="{{ route('activity.beneficiaries.beneficiaryForm',[$beneficiary->id ,$beneficiary->ben_type_id] )}}"
                                id="btnBeneficiaryFormPrint" rel="tooltip"
                                class="btn btn-sm btn-primary btn-round btn-fab"
-                               data-placement="top" title=" <?php echo e($labels['print'] ?? 'print'); ?> ">
+                               data-placement="top" title=" {{$labels['print'] ?? 'print'}} ">
                                 <i class="material-icons">print</i>
                             </a>
 
@@ -106,15 +101,15 @@
 
 
 
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('script'); ?>
+@endsection
+@section('script')
     <script>
         $(function () {
 
@@ -130,7 +125,7 @@
             $this = $(this);
 
             swal({
-                text: '<?php echo e($messageDeleteBeneficiary['text']); ?>',
+                text: '{{$messageDeleteBeneficiary['text']}}',
                 confirmButtonClass: 'btn btn-success  btn-sm',
                 cancelButtonClass: 'btn btn-danger  btn-sm',
                 buttonsStyling: false,
@@ -162,13 +157,11 @@
 
     </script>
 
-<?php $__env->stopSection(); ?>
+@endsection
 
 
-<?php $__env->startSection('js'); ?>
+@section('js')
     <!--  DataTables.net Plugin, full documentation here: https://datatables.net/    -->
-    
-    <script src="<?php echo e(asset('js/datatables/datatables.min.js')); ?>"></script>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('layouts._layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    {{--<script src="{{ asset('assets/js/plugins/jquery.datatables.min.js')}}"></script>--}}
+    <script src="{{ asset('js/datatables/datatables.min.js')}}"></script>
+@endsection

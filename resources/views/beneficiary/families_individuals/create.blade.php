@@ -1,12 +1,12 @@
-<?php $__env->startSection('content'); ?>
+@extends('layouts._layout')
+@section('content')
     <div class="card ">
         <div class="card-header card-header-rose  card-header-icon">
             <div class="card-icon">
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                <?php echo e($labels['add_beneficiary'] ?? 'add_beneficiary'); ?>
-
+                {{$labels['add_beneficiary'] ?? 'add_beneficiary'}}
             </h4>
         </div>
         <div class="card-body ">
@@ -14,51 +14,45 @@
         <div id="result-msg"></div>
 
 
-            <?php echo Form::open(['route' => 'beneficiary.fam_indev.store' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formBeneficiaryCreate']); ?>
-
-            <?php if($errors->any()): ?>
+            {!! Form::open(['route' => 'beneficiary.fam_indev.store' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formBeneficiaryCreate']) !!}
+            @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
-                        <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <li><?php echo e($error); ?></li>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
                     </ul>
                 </div>
-            <?php endif; ?>
+            @endif
 
-            <?php echo $html; ?>
-
+            {!! $html !!}
 
 			<div class="row">
-                <?php if($customFields->count() > 0): ?>
-                    <input type="hidden" name="custom_fields_count" value="<?php echo e($customFields->count()); ?>">
-                    <?php $__currentLoopData = $customFields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customField): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <?php echo customField($customField,json_decode($beneficiary->custom_fields,true)); ?>
-
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                <?php endif; ?>
+                @if($customFields->count() > 0)
+                    <input type="hidden" name="custom_fields_count" value="{{$customFields->count()}}">
+                    @foreach($customFields as $customField)
+                        {!! customField($customField,json_decode($beneficiary->custom_fields,true)) !!}
+                    @endforeach
+                @endif
             </div>
             <hr>
 					
             <div class="col-md-12">
                 <div class="card-footer ml-auto mr-auto">
                     <div class="ml-auto mr-auto">
-                        <a href="<?php echo e(route('beneficiary.fam_indev.index')); ?>" class="btn btn-default btn-sm">
-                            <?php echo e($labels['back'] ?? 'back'); ?>
-
+                        <a href="{{route('beneficiary.fam_indev.index')}}" class="btn btn-default btn-sm">
+                            {{$labels['back'] ?? 'back'}}
                         </a>
                         <button type="submit" id="addBenf" class="btn btn-next btn-rose pull-right btn-sm" btn="btnToggleDisabled">
                             <div class="loader pull-left" style="display: none;"></div>
-                            <?php echo e($labels['save'] ?? 'save'); ?>
-
+                            {{$labels['save'] ?? 'save'}}
                         </button>
                     </div>
                 </div>
             </div>
 
 
-            <?php echo Form::close(); ?>
-
+            {!! Form::close() !!}
         </div>
     </div>
     <div class="modal fade modal-mini modal-primary" id="myModal10" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
@@ -82,16 +76,16 @@
             </div>
         </div>
     </div>
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('script'); ?>
+@endsection
+@section('script')
     <script>
         $(document).ready(function () {
             active_nev_link('families_individuals');
             $('.selectpicker').selectpicker({
-                <?php if(Auth::user()->lang_id == 2 ): ?>
+                @if(Auth::user()->lang_id == 2 )
 
                 noneSelectedText: 'لم يتم تحديد شيء',
-                <?php endif; ?>
+                @endif
             });
             funValidateForm();
             $('.datetimepicker').datetimepicker({
@@ -156,7 +150,6 @@
                 }
             });
         });
-
         $(document).on('click','#btnModelSave',function () {
             duplicateBenficiaryIDFlag =1;
             $('#formBeneficiaryCreate').submit();
@@ -166,7 +159,7 @@
         $(document).on('change', '#formBeneficiaryCreate #ben_city', function (e) {
             e.preventDefault();
             var city_id = $(this).val();
-            $url = '<?php echo e(route("beneficsettingsiary.getDistanceByCityId")); ?>' + '/' + city_id;
+            $url = '{{route("beneficsettingsiary.getDistanceByCityId")}}' + '/' + city_id;
 
             $.ajax({
                 url: $url,
@@ -188,13 +181,10 @@
             });
         });
         function selectDestrice(data) {
-
             $.each(data, function (index, value) {
                 $("#district_id").append('<option value=' + index + '>' + value + '</option>');
             });
         }
-
-
         function checkNumberIndividualFamily() {
 
             var no_of_family =   $('#no_of_family').val() || 0;
@@ -210,22 +200,20 @@
         }
 
     </script>
-<?php $__env->stopSection(); ?>
+@endsection
 
 
 
-<?php $__env->startSection('js'); ?>
+@section('js')
     <!-- Forms Validations Plugin -->
-    <script src="<?php echo e(asset('assets/js/plugins/jquery.validate.min.js')); ?>"></script>
+    <script src="{{ asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
     <!--  Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
-    <script src="<?php echo e(asset('assets/js/plugins/moment.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('assets/js/plugins/bootstrap-datetimepicker.min.js')); ?>"></script>
+    <script src="{{ asset('assets/js/plugins/moment.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-datetimepicker.min.js')}}"></script>
 
     <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-    <script src="<?php echo e(asset('assets/js/plugins/bootstrap-selectpicker.js')); ?>"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-selectpicker.js')}}"></script>
 
 
-<?php $__env->stopSection(); ?>
+@endsection
 
-
-<?php echo $__env->make('layouts._layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

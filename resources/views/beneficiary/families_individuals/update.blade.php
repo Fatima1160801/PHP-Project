@@ -1,14 +1,14 @@
-<?php $__env->startSection('content'); ?>
+@extends('layouts._layout')
+@section('content')
     <div class="card ">
         <div class="card-header card-header-rose  card-header-icon">
             <div class="card-icon">
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                <?php echo e($labels['edit_beneficiary'] ?? 'edit_beneficiary'); ?>
-
+                {{$labels['edit_beneficiary'] ?? 'edit_beneficiary'}}
 /
-                <a style="color: #d81b60;" href="<?php echo e(route('beneficiary.fam_indev.getedit',$beneficiary->id)); ?>"><?php echo e(Auth::user()->lang_id == 1 ? $beneficiary->ben_name_na : $beneficiary->ben_name_fo); ?></a></h4>
+                <a style="color: #d81b60;" href="{{route('beneficiary.fam_indev.getedit',$beneficiary->id)}}">{{Auth::user()->lang_id == 1 ? $beneficiary->ben_name_na : $beneficiary->ben_name_fo}}</a></h4>
         </div>
         <div class="card-body">
 
@@ -16,46 +16,41 @@
             <ul id="taps_" class="nav nav-pills nav-pills-warning" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#benInfo" role="tablist">
-                        <?php echo e($labels['beneficiary_info'] ?? 'beneficiary_info'); ?>
-
+                        {{$labels['beneficiary_info'] ?? 'beneficiary_info'}}
                     </a>
                 </li>
-                <?php if($beneficiary->ben_type_id == 2): ?>
+                @if($beneficiary->ben_type_id == 2)
                 <li id="ben_fam_tap" class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#benFam" role="tablist">
-                        <?php echo e($labels['family_individuals'] ?? 'family_individuals'); ?>
-
+                        {{$labels['family_individuals'] ?? 'family_individuals'}}
 
 
                     </a>
                 </li>
-                <?php endif; ?>
+                @endif
             </ul>
             <div class="tab-content tab-space">
                 <div class="tab-pane active" id="benInfo">
-                    <?php echo Form::open(['route' => 'beneficiary.fam_indev.update' ,'action'=>'post' ,'id'=>'formBeneficiaryUpdate']); ?>
-
-                    <?php if($errors->any()): ?>
+                    {!! Form::open(['route' => 'beneficiary.fam_indev.update' ,'action'=>'post' ,'id'=>'formBeneficiaryUpdate']) !!}
+                    @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
-                                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <li><?php echo e($error); ?></li>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
                             </ul>
                         </div>
-                    <?php endif; ?>
+                    @endif
 
-                    <?php echo $html; ?>
-
+                    {!! $html !!}
 
                     <div class="row">
-                        <?php if($customFields->count() > 0): ?>
-                            <input type="hidden" name="custom_fields_count" value="<?php echo e($customFields->count()); ?>">
-                            <?php $__currentLoopData = $customFields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customField): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php echo customField($customField,json_decode($beneficiary->custom_fields,true)); ?>
-
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        <?php endif; ?>
+                        @if($customFields->count() > 0)
+                            <input type="hidden" name="custom_fields_count" value="{{$customFields->count()}}">
+                            @foreach($customFields as $customField)
+                                {!! customField($customField,json_decode($beneficiary->custom_fields,true)) !!}
+                            @endforeach
+                        @endif
                     </div>
                     <hr>
 
@@ -63,30 +58,26 @@
                     <div class="col-md-12">
                         <div class="card-footer ml-auto mr-auto">
                             <div class="ml-auto mr-auto">
-                                <a href="<?php echo e(route('beneficiary.fam_indev.index')); ?>" class="btn btn-default btn-sm">
-                                    <?php echo e($labels['back'] ?? 'back'); ?>
-
+                                <a href="{{route('beneficiary.fam_indev.index')}}" class="btn btn-default btn-sm">
+                                    {{$labels['back'] ?? 'back'}}
                                 </a>
                                 <button type="submit" id="editBenf" class="btn btn-next btn-rose pull-right btn-sm">
                                     <div class="loader pull-left" style="display: none;"></div>
-                                    <?php echo e($labels['save'] ?? 'save'); ?>
-
+                                    {{$labels['save'] ?? 'save'}}
                                 </button>
                             </div>
                         </div>
                     </div>
 
 
-                    <?php echo Form::close(); ?>
-
+                    {!! Form::close() !!}
                 </div>
                 <div class="tab-pane" id="benFam">
-                    <button type="button" id="btn-createfm-modal" href="<?php echo e(route('beneficiary.fam_indev.createfm',$beneficiary->id)); ?>" class="btn btn-primary "
+                    <button type="button" id="btn-createfm-modal" href="{{route('beneficiary.fam_indev.createfm',$beneficiary->id)}}" class="btn btn-primary "
                             data-toggle="modal" data-target="#createfmModal"
-                            title="  <?php echo e($labels['add_individual'] ?? 'add_individual'); ?>" >
+                            title="  {{$labels['add_individual'] ?? 'add_individual'}}" >
                         <i class="material-icons">add</i>
-                        <?php echo e($labels['add_individual'] ?? 'add_individual'); ?>
-
+                        {{$labels['add_individual'] ?? 'add_individual'}}
                     </button>
 
                     <table class="table" id="table">
@@ -94,53 +85,48 @@
                         <tr>
                             <th>#</th>
                             <th>
-                                <?php echo e($labels['individual_name'] ?? 'individual_name'); ?>
-
+                                {{$labels['individual_name'] ?? 'individual_name'}}
                             </th>
                             <th>
-                                <?php echo e($labels['identification_number'] ?? 'identification_number'); ?>
-
+                                {{$labels['identification_number'] ?? 'identification_number'}}
                             </th>
                             <th>
-                                <?php echo e($labels['relation_type'] ?? 'relation_type'); ?>
-
+                                {{$labels['relation_type'] ?? 'relation_type'}}
                             </th>
                             <th>
-                                <?php echo e($labels['added_at'] ?? 'added_at'); ?>
-
+                                {{$labels['added_at'] ?? 'added_at'}}
                             </th>
                             <th>
-                                <?php echo e($labels['actions'] ?? 'actions'); ?>
-
+                                {{$labels['actions'] ?? 'actions'}}
                             </th>
                         </tr>
                         </thead>
                         <tbody id="enfamtable">
-                        <?php $__currentLoopData = $ben_familiy_members; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index=>$ben_familiy_member): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        @foreach($ben_familiy_members  as $index=>$ben_familiy_member)
 
                             <tr>
-                                <td><?php echo e($index+1); ?></td>
-                                <td><?php echo e($ben_familiy_member->ind_name_na); ?></td>
-                                <td><?php echo e($ben_familiy_member->ind_idno); ?></td>
+                                <td>{{$index+1}}</td>
+                                <td>{{$ben_familiy_member->ind_name_na}}</td>
+                                <td>{{$ben_familiy_member->ind_idno}}</td>
                                 <td><?php $x = DB::table('c_relation_types')->where('id', $ben_familiy_member->relation_type)->first(); echo Auth::user()->lang_id == 1 ? $x->relation_name_na : $x->relation_name_fo; ?></td>
-                                <td><?php echo e($ben_familiy_member->created_at); ?></td>
+                                <td>{{$ben_familiy_member->created_at}}</td>
                                 <td>
-                                    <button href="<?php echo e(route('beneficiary.fam_indev.geteditfm',$ben_familiy_member->id)); ?>"
+                                    <button href="{{route('beneficiary.fam_indev.geteditfm',$ben_familiy_member->id)}}"
                                        class="btn btn-sm btn-success btn-round btn-fab editBenFam"  data-toggle="tooltip" data-placement="top" title="
-                                            <?php echo e($labels['edit'] ?? 'edit'); ?>">
+                                            {{$labels['edit'] ?? 'edit'}}">
                                         <i class="material-icons">edit</i>
                                     </button>
 
-                                    <a href="<?php echo e(route('beneficiary.fam_indev.deletefm',$ben_familiy_member->id)); ?>"
+                                    <a href="{{ route('beneficiary.fam_indev.deletefm',$ben_familiy_member->id)}}"
                                        id="btnFamIndevDelete" rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab"
                                        data-placement="top"  title="
-                                    <?php echo e($labels['delete'] ?? 'delete'); ?>">
+                                    {{$labels['delete'] ?? 'delete'}}">
                                         <i class="material-icons">delete</i>
                                     </a>
                                 </td>
                             </tr>
 
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -150,8 +136,7 @@
                             <div class="card card-signup card-plain">
                                 <div class="modal-header">
                                     <h5 class="modal-title card-title">
-                                        <?php echo e($labels['add_individual'] ?? 'add_individual'); ?>
-
+                                        {{$labels['add_individual'] ?? 'add_individual'}}
 
 
                                     </h5>
@@ -161,17 +146,16 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
-                                        <?php echo Form::open(['route' => 'beneficiary.fam_indev.storefm' ,'action'=>'post' ,'id'=>'formBeneficiaryFamCreate']); ?>
-
-                                        <?php if($errors->any()): ?>
+                                        {!! Form::open(['route' => 'beneficiary.fam_indev.storefm' ,'action'=>'post' ,'id'=>'formBeneficiaryFamCreate']) !!}
+                                        @if ($errors->any())
                                             <div class="alert alert-danger">
                                                 <ul>
-                                                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <li><?php echo e($error); ?></li>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
                                                 </ul>
                                             </div>
-                                        <?php endif; ?>
+                                        @endif
 
                                         <div id="createfm-modal-form"></div>
 
@@ -181,21 +165,18 @@
                                             <div class="card-footer ml-auto mr-auto">
                                                 <div class="ml-auto mr-auto">
                                                     <a id="modal-dismiss" href="#" class="btn btn-default btn-sm">
-                                                        <?php echo e($labels['cancel'] ?? 'cancel'); ?>
-
+                                                        {{$labels['cancel'] ?? 'cancel'}}
 
                                                     </a>
                                                     <button type="submit" class="btn btn-next btn-rose pull-right btn-sm">
-                                                        <?php echo e($labels['save'] ?? 'save'); ?>
-
+                                                        {{$labels['save'] ?? 'save'}}
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
 
 
-                                        <?php echo Form::close(); ?>
-
+                                        {!! Form::close() !!}
                                     </div>
                                 </div>
                             </div>
@@ -209,8 +190,7 @@
                             <div class="card card-signup card-plain">
                                 <div class="modal-header">
                                     <h5 class="modal-title card-title">
-                                        <?php echo e($labels['edit_individual'] ?? 'edit_individual'); ?>
-
+                                        {{$labels['edit_individual'] ?? 'edit_individual'}}
 
                                     </h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -219,17 +199,16 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
-                                        <?php echo Form::open(['route' => 'beneficiary.fam_indev.updatefm' ,'action'=>'post' ,'id'=>'formBeneficiaryFamUpdate']); ?>
-
-                                        <?php if($errors->any()): ?>
+                                        {!! Form::open(['route' => 'beneficiary.fam_indev.updatefm' ,'action'=>'post' ,'id'=>'formBeneficiaryFamUpdate']) !!}
+                                        @if ($errors->any())
                                             <div class="alert alert-danger">
                                                 <ul>
-                                                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <li><?php echo e($error); ?></li>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
                                                 </ul>
                                             </div>
-                                        <?php endif; ?>
+                                        @endif
 
                                         <div id="editfmModal-modal-form"></div>
 
@@ -239,13 +218,11 @@
                                             <div class="card-footer ml-auto mr-auto">
                                                 <div class="ml-auto mr-auto">
                                                     <a id="modal-dismiss" href="#" class="btn btn-default btn-sm">
-                                                        <?php echo e($labels['cancel'] ?? 'cancel'); ?>
-
+                                                        {{$labels['cancel'] ?? 'cancel'}}
 
                                                     </a>
                                                     <button type="submit" class="btn btn-next btn-rose pull-right btn-sm">
-                                                        <?php echo e($labels['save'] ?? 'save'); ?>
-
+                                                        {{$labels['save'] ?? 'save'}}
 
                                                     </button>
                                                 </div>
@@ -253,8 +230,7 @@
                                         </div>
 
 
-                                        <?php echo Form::close(); ?>
-
+                                        {!! Form::close() !!}
                                     </div>
                                 </div>
                             </div>
@@ -267,15 +243,15 @@
         </div>
     </div>
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('script'); ?>
+@endsection
+@section('script')
     <script>
         $(document).ready(function () {
             active_nev_link('families_individuals')
             $('.selectpicker').selectpicker({
-                <?php if(Auth::user()->lang_id == 2 ): ?>
+                @if(Auth::user()->lang_id == 2 )
                 noneSelectedText: 'لم يتم تحديد شيء',
-                <?php endif; ?>
+                @endif
             });
             funValidateForm();
             $('.datetimepicker').datetimepicker({
@@ -359,7 +335,7 @@
             $this = $(this);
 
             swal({
-                text: '<?php echo e($messageDeleteBeneficiaryFam['text']); ?>',
+                text: '{{$messageDeleteBeneficiaryFam['text']}}',
                 confirmButtonClass: 'btn btn-success  btn-sm',
                 cancelButtonClass: 'btn btn-danger  btn-sm',
                 buttonsStyling: false,
@@ -398,9 +374,9 @@
 
                 $('#createfm-modal-form').html(response);
                 $('.selectpicker').selectpicker({
-                    <?php if(Auth::user()->lang_id == 2 ): ?>
+                    @if(Auth::user()->lang_id == 2 )
                     noneSelectedText: 'لم يتم تحديد شيء',
-                    <?php endif; ?>
+                    @endif
                 });
             });
 
@@ -515,9 +491,9 @@
                 $('#editfmModal').modal('show');
                 $('#editfmModal-modal-form').html(response);
                 $('.selectpicker').selectpicker({
-                    <?php if(Auth::user()->lang_id == 2 ): ?>
+                    @if(Auth::user()->lang_id == 2 )
                     noneSelectedText: 'لم يتم تحديد شيء',
-                    <?php endif; ?>
+                    @endif
                 });
             });
 
@@ -525,7 +501,7 @@
         $(document).on('change', '#formBeneficiaryUpdate #ben_city', function (e) {
             e.preventDefault();
             var city_id = $(this).val();
-            $url = '<?php echo e(route("beneficsettingsiary.getDistanceByCityId")); ?>' + '/' + city_id;
+            $url = '{{route("beneficsettingsiary.getDistanceByCityId")}}' + '/' + city_id;
 
             $.ajax({
                 url: $url,
@@ -569,23 +545,21 @@
             }
         }
     </script>
-<?php $__env->stopSection(); ?>
+@endsection
 
 
 
-<?php $__env->startSection('js'); ?>
+@section('js')
     <!-- Forms Validations Plugin -->
-    <script src="<?php echo e(asset('assets/js/plugins/jquery.validate.min.js')); ?>"></script>
+    <script src="{{ asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
     <!--  Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
-    <script src="<?php echo e(asset('assets/js/plugins/moment.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('assets/js/plugins/bootstrap-datetimepicker.min.js')); ?>"></script>
+    <script src="{{ asset('assets/js/plugins/moment.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-datetimepicker.min.js')}}"></script>
 
     <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-    <script src="<?php echo e(asset('assets/js/plugins/bootstrap-selectpicker.js')); ?>"></script>
-    <script src="<?php echo e(asset('js/datatables/datatables.min.js')); ?>"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-selectpicker.js')}}"></script>
+    <script src="{{ asset('js/datatables/datatables.min.js')}}"></script>
 
 
-<?php $__env->stopSection(); ?>
+@endsection
 
-
-<?php echo $__env->make('layouts._layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
