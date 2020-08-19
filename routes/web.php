@@ -465,5 +465,14 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/beneficiary/famindv/report/btnReportPDF', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@reportExportPDF'])->name('beneficiary.famindv.report.btnReportPDF');
     Route::get('beneficiaries/form/{id?}/{type?}', ['uses' => 'Beneficiary\BeneficiaryController@beneficiaryForm'])->name('activity.beneficiaries.beneficiaryForm');
 
+
+
+    Route::get('locality', ['uses' => 'Locality\LocalityController@index', 'as' => 'locality']);
+    Route::get('locality/create', ['uses' => 'Locality\LocalityController@create', 'as' => 'locality.create']);
+    Route::post('locality/store', ['uses' => 'Locality\LocalityController@store', 'as' => 'locality.store']);
+    Route::get('locality/{id}/edit', ['uses' => 'Locality\LocalityController@edit', 'as' => 'locality.edit']);
+    Route::post('locality/update', ['uses' => 'Locality\LocalityController@update', 'as' => 'locality.update']);
+    Route::delete('locality/delete/{id}', ['uses' => 'Locality\LocalityController@delete', 'as' => 'locality.delete']);
+
 });
 

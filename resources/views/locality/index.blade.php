@@ -1,4 +1,6 @@
-<?php $__env->startSection('content'); ?>
+@extends('layouts._layout')
+
+@section('content')
 
     <div class="card ">
         <div class="card-header card-header-rose card-header-text">
@@ -8,13 +10,12 @@
             <h4 class="card-title">
 
 
-                <?php echo e($labels['screen_locality'] ?? 'screen_locality'); ?>
-
+                {{$labels['screen_locality'] ?? 'screen_locality'}}
 
             </h4>
         </div>
         <div class="card-body">
-            <a href="<?php echo e(route('locality.create')); ?>" class="btn btn-primary btn-sm btn-round btn-fab"
+            <a href="{{route('locality.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
                title="Add New Locality" >
                 <i class="material-icons">add</i></a>
@@ -25,67 +26,62 @@
                 <tr>
                     <th>#</th>
                     <th>
-                        <?php echo e($labels['localit_name_english'] ?? 'localit_name_english'); ?>
-
+                        {{$labels['localit_name_english'] ?? 'localit_name_english'}}
                     </th>
                     <th>
-                        <?php echo e($labels['localit_name_arabic'] ?? 'localit_name_arabic'); ?>
-
+                        {{$labels['localit_name_arabic'] ?? 'localit_name_arabic'}}
                     </th>
                     <th>
-                        <?php echo e($labels['district'] ?? 'district'); ?>
-
+                        {{$labels['district'] ?? 'district'}}
                     </th>
                     <th>
-                        <?php echo e($labels['city'] ?? 'city'); ?>
-
+                        {{$labels['city'] ?? 'city'}}
                     </th>
                     <th>
-                        <?php echo e($labels['actions'] ?? 'actions'); ?>
-
+                        {{$labels['actions'] ?? 'actions'}}
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php $__currentLoopData = $locality; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $l): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                @foreach($locality  as $index => $l)
 
                     <tr>
-                        <td><?php echo e($index+1); ?></td>
-                        <td><?php echo e($l->locality_name_na); ?></td>
-                        <td><?php echo e($l->locality_name_fo); ?></td>
-                        <td><?php echo e((Auth::user()->lang_id == 1) ? $l->district->district_name_no : $l->district->district_name_fo); ?></td>
-                        <td><?php echo e((Auth::user()->lang_id == 1) ? $l->city->city_name_no : $l->city->city_name_fo); ?></td>
+                        <td>{{$index+1}}</td>
+                        <td>{{$l->locality_name_na}}</td>
+                        <td>{{$l->locality_name_fo}}</td>
+                        <td>{{(Auth::user()->lang_id == 1) ? $l->district->district_name_no : $l->district->district_name_fo}}</td>
+                        <td>{{(Auth::user()->lang_id == 1) ? $l->city->city_name_no : $l->city->city_name_fo}}</td>
                         <td>
-                            <a href="<?php echo e(route('locality.edit',$l->id)); ?>"
+                            <a href="{{route('locality.edit',$l->id)}}"
                                class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"
-                               title="<?php echo e($labels['edit'] ?? 'edit'); ?> ">
+                               title="{{$labels['edit'] ?? 'edit'}} ">
                                 <i class="material-icons">edit</i>
                             </a>
 
-                            <button type="button" data-href="<?php echo e(route('locality.delete',$l->id)); ?>"
+                            <button type="button" data-href="{{route('locality.delete',$l->id)}}"
                                     rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnLocalityDelete"
-                                    data-placement="top" title=" <?php echo e($labels['delete'] ?? 'delete'); ?> ">
+                                    data-placement="top" title=" {{$labels['delete'] ?? 'delete'}} ">
                                 <i class="material-icons">delete</i>
                             </button>
 
-                            <a href="<?php echo e(route('activity.beneficiaries.beneficiaryForm',[$l->id ,'4'] )); ?>"
+                            <a href="{{ route('activity.beneficiaries.beneficiaryForm',[$l->id ,'4'] )}}"
                                id="btnBeneficiaryFormPrint" rel="tooltip" class="btn btn-sm btn-primary btn-round btn-fab"
-                               data-placement="top" title=" <?php echo e($labels['print'] ?? 'print'); ?> ">
+                               data-placement="top" title=" {{$labels['print'] ?? 'print'}} ">
                                 <i class="material-icons">print</i>
                             </a>
 
                         </td>
                     </tr>
 
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('script'); ?>
+@endsection
+@section('script')
     <script>
         $(function () {
             active_nev_link('Localities-link');
@@ -100,7 +96,7 @@
                 $this = $(this);
 
                 swal({
-                    text: '<?php echo e($messageDeleteLocality['text']); ?>',
+                    text: '{{$messageDeleteLocality['text']}}',
                     confirmButtonClass: 'btn btn-success  btn-sm',
                     cancelButtonClass: 'btn btn-danger  btn-sm',
                     buttonsStyling: false,
@@ -135,14 +131,12 @@
 
     </script>
 
-<?php $__env->stopSection(); ?>
+@endsection
 
 
 
-<?php $__env->startSection('js'); ?>
+@section('js')
 
     <!--  DataTables.net Plugin, full documentation here: https://datatables.net/    -->
-    <script src="<?php echo e(asset('js/datatables/datatables.min.js')); ?>"></script>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('layouts._layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <script src="{{ asset('js/datatables/datatables.min.js')}}"></script>
+@endsection

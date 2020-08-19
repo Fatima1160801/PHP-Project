@@ -1,12 +1,12 @@
-<?php $__env->startSection('content'); ?>
+@extends('layouts._layout')
+@section('content')
     <div class="card ">
         <div class="card-header card-header-rose  card-header-icon">
             <div class="card-icon">
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                <?php echo e($labels['screen_add_locality'] ?? 'screen_add_locality'); ?>
-
+                {{$labels['screen_add_locality'] ?? 'screen_add_locality'}}
             </h4>
         </div>
         <div class="card-body ">
@@ -14,46 +14,41 @@
             <div id="result-msg"></div>
 
 
-            <?php echo Form::open(['route' => 'locality.store' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formLocalityCreate']); ?>
-
-            <?php if($errors->any()): ?>
+            {!! Form::open(['route' => 'locality.store' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formLocalityCreate']) !!}
+            @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
-                        <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <li><?php echo e($error); ?></li>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
                     </ul>
                 </div>
-            <?php endif; ?>
+            @endif
 
-            <?php echo $html; ?>
-
+            {!! $html !!}
 
 
             <div class="col-md-12">
 
                 <div class="card-footer ml-auto mr-auto">
                     <div class="ml-auto mr-auto">
-                        <a href="<?php echo e(route('locality')); ?>" class="btn btn-default btn-sm">
-                            <?php echo e($labels['back'] ?? 'back'); ?>
-
+                        <a href="{{route('locality')}}" class="btn btn-default btn-sm">
+                            {{$labels['back'] ?? 'back'}}
                         </a>
-                        <button type="submit" id="btnLocalityCreate" class="btn btn-next btn-rose pull-right btn-sm">
-                            <div class="loader pull-left" style="display: none;"></div> <?php echo e($labels['save'] ?? 'save'); ?>
-
+                        <button  btn="btnToggleDisabled"  type="submit" id="btnLocalityCreate" class="btn btn-next btn-rose pull-right btn-sm">
+                            <div class="loader pull-left" style="display: none;"></div> {{$labels['save'] ?? 'save'}}
                         </button>
                     </div>
                 </div>
             </div>
 
 
-            <?php echo Form::close(); ?>
-
+            {!! Form::close() !!}
         </div>
     </div>
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('script'); ?>
+@endsection
+@section('script')
     <script>
         $(document).ready(function () {
             active_nev_link('Localities-link');
@@ -96,7 +91,7 @@
         $(document).on('change', '#formLocalityCreate #city_id', function (e) {
             e.preventDefault();
             var city_id = $(this).val();
-            $url = '<?php echo e(route("activity.location.getDistanceByCityId")); ?>' + '/' + city_id;
+            $url = '{{route("activity.location.getDistanceByCityId")}}' + '/' + city_id;
 
             $.ajax({
                 url: $url,
@@ -128,22 +123,20 @@
 
 
     </script>
-<?php $__env->stopSection(); ?>
+@endsection
 
 
 
-<?php $__env->startSection('js'); ?>
+@section('js')
     <!-- Forms Validations Plugin -->
-    <script src="<?php echo e(asset('assets/js/plugins/jquery.validate.min.js')); ?>"></script>
+    <script src="{{ asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
     <!--  Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
-    <script src="<?php echo e(asset('assets/js/plugins/moment.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('assets/js/plugins/bootstrap-datetimepicker.min.js')); ?>"></script>
+    <script src="{{ asset('assets/js/plugins/moment.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-datetimepicker.min.js')}}"></script>
 
     <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-    <script src="<?php echo e(asset('assets/js/plugins/bootstrap-selectpicker.js')); ?>"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-selectpicker.js')}}"></script>
 
 
-<?php $__env->stopSection(); ?>
+@endsection
 
-
-<?php echo $__env->make('layouts._layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
