@@ -474,5 +474,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::post('locality/update', ['uses' => 'Locality\LocalityController@update', 'as' => 'locality.update']);
     Route::delete('locality/delete/{id}', ['uses' => 'Locality\LocalityController@delete', 'as' => 'locality.delete']);
 
+    Route::get('activity/location/getDistanceByCityId/{city_id?}', ['uses' => 'Activity\LocationActivityController@getDistanceByCityId'])->name('activity.location.getDistanceByCityId');
+
 });
 
