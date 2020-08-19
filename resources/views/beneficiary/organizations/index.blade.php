@@ -1,7 +1,9 @@
-<?php $__env->startSection('css'); ?>
+@extends('layouts._layout')
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('content'); ?>
+@section('css')
+
+@stop
+@section('content')
 
 
     <div class="card ">
@@ -10,21 +12,20 @@
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                <?php echo e($labels['beneficiaries_organizations'] ?? 'beneficiaries_organizations'); ?>
-
+                {{$labels['beneficiaries_organizations'] ?? 'beneficiaries_organizations'}}
 
             </h4>
 
         </div>
         <div class="card-body ">
-            <a href="<?php echo e(route('beneficiary.oraganizations.create')); ?>" class="btn btn-primary btn-sm btn-fab "
+            <a href="{{route('beneficiary.oraganizations.create')}}" class="btn btn-primary btn-sm btn-fab "
                data-toggle="tooltip" data-placement="top"
-               title="  <?php echo e($labels['add_organization'] ?? 'add_organization'); ?>   " >
+               title="  {{$labels['add_organization'] ?? 'add_organization'}}   " >
                 <i class="material-icons">add</i></a>
-            <a href="<?php echo e(route('beneficiary.organization.report.form')); ?>"
+            <a href="{{route('beneficiary.organization.report.form')}}"
                class="btn btn-primary  btn-sm btn-round btn-fab"
                rel="tooltip" data-placement="top"
-               title="<?php echo e($labels['search'] ?? 'search'); ?>">
+               title="{{$labels['search'] ?? 'search'}}">
                 <i class="material-icons">search</i>
             </a>
 
@@ -34,67 +35,62 @@
                     <th>#</th>
                     <th>
 
-                        <?php echo e($labels['organization_name'] ?? 'organization_name'); ?>
-
+                        {{$labels['organization_name'] ?? 'organization_name'}}
                     </th>
                     <th>
-                        <?php echo e($labels['organization_typee'] ?? 'organization_typee'); ?>
-
+                        {{$labels['organization_typee'] ?? 'organization_typee'}}
                     </th>
                     <th>
-                        <?php echo e($labels['telephone'] ?? 'telephone'); ?>
-
+                        {{$labels['telephone'] ?? 'telephone'}}
                     </th>
                     <th>
-                        <?php echo e($labels['added_at'] ?? 'added_at'); ?>
-
+                        {{$labels['added_at'] ?? 'added_at'}}
                     </th>
                     <th>
-                        <?php echo e($labels['actions'] ?? 'actions'); ?>
-
+                        {{$labels['actions'] ?? 'actions'}}
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php $__currentLoopData = $beneficiaryOrganizations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index=>$beneficiaryOrganization): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                @foreach($beneficiaryOrganizations  as $index=>$beneficiaryOrganization)
                      <tr>
-                        <td><?php echo e($index+1); ?></td>
-                        <td><?php echo e($beneficiaryOrganization->{'ben_name_'.lang_character()}); ?></td>
-                        <td><?php echo e($beneficiaryOrganization->org_type?  $org_types[Auth::user()->lang_id][$beneficiaryOrganization->org_type] : $beneficiaryOrganization->org_type); ?></td>
-                        <td><?php echo e($beneficiaryOrganization->ben_tel_no); ?></td>
-                        <td><?php echo e(dateFormatSite($beneficiaryOrganization->created_at)); ?></td>
+                        <td>{{$index+1}}</td>
+                        <td>{{$beneficiaryOrganization->{'ben_name_'.lang_character()} }}</td>
+                        <td>{{$beneficiaryOrganization->org_type?  $org_types[Auth::user()->lang_id][$beneficiaryOrganization->org_type] : $beneficiaryOrganization->org_type  }}</td>
+                        <td>{{$beneficiaryOrganization->ben_tel_no}}</td>
+                        <td>{{dateFormatSite($beneficiaryOrganization->created_at)}}</td>
                         <td>
-                            <a href="<?php echo e(route('beneficiary.oraganizations.getedit',$beneficiaryOrganization->id)); ?>"
+                            <a href="{{route('beneficiary.oraganizations.getedit',$beneficiaryOrganization->id)}}"
                                class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"
-                               title="<?php echo e($labels['edit'] ?? 'edit'); ?> ">
+                               title="{{$labels['edit'] ?? 'edit'}} ">
                                 <i class="material-icons">edit</i>
                             </a>
 
 
-                            <a href="<?php echo e(route('beneficiary.oraganizations.delete',$beneficiaryOrganization->id )); ?>"
+                            <a href="{{ route('beneficiary.oraganizations.delete',$beneficiaryOrganization->id )}}"
                                id="btnBeneficiaryDelete" rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab"
-                               data-placement="top"  title="<?php echo e($labels['delete'] ?? 'delete'); ?>">
+                               data-placement="top"  title="{{$labels['delete'] ?? 'delete'}}">
                                 <i class="material-icons">delete</i>
                             </a>
 
-                            <a href="<?php echo e(route('activity.beneficiaries.beneficiaryForm',[$beneficiaryOrganization->id ,'3'] )); ?>"
+                            <a href="{{ route('activity.beneficiaries.beneficiaryForm',[$beneficiaryOrganization->id ,'3'] )}}"
                                id="btnBeneficiaryFormPrint" rel="tooltip" class="btn btn-sm btn-primary btn-round btn-fab"
-                               data-placement="top" title=" <?php echo e($labels['print'] ?? 'print'); ?> ">
+                               data-placement="top" title=" {{$labels['print'] ?? 'print'}} ">
                                 <i class="material-icons">print</i>
                             </a>
 
                         </td>
                     </tr>
 
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('script'); ?>
+@endsection
+@section('script')
     <script>
         $(function () {
             active_nev_link('organizations');
@@ -109,7 +105,7 @@
             $this = $(this);
 
             swal({
-                text: '<?php echo e($messageDeleteBeneficiary['text']); ?>',
+                text: '{{$messageDeleteBeneficiary['text']}}',
                 confirmButtonClass: 'btn btn-success  btn-sm',
                 cancelButtonClass: 'btn btn-danger  btn-sm',
                 buttonsStyling: false,
@@ -142,13 +138,11 @@
 
     </script>
 
-<?php $__env->stopSection(); ?>
+@endsection
 
 
-<?php $__env->startSection('js'); ?>
+@section('js')
     <!--  DataTables.net Plugin, full documentation here: https://datatables.net/    -->
-    
-    <script src="<?php echo e(asset('js/datatables/datatables.min.js')); ?>"></script>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('layouts._layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    {{--<script src="{{ asset('assets/js/plugins/jquery.datatables.min.js')}}"></script>--}}
+    <script src="{{ asset('js/datatables/datatables.min.js')}}"></script>
+@endsection

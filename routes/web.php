@@ -476,5 +476,15 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
 
     Route::get('activity/location/getDistanceByCityId/{city_id?}', ['uses' => 'Activity\LocationActivityController@getDistanceByCityId'])->name('activity.location.getDistanceByCityId');
 
+
+    Route::get('beneficiary/oraganizations', ['uses' => 'Beneficiary\BeneficiaryOrganizationsController@index'])->name('beneficiary.oraganizations.index');
+    Route::get('beneficiary/oraganizations/create', ['uses' => 'Beneficiary\BeneficiaryOrganizationsController@getCreate'])->name('beneficiary.oraganizations.create');
+    Route::post('beneficiary/oraganizations/store', ['uses' => 'Beneficiary\BeneficiaryOrganizationsController@store'])->name('beneficiary.oraganizations.store');
+    Route::get('beneficiary/oraganizations/{id}/edit', ['uses' => 'Beneficiary\BeneficiaryOrganizationsController@getEdit'])->name('beneficiary.oraganizations.getedit');
+    Route::post('beneficiary/oraganizations/update', ['uses' => 'Beneficiary\BeneficiaryOrganizationsController@postUpdate'])->name('beneficiary.oraganizations.update');
+    Route::delete('beneficiary/oraganizations/delete/{id}', ['uses' => 'Beneficiary\BeneficiaryOrganizationsController@delete'])->name('beneficiary.oraganizations.delete');
+    Route::get('beneficiary/oraganizations/getDistanceByCityId/{id?}', ['uses' => 'Beneficiary\BeneficiaryOrganizationsController@getDistanceByCityId'])->name('beneficiary.oraganizations.getDistanceByCityId');
+
+
 });
 
