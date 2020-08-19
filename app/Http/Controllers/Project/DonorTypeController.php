@@ -41,12 +41,12 @@ class DonorTypeController extends Controller
         $type_name_na = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'];
         $type_name_fo = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'];
         $type_desc_na = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10', 'html_type' => '3'];
-        $type_desc_fo = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10', 'html_type' => '3'];
+//        $type_desc_fo = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10', 'html_type' => '3'];
         $option = [
             'type_name_na' => $type_name_na,
             'type_name_fo' => $type_name_fo,
             'type_desc_na' => $type_desc_na,
-            'type_desc_fo' => $type_desc_fo,
+//            'type_desc_fo' => $type_desc_fo,
         ];
         $generator = generator(7, $option, $donorType);
         $html =$generator[0];
@@ -95,7 +95,7 @@ class DonorTypeController extends Controller
             'type_name_na' => $type_name_na,
             'type_name_fo' => $type_name_fo,
             'type_desc_na' => $type_desc_na,
-            'type_desc_fo' => $type_desc_fo,
+//            'type_desc_fo' => $type_desc_fo,
             'is_hidden' => $is_hidden,
             'id' => $id,
         ];

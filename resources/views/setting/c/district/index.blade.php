@@ -3,22 +3,25 @@
 @section('content')
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
-            <h4 class="card-title">
-                {{$labels['screen_index_Districts'] ?? 'screen_index_Districts'}}
-            </h4>
-        </div>
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+{{--                {{$labels['screen_index_Districts'] ?? 'screen_index_Districts'}}--}}
+{{--            </h4>--}}
+{{--        </div>--}}
         <div class="card-body">
+            <h4 class="card-title"><span>
+                {{$labels['screen_index_Districts'] ?? 'screen_index_Districts'}}
+
             <a href="{{route('settings.districts.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
                title="{{$labels['screen_add_Districts'] ?? 'screen_add_locating'}}" >
                 <i class="material-icons">add</i></a>
+            </span></h4>
 
-
-            <table class="table" id="table">
+            <table class="table dataTable no-footer table-bordered" id="table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -67,6 +70,8 @@
                 @endforeach
                 </tbody>
             </table>
+            <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.locations.screen')}}"'>Back</button>
+
         </div>
     </div>
 

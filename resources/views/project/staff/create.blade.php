@@ -4,10 +4,10 @@
 
     <div class="card ">
         <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">person
-                </i>
-            </div>
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">person--}}
+{{--                </i>--}}
+{{--            </div>--}}
             <h4 class="card-title">
                 {{$labels['screen_add_staff_name'] ?? 'screen_add_staff_name'}}
             </h4>

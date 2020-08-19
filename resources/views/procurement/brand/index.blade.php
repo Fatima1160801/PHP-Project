@@ -71,18 +71,27 @@
 {{--            <a href="{{route('screen.index')}}" class="btn  btn-sm backButtons">--}}
 {{--                {{$labels['back'] ?? 'back'}}--}}
 {{--            </a>--}}
-            <button type="button" class="btn  btn-sm btn-default" onclick='location.href="{{ route('screen.index')}}"'>Back</button>
+            <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('screen.index')}}"'>Back</button>
+            <buuton type="button" class="btn btn-rose" onclick="search()">search</buuton>
         </div>
     </div>
 
 @endsection
 @section('script')
     <script>
+        $(document).ready(function() {
+            var table = document.getElementById("table");
+            var totalRowCount = table.rows.length;
+            if(totalRowCount-1<=10){
+                $('#table').DataTable( {
+                    "pagingType": "numbers",
+                    // "dom": '<"top"flp>rt<"bottom"i><"clear">'
+                } );}
+        } );
         $(function () {
             active_nev_link('visit-link');
             DataTableCall('#table',3);
             $('[data-toggle="tooltip"]').tooltip();
-
             $(document).on('click', '.btnTypeDelete', function (e) {
                 e.preventDefault();
                 $this = $(this);
@@ -120,6 +129,21 @@
 
 
         })
+        function search() {
+var $subject_na='pr';
+$deadlinefrom='1-7-2020';
+$deadlineto=null;
+$budgetfrom=null;
+$budgetto=null;
+$status=null;
+
+
+            $.get('{{url('/search/by/value')}}' + '/' + $subject_na+ '/' + $deadlinefrom+ '/' + $deadlineto+ '/' + $budgetfrom+ '/' + $budgetto+ '/' + $status, function (data) {
+                // $.each(data.list, function (index, value) {
+                //     list1 += '<option value=' + index + '>' + value + '</option>';
+                // });
+            });
+        }
 
 
 

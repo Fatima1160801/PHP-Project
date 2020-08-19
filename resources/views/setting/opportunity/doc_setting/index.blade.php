@@ -3,24 +3,27 @@
 @section('content')
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
-            <h4 class="card-title">
-                {{$labels['doc_settings'] ?? 'doc_settings'}}
-            </h4>
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+{{--                {{$labels['doc_settings'] ?? 'doc_settings'}}--}}
+{{--            </h4>--}}
 
 
-        </div>
+{{--        </div>--}}
         <div class="card-body ">
+            <h4 class="card-title"><span>
+                {{$labels['doc_settings'] ?? 'doc_settings'}}
+
             <a href="{{route('settings.documents.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
                title="{{$labels['addDocSettings'] ?? 'Add Document Settings'}}" >
                 <i class="material-icons">add</i></a>
+            </span> </h4>
 
-
-            <table class="table" id="table">
+            <table class="table dataTable no-footer table-bordered" id="table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -81,6 +84,8 @@
                 @endforeach
                 </tbody>
             </table>
+            <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.document.screen')}}"'>Back</button>
+
         </div>
     </div>
 

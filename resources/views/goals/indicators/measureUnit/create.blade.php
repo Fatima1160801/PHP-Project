@@ -6,9 +6,9 @@
 
     <div class="card ">
         <div class="card-header card-header-rose  card-header-icon">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
             <h4 class="card-title">
                 {{$labels['screen_add_unit']?? 'screen_add_unit'}}</h4>
         </div>

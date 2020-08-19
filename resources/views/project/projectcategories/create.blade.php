@@ -4,10 +4,10 @@
 
     <div class="card ">
         <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">work
-                </i>
-            </div>
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">work--}}
+{{--                </i>--}}
+{{--            </div>--}}
             <h4 class="card-title">
                 {{$labels['screen_project_categories_add'] ?? 'screen_project_categories_add'}}
 

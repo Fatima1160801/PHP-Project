@@ -3,24 +3,27 @@
 @section('content')
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
-            <h4 class="card-title">
-                {{$labels['attachment_types'] ?? 'attachment_types'}}
-            </h4>
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+{{--                {{$labels['attachment_types'] ?? 'attachment_types'}}--}}
+{{--            </h4>--}}
 
 
-        </div>
+{{--        </div>--}}
         <div class="card-body ">
+            <h4 class="card-title"><span>
+                {{$labels['attachment_types'] ?? 'attachment_types'}}
+
             <a href="{{route('settings.attachment_types.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
                title="{{$labels['add_new_attachmentTypes'] ?? 'add_new_attachmentTypes'}}" >
                 <i class="material-icons">add</i></a>
 
-
-            <table class="table" id="table">
+            </span></h4>
+            <table class="table dataTable no-footer table-bordered" id="table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -65,6 +68,8 @@
                 @endforeach
                 </tbody>
             </table>
+            <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.document.screen')}}"'>Back</button>
+
         </div>
     </div>
 

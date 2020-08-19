@@ -2,22 +2,23 @@
 
 @section('content')
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">people</i>
-            </div>
-            <h4 class="card-title">Users</h4>
-        </div>
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">people</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">Users</h4>--}}
+{{--        </div>--}}
         <div class="card-body ">
+            <h4 class="card-title">Users<span>
             <a href="{{route('permission.user.create')}}" class="btn btn-primary btn-sm btn-round btn-fab "
                data-toggle="tooltip" data-placement="top" title=" Add New User"
             >
                 <i class="material-icons">person_add
                 </i>
             </a>
-
+            </span></h4>
             <div class="material-datatables">
-                <table id="table" class="table">
+                <table class="table dataTable no-footer table-bordered" id="table">
                     <thead>
 
 
@@ -38,6 +39,8 @@
                     @endforeach
                     </tbody>
                 </table>
+                <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.users.screen')}}"'>Back</button>
+
             </div>
         </div>
         <div class="modal fade" id="modalUserGroup" tabindex="-1" role="">

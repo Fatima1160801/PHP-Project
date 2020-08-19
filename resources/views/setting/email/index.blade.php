@@ -2,14 +2,15 @@
 @section('content')
 <div class="card ">
     <div class="card-header card-header-rose  card-header-icon">
-        <div class="card-icon">
-            <i class="material-icons">desktop_windows</i>
-        </div>
+{{--        <div class="card-icon">--}}
+{{--            <i class="material-icons">desktop_windows</i>--}}
+{{--        </div>--}}
         <h4 class="card-title">
             {{$labels['EmailSettings'] ?? 'Email Settings'}}
         </h4>
     </div>
     <div class="card-body ">
+
         <div id="result-msg"></div>
         {!! Form::open(['route'=>'settings.email.store','novalidate'=>'novalidate','method'=>'post' ,'id'=>'formSearch']) !!}
 
@@ -148,6 +149,8 @@
         </div>
         @endif
         {!! Form::close() !!}
+        <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.system.screen')}}"'>Back</button>
+
     </div>
 </div>
 

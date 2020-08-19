@@ -41,7 +41,7 @@ class DonorController extends Controller
         $messageDeleteDonor = getMessage('2.51');
         $labels = inputButton(Auth::user()->lang_id, 44);
         $userPermissions = getUserPermission();
-
+        $screenName = screenName(6);
         return view('project.donors.index', compact('labels', 'donors', 'types', 'screenName', 'messageDeleteDonor','userPermissions'));
     }
 

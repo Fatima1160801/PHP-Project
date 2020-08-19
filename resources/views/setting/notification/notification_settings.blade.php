@@ -4,9 +4,9 @@
 
     <div class="card card-wizard" data-color="rose" id="wizardNotification">
         <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">lock</i>
-            </div>
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">lock</i>--}}
+{{--            </div>--}}
             <h4 class="card-title">System Notifications Settings</h4>
         </div>
         <br><br>

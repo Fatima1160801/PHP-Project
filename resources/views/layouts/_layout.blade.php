@@ -58,7 +58,7 @@
         }
         .btn-default{
             background-color: #5d76a8 !important;
-            color:white;
+            color:white !important;
 
         }
 
@@ -76,10 +76,25 @@
             background-color: #5d76a8;
             border-color: black;
             color: #fff;
+            margin:0.5px;
+
+        }
+        .page-item.active .page-link {
+
+            border: 0.5px solid black;
+            margin:0.5px;
         }
         .btn-rose{
             background-color: #97d077 !important;
+            color:black !important
         }
+        .pagination{
+            margin:auto;
+            width:60%;
+        }
+        /*.settingsScreen{*/
+        /*    margin:0 30em 0 30em;*/
+        /*}*/
     </style>
 
     <script src="{{ asset('assets/js/core/jquery.min.js')}}" type="text/javascript"></script>

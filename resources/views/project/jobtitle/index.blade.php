@@ -4,29 +4,43 @@
 
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">work</i>
-            </div>
-            <h4 class="card-title">
-                {{$labels['job_title'] ?? 'job_title'}}
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">work</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+{{--                {{$labels['job_title'] ?? 'job_title'}}--}}
 
-            </h4>
-        </div>
+{{--            </h4>--}}
+{{--        </div>--}}
         <div class="card-body ">
+            <h4 class="card-title"><span>
+                            {{$labels['job_title'] ?? 'job_title'}}
 
 
-            <table class="table" id="table">
-                <thead>
-                <tr>
-                    <th colspan="6">
                         <a href="{{route('project.jobtitle.create')}}"
                            class="btn btn-sm btn-sm btn-primary btn-round btn-fab"
                            data-toggle="tooltip" data-placement="top"
                            title=" {{$labels['add'] ?? 'add'}}">
                             <i class="material-icons">add
                             </i>
-                        </a>
+                        </a></span></h4>
+
+            <table class="table dataTable no-footer table-bordered" id="table">
+                <thead>
+                <tr>
+                    <th colspan="6">
+{{--                        <h4 class="card-title"><span>--}}
+{{--                            {{$labels['job_title'] ?? 'job_title'}}--}}
+
+
+{{--                        <a href="{{route('project.jobtitle.create')}}"--}}
+{{--                           class="btn btn-sm btn-sm btn-primary btn-round btn-fab"--}}
+{{--                           data-toggle="tooltip" data-placement="top"--}}
+{{--                           title=" {{$labels['add'] ?? 'add'}}">--}}
+{{--                            <i class="material-icons">add--}}
+{{--                            </i>--}}
+{{--                        </a></span></h4>--}}
                     </th>
                 </tr>
                 <tr>
@@ -116,6 +130,7 @@
                 @endforeach
                 </tbody>
             </table>
+            <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.users.screen')}}"'>Back</button>
 
         </div>
     </div>

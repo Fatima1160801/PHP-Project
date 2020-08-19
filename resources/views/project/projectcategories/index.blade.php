@@ -4,15 +4,17 @@
 
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">storage</i>
-            </div>
-            <h4 class="card-title">
-                {{$labels['screen_project_categories'] ?? 'screen_project_categories'}}
-            </h4>
-        </div>
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">storage</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+{{--                {{$labels['screen_project_categories'] ?? 'screen_project_categories'}}--}}
+{{--            </h4>--}}
+{{--        </div>--}}
         <div class="card-body">
+            <h4 class="card-title"><span>
+                {{$labels['screen_project_categories'] ?? 'screen_project_categories'}}
 
             <a href="{{route('project.projectcategories.create')}}"
                class="btn btn-primary btn-round btn-fab btn-sm"
@@ -20,8 +22,8 @@
                title="{{$labels['add'] ?? 'add'}}">
                 <i class="material-icons">add
                 </i>
-            </a>
-            <table class="table" id="table">
+            </a></span></h4>
+            <table class="table dataTable no-footer table-bordered" id="table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -103,6 +105,7 @@
                 @endforeach
                 </tbody>
             </table>
+            <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.othersettings.screen')}}"'>Back</button>
 
         </div>
 

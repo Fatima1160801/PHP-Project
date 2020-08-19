@@ -11,15 +11,17 @@
 
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
-            <h4 class="card-title">
-                {{$labels['screen_indicator_measure_unit']?? 'screen_indicator_measure_unit'}}
-            </h4>
-        </div>
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+{{--                {{$labels['screen_indicator_measure_unit']?? 'screen_indicator_measure_unit'}}--}}
+{{--            </h4>--}}
+{{--        </div>--}}
         <div class="card-body ">
+            <h4 class="card-title"><span>
+                {{$labels['screen_indicator_measure_unit']?? 'screen_indicator_measure_unit'}}
 
             <a href="{{route('goals.indicators.measure.unit.create')}}" rel="tooltip"
                class="btn btn-sm btn-primary btn-round btn-fab"
@@ -31,8 +33,8 @@
                 <i class="material-icons">add</i>
 
             </a>
-
-            <table class="table" id="table">
+            </span></h4>
+            <table class="table dataTable no-footer table-bordered" id="table">
                 <thead>
                 <tr>
                     <th colspan="2">#</th>
@@ -79,6 +81,8 @@
                 </tbody>
 
             </table>
+            <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.othersettings.screen')}}"'>Back</button>
+
         </div>
     </div>
 

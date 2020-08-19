@@ -4,23 +4,26 @@
 
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">storage</i>
-            </div>
-            <h4 class="card-title">
-                {{$labels['staff'] ?? 'staff'}}
-            </h4>
-        </div>
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">storage</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+{{--                {{$labels['staff'] ?? 'staff'}}--}}
+{{--            </h4>--}}
+{{--        </div>--}}
         <div class="card-body">
+            <h4 class="card-title"><span>
+                {{$labels['staff'] ?? 'staff'}}
+
             <a href="{{route('project.staff.create')}}" class="btn btn-sm btn-primary btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
                title="{{$labels['add'] ?? 'add'}}">
                 <i class="material-icons">add
                 </i>
             </a>
-
-            <table id="table" class="table">
+            </span></h4>
+            <table id="table" class="table dataTable no-footer table-bordered">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -120,6 +123,7 @@
                 @endforeach
                 </tbody>
             </table>
+            <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.users.screen')}}"'>Back</button>
 
         </div>
 

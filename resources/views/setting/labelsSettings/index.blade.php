@@ -2,9 +2,9 @@
 @section('content')
     <div class="card ">
         <div class="card-header card-header-rose  card-header-icon">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
             <h4 class="card-title">
                 {{$labels['LabelsSettings'] ?? 'LabelsSettings'}}
             </h4>
@@ -101,6 +101,8 @@
             </div>
             @endif
             {!! Form::close() !!}
+            <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.system.screen')}}"'>Back</button>
+
         </div>
     </div>
 

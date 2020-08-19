@@ -4,11 +4,11 @@
 
     <div class="card ">
         <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons"> group_work
-                </i>
-            </div>
-            <h4 class="card-title">add group</h4>
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons"> group_work--}}
+{{--                </i>--}}
+{{--            </div>--}}
+            <h4 class="card-title">Add Group</h4>
 
         </div>
         <div class="card-body ">
@@ -28,7 +28,7 @@
 
             <div class="table-responsive">
 
-                <table id="table" class="table">
+                <table id="table " class="table  dataTable no-footer table-bordered">
                     <thead>
                     <tr class="text-primary">
                         <th>#</th>
@@ -44,6 +44,8 @@
 
                     </tbody>
                 </table>
+                <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.users.screen')}}"'>Back</button>
+
             </div>
         </div>
     </div>

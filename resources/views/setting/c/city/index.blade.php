@@ -3,25 +3,30 @@
 @section('content')
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">desktop_windows</i>
-            </div>
-            <h4 class="card-title">
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+
+{{--                {{$labels['cities']??'cities'}}--}}
+{{--            </h4>--}}
+
+
+{{--        </div>--}}
+        <div class="card-body ">
+            <h4 class="card-title"><span>
 
                 {{$labels['cities']??'cities'}}
-            </h4>
 
 
-        </div>
-        <div class="card-body ">
             <a href="{{route('settings.cities.create')}}" class="btn btn-primary btn-sm btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
                title="Add New City" >
                 <i class="material-icons">add</i></a>
+            </span> </h4>
 
-
-            <table class="table" id="table">
+            <table class="table dataTable no-footer table-bordered" id="table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -64,6 +69,8 @@
                 @endforeach
                 </tbody>
             </table>
+            <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.locations.screen')}}"'>Back</button>
+
         </div>
     </div>
 
@@ -71,6 +78,14 @@
 @endsection
 @section('script')
     <script>
+        $(document).ready(function() {
+            var table = document.getElementById("table");
+            var totalRowCount = table.rows.length;
+            if(totalRowCount-1<=10)
+            $('#table').DataTable( {
+                "pagingType": "numbers"
+            } );
+        } );
         $(function () {
             active_nev_link('city-link');
 

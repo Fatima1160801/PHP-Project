@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Procurement;
 use App\Helpers\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Procurement\Brand;
+use App\Models\Proposal;
 use App\Models\Setting\OppStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -152,6 +153,124 @@ class BrandController extends Controller
             return response(['status' => false, 'message' => $message]);
         }
     }
+    public function searchProposalRequest(Request $request)
+    {
+        $input = $request->all();
+            $query = Proposal::query();
+            if ($request->has('subject_na') && $request->get('subject_na') != null) {
+              $query->where('subject_na','like', '%' . $input['subject_na'] . '%');
+            }
+            if ($request->has(['deadline_from','deadline_to']) && $request->get(['deadline_from','deadline_to']) != null) {
+                $query->whereBetween('deadline',array(dateFormatDataBase($input['deadline_from']),dateFormatDataBase($input['deadline_from'])));
+            }else if ($request->has(['deadline_from','deadline_to']) && $request->get('deadline_from') != null && $request->get('deadline_to') == null)
+                $query->where('deadline','>=',dateFormatDataBase($input['deadline from']));
+            if ($request->has(['budget_from','budget_to']) && $request->get(['budget_from','budget_to']) != null) {
+                $query->whereBetween('budget_value',array($input['budget_from'],$input['budget_to']));
+            }else if($input['budget_from']!="null"  && $input['budget_to'] == "null")
+                $query->where('budget_value','>=',$input['budget_from']);
+            if ($request->has('status_id') && $request->get('status_id') != null) {
+                $query->where('proposal_status_id',$input['status_id']);
+            }
+
+            $data = $query->get();
+         return response(['status' => true, 'message' => getMessage('2.1'),'data'=>$data]);
+
+
+
+    }
+    public function searchProposal($subject_na,$deadlinefrom,$deadlineto,$budgetfrom,$budgetto,$status)
+    {
+
+        $query = Proposal::query();
+        if ($subject_na != "null") {
+           $query->where('subject_na','like', '%' . $subject_na . '%');
+        }
+        if ($deadlinefrom!="null" && $deadlineto!="null") {
+            $query->whereBetween('deadline',array(dateFormatDataBase($deadlinefrom),dateFormatDataBase($deadlineto)));
+
+        }else if($deadlinefrom!="null" && $deadlineto=="null")
+            $query->where('deadline','>=',dateFormatDataBase($deadlinefrom));
+
+        if ($budgetfrom!="null"  && $budgetto != "null") {
+            $query->whereBetween('budget_value',array($budgetfrom,$budgetto));
+
+        }else if($budgetfrom!="null"  && $budgetto == "null")
+            $query->where('budget_value','>=',$budgetfrom);
+        if ($status!= "null") {
+            $query->where('proposal_status_id',$status);
+        }
+
+        $data = $query->get();
+dd($data);
+
+
+        $userPermissions = getUserPermission();
+
+        return response(['status' => true, 'message' => getMessage('2.1'),'data'=>$data]);
+
+
+
+    }
+    public function searchConcept($subject_na,$deadlinefrom,$deadlineto,$budgetfrom,$budgetto,$status)
+    {
+
+        $query = Concept::query();
+        if ($subject_na != "null") {
+            $query->where('subject_na','like', '%' . $subject_na . '%');
+        }
+        if ($deadlinefrom!="null" && $deadlineto!="null") {
+            $query->whereBetween('deadline',array(dateFormatDataBase($deadlinefrom),dateFormatDataBase($deadlineto)));
+
+        }else if($deadlinefrom!="null" && $deadlineto=="null")
+            $query->where('deadline','>=',dateFormatDataBase($deadlinefrom));
+
+        if ($budgetfrom!="null"  && $budgetto != "null") {
+            $query->whereBetween('budget_value',array($budgetfrom,$budgetto));
+
+        }else if($budgetfrom!="null"  && $budgetto == "null")
+            $query->where('budget_value','>=',$budgetfrom);
+        if ($status!= "null") {
+            $query->where('status_id',$status);
+        }
+
+        $data = $query->get();
+        dd($data);
+
+
+        $userPermissions = getUserPermission();
+
+        return response(['status' => true, 'message' => getMessage('2.1'),'data'=>$data]);
+
+
+
+    }
+    public function searchConceptRequest(Request $request)
+    {
+        $input = $request->all();
+        $query = Concept::query();
+        if ($request->has('subject_na') && $request->get('subject_na') != null) {
+            $query->where('subject_na','like', '%' . $input['subject_na'] . '%');
+        }
+        if ($request->has(['deadline_from','deadline_to']) && $request->get(['deadline_from','deadline_to']) != null) {
+            $query->whereBetween('deadline',array(dateFormatDataBase($input['deadline_from']),dateFormatDataBase($input['deadline_from'])));
+        }else if ($request->has(['deadline_from','deadline_to']) && $request->get('deadline_from') != null && $request->get('deadline_to') == null)
+            $query->where('deadline','>=',dateFormatDataBase($input['deadline from']));
+        if ($request->has(['budget_from','budget_to']) && $request->get(['budget_from','budget_to']) != null) {
+            $query->whereBetween('budget_value',array($input['budget_from'],$input['budget_to']));
+        }else if($input['budget_from']!="null"  && $input['budget_to'] == "null")
+            $query->where('budget_value','>=',$input['budget_from']);
+        if ($request->has('status_id') && $request->get('status_id') != null) {
+            $query->where('status_id',$input['status_id']);
+        }
+
+        $data = $query->get();
+        return response(['status' => true, 'message' => getMessage('2.1'),'data'=>$data]);
+
+
+
+    }
+
+
 
 
 

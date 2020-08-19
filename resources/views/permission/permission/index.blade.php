@@ -4,9 +4,9 @@
 
     <div class="card  permission-class">
         <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">lock</i>
-            </div>
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">lock</i>--}}
+{{--            </div>--}}
             <h4 class="card-title"> {{$title}}</h4>
         </div>
         <div class="card-body">
