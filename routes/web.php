@@ -459,6 +459,10 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
 
     Route::get('beneficiary/fam_indev/getDistanceByCityId/{id?}', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@getDistanceByCityId'])->name('beneficsettingsiary.getDistanceByCityId');
 
+    Route::get('/beneficiary/famindv/report', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@reportBeneficiary'])->name('beneficiary.famindv.report.form');
+    Route::get('/beneficiary/famindv/report/search', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@search'])->name('beneficiary.famindv.report.search');
+    Route::get('/beneficiary/famindv/report/reportExportExcel', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@reportExportExcel'])->name('beneficiary.famindv.report.reportExportExcel');
+    Route::get('/beneficiary/famindv/report/btnReportPDF', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@reportExportPDF'])->name('beneficiary.famindv.report.btnReportPDF');
 
 });
 
