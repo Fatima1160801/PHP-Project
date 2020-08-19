@@ -21,10 +21,10 @@ class VisitTypeController extends Controller
 
   public function index()
   {
-    // is_permitted(126, getClassName(__CLASS__),__FUNCTION__, 128, 7);
+     //is_permitted(126, getClassName(__CLASS__),__FUNCTION__, 128, 7);
 
     $visitTypes = VisitType::all();
-    $messageDeleteVisitTypes = getMessage('2.95');
+    $messageDeleteVisitTypes = getMessage('2.348');
     $labels = inputButton(Auth::user()->lang_id, '126');
     $userPermissions = getUserPermission();
 

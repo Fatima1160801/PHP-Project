@@ -4,11 +4,11 @@
 
     <div class="card ">
         <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">person_add
-                </i>
-            </div>
-            <h4 class="card-title">add user</h4>
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">person_add--}}
+{{--                </i>--}}
+{{--            </div>--}}
+            <h4 class="card-title">Add User</h4>
 
         </div>
 

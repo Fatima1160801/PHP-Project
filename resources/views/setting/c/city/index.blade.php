@@ -79,12 +79,12 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            var table = document.getElementById("table");
-            var totalRowCount = table.rows.length;
-            if(totalRowCount-1<=10)
-            $('#table').DataTable( {
-                "pagingType": "numbers"
-            } );
+            // var table = document.getElementById("table");
+            // var totalRowCount = table.rows.length;
+            // if(totalRowCount-1<=10)
+            // $('#table').DataTable( {
+            //     "pagingType": "numbers"
+            // } );
         } );
         $(function () {
             active_nev_link('city-link');

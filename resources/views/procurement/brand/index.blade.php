@@ -72,21 +72,20 @@
 {{--                {{$labels['back'] ?? 'back'}}--}}
 {{--            </a>--}}
             <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('screen.index')}}"'>Back</button>
-            <buuton type="button" class="btn btn-rose" onclick="search()">search</buuton>
-        </div>
+{{--            <buuton type="button" class="btn btn-rose" onclick="search()">search</buuton>--}}
+{{--        </div>--}}
     </div>
 
 @endsection
 @section('script')
     <script>
         $(document).ready(function() {
-            var table = document.getElementById("table");
-            var totalRowCount = table.rows.length;
-            if(totalRowCount-1<=10){
-                $('#table').DataTable( {
-                    "pagingType": "numbers",
-                    // "dom": '<"top"flp>rt<"bottom"i><"clear">'
-                } );}
+            // var table = document.getElementById("table");
+            // var totalRowCount = table.rows.length;
+            // if(totalRowCount-1<=10){
+            //     $('#table').DataTable( {
+            //         "pagingType": "numbers",
+            //     } );}
         } );
         $(function () {
             active_nev_link('visit-link');
