@@ -484,6 +484,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::post('beneficiary/oraganizations/update', ['uses' => 'Beneficiary\BeneficiaryOrganizationsController@postUpdate'])->name('beneficiary.oraganizations.update');
     Route::delete('beneficiary/oraganizations/delete/{id}', ['uses' => 'Beneficiary\BeneficiaryOrganizationsController@delete'])->name('beneficiary.oraganizations.delete');
     Route::get('beneficiary/oraganizations/getDistanceByCityId/{id?}', ['uses' => 'Beneficiary\BeneficiaryOrganizationsController@getDistanceByCityId'])->name('beneficiary.oraganizations.getDistanceByCityId');
+    Route::get('/beneficiary/organization/report', ['uses' => 'Beneficiary\BeneficiaryOrganizationsController@reportBeneficiaryOrganization'])->name('beneficiary.organization.report.form');
 
 
 });
