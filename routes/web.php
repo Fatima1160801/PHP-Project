@@ -448,5 +448,17 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/search/by/value/{subject_na?}/{deadlinefrom?}/{deadlineto?}/{budgetfrom?}/{budgetto?}/{status?}', ['uses' => 'Procurement\BrandController@searchProposal'])->name('search.by.value');
 
 
+    Route::get('beneficiary/fam_indev', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@index'])->name('beneficiary.fam_indev.index');
+    Route::get('beneficiary/fam_indev/create', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@getCreate'])->name('beneficiary.fam_indev.create');
+    Route::post('beneficiary/fam_indev/store', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@store'])->name('beneficiary.fam_indev.store');
+    Route::get('beneficiary/fam_indev/{id}/edit', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@getEdit'])->name('beneficiary.fam_indev.getedit');
+    Route::post('beneficiary/fam_indev/update', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@postEdit'])->name('beneficiary.fam_indev.update');
+    Route::delete('beneficiary/fam_indev/delete/{id}', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@delete'])->name('beneficiary.fam_indev.delete');
+    Route::get('beneficiary/fam_indev/settings', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@settings'])->name('beneficiary.fam_indev.settings');
+    Route::post('beneficiary/fam_indev/customFields/update', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@updateCustomFieldsSettings'])->name('beneficiary.fam_indev.updateCustomFieldsSettings');
+
+    Route::get('beneficiary/fam_indev/getDistanceByCityId/{id?}', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@getDistanceByCityId'])->name('beneficsettingsiary.getDistanceByCityId');
+
+
 });
 
