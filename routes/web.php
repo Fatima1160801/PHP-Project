@@ -463,6 +463,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/beneficiary/famindv/report/search', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@search'])->name('beneficiary.famindv.report.search');
     Route::get('/beneficiary/famindv/report/reportExportExcel', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@reportExportExcel'])->name('beneficiary.famindv.report.reportExportExcel');
     Route::get('/beneficiary/famindv/report/btnReportPDF', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@reportExportPDF'])->name('beneficiary.famindv.report.btnReportPDF');
+    Route::get('beneficiaries/form/{id?}/{type?}', ['uses' => 'Beneficiary\BeneficiaryController@beneficiaryForm'])->name('activity.beneficiaries.beneficiaryForm');
 
 });
 
