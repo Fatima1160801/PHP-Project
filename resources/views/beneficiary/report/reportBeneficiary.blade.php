@@ -1,105 +1,68 @@
-<?php $__env->startSection('css'); ?>
+@extends('layouts._layout')
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('content'); ?>
+@section('css')
+
+@stop
+@section('content')
     <div class="card ">
         <div class="card-header card-header-rose card-header-text">
             <div class="card-icon">
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                <?php echo e($labels['staff_report'] ?? 'staff_report'); ?>
-
+                {{$labels['screen_report_beneficiary'] ?? 'screen_report_beneficiary'}}
             </h4>
+
         </div>
         <div class="card-body ">
 
-            <?php echo Form::open(['route' => 'staff.report.search' ,'action'=>'get' ,'id'=>'formSearch','class'=>'']); ?>
+            {!! Form::open(['route' => 'beneficiary.famindv.report.search' ,'action'=>'get' ,'id'=>'formSearch','class'=>'']) !!}
 
-
-            <div class='col-md-12'>
-                <div class="row">
-                    <label for='staff_id' class='col-md-2 col-form-label'>
-                        <?php echo e($labels['staff_id'] ?? 'staff_id'); ?>
-
-                    </label>
-                    <div class='col-md-10'>
-                        <div class='form-group has-default bmd-form-group'>
-                            <select id="staff_id" name="staff_id" class="form-control  selectpicker"
-                                    data-live-search='true' data-style='btn btn-link'>
-                                <option value="" style="height: 30px"></option>
-                                <?php if($staffs!= null): ?>
-                                    <?php $__currentLoopData = $staffs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff=>$key): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($key); ?>"><?php echo e($staff); ?></option>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                <?php endif; ?>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
+            {!! $html !!}
             <div class="col-md-12">
 
                 <button btn="btnToggleDisabled" type="submit" class="btn   btn-rose   btn-sm pull-right"
                         id="saveProjectMain">
-                    <?php echo e($labels['search'] ?? 'search'); ?>
-
+                    {{$labels['search'] ?? 'search'}}
                     <div class="loader pull-left" style="display: none;"></div>
                 </button>
 
-                <a href="<?php echo e(route('reports.prepare',22)); ?>" class="btn btn-danger btn-sm "
+                <a href="{{route('reports.prepare',5)}}" class="btn btn-danger btn-sm "
                    rel="tooltip" data-placement="top" id="btnOpenModalReport"
                    data-toggle="modal" data-target="#modalReport"
-                   title="<?php echo e($labels['report_settings'] ?? 'report_settings'); ?>">
+                   title="{{$labels['report_settings'] ?? 'report_settings'}}">
                     <i class="material-icons">settings</i>
+                    {{$labels['report_settings'] ?? 'report_settings'}}
+                </a>
 
-                </a>
-                <a href="#"
-                   class="btn btn-sm btn-primary"
+                <a href="{{route('beneficiary.famindv.report.btnReportPDF')}}"  class="btn btn-sm btn-primary"
                    target="_blank" id="btnReportPdf" data-toggle="tooltip" data-placement="top" title="Export PDF">
-                    <i class="material-icons">print</i> PDF
+                    <i class="material-icons" >print</i> PDF
                 </a>
-                <a href="#"
-                   class="btn btn-sm btn-info"
+                <a href="{{route('beneficiary.famindv.report.reportExportExcel')}}" class="btn btn-sm btn-info"
                    data-toggle="tooltip" data-placement="top" title="Export Excel " id="btnReportExcel">
                     <i class="material-icons">print</i> Excel
                 </a>
-
-                <a href="#" class="btn btn-default btn-sm" id="btnNew">
-                    <?php echo e($labels['new'] ?? 'new'); ?>
-
-                </a>
-
             </div>
+            {!! Form::close() !!}
 
-            <?php echo Form::close(); ?>
-
-
-
-        </div>
-        <div class="card-body ">
             <div class="" id="report-data">
-                
+                {{--<div class="loader-div" align="center"></div>--}}
             </div>
         </div>
     </div>
 
 
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('script'); ?>
+@endsection
+@section('script')
     <script>
         $(document).ready(function () {
-            $('.selectpicker').selectpicker({
-                <?php if(Auth::user()->lang_id == 2 ): ?>
-                noneSelectedText: 'لم يتم تحديد شيء',
-                <?php endif; ?>
-            });
+          //  retriveReportData();
+            $('.selectpicker').selectpicker();
+
             datetimepicker();
-            active_nev_link('staff_report')
+            active_nev_link('{{$id}}');
         });
 
         function datetimepicker() {
@@ -124,7 +87,7 @@
             e.preventDefault();
 
             // url = $(this).attr('href');
-            url = '<?php echo e(route("reports.prepare")); ?>' + '/' + 22;
+            url = '{{route("reports.prepare")}}' + '/' + 5;
             $.ajax({
                 url: url,
                 type: 'get',
@@ -135,18 +98,22 @@
                 success: function (data) {
                     $('#modalReprt .modal-body').html();
                     $('#modalReport .modal-body').html(data);
-                    $('.selectpicker').selectpicker();
+                    // setTimeout(function () {
+                    //     selectpicker();
+                    //     $('#wizardGoalStyle .card-body').perfectScrollbar();
+                    // }, 200);
                 },
                 error: function () {
                 }
             });
         });
+
         $(document).on('hidden.bs.modal', '#modalReport', function () {
             retriveReportData();
         });
 
         function retriveReportData() {
-            var url = '<?php echo e(route("reports.getData",22)); ?>';
+            var url = '{{route("reports.getData",5)}}';
             $.get(url,
                 function (data) {
                     if (data.status != 'false') {
@@ -159,11 +126,14 @@
                     }
                 });
         }
+
+
+        // beneficiary.report.search
+
         $(document).on('submit', '#formSearch', function (e) {
             e.preventDefault();
             data = $(this).serialize();
-
-            var url = '<?php echo e(route("staff.report.search")); ?>';
+            var url = '{{route("beneficiary.famindv.report.search")}}';
             $.ajax({
                 url: url,
                 data: data,
@@ -172,59 +142,54 @@
                     $('#report-data').html('<div class="col-md-12" align="center"> <div class="loader-div"></div></div>');
                 },
                 success: function (data) {
-                    if (data.status == 'false') {
+                    if (data.status != 'false') {
+                        $('#report-data').empty();
+                        $('#report-data').html(data);
+                    }
+                    else {
                         myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     }
-                    $('#report-data').empty();
-                    $('#report-data').html(data);
-                    $('.selectpicker').selectpicker();
+
+
                 },
                 error: function () {
                 }
             })
         });
-        //project.project.reportExportExcel
+
+        //beneficiary.report.reportExportExcel
+
         $(document).on('click', '#btnReportExcel', function (e) {
             e.preventDefault();
             data = $('#formSearch').serialize();
-            var url = '<?php echo e(route("staff.report.excel")); ?>' + '?' + data;
+            var url = '{{route("beneficiary.famindv.report.reportExportExcel")}}'+'?'+data;
             window.location.href = url;
 
         });
         $(document).on('click', '#btnReportPdf', function (e) {
             e.preventDefault();
-            data = $('#formProjectSearch').serialize();
-            var url = '<?php echo e(route("staff.report.pdf")); ?>' + '?' + data;
+            data = $('#formSearch').serialize();
+            var url = '{{route("beneficiary.famindv.report.btnReportPDF")}}'+'?'+data;
             window.location.href = url;
 
         });
-        var reports_getData = "<?php echo e(route('reports.getData',22)); ?>";
-        $(document).on('click', '#btnNew', function (e) {
-            e.preventDefault(); 
-            $('#staff_id').val('');
-            $('#staff_id').selectpicker('refresh');
 
-        })
+        var reports_getData = "{{route('reports.getData',5)}}";
+
     </script>
 
-<?php $__env->stopSection(); ?>
+@endsection
 
 
-<?php $__env->startSection('js'); ?>
-    <!-- Forms Validations Plugin -->
-    <script src="<?php echo e(asset('assets/js/plugins/jquery.validate.min.js')); ?>"></script>
-
-    <script src="<?php echo e(asset('assets/js/plugins/moment.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('assets/js/plugins/bootstrap-datetimepicker.min.js')); ?>"></script>
-
-
+@section('js')
+    <script src="{{ asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins/moment.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-datetimepicker.min.js')}}"></script>
     <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-    <script src="<?php echo e(asset('assets/js/plugins/bootstrap-selectpicker.js')); ?>"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-selectpicker.js')}}"></script>
     <!--  DataTables.net Plugin, full documentation here: https://datatables.net/    -->
-    
-    <script src="<?php echo e(asset('js/datatables/datatables.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('js/modal_setting.js')); ?>"></script>
-    <script src="<?php echo e(asset('js/wizardReport.js')); ?>"></script>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('layouts._layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    {{--<script src="{{ asset('assets/js/plugins/jquery.datatables.min.js')}}"></script>--}}
+    <script src="{{ asset('js/datatables/datatables.min.js')}}"></script>
+    <script src="{{ asset('js/modal_setting.js')}}"></script>
+    <script src="{{ asset('js/wizardReport.js')}}"></script>
+@endsection

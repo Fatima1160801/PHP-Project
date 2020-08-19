@@ -1,72 +1,69 @@
-<?php $__env->startSection('css'); ?>
+@extends('layouts._layout')
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('content'); ?>
+@section('css')
+
+@stop
+@section('content')
     <div class="card ">
         <div class="card-header card-header-rose card-header-text">
             <div class="card-icon">
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                <?php echo e($labels['screen_report_beneficiary'] ?? 'screen_report_beneficiary'); ?>
-
+                {{$labels['screen_report_beneficiary_orgnaizayion'] ?? 'screen_report_beneficiary_orgnaizayion'}}
             </h4>
 
         </div>
         <div class="card-body ">
 
-            <?php echo Form::open(['route' => 'beneficiary.famindv.report.search' ,'action'=>'get' ,'id'=>'formSearch','class'=>'']); ?>
 
 
-            <?php echo $html; ?>
 
+            {!! Form::open(['route' => 'beneficiary.organization.report.search' ,'action'=>'get' ,'id'=>'formSearch','class'=>'']) !!}
+
+            {!! $html !!}
             <div class="col-md-12">
 
                 <button btn="btnToggleDisabled" type="submit" class="btn   btn-rose   btn-sm pull-right"
                         id="saveProjectMain">
-                    <?php echo e($labels['search'] ?? 'search'); ?>
-
+                    {{$labels['search'] ?? 'search'}}
                     <div class="loader pull-left" style="display: none;"></div>
                 </button>
 
-                <a href="<?php echo e(route('reports.prepare',5)); ?>" class="btn btn-danger btn-sm "
+                <a href="{{route('reports.prepare',6)}}" class="btn btn-danger btn-sm "
                    rel="tooltip" data-placement="top" id="btnOpenModalReport"
                    data-toggle="modal" data-target="#modalReport"
-                   title="<?php echo e($labels['report_settings'] ?? 'report_settings'); ?>">
+                   title="{{$labels['report_settings'] ?? 'report_settings'}}">
                     <i class="material-icons">settings</i>
-                    <?php echo e($labels['report_settings'] ?? 'report_settings'); ?>
-
                 </a>
 
-                <a href="<?php echo e(route('beneficiary.famindv.report.btnReportPDF')); ?>"  class="btn btn-sm btn-primary"
+                <a href="{{route('beneficiary.organization.report.btnReportPDF')}}"  class="btn btn-sm btn-primary"
                    target="_blank" id="btnReportPdf" data-toggle="tooltip" data-placement="top" title="Export PDF">
                     <i class="material-icons" >print</i> PDF
                 </a>
-                <a href="<?php echo e(route('beneficiary.famindv.report.reportExportExcel')); ?>" class="btn btn-sm btn-info"
+                <a href="{{route('beneficiary.organization.report.reportExportExcel')}}" class="btn btn-sm btn-info"
                    data-toggle="tooltip" data-placement="top" title="Export Excel " id="btnReportExcel">
                     <i class="material-icons">print</i> Excel
                 </a>
             </div>
-            <?php echo Form::close(); ?>
-
+            {!! Form::close() !!}
 
             <div class="" id="report-data">
-                
+                {{--<div class="loader-div" align="center"></div>--}}
             </div>
         </div>
     </div>
 
 
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('script'); ?>
+@endsection
+@section('script')
     <script>
         $(document).ready(function () {
-          //  retriveReportData();
+           // retriveReportData();
             $('.selectpicker').selectpicker();
-
             datetimepicker();
-            active_nev_link('<?php echo e($id); ?>');
+            active_nev_link('report_beneficiary_organization')
         });
 
         function datetimepicker() {
@@ -91,7 +88,7 @@
             e.preventDefault();
 
             // url = $(this).attr('href');
-            url = '<?php echo e(route("reports.prepare")); ?>' + '/' + 5;
+            url = '{{route("reports.prepare")}}' + '/' + 6;
             $.ajax({
                 url: url,
                 type: 'get',
@@ -117,7 +114,7 @@
         });
 
         function retriveReportData() {
-            var url = '<?php echo e(route("reports.getData",5)); ?>';
+            var url = '{{route("reports.getData",6)}}';
             $.get(url,
                 function (data) {
                     if (data.status != 'false') {
@@ -137,7 +134,7 @@
         $(document).on('submit', '#formSearch', function (e) {
             e.preventDefault();
             data = $(this).serialize();
-            var url = '<?php echo e(route("beneficiary.famindv.report.search")); ?>';
+            var url = '{{route("beneficiary.organization.report.search")}}';
             $.ajax({
                 url: url,
                 data: data,
@@ -146,15 +143,8 @@
                     $('#report-data').html('<div class="col-md-12" align="center"> <div class="loader-div"></div></div>');
                 },
                 success: function (data) {
-                    if (data.status != 'false') {
-                        $('#report-data').empty();
-                        $('#report-data').html(data);
-                    }
-                    else {
-                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                    }
-
-
+                    $('#report-data').empty();
+                    $('#report-data').html(data);
                 },
                 error: function () {
                 }
@@ -166,36 +156,35 @@
         $(document).on('click', '#btnReportExcel', function (e) {
             e.preventDefault();
             data = $('#formSearch').serialize();
-            var url = '<?php echo e(route("beneficiary.famindv.report.reportExportExcel")); ?>'+'?'+data;
+            var url = '{{route("beneficiary.organization.report.reportExportExcel")}}'+'?'+data;
             window.location.href = url;
 
         });
         $(document).on('click', '#btnReportPdf', function (e) {
             e.preventDefault();
             data = $('#formSearch').serialize();
-            var url = '<?php echo e(route("beneficiary.famindv.report.btnReportPDF")); ?>'+'?'+data;
+            var url = '{{route("beneficiary.organization.report.btnReportPDF")}}'+'?'+data;
             window.location.href = url;
 
         });
 
-        var reports_getData = "<?php echo e(route('reports.getData',5)); ?>";
+
+        var reports_getData = "{{route('reports.getData',6)}}";
 
     </script>
 
-<?php $__env->stopSection(); ?>
+@endsection
 
 
-<?php $__env->startSection('js'); ?>
-    <script src="<?php echo e(asset('assets/js/plugins/jquery.validate.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('assets/js/plugins/moment.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('assets/js/plugins/bootstrap-datetimepicker.min.js')); ?>"></script>
+@section('js')
+    <script src="{{ asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins/moment.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-datetimepicker.min.js')}}"></script>
     <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-    <script src="<?php echo e(asset('assets/js/plugins/bootstrap-selectpicker.js')); ?>"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-selectpicker.js')}}"></script>
     <!--  DataTables.net Plugin, full documentation here: https://datatables.net/    -->
-    
-    <script src="<?php echo e(asset('js/datatables/datatables.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('js/modal_setting.js')); ?>"></script>
-    <script src="<?php echo e(asset('js/wizardReport.js')); ?>"></script>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('layouts._layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    {{--<script src="{{ asset('assets/js/plugins/jquery.datatables.min.js')}}"></script>--}}
+    <script src="{{ asset('js/datatables/datatables.min.js')}}"></script>
+    <script src="{{ asset('js/modal_setting.js')}}"></script>
+    <script src="{{ asset('js/wizardReport.js')}}"></script>
+@endsection

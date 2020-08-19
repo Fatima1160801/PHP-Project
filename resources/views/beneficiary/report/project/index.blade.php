@@ -1,15 +1,16 @@
-<?php $__env->startSection('css'); ?>
+@extends('layouts._layout')
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('content'); ?>
+@section('css')
+
+@endsection
+@section('content')
     <div class="card ">
         <div class="card-header card-header-rose card-header-text">
             <div class="card-icon">
                 <i class="material-icons">desktop_windows</i>
             </div>
             <h4 class="card-title">
-                <?php echo e($labels['beneficiary_project'] ?? 'beneficiary_project'); ?>
-
+                {{$labels['beneficiary_project'] ?? 'beneficiary_project'}}
 
             </h4>
 
@@ -17,90 +18,85 @@
         <div class="card-body ">
 
 
-            <?php echo Form::open(['route' => 'beneficiary.report.project.search' ,'action'=>'get' ,'id'=>'formSearch','class'=>'']); ?>
+            {!! Form::open(['route' => 'beneficiary.report.project.search' ,'action'=>'get' ,'id'=>'formSearch','class'=>'']) !!}
 
 
-
-            <?php if($strategics!= null): ?>
+            @if($strategics!= null)
                 <div class='col-md-12'>
                     <div class="row">
                         <label for='project_id' class='col-md-2 col-form-label'>
-                            <?php echo e($labels['strategic_name'] ?? 'strategic_name'); ?>
-
+                            {{$labels['strategic_name'] ?? 'strategic_name'}}
                         </label>
                         <div class='col-md-10'>
                             <div class='form-group has-default bmd-form-group'>
                                 <select id="strategic_plan" name="strategic_plan" class="form-control  selectpicker"
                                         data-live-search='true' data-style='btn btn-link'>
                                     <option value=""></option>
-                                    <?php $__currentLoopData = $strategics; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $strategic): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($strategic->id); ?>"><?php echo e($strategic->{'strategic_name_'.lang_character()}); ?></option>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    @foreach($strategics as $strategic)
+                                        <option value="{{$strategic->id}}">{{$strategic->{'strategic_name_'.lang_character()} }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
                 </div>
-            <?php endif; ?>
+            @endif
 
 
 
-            <?php if($projects!= null): ?>
+            @if($projects!= null)
                 <div class='col-md-12'>
                     <div class="row">
                         <label for='project_id' class='col-md-2 col-form-label'>
-                            <?php echo e($labels['project_name'] ?? 'project_name'); ?>
-
+                            {{$labels['project_name'] ?? 'project_name'}}
                         </label>
                         <div class='col-md-10'>
                             <div class='form-group has-default bmd-form-group'>
                                 <select id="project_id" name="project_id" class="form-control  selectpicker"
                                         data-live-search='true' data-style='btn btn-link'>
                                     <option value=""></option>
-                                    <?php $__currentLoopData = $projects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $project): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($project->id); ?>"><?php echo e($project->{'project_name_'.lang_character()}); ?></option>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    @foreach($projects as $project)
+                                        <option value="{{$project->id}}">{{$project->{'project_name_'.lang_character()} }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
                 </div>
-            <?php endif; ?>
+            @endif
 
             <div class="col-md-12">
 
                 <button btn="btnToggleDisabled" type="submit" class="btn   btn-rose   btn-sm pull-right"
                         id="saveProjectMain">
-                    <?php echo e($labels['search'] ?? 'search'); ?>
-
+                    {{$labels['search'] ?? 'search'}}
                     <div class="loader pull-left" style="display: none;"></div>
                 </button>
-                <a href="<?php echo e(route('reports.prepare',8)); ?>" class="btn btn-danger btn-sm "
+                <a href="{{route('reports.prepare',8)}}" class="btn btn-danger btn-sm "
                    rel="tooltip" data-placement="top" id="btnOpenModalReport"
                    data-toggle="modal" data-target="#modalReport"
-                   title="<?php echo e($labels['report_settings'] ?? 'report_settings'); ?>">
+                   title="{{$labels['report_settings'] ?? 'report_settings'}}">
                     <i class="material-icons">settings</i>
                 </a>
-                <a href="<?php echo e(route('beneficiary.report.project.btnReportPDF')); ?>" class="btn btn-sm btn-primary"
+                <a href="{{route('beneficiary.report.project.btnReportPDF')}}" class="btn btn-sm btn-primary"
                    target="_blank" id="btnReportPdf" data-toggle="tooltip" data-placement="top" title="Export PDF">
                     <i class="material-icons">print</i> PDF
                 </a>
-                <a href="<?php echo e(route('beneficiary.report.project.reportExportExcel')); ?>" class="btn btn-sm btn-info"
+                <a href="{{route('beneficiary.report.project.reportExportExcel')}}" class="btn btn-sm btn-info"
                    data-toggle="tooltip" data-placement="top" title="Export Excel " id="btnReportExcel">
                     <i class="material-icons">print</i> Excel
                 </a>
             </div>
 
-            <?php echo Form::close(); ?>
-
+            {!! Form::close() !!}
             <div class="col-md-12" id="report-data">
 
             </div>
         </div>
     </div>
-<?php $__env->stopSection(); ?>
+@endsection
 
-<?php $__env->startSection('script'); ?>
+@section('script')
     <script>
 
 
@@ -112,7 +108,7 @@
         $(document).on('change', '#project_id', function (e) {
             e.preventDefault();
             var data = $(this).serialize();
-            var url = '<?php echo e(route("beneficiary.report.project.search")); ?>';
+            var url = '{{route("beneficiary.report.project.search")}}';
             $.ajax({
                 url: url,
                 data: data,
@@ -134,7 +130,7 @@
             e.preventDefault();
 
             // url = $(this).attr('href');
-            url = '<?php echo e(route("reports.prepare")); ?>' + '/' + 8;
+            url = '{{route("reports.prepare")}}' + '/' + 8;
             $.ajax({
                 url: url,
                 type: 'get',
@@ -155,7 +151,7 @@
         $(document).on('submit', '#formSearch', function (e) {
             e.preventDefault();
             var data = $(this).serialize();
-            var url = '<?php echo e(route("beneficiary.report.project.search")); ?>';
+            var url = '{{route("beneficiary.report.project.search")}}';
             $.ajax({
                 url: url,
                 data: data,
@@ -181,18 +177,18 @@
         $(document).on('click', '#btnReportExcel', function (e) {
             e.preventDefault();
             data = $('#formSearch').serialize();
-            var url = '<?php echo e(route("beneficiary.report.project.reportExportExcel")); ?>' + '?' + data;
+            var url = '{{route("beneficiary.report.project.reportExportExcel")}}' + '?' + data;
             window.location.href = url;
         });
         $(document).on('click', '#btnReportPdf', function (e) {
             e.preventDefault();
             data = $('#formSearch').serialize();
-            var url = '<?php echo e(route("beneficiary.report.project.btnReportPDF")); ?>' + '?' + data;
+            var url = '{{route("beneficiary.report.project.btnReportPDF")}}' + '?' + data;
             window.location.href = url;
 
         });
 
-        var reports_getData = "<?php echo e(route('reports.getData',8)); ?>";
+        var reports_getData = "{{route('reports.getData',8)}}";
 
         /* strategic_plan  change*/
         $(document).on('change', '#strategic_plan', function (e) {
@@ -200,7 +196,7 @@
             var strategic_id = $(this).val();
             $("#project_id option").remove();
             $('#project_id').selectpicker('refresh');
-            $url = '<?php echo e(route('project.project.getProjectByStrategicID')); ?>' + '/' + strategic_id;
+            $url = '{{route('project.project.getProjectByStrategicID')}}' + '/' + strategic_id;
             $.ajax({
                 url: $url,
                 dataTypes: 'json',
@@ -228,20 +224,19 @@
         }
 
     </script>
-<?php $__env->stopSection(); ?>
+@endsection
 
 
-<?php $__env->startSection('js'); ?>
-    <script src="<?php echo e(asset('assets/js/plugins/jquery.validate.min.js')); ?>"></script>
+@section('js')
+    <script src="{{ asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
 
-    <script src="<?php echo e(asset('assets/js/plugins/moment.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('assets/js/plugins/bootstrap-datetimepicker.min.js')); ?>"></script>
+    <script src="{{ asset('assets/js/plugins/moment.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-datetimepicker.min.js')}}"></script>
     <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-    <script src="<?php echo e(asset('assets/js/plugins/bootstrap-selectpicker.js')); ?>"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-selectpicker.js')}}"></script>
     <!--  DataTables.net Plugin, full documentation here: https://datatables.net/    -->
-    
-    <script src="<?php echo e(asset('js/datatables/datatables.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('js/modal_setting.js')); ?>"></script>
-    <script src="<?php echo e(asset('js/wizardReport.js')); ?>"></script>
-<?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts._layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    {{--<script src="{{ asset('assets/js/plugins/jquery.datatables.min.js')}}"></script>--}}
+    <script src="{{ asset('js/datatables/datatables.min.js')}}"></script>
+    <script src="{{ asset('js/modal_setting.js')}}"></script>
+    <script src="{{ asset('js/wizardReport.js')}}"></script>
+@endsection
