@@ -68,10 +68,10 @@
         .card-title{
             font-weight: bold;
         }
-        .table  {
-            width:50em;
-            /*border:solid !important;*/
-        }
+        /*.table  {*/
+        /*    width:50em;*/
+        /*    !*border:solid !important;*!*/
+        /*}*/
         .pagination>.page-item.active>a, .pagination>.page-item.active>a:focus, .pagination>.page-item.active>a:hover, .pagination>.page-item.active>span, .pagination>.page-item.active>span:focus, .pagination>.page-item.active>span:hover {
             background-color: #5d76a8;
             border-color: black;
@@ -95,6 +95,7 @@
         /*.settingsScreen{*/
         /*    margin:0 30em 0 30em;*/
         /*}*/
+
     </style>
 
     <script src="{{ asset('assets/js/core/jquery.min.js')}}" type="text/javascript"></script>

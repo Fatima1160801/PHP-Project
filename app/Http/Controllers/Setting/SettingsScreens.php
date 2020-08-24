@@ -41,4 +41,8 @@ class SettingsScreens extends Controller
         $userPermissions = getUserPermission();
         return view('setting.settingsScreens.otherSettings',compact('userPermissions'));
     }
+    public function general(){
+        $userPermissions = getUserPermission();
+        return view('setting.settingsScreens.general',compact('userPermissions'));
+    }
 }

@@ -444,6 +444,8 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('settings/screens/document', ['uses' => 'Setting\SettingsScreens@documentSettings', 'as' => 'settings.document.screen']);
     Route::get('settings/screens/system', ['uses' => 'Setting\SettingsScreens@systemSettings', 'as' => 'settings.system.screen']);
     Route::get('settings/screens/othersettings', ['uses' => 'Setting\SettingsScreens@otherSettings', 'as' => 'settings.othersettings.screen']);
+    Route::get('settings/screens/general', ['uses' => 'Setting\SettingsScreens@general', 'as' => 'settings.general.screen']);
+
 //for search process
     Route::get('/search/by/value/{subject_na?}/{deadlinefrom?}/{deadlineto?}/{budgetfrom?}/{budgetto?}/{status?}', ['uses' => 'Procurement\BrandController@searchProposal'])->name('search.by.value');
 

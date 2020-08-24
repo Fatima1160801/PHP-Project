@@ -172,7 +172,7 @@ class BeneficiaryOrganizationsController extends Controller
         ];
         $note = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'];
         $ben_type_id = ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8', 'html_type' => '5', 'selectArray' => $org_types[Auth::user()->lang_id]];
-        $is_hidden = ['html_type' => '5', 'selectArray' => $pst[Auth::user()->lang_id]];
+        $is_hidden = ['html_type' => '13', 'selectArray' => $pst[Auth::user()->lang_id]];
         $ben_mobile_no = ['inputClass' => 'check-is-number'];
         $ben_tel_no = ['inputClass' => 'check-is-number'];
         $ben_fax_no = ['inputClass' => 'check-is-number'];

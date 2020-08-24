@@ -4,10 +4,10 @@
 
     <div class="card ">
         <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">business_center
-                </i>
-            </div>
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">business_center--}}
+{{--                </i>--}}
+{{--            </div>--}}
             <h4 class="card-title">
                 {{$labels['screen_add_donor_types']??'screen_add_donor_types'}}
             </h4>

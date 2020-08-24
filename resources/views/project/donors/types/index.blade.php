@@ -4,28 +4,37 @@
 
 
     <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
-            <div class="card-icon">
-                <i class="material-icons">business_center</i>
-            </div>
-            <h4 class="card-title">
-                {{$labels['screen_donor_types']??'screen_donor_types'}}
+{{--        <div class="card-header card-header-rose card-header-text">--}}
+{{--            <div class="card-icon">--}}
+{{--                <i class="material-icons">business_center</i>--}}
+{{--            </div>--}}
+{{--            <h4 class="card-title">--}}
+{{--                {{$labels['screen_donor_types']??'screen_donor_types'}}--}}
 
-            </h4>
-        </div>
+{{--            </h4>--}}
+{{--        </div>--}}
         <div class="card-body ">
 
+            <h4 class="card-title">
+                {{$labels['screen_donor_types']??'screen_donor_types'}}
+                <a href="{{route('project.donors.types.create')}}"
+                   class="btn btn-primary btn-sm btn-fab btn-round "
+                   data-toggle="tooltip" data-placement="top" title="{{$labels['add']??'add'}}">
+                    <i class="material-icons">add
+                    </i>
+                </a>
 
+            </h4>
             <table class="table" id="table">
                 <thead>
                 <tr>
                     <th colspan="5">
-                        <a href="{{route('project.donors.types.create')}}"
-                           class="btn btn-primary btn-sm btn-fab btn-round "
-                           data-toggle="tooltip" data-placement="top" title="{{$labels['add']??'add'}}">
-                            <i class="material-icons">add
-                            </i>
-                        </a>
+{{--                        <a href="{{route('project.donors.types.create')}}"--}}
+{{--                           class="btn btn-primary btn-sm btn-fab btn-round "--}}
+{{--                           data-toggle="tooltip" data-placement="top" title="{{$labels['add']??'add'}}">--}}
+{{--                            <i class="material-icons">add--}}
+{{--                            </i>--}}
+{{--                        </a>--}}
                     </th>
                 </tr>
                 <tr>

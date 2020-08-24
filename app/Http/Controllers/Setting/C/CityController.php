@@ -25,17 +25,21 @@ class CityController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         is_permitted(48, getClassName(__CLASS__), __FUNCTION__, 209, 7);
-
         $cities = City::all();
         $messageDeleteCity = getMessage('2.86');
         $labels = inputButton(Auth::user()->lang_id, 48);
         $userPermissions = getUserPermission();
+        if($request->ajax()){
+            $html = view('setting.c.city.render_table', compact('labels', 'cities', 'messageDeleteCity', 'userPermissions'))->render();
+            return response(['status' => true, 'html' =>$html,'messageDeleteCity'=>$messageDeleteCity,'id'=>1]);
+        }else{
+            return view('setting.c.city.index', compact('labels', 'cities', 'messageDeleteCity', 'userPermissions'));
+        }
 
-        return view('setting.c.city.index', compact('labels', 'cities', 'messageDeleteCity', 'userPermissions'));
-    }
+     }
 
 
     public function getCreate()

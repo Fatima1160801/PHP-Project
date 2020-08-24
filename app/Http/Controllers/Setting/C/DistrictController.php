@@ -22,16 +22,20 @@ class DistrictController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         is_permitted(49, getClassName(__CLASS__), __FUNCTION__, 124, 7);
 
-        $districts = District::all();
-       $messageDeleteDistrict = getMessage('2.348');
+        $districts = District::take(30)->get();
+       $messageDeleteDistrict = getMessage('2.1');
         $labels = inputButton(Auth::user()->lang_id, 49);
         $userPermissions = getUserPermission();
-
-        return view('setting.c.district.index', compact('labels', 'districts', 'messageDeleteDistrict', 'userPermissions'));
+        if($request->ajax()){
+            $html = view('setting.c.district.render_table', compact('labels', 'districts', 'messageDeleteDistrict', 'userPermissions'))->render();
+            return response(['status' => true, 'html' =>$html]);
+        }else{
+            return view('setting.c.district.index', compact('labels', 'districts', 'messageDeleteDistrict', 'userPermissions'));
+        }
     }
 
     public function getCreate()

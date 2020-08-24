@@ -39,9 +39,17 @@ class BrandController extends Controller
         is_permitted(142, getClassName(__CLASS__), __FUNCTION__, 309, 7);
         $list = Brand::orderby('id', 'desc')->get();
         $messageDeleteType = getMessage('2.348');
-        $labels = inputButton(Auth::user()->lang_id, 142);
+//        $labels = inputButton(Auth::user()->lang_id, 142);
         $userPermissions = getUserPermission();
-        return view('procurement.brand.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
+        $brandObj= new Brand();
+        $option = [
+               'brand_name' => ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
+
+        ];
+        $generator = generator(142, $option, $brandObj);
+        $html = $generator[0];
+        $labels = $generator[1];
+        return view('procurement.brand.index', compact('labels','html', 'list', 'messageDeleteType', 'userPermissions'));
     }
 
     public function create($type = null, $id = null)
@@ -63,6 +71,7 @@ class BrandController extends Controller
 
     public function store(Request $request)
     {
+
         is_permitted(142, getClassName(__CLASS__), __FUNCTION__, 310, 1);
 
         $input = $request->all();
@@ -76,7 +85,6 @@ class BrandController extends Controller
         $brandObj->fill($field);
         $brandObj->created_by=Auth::user()->id;
         $brandObj->save();
-
         return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$brandObj->id]);
 
 
@@ -104,27 +112,26 @@ class BrandController extends Controller
     {
         is_permitted(142, getClassName(__CLASS__), __FUNCTION__, 312, 2);
 
-        $input = $request->all();
+//        $input = $request->all();
 
-        $data  = fieldInDatabase(142, $input);
-        $field = $data['field'];
-        // $id = 1;
-        $id = $field['id'];
-
+//        $data  = fieldInDatabase(142, $input);
+//        $field = $data['field'];
+//        $id = $field['id'];
+$id=$request->editId;
 
 
         $optionValidator = [
         ];
-        inputValidator($data, $optionValidator);
+//        inputValidator($data, $optionValidator);
         $brandObject = Brand::find($id);
         if(empty($brandObject)){
             return response(['status' => false, 'message' => getMessage('2.2')]);
         }
 
-        $brandObject->fill($field);
+//        $brandObject->fill($field);
+        $brandObject->brand_name=$request->editName;
         $brandObject->updated_by=Auth::user()->id;
         $brandObject->save();
-
         return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$brandObject->id]);
     }
 
