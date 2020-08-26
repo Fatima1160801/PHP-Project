@@ -64,6 +64,12 @@
         /*    margin-right: 22px;*/
         /*}*/
 
+        #table{
+            margin-left: 0% !important;
+        }
+        .table {
+            width: 60em !important;
+        }
 
     </style>
 @endsection
