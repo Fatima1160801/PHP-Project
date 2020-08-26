@@ -33,7 +33,7 @@ class UnitsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
 
         is_permitted(141, getClassName(__CLASS__), __FUNCTION__, 304, 7);
@@ -41,10 +41,17 @@ class UnitsController extends Controller
         $messageDeleteType = getMessage('2.347');
         $labels = inputButton(Auth::user()->lang_id, 141);
         $userPermissions = getUserPermission();
-        return view('procurement.unit.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('procurement.unit.table_render', compact('labels', 'list', 'messageDeleteType', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('procurement.unit.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
+        }
     }
 
-    public function create($type = null, $id = null)
+    public function create(Request $request,$type = null, $id = null)
     {
         is_permitted(141, getClassName(__CLASS__), __FUNCTION__, 305, 1);
 
@@ -58,7 +65,14 @@ class UnitsController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.unit.create', compact('labels', 'html', 'userPermissions'));
+        $save=1;
+        if($request->ajax()){
+            $html =view('procurement.unit.create_render', compact('labels', 'html', 'userPermissions','save'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        else
+        return view('procurement.unit.create', compact('labels', 'html', 'userPermissions','save'));
     }
 
     public function store(Request $request)
@@ -79,12 +93,12 @@ class UnitsController extends Controller
         $unitObj->created_by=Auth::user()->id;
         $unitObj->save();
 
-        return response(['status' => true, 'message' => getMessage('2.1'),'id'=> $unitObj->id]);
+        return response(['status' => true, 'message' => getMessage('2.1'),'id'=> $unitObj->id,'city'=>$unitObj]);
 
 
     }
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
         is_permitted(141, getClassName(__CLASS__), __FUNCTION__, 307, 2);
 
@@ -99,7 +113,14 @@ class UnitsController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.unit.edit', compact('labels', 'html', 'userPermissions'));
+        $save=2;
+        if($request->ajax()){
+            $html =view('procurement.brand.create_render', compact('labels', 'html', 'userPermissions','save'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        else
+        return view('procurement.unit.edit', compact('labels', 'html', 'userPermissions','save'));
     }
 
     public function update(Request $request)
@@ -124,7 +145,7 @@ class UnitsController extends Controller
         $unitObject->updated_by=Auth::user()->id;
         $unitObject->save();
 
-        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$unitObject->id]);
+        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$unitObject->id,'city'=>$unitObject]);
     }
 
     public function delete($id)

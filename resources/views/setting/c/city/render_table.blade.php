@@ -1,16 +1,27 @@
 <table class="table dataTable no-footer table-bordered table-responsive" id="table">
     <thead>
     <tr>
-        <th style="width:20px;">#</th>
-        <th style="width:177px;">
+{{--        <th style="width:20px;">#</th>--}}
+{{--        <th style="width:177px;">--}}
+{{--            {{$labels['city_name_en']??'city_name_en'}}--}}
+{{--        </th>--}}
+{{--        <th style="width:177px;">--}}
+{{--            {{$labels['city_name_ar']??'city_name_ar'}}--}}
+{{--        </th>--}}
+{{--        <th style="width:89px;">--}}
+{{--            {{$labels['actions'] ?? 'actions'}}--}}
+{{--        </th>--}}
+        <th style="width:10%;">#</th>
+        <th style="width:40%;">
             {{$labels['city_name_en']??'city_name_en'}}
         </th>
-        <th style="width:177px;">
+        <th style="width:20%;">
             {{$labels['city_name_ar']??'city_name_ar'}}
         </th>
-        <th style="width:89px;">
+        <th style="width:20%">
             {{$labels['actions'] ?? 'actions'}}
         </th>
+        <th></th>
     </tr>
     </thead>
     <tbody>

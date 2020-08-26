@@ -1,0 +1,60 @@
+<div class="card ">
+    <div class="card-header card-header-rose  card-header-icon">
+        {{--            <div class="card-icon">--}}
+        {{--                <i class="material-icons">desktop_windows</i>--}}
+        {{--            </div>--}}
+        <h4 class="card-title">
+            {{$labels['units'] ?? 'Unit'}}
+        </h4>
+    </div>
+    <div class="card-body ">
+
+        <div id="result-msg"></div>
+
+@if($save==1)
+        {!! Form::open(['route' => 'units.store' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formUnitCreate']) !!}
+        @else
+            {!! Form::open(['route' => 'units.update' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formUnitUpdate']) !!}
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        {!! $html !!}
+
+
+        <div class="col-md-12">
+
+            <div class="card-footer ml-auto mr-auto">
+                <div class="ml-auto mr-auto">
+                    <a href="{{route('units.index')}}" class="btn btn-default btn-sm">
+                        {{$labels['back'] ?? 'back'}}
+                    </a>
+                    @if($save==1)
+                    <button btn="btnToggleDisabled" type="submit" id="btnAddunit"
+                            class="btn btn-next btn-rose pull-right btn-sm">
+                        <div class="loader pull-left" style="display: none;"></div> {{$labels['save'] ?? 'save'}}
+                    </button>
+                @else
+                        <button btn="btnToggleDisabled" type="submit" id="btnEditunit"
+                                class="btn-sm btn btn-next btn-rose pull-right">
+                            <div class="loader pull-left " style="display: none;"></div> {{$labels['save'] ?? 'save'}}
+                        </button>
+                @endif
+                <!-- <a href="#" id="cleanScreen" class="btn  btn-info pull-right btn-sm">
+                            {{$labels['clean'] ?? 'clean'}}
+                        </a> -->
+                </div>
+            </div>
+        </div>
+
+
+        {!! Form::close() !!}
+    </div>
+</div>
