@@ -75,12 +75,15 @@ class BrandController extends Controller
         $labels = $generator[1];
         $userPermissions = getUserPermission();
         $save=1;
+        $id=1;
         if($request->ajax()){
-            $html =view('procurement.brand.create_render', compact('labels', 'html', 'userPermissions','save'))->render();
+            $id=2;
+            $html =view('procurement.brand.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
             return response(['status' => true, 'html' =>$html]);
 
         }
-        return view('procurement.brand.create', compact('labels', 'html', 'userPermissions','save'));
+        else
+        return view('procurement.brand.create', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function store(Request $request)
@@ -120,13 +123,15 @@ class BrandController extends Controller
         $labels = $generator[1];
         $userPermissions = getUserPermission();
         $save=2;
+        $id=1;
         if($request->ajax()){
-            $html =view('procurement.brand.create_render', compact('labels', 'html', 'userPermissions','save'))->render();
+            $id=2;
+            $html =view('procurement.brand.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
             return response(['status' => true, 'html' =>$html]);
 
         }
         else
-        return view('procurement.brand.edit', compact('labels', 'html', 'userPermissions'));
+        return view('procurement.brand.edit', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function update(Request $request)

@@ -33,7 +33,7 @@ class ServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
 
         is_permitted(145, getClassName(__CLASS__), __FUNCTION__, 322, 7);
@@ -41,10 +41,16 @@ class ServiceController extends Controller
         $messageDeleteType = getMessage('2.351');
         $labels = inputButton(Auth::user()->lang_id, 145);
         $userPermissions = getUserPermission();
-        return view('procurement.service.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('procurement.service.table_render', compact('labels', 'list', 'messageDeleteType', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('procurement.service.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions','id'));
+        }
     }
-
-    public function create($type = null, $id = null)
+    public function create(Request $request,$type = null, $id = null)
     {
         is_permitted(145, getClassName(__CLASS__), __FUNCTION__, 323, 1);
 
@@ -60,7 +66,16 @@ class ServiceController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.service.create', compact('labels', 'html', 'userPermissions'));
+        $save=1;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('procurement.service.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        else
+        return view('procurement.service.create', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function store(Request $request)
@@ -80,12 +95,12 @@ class ServiceController extends Controller
         // dd($field);
         $serviceObj->save();
 
-        return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$serviceObj->id]);
+        return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$serviceObj->id,'city'=>$serviceObj]);
 
 
     }
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
         is_permitted(145, getClassName(__CLASS__), __FUNCTION__, 324, 2);
 
@@ -101,7 +116,15 @@ class ServiceController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.service.edit', compact('labels', 'html', 'userPermissions'));
+        $save=2;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('procurement.service.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        return view('procurement.service.edit', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function update(Request $request)
@@ -129,7 +152,7 @@ class ServiceController extends Controller
         $serviceObj->updated_by=Auth::user()->id;
         $serviceObj->save();
 
-        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$serviceObj->id]);
+        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$serviceObj->id,'city'=>$serviceObj]);
     }
 
     public function delete($id)

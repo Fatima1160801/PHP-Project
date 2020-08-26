@@ -33,7 +33,7 @@ class ItemController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
 
         is_permitted(146, getClassName(__CLASS__), __FUNCTION__, 326, 7);
@@ -41,16 +41,22 @@ class ItemController extends Controller
         $messageDeleteType = getMessage('2.352');
         $labels = inputButton(Auth::user()->lang_id, 146);
         $userPermissions = getUserPermission();
-        return view('procurement.item.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('procurement.item.table_render', compact('labels', 'list', 'messageDeleteType', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('procurement.item.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions','id'));
+        }
     }
-
     public function screensetting(){
         $labels = inputButton(Auth::user()->lang_id, 0);
         $userPermissions = getUserPermission();
         $lang=Auth::user()->lang_id;
         return view('procurement.screen', compact('labels','userPermissions','lang'));
     }
-    public function create($type = null, $id = null)
+    public function create(Request $request,$type = null, $id = null)
     {
         is_permitted(146, getClassName(__CLASS__), __FUNCTION__, 327, 1);
 
@@ -76,7 +82,15 @@ class ItemController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.item.create', compact('labels', 'html', 'userPermissions'));
+        $save=1;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('procurement.item.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        return view('procurement.item.create', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function store(Request $request)
@@ -133,7 +147,7 @@ class ItemController extends Controller
 
     }
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
         is_permitted(146, getClassName(__CLASS__), __FUNCTION__, 328, 2);
 
@@ -159,7 +173,16 @@ class ItemController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.item.edit', compact('labels', 'html', 'userPermissions'));
+        $save=2;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('procurement.item.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        else
+        return view('procurement.item.edit', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function update(Request $request)

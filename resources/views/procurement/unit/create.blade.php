@@ -60,6 +60,9 @@
             active_nev_link('visit-link');
             funValidateForm();
         });
+        function appendTable(data,count,id,cityname,citynamefo){
+            return false;
+        }
 
         {{--$(document).on('submit', '#formUnitCreate', function (e) {--}}
         {{--    if (!is_valid_form($(this))) {--}}

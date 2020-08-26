@@ -58,6 +58,7 @@
             active_nev_link('visit-link');
             funValidateForm();
             $('.selectpicker').selectpicker();
+
             // $('.datetimepicker').datetimepicker({
             //     icons: {
             //         time: "fa fa-clock-o",
@@ -73,47 +74,50 @@
             //     format: 'DD/MM/YYYY'
             // });
         });
+        function editRow(dta,id,cityname,citynamefo){
+            return false;
+        }
 
-        $(document).on('submit', '#formServiceUpdate', function (e) {
+        {{--$(document).on('submit', '#formServiceUpdate', function (e) {--}}
 
-            if (!is_valid_form($(this))) {
-                return false;
-            }
+        {{--    if (!is_valid_form($(this))) {--}}
+        {{--        return false;--}}
+        {{--    }--}}
 
-            e.preventDefault();
+        {{--    e.preventDefault();--}}
 
-            var form = new FormData($(this)[0]);
-            var url = $(this).attr('action');
-            // alert($(this).attr('action'));s
-            $.ajax({
-                url: url,
-                data: form,
-                type: 'post',
-                processData: false,
-                contentType: false,
-                beforeSend: function () {
-                    $('#btnEditservice').attr("disabled", true);
-                    $('.loader').show();
-                },
-                success: function (data) {
-                    $('#btnEditservice').attr("disabled", false);
-                    $('.loader').hide();
-                    if (data.status == true) {
-                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                        $('.loader').hide();
-                    }
-                    {{--setTimeout(() => {--}}
-                    {{--    window.location.href = "{{route('services.index')}}";--}}
-                    {{--}, 1000);--}}
+        {{--    var form = new FormData($(this)[0]);--}}
+        {{--    var url = $(this).attr('action');--}}
+        {{--    // alert($(this).attr('action'));s--}}
+        {{--    $.ajax({--}}
+        {{--        url: url,--}}
+        {{--        data: form,--}}
+        {{--        type: 'post',--}}
+        {{--        processData: false,--}}
+        {{--        contentType: false,--}}
+        {{--        beforeSend: function () {--}}
+        {{--            $('#btnEditservice').attr("disabled", true);--}}
+        {{--            $('.loader').show();--}}
+        {{--        },--}}
+        {{--        success: function (data) {--}}
+        {{--            $('#btnEditservice').attr("disabled", false);--}}
+        {{--            $('.loader').hide();--}}
+        {{--            if (data.status == true) {--}}
+        {{--                myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
+        {{--                $('.loader').hide();--}}
+        {{--            }--}}
+        {{--            --}}{{--setTimeout(() => {--}}
+        {{--            --}}{{--    window.location.href = "{{route('services.index')}}";--}}
+        {{--            --}}{{--}, 1000);--}}
 
 
-                },
-                error: function (data) {
+        {{--        },--}}
+        {{--        error: function (data) {--}}
 
-                }
-            });
+        {{--        }--}}
+        {{--    });--}}
 
-        });
+        {{--});--}}
 
 
 

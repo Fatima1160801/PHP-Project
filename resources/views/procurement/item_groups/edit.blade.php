@@ -1,59 +1,61 @@
 @extends('layouts._layout')
 @section('content')
+    @include('procurement.item_groups.create_render')
     <div class="card ">
         <div class="card-header card-header-rose  card-header-icon">
 {{--            <div class="card-icon">--}}
 {{--                <i class="material-icons">desktop_windows</i>--}}
 {{--            </div>--}}
             <h4 class="card-title">
-                {{$labels['edititemgroup'] ?? 'Edit Item Groups'}}
+                {{$labels['itemgroups'] ?? 'Item Groups'}}
             </h4>
         </div>
-        <div class="card-body ">
+{{--        <div class="card-body ">--}}
 
-            <div id="result-msg"></div>
-
-
-            {!! Form::open(['route' => 'item.groups.update' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formItemUpdate']) !!}
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-
-                    </ul>
-                </div>
-            @endif
-
-            {!! $html !!}
+{{--            <div id="result-msg"></div>--}}
 
 
+{{--            {!! Form::open(['route' => 'item.groups.update' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formItemUpdate']) !!}--}}
+{{--            @if ($errors->any())--}}
+{{--                <div class="alert alert-danger">--}}
+{{--                    <ul>--}}
+{{--                        @foreach ($errors->all() as $error)--}}
+{{--                            <li>{{ $error }}</li>--}}
+{{--                        @endforeach--}}
+
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            @endif--}}
+
+{{--            {!! $html !!}--}}
 
 
 
-            <div class="col-md-12">
-
-                <div class="card-footer ml-auto mr-auto">
-                    <div class="ml-auto mr-auto">
-                        <a href="{{route('items.groups.index')}}" class="btn btn-sm btn-default">
-                            {{$labels['back'] ?? 'back'}}
-                        </a>
-                        <button btn="btnToggleDisabled" type="submit" id="btnEdititem"
-                                class="btn-sm btn btn-next btn-rose pull-right">
-                            <div class="loader pull-left " style="display: none;"></div> {{$labels['save'] ?? 'save'}}
-                        </button>
-                    </div>
-                </div>
-            </div>
 
 
-            {!! Form::close() !!}
-        </div>
+{{--            <div class="col-md-12">--}}
+
+{{--                <div class="card-footer ml-auto mr-auto">--}}
+{{--                    <div class="ml-auto mr-auto">--}}
+{{--                        <a href="{{route('items.groups.index')}}" class="btn btn-sm btn-default">--}}
+{{--                            {{$labels['back'] ?? 'back'}}--}}
+{{--                        </a>--}}
+{{--                        <button btn="btnToggleDisabled" type="submit" id="btnEdititem"--}}
+{{--                                class="btn-sm btn btn-next btn-rose pull-right">--}}
+{{--                            <div class="loader pull-left " style="display: none;"></div> {{$labels['save'] ?? 'save'}}--}}
+{{--                        </button>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+
+
+{{--            {!! Form::close() !!}--}}
+{{--        </div>--}}
     </div>
 
 @endsection
 @section('script')
+    @include('procurement.brand.brand_script')
     <script>
         $(document).ready(function () {
             active_nev_link('visit-link');
@@ -75,46 +77,46 @@
             // });
         });
 
-        $(document).on('submit', '#formItemUpdate', function (e) {
+        {{--$(document).on('submit', '#formItemUpdate', function (e) {--}}
 
-            if (!is_valid_form($(this))) {
-                return false;
-            }
+        {{--    if (!is_valid_form($(this))) {--}}
+        {{--        return false;--}}
+        {{--    }--}}
 
-            e.preventDefault();
+        {{--    e.preventDefault();--}}
 
-            var form = new FormData($(this)[0]);
-            var url = $(this).attr('action');
-            // alert($(this).attr('action'));s
-            $.ajax({
-                url: url,
-                data: form,
-                type: 'post',
-                processData: false,
-                contentType: false,
-                beforeSend: function () {
-                    $('#btnEdititem').attr("disabled", true);
-                    $('.loader').show();
-                },
-                success: function (data) {
-                    $('#btnEdititem').attr("disabled", false);
-                    $('.loader').hide();
-                    if (data.status == true) {
-                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                        $('.loader').hide();
-                    }
-                    {{--setTimeout(() => {--}}
-                    {{--    window.location.href = "{{route('items.groups.index')}}";--}}
-                    {{--}, 1000);--}}
+        {{--    var form = new FormData($(this)[0]);--}}
+        {{--    var url = $(this).attr('action');--}}
+        {{--    // alert($(this).attr('action'));s--}}
+        {{--    $.ajax({--}}
+        {{--        url: url,--}}
+        {{--        data: form,--}}
+        {{--        type: 'post',--}}
+        {{--        processData: false,--}}
+        {{--        contentType: false,--}}
+        {{--        beforeSend: function () {--}}
+        {{--            $('#btnEdititem').attr("disabled", true);--}}
+        {{--            $('.loader').show();--}}
+        {{--        },--}}
+        {{--        success: function (data) {--}}
+        {{--            $('#btnEdititem').attr("disabled", false);--}}
+        {{--            $('.loader').hide();--}}
+        {{--            if (data.status == true) {--}}
+        {{--                myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
+        {{--                $('.loader').hide();--}}
+        {{--            }--}}
+        {{--            --}}{{--setTimeout(() => {--}}
+        {{--            --}}{{--    window.location.href = "{{route('items.groups.index')}}";--}}
+        {{--            --}}{{--}, 1000);--}}
 
 
-                },
-                error: function (data) {
+        {{--        },--}}
+        {{--        error: function (data) {--}}
 
-                }
-            });
+        {{--        }--}}
+        {{--    });--}}
 
-        });
+        {{--});--}}
 
         $("#image_icon").change(function (){
             //  var fileName = $(this).val();

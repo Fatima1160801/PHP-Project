@@ -33,9 +33,13 @@
 
             <div class="card-footer ml-auto mr-auto">
                 <div class="ml-auto mr-auto">
+                    @if($id==1)
                     <a href="{{route('brands.index')}}" class="btn  btn-sm btn-default backButtons">
                         {{$labels['back'] ?? 'back'}}
                     </a>
+                    @else
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    @endif
                     @if($save==1)
                     <button btn="btnToggleDisabled" type="submit" id="btnAddbrand"
                             class="btn btn-next pull-right btn-sm btn-rose saveButtons">

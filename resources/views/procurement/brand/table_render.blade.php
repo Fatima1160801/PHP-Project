@@ -1,8 +1,8 @@
-<table class="table dataTable no-footer table-bordered" style="width:40em;" id="table">
+<table class="table dataTable no-footer table-bordered" id="table">
     <thead>
     <tr>
         <th>#</th>
-        <th style="width: 30em;">
+        <th>
             {{$labels['brand_name'] ?? 'Brand name'}}
         </th>
 

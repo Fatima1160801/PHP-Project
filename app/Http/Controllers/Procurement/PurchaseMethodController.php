@@ -33,7 +33,7 @@ class PurchaseMethodController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
 
         is_permitted(144, getClassName(__CLASS__), __FUNCTION__, 318, 7);
@@ -41,10 +41,16 @@ class PurchaseMethodController extends Controller
         $messageDeleteType = getMessage('2.349');
         $labels = inputButton(Auth::user()->lang_id, 144);
         $userPermissions = getUserPermission();
-        return view('procurement.purchasemethods.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('procurement.purchasemethods.table_render', compact('labels', 'list', 'messageDeleteType', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('procurement.purchasemethods.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions','id'));
+        }
     }
-
-    public function create($type = null, $id = null)
+    public function create(Request $request,$type = null, $id = null)
     {
         is_permitted(144, getClassName(__CLASS__), __FUNCTION__, 319, 1);
 
@@ -58,7 +64,16 @@ class PurchaseMethodController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.purchasemethods.create', compact('labels', 'html', 'userPermissions'));
+        $save=1;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('procurement.purchasemethods.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        else
+        return view('procurement.purchasemethods.create', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function store(Request $request)
@@ -78,12 +93,12 @@ class PurchaseMethodController extends Controller
         // dd($field);
         $purchaseObj->save();
 
-        return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$purchaseObj->id]);
+        return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$purchaseObj->id,'city'=>$purchaseObj]);
 
 
     }
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
         is_permitted(144, getClassName(__CLASS__), __FUNCTION__, 320, 2);
 
@@ -98,7 +113,16 @@ class PurchaseMethodController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.purchasemethods.edit', compact('labels', 'html', 'userPermissions'));
+        $save=2;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('procurement.purchasemethods.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        else
+        return view('procurement.purchasemethods.edit', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function update(Request $request)
@@ -126,7 +150,7 @@ class PurchaseMethodController extends Controller
         $purchaseObject->updated_by=Auth::user()->id;
         $purchaseObject->save();
 
-        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$purchaseObject->id]);
+        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$purchaseObject->id,'city'=>$purchaseObject]);
     }
 
     public function delete($id)

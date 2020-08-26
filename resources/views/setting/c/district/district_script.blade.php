@@ -20,7 +20,10 @@
                 $('#btnDistrictCity').attr("disabled", false);
                 $('.loader').hide();
                 if (data.success == true) {
-                    appendTable(data.district,data.count,2,data.cityname,data.citynamefo);
+                    var table = $('#table').dataTable();
+                    //Get the total rows
+                    var count=table.fnGetData().length;
+                    appendTable(data.district,count,2,data.cityname,data.citynamefo);
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     clearForm('#formDistrictCreate');
                     $('.loader').hide();

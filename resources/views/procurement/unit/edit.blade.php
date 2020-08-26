@@ -75,6 +75,9 @@
             //     format: 'DD/MM/YYYY'
             // });
         });
+        function editRow(dta,id,cityname,citynamefo){
+            return false;
+        }
 
         {{--$(document).on('submit', '#formUnitUpdate', function (e) {--}}
 

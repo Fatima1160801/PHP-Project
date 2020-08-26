@@ -4,18 +4,19 @@
         {{--                <i class="material-icons">desktop_windows</i>--}}
         {{--            </div>--}}
         <h4 class="card-title">
-           <i class='fas fa-ruler-vertical' style='font-size:24px'></i>{{$labels['units'] ?? 'Unit'}}
+          <i class="material-icons">business</i>  {{$labels['sectors'] ?? 'sectors'}}
         </h4>
     </div>
     <div class="card-body ">
 
         <div id="result-msg"></div>
 
-@if($save==1)
-        {!! Form::open(['route' => 'units.store' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formUnitCreate']) !!}
+        @if($save==1)
+        {!! Form::open(['route' => 'sectors.store' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formSectorCreate']) !!}
         @else
-            {!! Form::open(['route' => 'units.update' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formUnitUpdate']) !!}
+            {!! Form::open(['route' => 'sectors.update' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formSectorUpdate']) !!}
         @endif
+
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -34,26 +35,23 @@
             <div class="card-footer ml-auto mr-auto">
                 <div class="ml-auto mr-auto">
                     @if($id==1)
-                    <a href="{{route('units.index')}}" class="btn btn-default btn-sm">
+                    <a href="{{route('sectors.index')}}" class="btn btn-default btn-sm">
                         {{$labels['back'] ?? 'back'}}
                     </a>
                     @else
                         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+
                     @endif
-                    @if($save==1)
-                    <button btn="btnToggleDisabled" type="submit" id="btnAddunit"
+                        @if($save==1)
+                    <button btn="btnToggleDisabled" type="submit" id="btnAddsector"
                             class="btn btn-next btn-rose pull-right btn-sm">
                         <div class="loader pull-left" style="display: none;"></div> {{$labels['save'] ?? 'save'}}
                     </button>
-                @else
-                        <button btn="btnToggleDisabled" type="submit" id="btnEditunit"
-                                class="btn-sm btn btn-next btn-rose pull-right">
-                            <div class="loader pull-left " style="display: none;"></div> {{$labels['save'] ?? 'save'}}
-                        </button>
-                @endif
-                <!-- <a href="#" id="cleanScreen" class="btn  btn-info pull-right btn-sm">
-                            {{$labels['clean'] ?? 'clean'}}
-                        </a> -->
+                        @else
+                            <button btn="btnToggleDisabled" type="submit" id="btnEditsector"
+                                                            class="btn-sm btn btn-next btn-rose pull-right">
+                                                        <div class="loader pull-left " style="display: none;"></div> {{$labels['save'] ?? 'save'}}
+                                                    </button>@endif
                 </div>
             </div>
         </div>

@@ -34,7 +34,7 @@ class SectorController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
 
         is_permitted(140, getClassName(__CLASS__), __FUNCTION__, 299, 7);
@@ -42,10 +42,16 @@ class SectorController extends Controller
         $messageDeleteType = getMessage('2.346');
         $labels = inputButton(Auth::user()->lang_id, 140);
         $userPermissions = getUserPermission();
-        return view('procurement.sector.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('procurement.sector.table_render', compact('labels', 'list', 'messageDeleteType', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('procurement.sector.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions','id'));
+        }
     }
-
-    public function create($type = null, $id = null)
+    public function create(Request $request,$type = null, $id = null)
     {
         is_permitted(140, getClassName(__CLASS__), __FUNCTION__, 300, 1);
 
@@ -59,7 +65,15 @@ class SectorController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.sector.create', compact('labels', 'html', 'userPermissions'));
+        $save=1;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('procurement.sector.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        return view('procurement.sector.create', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function store(Request $request)
@@ -79,12 +93,12 @@ class SectorController extends Controller
         // dd($field);
         $sectorObj->save();
 
-        return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$sectorObj->id]);
+        return response(['status' => true, 'message' => getMessage('2.1'),'id'=>$sectorObj->id,'city'=>$sectorObj]);
 
 
     }
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
         is_permitted(140, getClassName(__CLASS__), __FUNCTION__, 302, 2);
 
@@ -99,7 +113,16 @@ class SectorController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.sector.edit', compact('labels', 'html', 'userPermissions'));
+        $save=2;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('procurement.sector.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        else
+        return view('procurement.sector.edit', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function update(Request $request)
@@ -127,7 +150,7 @@ class SectorController extends Controller
         $sectorObject->updated_by=Auth::user()->id;
         $sectorObject->save();
 
-        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$sectorObject->id]);
+        return response(['status' => true, 'message' => getMessage('2.2'),'id'=>$sectorObject->id,'city'=>$sectorObject]);
     }
 
     public function delete($id)

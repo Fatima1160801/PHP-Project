@@ -24,7 +24,10 @@
                 if (data.status == 'true') {
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     clearForm('#formCityCreate');
-                    appendTable(data.city,data.count,1,"","");
+                    var table = $('#table').dataTable();
+                    //Get the total rows
+                    var count=table.fnGetData().length;
+                    appendTable(data.city,count,1,"","");
                  {{--   var table = document.getElementById("table");--}}
                  {{--   var number = table.rows.length;--}}
                  {{--   // if($dd==1){--}}

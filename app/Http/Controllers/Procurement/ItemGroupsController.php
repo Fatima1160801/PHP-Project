@@ -33,7 +33,7 @@ class ItemGroupsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
 
         is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 314, 7);
@@ -41,10 +41,16 @@ class ItemGroupsController extends Controller
         $messageDeleteType = getMessage('2.350');
         $labels = inputButton(Auth::user()->lang_id, 143);
         $userPermissions = getUserPermission();
-        return view('procurement.item_groups.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('procurement.item_groups.table_render', compact('labels', 'list', 'messageDeleteType', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('procurement.item_groups.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions', 'id'));
+        }
     }
-
-    public function create($type = null, $id = null)
+    public function create(Request $request,$type = null, $id = null)
     {
         is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 315, 1);
 
@@ -63,7 +69,15 @@ class ItemGroupsController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.item_groups.create', compact('labels', 'html', 'userPermissions'));
+        $save=1;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('procurement.item_groups.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        return view('procurement.item_groups.create', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function store(Request $request)
@@ -99,7 +113,7 @@ class ItemGroupsController extends Controller
 
     }
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
         is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 316, 2);
 
@@ -118,7 +132,16 @@ class ItemGroupsController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('procurement.item_groups.edit', compact('labels', 'html', 'userPermissions'));
+        $save=2;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('procurement.item_groups.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        else
+        return view('procurement.item_groups.edit', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function update(Request $request)

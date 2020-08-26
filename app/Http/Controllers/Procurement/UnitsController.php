@@ -47,7 +47,7 @@ class UnitsController extends Controller
             $html = view('procurement.unit.table_render', compact('labels', 'list', 'messageDeleteType', 'userPermissions', 'id'))->render();
             return response(['status' => true, 'html' => $html]);
         } else {
-            return view('procurement.unit.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions'));
+            return view('procurement.unit.index', compact('labels', 'list', 'messageDeleteType', 'userPermissions','id'));
         }
     }
 
@@ -57,8 +57,8 @@ class UnitsController extends Controller
 
 
         $option = [
-            //'unit_name_na' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
-            //'unit_name_fo' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
+//            'unit_name_na' => ['col_all_Class' => 'col-md-7', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-6'],
+//            'unit_name_fo' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-5', 'col_input_Class' => 'col-md-7'],
         ];
         $unitObj= new Unit();
         $generator = generator(141, $option, $unitObj);
@@ -66,13 +66,15 @@ class UnitsController extends Controller
         $labels = $generator[1];
         $userPermissions = getUserPermission();
         $save=1;
+        $id=1;
         if($request->ajax()){
-            $html =view('procurement.unit.create_render', compact('labels', 'html', 'userPermissions','save'))->render();
+            $id=2;
+            $html =view('procurement.unit.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
             return response(['status' => true, 'html' =>$html]);
 
         }
         else
-        return view('procurement.unit.create', compact('labels', 'html', 'userPermissions','save'));
+        return view('procurement.unit.create', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function store(Request $request)
@@ -114,13 +116,15 @@ class UnitsController extends Controller
         $labels = $generator[1];
         $userPermissions = getUserPermission();
         $save=2;
+        $id=1;
         if($request->ajax()){
-            $html =view('procurement.brand.create_render', compact('labels', 'html', 'userPermissions','save'))->render();
+            $id=2;
+            $html =view('procurement.unit.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
             return response(['status' => true, 'html' =>$html]);
 
         }
         else
-        return view('procurement.unit.edit', compact('labels', 'html', 'userPermissions','save'));
+        return view('procurement.unit.edit', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function update(Request $request)

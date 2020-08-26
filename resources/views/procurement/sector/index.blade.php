@@ -24,52 +24,53 @@
                title="{{$labels['addsector'] ?? 'Add sectors'}}" >
                 <i class="material-icons">add</i></a>
                 </span>   </h4>
+            @include('procurement.sector.table_render')
 
-            <table class="table dataTable no-footer  table-bordered" id="table">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>
-                        {{$labels['sector_name_na'] ?? 'Sector name'}}
-                    </th>
-                    <th>
-                        {{$labels['sector_name_fo'] ?? 'Sector name in other language'}}
-                    </th>
+{{--            <table class="table dataTable no-footer  table-bordered" id="table">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th>#</th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['sector_name_na'] ?? 'Sector name'}}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['sector_name_fo'] ?? 'Sector name in other language'}}--}}
+{{--                    </th>--}}
 
-                    <th>
-                        {{$labels['actions'] ?? 'actions'}}
-                    </th>
+{{--                    <th>--}}
+{{--                        {{$labels['actions'] ?? 'actions'}}--}}
+{{--                    </th>--}}
 
-                </tr>
-                </thead>
-                <tbody>
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
 
-                @if(!empty($list))
-                @foreach($list  as $index => $item)
-                    <tr>
-                        <td>{{$index+1}}</td>
-                        <td>{{$item->sector_name_na ?? ""}}</td>
-                        <td>{{$item->sector_name_fo ?? ""}}</td>
-                        <td>
-                            <a href="{{route('sectors.edit',$item->id)}}"
-                               class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"
-                               title="{{$labels['edit'] ?? 'edit'}} "
-                            >
-                                <i class="material-icons">edit</i>
-                            </a>
-                            <button type="button" href="{{ route('sectors.delete',$item->id )}}"
-                                    rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"
-                                    data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
-                                <i class="material-icons">delete</i>
-                            </button>
-                        </td>
+{{--                @if(!empty($list))--}}
+{{--                @foreach($list  as $index => $item)--}}
+{{--                    <tr>--}}
+{{--                        <td>{{$index+1}}</td>--}}
+{{--                        <td>{{$item->sector_name_na ?? ""}}</td>--}}
+{{--                        <td>{{$item->sector_name_fo ?? ""}}</td>--}}
+{{--                        <td>--}}
+{{--                            <a href="{{route('sectors.edit',$item->id)}}"--}}
+{{--                               class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"--}}
+{{--                               title="{{$labels['edit'] ?? 'edit'}} "--}}
+{{--                            >--}}
+{{--                                <i class="material-icons">edit</i>--}}
+{{--                            </a>--}}
+{{--                            <button type="button" href="{{ route('sectors.delete',$item->id )}}"--}}
+{{--                                    rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"--}}
+{{--                                    data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">--}}
+{{--                                <i class="material-icons">delete</i>--}}
+{{--                            </button>--}}
+{{--                        </td>--}}
 
-                    </tr>
+{{--                    </tr>--}}
 
-                @endforeach
-               @endif
-                </tbody>
-            </table>
+{{--                @endforeach--}}
+{{--               @endif--}}
+{{--                </tbody>--}}
+{{--            </table>--}}
             <button type="button" class="btn  btn-sm btn-default" onclick='location.href="{{ route('screen.index')}}"'>Back</button>
 
         </div>
@@ -78,46 +79,47 @@
 
 @endsection
 @section('script')
+    @include('procurement.plan.plan_script')
     <script>
         $(function () {
             active_nev_link('visit-link');
             DataTableCall('#table',4);
             $('[data-toggle="tooltip"]').tooltip();
 
-            $(document).on('click', '.btnTypeDelete', function (e) {
-                e.preventDefault();
-                $this = $(this);
-                swal({
-                    text: '{{$messageDeleteType['text']}}',
-                    confirmButtonClass: 'btn btn-success  btn-sm',
-                    cancelButtonClass: 'btn btn-danger  btn-sm',
-                    buttonsStyling: false,
-                    showCancelButton: true
-                }).then(result => {
-                    if (result == true){
-                        // var project_id = $('#formProjectMain #id').val();
-                        url = $(this).attr('href');
-                        // alert(url);
-                        $.ajax({
-                            url: url,
-                            type: 'delete',
-                            beforeSend: function () {
-                            },
-                            success: function (data) {
-                                if (data.status == true) {
-                                    $($this).closest('tr').css('background','red').delay(1000).hide(1000);
-                                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                                    $('#contentModal .close').click();
-                                }else {
-                                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                                }
-                            },
-                            error: function () {
-                            }
-                        });
-                    }
-                })
-            });
+        {{--    $(document).on('click', '.btnTypeDeleteSector', function (e) {--}}
+        {{--        e.preventDefault();--}}
+        {{--        $this = $(this);--}}
+        {{--        swal({--}}
+        {{--            text: '{{$messageDeleteType['text']}}',--}}
+        {{--            confirmButtonClass: 'btn btn-success  btn-sm',--}}
+        {{--            cancelButtonClass: 'btn btn-danger  btn-sm',--}}
+        {{--            buttonsStyling: false,--}}
+        {{--            showCancelButton: true--}}
+        {{--        }).then(result => {--}}
+        {{--            if (result == true){--}}
+        {{--                // var project_id = $('#formProjectMain #id').val();--}}
+        {{--                url = $(this).attr('href');--}}
+        {{--                // alert(url);--}}
+        {{--                $.ajax({--}}
+        {{--                    url: url,--}}
+        {{--                    type: 'delete',--}}
+        {{--                    beforeSend: function () {--}}
+        {{--                    },--}}
+        {{--                    success: function (data) {--}}
+        {{--                        if (data.status == true) {--}}
+        {{--                            $($this).closest('tr').css('background','red').delay(1000).hide(1000);--}}
+        {{--                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
+        {{--                            $('#contentModal .close').click();--}}
+        {{--                        }else {--}}
+        {{--                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
+        {{--                        }--}}
+        {{--                    },--}}
+        {{--                    error: function () {--}}
+        {{--                    }--}}
+        {{--                });--}}
+        {{--            }--}}
+        {{--        })--}}
+        {{--    });--}}
 
 
         })

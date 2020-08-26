@@ -18,7 +18,7 @@
         <th style="width:20%;">
             {{$labels['city_name_ar']??'city_name_ar'}}
         </th>
-        <th style="width:20%">
+        <th style="width:30%">
             {{$labels['actions'] ?? 'actions'}}
         </th>
         <th></th>
