@@ -47,7 +47,8 @@ class ItemController extends Controller
     public function screensetting(){
         $labels = inputButton(Auth::user()->lang_id, 0);
         $userPermissions = getUserPermission();
-        return view('procurement.screen', compact('labels','userPermissions'));
+        $lang=Auth::user()->lang_id;
+        return view('procurement.screen', compact('labels','userPermissions','lang'));
     }
     public function create($type = null, $id = null)
     {

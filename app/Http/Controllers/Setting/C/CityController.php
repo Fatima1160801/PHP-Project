@@ -28,21 +28,24 @@ class CityController extends Controller
     public function index(Request $request)
     {
         is_permitted(48, getClassName(__CLASS__), __FUNCTION__, 209, 7);
-        $cities = City::all();
+        $cities = City::orderby('id','desc')->get();
+        $count=City::all()->count();
         $messageDeleteCity = getMessage('2.86');
         $labels = inputButton(Auth::user()->lang_id, 48);
         $userPermissions = getUserPermission();
+        $id=1;
         if($request->ajax()){
-            $html = view('setting.c.city.render_table', compact('labels', 'cities', 'messageDeleteCity', 'userPermissions'))->render();
-            return response(['status' => true, 'html' =>$html,'messageDeleteCity'=>$messageDeleteCity,'id'=>1]);
+            $id=2;
+            $html = view('setting.c.city.render_table', compact('labels', 'cities', 'messageDeleteCity', 'userPermissions','id','count'))->render();
+            return response(['status' => true, 'html' =>$html]);
         }else{
-            return view('setting.c.city.index', compact('labels', 'cities', 'messageDeleteCity', 'userPermissions'));
+            return view('setting.c.city.index', compact('labels', 'cities', 'messageDeleteCity', 'userPermissions','id','count'));
         }
 
      }
 
 
-    public function getCreate()
+    public function getCreate(Request $request)
     {
         is_permitted(48, getClassName(__CLASS__), 'store', 121, 1);
 
@@ -54,8 +57,14 @@ class CityController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
+        $save=1;
+        if($request->ajax()){
+            $html =view('setting.c.city.render_create', compact('labels', 'html', 'userPermissions','save'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('setting.c.city.create', compact('labels', 'html', 'userPermissions'));
+        }
+        else
+        return view('setting.c.city.create', compact('labels', 'html', 'userPermissions','save'));
     }
 
 
@@ -78,30 +87,35 @@ class CityController extends Controller
         $city->created_by = Auth::id();
         $city->is_hidden =0;
         $city->save();
-
+        $count=City::all()->count();
         Log::instance()->record('2.24', null, 48, null, null, null, null);
         Log::instance()->save();
 
         notifications(getClassName(__CLASS__), __FUNCTION__, route('settings.cities.edit', $city->id));
 
-        return response(['status' => 'true', 'message' => getMessage('2.87')]);
+        return response(['status' => 'true', 'message' => getMessage('2.87'),'city'=>$city,'count'=>$count]);
     }
 
 
-    public function getEdit($id)
+    public function getEdit(Request $request,$id)
     {
         is_permitted(48, getClassName(__CLASS__), 'update', 122, 2);
 
         $option = [];
 
         $city = City::find($id);
-
+$save=2;
         $generator = generator(48, $option, $city);
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
+        if($request->ajax()){
+            $html =view('setting.c.city.render_create', compact('labels', 'html', 'userPermissions','save'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('setting.c.city.update', compact('labels', 'html', 'userPermissions'));
+        }
+        else
+        return view('setting.c.city.update', compact('labels', 'html', 'userPermissions','save'));
     }
 
 
@@ -128,7 +142,7 @@ class CityController extends Controller
 
         notifications(getClassName(__CLASS__), __FUNCTION__, route('settings.cities.edit', $city->id));
 
-        return response(['success' => true, 'message' => getMessage('2.88')]);
+        return response(['success' => true, 'message' => getMessage('2.88'),'city'=>$city]);
     }
 
 

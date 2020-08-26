@@ -43,6 +43,7 @@ class SettingsScreens extends Controller
     }
     public function general(){
         $userPermissions = getUserPermission();
-        return view('setting.settingsScreens.general',compact('userPermissions'));
+        $lang=Auth::user()->lang_id;
+        return view('setting.settingsScreens.general',compact('userPermissions','lang'));
     }
 }

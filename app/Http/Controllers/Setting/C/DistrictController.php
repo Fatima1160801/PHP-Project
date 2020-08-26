@@ -25,20 +25,22 @@ class DistrictController extends Controller
     public function index(Request $request)
     {
         is_permitted(49, getClassName(__CLASS__), __FUNCTION__, 124, 7);
-
+$id=1;
         $districts = District::take(30)->get();
        $messageDeleteDistrict = getMessage('2.1');
         $labels = inputButton(Auth::user()->lang_id, 49);
         $userPermissions = getUserPermission();
+        $count=District::all()->count();
         if($request->ajax()){
-            $html = view('setting.c.district.render_table', compact('labels', 'districts', 'messageDeleteDistrict', 'userPermissions'))->render();
+            $id=2;
+            $html = view('setting.c.district.render_table', compact('labels', 'districts', 'messageDeleteDistrict', 'userPermissions','id','count'))->render();
             return response(['status' => true, 'html' =>$html]);
         }else{
-            return view('setting.c.district.index', compact('labels', 'districts', 'messageDeleteDistrict', 'userPermissions'));
+            return view('setting.c.district.index', compact('labels', 'districts', 'messageDeleteDistrict', 'userPermissions','id','count'));
         }
     }
 
-    public function getCreate()
+    public function getCreate(Request $request)
     {
         is_permitted(49, getClassName(__CLASS__), 'store', 125, 1);
 
@@ -49,13 +51,18 @@ class DistrictController extends Controller
         ];
 
         $district = new District();
-
+$save=1;
         $generator = generator(49, $option, $district);
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
+        if($request->ajax()){
+            $html =view('setting.c.district.render_create', compact('labels', 'html', 'userPermissions','save'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('setting.c.district.create', compact('labels', 'html', 'userPermissions'));
+        }
+        else
+        return view('setting.c.district.create', compact('labels', 'html', 'userPermissions','save'));
     }
 
 
@@ -84,17 +91,18 @@ class DistrictController extends Controller
         $district->is_hidden = 0;
         $district->created_by = Auth::id();
         $district->save();
-
+        $city=City::where('id',$district->city_id)->first();
+        $count=District::all()->count();
         Log::instance()->record('2.27', null, 49, null, null, null, null);
         Log::instance()->save();
 
         notifications(getClassName(__CLASS__), __FUNCTION__, route('settings.districts.edit', $district->id));
 
-        return response(['success' => true, 'message' => getMessage('2.1')]);
+        return response(['success' => true, 'message' => getMessage('2.1'),'district'=>$district,'cityname'=>$city->city_name_no,'count'=>$count,'citynamefo'=>$city->city_name_fo]);
     }
 
 
-    public function getEdit($id)
+    public function getEdit(Request $request,$id)
     {
         is_permitted(49, getClassName(__CLASS__), 'update', 126, 2);
 
@@ -110,8 +118,14 @@ class DistrictController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
+        $save=2;
+        if($request->ajax()){
+            $html =view('setting.c.district.render_create', compact('labels', 'html', 'userPermissions','save'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('setting.c.district.update', compact('labels', 'html', 'userPermissions'));
+        }
+        else
+        return view('setting.c.district.update', compact('labels', 'html', 'userPermissions','save'));
     }
 
 
@@ -141,10 +155,12 @@ class DistrictController extends Controller
         Log::instance()->record('2.28', $field['id'], 49, null, null, $field, $district);
         Log::instance()->save();
         $district->save();
+        $districts=$district->with("city")->first();
+        $city=City::where('id',$district->city_id)->first();
 
         notifications(getClassName(__CLASS__), __FUNCTION__, route('settings.districts.edit', $district->id));
 
-        return response(['success' => true, 'message' => getMessage('2.2')]);
+        return response(['success' => true, 'message' => getMessage('2.2'),'district'=>$district,'cityname'=>$city->city_name_no,'citynamefo'=>$city->city_name_fo]);
     }
 
 

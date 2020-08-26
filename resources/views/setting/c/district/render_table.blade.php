@@ -21,19 +21,27 @@
     <tbody>
     @foreach($districts  as $index => $district)
 
-        <tr>
+        <tr data-id="{{$district->id}}">
             <td>{{$index+1}}</td>
             <td>{{$district->district_name_no}}</td>
             <td>{{$district->district_name_fo}}</td>
             <td>{{ $district->city? $district->city->{'city_name_'.lang_character1()} : '' }}</td>
             <td>
+                @if($id==1)
                 <a href="{{route('settings.districts.edit',$district->id)}}"
                    class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"
                    title="{{$labels['edit'] ?? 'edit'}} "
                 >
                     <i class="material-icons">edit</i>
                 </a>
-
+                @else
+                    <button type="button" data-id="{{$district->id}}"
+                            class="btn btn-sm btn-success btn-round btn-fab editDistrict"  data-toggle="tooltip" data-placement="top"
+                            title="{{$labels['edit'] ?? 'edit'}} "
+                    >
+                        <i class="material-icons">edit</i>
+                    </button>
+                @endif
 
                 <button type="button" href="{{ route('settings.districts.delete',$district->id )}}"
                         rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnDistrictDelete"
