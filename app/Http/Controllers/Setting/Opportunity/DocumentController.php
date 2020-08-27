@@ -37,7 +37,7 @@ class DocumentController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
         is_permitted(114, getClassName(__CLASS__), __FUNCTION__, 238, 7);
         $documents = Document::where('created_by', Auth::id())->with(["attachment","Intface"])->get();
@@ -45,10 +45,16 @@ class DocumentController extends Controller
         $messageDeleteType = getMessage('2.203');
         $labels = inputButton(Auth::user()->lang_id, 114);
         $userPermissions = getUserPermission();
-        return view('setting.opportunity.doc_setting.index', compact('labels', 'documents', 'messageDeleteType', 'userPermissions'));
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('setting.opportunity.doc_setting.table_render', compact('labels', 'documents', 'messageDeleteType', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+        return view('setting.opportunity.doc_setting.index', compact('labels', 'documents', 'messageDeleteType', 'userPermissions','id'));
     }
-
-    public function create($type = null, $id = null)
+}
+    public function create(Request $request,$type = null, $id = null)
     {
         is_permitted(114, getClassName(__CLASS__), __FUNCTION__, 239, 1);
         //  $option = [
@@ -84,7 +90,15 @@ class DocumentController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('setting.opportunity.doc_setting.create', compact('labels', 'html', 'userPermissions'));
+        $save=1;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('setting.opportunity.doc_setting.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        return view('setting.opportunity.doc_setting.create', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
     public function store(Request $request)
@@ -99,7 +113,8 @@ class DocumentController extends Controller
         
         $count = Document::where('interface_type_id',$field['interface_type_id'])->where('attachment_type_id',$field['attachment_type_id'])->count();
         if($count > 0)
-           return response(['status' => 'true', 'message' => getMessage('2.201')]); 
+
+           return response(['status' => 'true', 'message' => getMessage('2.201'),'check'=>1]);
         // $optionValidator = [
         //     'file' => [
         //         'required' => 'false',
@@ -135,15 +150,16 @@ class DocumentController extends Controller
         // dd(10);
         Log::instance()->record('2.210', null, 114, null, null, null, null);
         Log::instance()->save();
+$interface=Intface::where('id',$document->interface_type_id)->first();
+$attachment=AttachmentSpecific::where('id',$document->attachment_type_id)->first();
 
         // notifications(getClassName(__CLASS__), __FUNCTION__, route('documents.edit', $document->id));
-
-        return response(['status' => 'true', 'message' => getMessage('2.1')]);
+        return response(['status' => 'true', 'message' => getMessage('2.1'),'city'=>$document,'interface'=>$interface,'attachment'=>$attachment,'check'=>2]);
 
 
     }
 
-    public function edit($interface_id,$document_type_id)
+    public function edit(Request $request,$interface_id,$document_type_id)
     {
         
         is_permitted(114, getClassName(__CLASS__), __FUNCTION__, 240, 2);
@@ -182,7 +198,16 @@ class DocumentController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('setting.opportunity.doc_setting.edit', compact('labels', 'html', 'userPermissions', 'document'));
+        $save=2;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('setting.opportunity.doc_setting.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        else
+        return view('setting.opportunity.doc_setting.edit', compact('labels', 'html', 'userPermissions', 'document','save','id'));
     }
 
     public function update(Request $request)

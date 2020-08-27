@@ -19,7 +19,7 @@ class AttachmentTypesController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         is_permitted(108, getClassName(__CLASS__), 'index', 156, 7);
 
@@ -27,12 +27,17 @@ class AttachmentTypesController extends Controller
         $messageDeleteCity = getMessage('2.180');
         $labels = inputButton(Auth::user()->lang_id, 108);
         $userPermissions = getUserPermission();
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('setting.c.attachmentTypes.table_render', compact('labels', 'types', 'messageDeleteCity', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('setting.c.attachmentTypes.index', compact('labels', 'types', 'messageDeleteCity', 'userPermissions','id'));
+        }
 
-        return view('setting.c.attachmentTypes.index', compact('labels', 'types', 'messageDeleteCity', 'userPermissions'));
     }
-
-
-    public function getCreate()
+    public function getCreate(Request $request)
     {
         is_permitted(108, getClassName(__CLASS__), 'store', 157, 1);
         $option = [];
@@ -41,7 +46,16 @@ class AttachmentTypesController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('setting.c.attachmentTypes.create', compact('labels', 'html', 'userPermissions'));
+        $save=1;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('setting.c.attachmentTypes.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        else
+        return view('setting.c.attachmentTypes.create', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
 
@@ -69,11 +83,11 @@ class AttachmentTypesController extends Controller
 
         notifications(getClassName(__CLASS__), __FUNCTION__, route('settings.cities.edit', $attachment_types->id));
 
-        return response(['status' => 'true', 'message' => getMessage('2.87')]);
+        return response(['status' => 'true', 'message' => getMessage('2.1'),'city'=>$attachment_types]);
     }
 
 
-    public function getEdit($id)
+    public function getEdit(Request $request,$id)
     {
         is_permitted(108, getClassName(__CLASS__), 'update', 158, 2);
 
@@ -85,8 +99,16 @@ class AttachmentTypesController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
+        $save=2;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('setting.c.attachmentTypes.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('setting.c.attachmentTypes.update', compact('labels', 'html', 'userPermissions'));
+        }
+        else
+        return view('setting.c.attachmentTypes.update', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
 
@@ -113,7 +135,7 @@ class AttachmentTypesController extends Controller
 
         notifications(getClassName(__CLASS__), __FUNCTION__, route('settings.cities.edit', $attachment_types->id));
 
-        return response(['success' => true, 'message' => getMessage('2.88')]);
+        return response(['success' => true, 'message' => getMessage('2.2'),'city'=>$attachment_types]);
     }
 
 

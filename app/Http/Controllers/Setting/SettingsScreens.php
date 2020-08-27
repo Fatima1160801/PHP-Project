@@ -22,24 +22,29 @@ class SettingsScreens extends Controller
         $this->middleware('auth');
     }
     public function locationsSettings(){
+        $lang=Auth::user()->lang_id;
         $userPermissions = getUserPermission();
-        return view('setting.settingsScreens.locatinsSettings',compact('userPermissions'));
+        return view('setting.settingsScreens.locatinsSettings',compact('userPermissions','lang'));
     }
     public function usersSettings(){
+        $lang=Auth::user()->lang_id;
         $userPermissions = getUserPermission();
-        return view('setting.settingsScreens.usersAndStaffSettings',compact('userPermissions'));
+        return view('setting.settingsScreens.usersAndStaffSettings',compact('userPermissions','lang'));
     }
     public function documentSettings(){
+        $lang=Auth::user()->lang_id;
         $userPermissions = getUserPermission();
-        return view('setting.settingsScreens.documentsSettings',compact('userPermissions'));
+        return view('setting.settingsScreens.documentsSettings',compact('userPermissions','lang'));
     }
     public function systemSettings(){
+        $lang=Auth::user()->lang_id;
         $userPermissions = getUserPermission();
-        return view('setting.settingsScreens.systemSettings',compact('userPermissions'));
+        return view('setting.settingsScreens.systemSettings',compact('userPermissions','lang'));
     }
     public function otherSettings(){
+        $lang=Auth::user()->lang_id;
         $userPermissions = getUserPermission();
-        return view('setting.settingsScreens.otherSettings',compact('userPermissions'));
+        return view('setting.settingsScreens.otherSettings',compact('userPermissions','lang'));
     }
     public function general(){
         $userPermissions = getUserPermission();

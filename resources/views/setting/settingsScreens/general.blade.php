@@ -307,6 +307,7 @@
                     });
                 })
 function appendTable(data,count,id,cityname,citynamefo){
+                    var count1=count+1;
     var table = document.getElementById("table");
     var number = table.rows.length;
     // if($dd==1){
@@ -314,7 +315,7 @@ function appendTable(data,count,id,cityname,citynamefo){
     if(id==1){
     var url = '{{ route("settings.cities.delete", ":id") }}';
     url = url.replace(':id', data.id);
-    markup='<tr data-id='+data.id+'><td>'+count+'</td><td>'+data.city_name_no+'</td><td>'+data.city_name_fo+'</td><td> <button type="button" data-id='+data.id+'\n' +
+    markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.city_name_no+'</td><td>'+data.city_name_fo+'</td><td> <button type="button" data-id='+data.id+'\n' +
         '                     class="btn btn-sm btn-success btn-round btn-fab editCity"  data-toggle="tooltip" data-placement="top"\n' +
         '                       title="edit"\n' +
         '                    >\n' +
@@ -329,7 +330,7 @@ function appendTable(data,count,id,cityname,citynamefo){
         var url = '{{ route("settings.districts.delete", ":id") }}';
         url = url.replace(':id', data.id);
         if(lang==1)
-        markup='<tr data-id='+data.id+'><td>'+count+'</td><td>'+data.district_name_no+'</td><td>'+data.district_name_fo+'</td><td>'+cityname+'</td><td> <button type="button" data-id='+data.id+'\n' +
+        markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.district_name_no+'</td><td>'+data.district_name_fo+'</td><td>'+cityname+'</td><td> <button type="button" data-id='+data.id+'\n' +
             '                     class="btn btn-sm btn-success btn-round btn-fab editDistrict"  data-toggle="tooltip" data-placement="top"\n' +
             '                       title="edit"\n' +
             '                    >\n' +
@@ -340,7 +341,7 @@ function appendTable(data,count,id,cityname,citynamefo){
             '                    <i class="material-icons">delete</i>\n' +
             '                </button>\n</td></tr>';
         else
-            markup='<tr data-id='+data.id+'><td>'+count+'</td><td>'+data.district_name_no+'</td><td>'+data.district_name_fo+'</td><td>'+citynamefo+'</td><td> <button type="button" data-id='+data.id+'\n' +
+            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.district_name_no+'</td><td>'+data.district_name_fo+'</td><td>'+citynamefo+'</td><td> <button type="button" data-id='+data.id+'\n' +
                 '                     class="btn btn-sm btn-success btn-round btn-fab editDistrict"  data-toggle="tooltip" data-placement="top"\n' +
                 '                       title="edit"\n' +
                 '                    >\n' +

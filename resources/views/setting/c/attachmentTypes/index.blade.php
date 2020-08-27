@@ -23,51 +23,52 @@
                 <i class="material-icons">add</i></a>
 
             </span></h4>
-            <table class="table dataTable no-footer table-bordered" id="table">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>
+            @include('setting.c.attachmentTypes.table_render')
+{{--            <table class="table dataTable no-footer table-bordered" id="table">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th>#</th>--}}
+{{--                    <th>--}}
 
-                        {{$labels['attachment_types_name_na'] ?? 'attachment_types_name_na'}}
-                    </th>
-                    <th>
+{{--                        {{$labels['attachment_types_name_na'] ?? 'attachment_types_name_na'}}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
 
-                        {{$labels['attachment_types_name_fo'] ?? 'attachment_types_name_fo'}}
-                    </th>
-                    <th>
-                        {{$labels['actions'] ?? 'actions'}}
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($types  as $index => $attachment_types)
+{{--                        {{$labels['attachment_types_name_fo'] ?? 'attachment_types_name_fo'}}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['actions'] ?? 'actions'}}--}}
+{{--                    </th>--}}
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
+{{--                @foreach($types  as $index => $attachment_types)--}}
 
-                    <tr>
-                        <td>{{$index+1}}</td>
-                        <td>{{$attachment_types->attachment_type_na}}</td>
-                        <td>{{$attachment_types->attachment_type_fo}}</td>
-                        <td>
-                            <a href="{{route('settings.attachment_types.edit',$attachment_types->id)}}"
-                               class="btn btn-sm btn-success btn-round btn-fab  btn-sm"  data-toggle="tooltip" data-placement="top"
-                               title="{{$labels['edit'] ?? 'edit'}} "
-                            >
-                                <i class="material-icons">edit</i>
-                            </a>
+{{--                    <tr>--}}
+{{--                        <td>{{$index+1}}</td>--}}
+{{--                        <td>{{$attachment_types->attachment_type_na}}</td>--}}
+{{--                        <td>{{$attachment_types->attachment_type_fo}}</td>--}}
+{{--                        <td>--}}
+{{--                            <a href="{{route('settings.attachment_types.edit',$attachment_types->id)}}"--}}
+{{--                               class="btn btn-sm btn-success btn-round btn-fab  btn-sm"  data-toggle="tooltip" data-placement="top"--}}
+{{--                               title="{{$labels['edit'] ?? 'edit'}} "--}}
+{{--                            >--}}
+{{--                                <i class="material-icons">edit</i>--}}
+{{--                            </a>--}}
 
 
-                            <button type="button" href="{{ route('settings.attachment_types.delete',$attachment_types->id )}}"
-                              rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab  btn-sm btnCityDelete"
-                               data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
-                                <i class="material-icons">delete</i>
-                            </button>
+{{--                            <button type="button" href="{{ route('settings.attachment_types.delete',$attachment_types->id )}}"--}}
+{{--                              rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab  btn-sm btnCityDelete"--}}
+{{--                               data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">--}}
+{{--                                <i class="material-icons">delete</i>--}}
+{{--                            </button>--}}
 
-                        </td>
-                    </tr>
+{{--                        </td>--}}
+{{--                    </tr>--}}
 
-                @endforeach
-                </tbody>
-            </table>
+{{--                @endforeach--}}
+{{--                </tbody>--}}
+{{--            </table>--}}
             <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.document.screen')}}"'>Back</button>
 
         </div>
@@ -76,6 +77,7 @@
 
 @endsection
 @section('script')
+    @include('setting.c.attachmentTypes.documents_script')
     <script>
         $(function () {
             active_nev_link('attachment_types-link');
@@ -85,40 +87,40 @@
             $('[data-toggle="tooltip"]').tooltip();
             //CheckSessionStatus(icon = 'done', title = 'SUCCESS', type = 'success', delay = '5000');
 
-            $(document).on('click', '.btnCityDelete', function (e) {
-                e.preventDefault();
-                $this = $(this);
+            {{--$(document).on('click', '.btnCityDelete', function (e) {--}}
+            {{--    e.preventDefault();--}}
+            {{--    $this = $(this);--}}
 
-                swal({
-                    text: '{{$messageDeleteCity['text']}}',
-                    confirmButtonClass: 'btn btn-success  btn-sm',
-                    cancelButtonClass: 'btn btn-danger  btn-sm',
-                    buttonsStyling: false,
-                    showCancelButton: true
-                }).then(result => {
-                    if (result == true){
-                        // var project_id = $('#formProjectMain #id').val();
-                        url = $(this).attr('href');
-                        $.ajax({
-                            url: url,
-                            type: 'delete',
-                            beforeSend: function () {
-                            },
-                            success: function (data) {
-                                if (data.status == 'true') {
-                                    $($this).closest('tr').css('background','red').delay(1000).hide(1000);
-                                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                                    $('#contentModal .close').click();
-                                }else {
-                                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                                }
-                            },
-                            error: function () {
-                            }
-                        });
-                    }
-                })
-            });
+            {{--    swal({--}}
+            {{--        text: '{{$messageDeleteCity['text']}}',--}}
+            {{--        confirmButtonClass: 'btn btn-success  btn-sm',--}}
+            {{--        cancelButtonClass: 'btn btn-danger  btn-sm',--}}
+            {{--        buttonsStyling: false,--}}
+            {{--        showCancelButton: true--}}
+            {{--    }).then(result => {--}}
+            {{--        if (result == true){--}}
+            {{--            // var project_id = $('#formProjectMain #id').val();--}}
+            {{--            url = $(this).attr('href');--}}
+            {{--            $.ajax({--}}
+            {{--                url: url,--}}
+            {{--                type: 'delete',--}}
+            {{--                beforeSend: function () {--}}
+            {{--                },--}}
+            {{--                success: function (data) {--}}
+            {{--                    if (data.status == 'true') {--}}
+            {{--                        $($this).closest('tr').css('background','red').delay(1000).hide(1000);--}}
+            {{--                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
+            {{--                        $('#contentModal .close').click();--}}
+            {{--                    }else {--}}
+            {{--                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
+            {{--                    }--}}
+            {{--                },--}}
+            {{--                error: function () {--}}
+            {{--                }--}}
+            {{--            });--}}
+            {{--        }--}}
+            {{--    })--}}
+            {{--});--}}
 
 
         })
