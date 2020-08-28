@@ -1,8 +1,12 @@
-<div class="card ">
+<div class="card " style="margin-top: -15px;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: -15px">
     <div class="card-header card-header-rose  card-header-icon" id="createmodal">
         <h4 class="card-title">
 
-           <i class="material-icons">layers</i> {{$labels['cities']??'Governorate'}}
+{{--           <i class="material-icons">layers</i> --}}
+            {{$labels['cities']??'Governorate'}}
 
         </h4>
     </div>
@@ -32,9 +36,12 @@
 
             <div class="card-footer ml-auto mr-auto">
                 <div class="ml-auto mr-auto">
+                    @if($id==1)
                     <a href="{{route('settings.cities')}}" class="btn btn-sm btn-default">
                         {{$labels['back'] ?? 'back'}}
                     </a>
+                    @else
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>@endif
                     @if($save==1)
                     <button type="submit" id="btnAddCity" class="btn btn-next btn-sm  btn-rose pull-right">
                         <div class="loader pull-left" style="display: none;"></div> {{$labels['save'] ?? 'save'}}

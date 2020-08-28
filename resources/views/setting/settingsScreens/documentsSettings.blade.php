@@ -1,84 +1,18 @@
 @extends('layouts._layout')
 @section('css')
-    <style>
-        a {
-            color: black;
-        }
-        span {
-            font-weight: 500;
-            font-size: 14px;
-        }
-        .mainli li:hover,.mainli li:active,.mainli li:focus,.mainli li:visited{
-            background: #3699FF !important;
-
-        }
-        .mainli li:hover a,.mainli li:hover i, .mainli li:active a,.mainli li:active i,.mainli li:focus a,.mainli li:focus i,.mainli li:visited a,.mainli li:visited i{
-            color:white !important;
-
-        }
-        .selected-href{
-
-        }
-        .mainli li {
-            padding: 15px !important;
-        }
-        .mainli a,.mainli i {
-            color:#3F4254 !important;
-        }
-        .mainli i {
-            color: #B5B5C3 !important
-        }
-        .default-color{
-            color:#afafaf;
-        }
-        .selected-item,.selected-item i,.selected-item span{
-            background: #3699FF !important;
-            color:white !important;
-
-        }
-        #containerc{
-            margin-right: -88px;
-        }
-        /*#table{*/
-        /*    margin-left:15%;*/
-        /*    !*width:35em;*!*/
-        /*    text-align: center;*/
-        /*}*/
-        #createmodal{
-            margin-top:-15px;
-            /*background-color: #5d76a8;*/
-        }
-        #createmodal .card-title,#createmodal .card-title i{
-            text-align: center;
-            font-size: 19px !important;
-            font-weight: bold;
-            color:#5d76a8;
-        }
-        #createmodal .card-body{
-            margin-top: 20px;
-        }
-        /*#formCityCreate .row .row{*/
-        /*    margin-right: -50px;*/
-        /*}*/
-        /*#formCityCreate  .row{*/
-        /*    margin-right: 22px;*/
-        /*}*/
-
-        #table{
-            margin-left: 0% !important;
-            width: 45em !important;
-        }
-        .table {
-            width: 60em !important;
-        }
-
-    </style>
+    @include('setting.settingsScreens.settings_style')
+  <style>
+      #table{
+          margin-left: 10% !important;
+      }
+      </style>
+@endsection
 @section('content')
 {{--New New--}}
 <div class="container ml-2">
-    <div class="row" id="containerc" style="height: 500px;">
+    <div class="row" id="containerc" style="padding:30px;">
         <div class="col-md-3 card p-3 mr-3">
-            <ul class="navbar-nav mainli">
+            <ul class="navbar-nav mailli33">
                 <li class="nav-item mb-3 selected-item" id="doctype" data-nameeng="Documents Types" data-namear="أنواع المستندات" data-value="1">
                     <a href="#"
                        class="navi-link py-4 ">
@@ -145,10 +79,10 @@
                         $("#title").html($("#doctype").attr("data-nameeng"));
                     else
                         $("#title").html($("#doctype").attr("data-namear"))
-                    $("#add").html("<button type=\"button\" onclick='addType()' id='addType' class=\"btn btn-primary btn-sm btn-round btn-fab\"\n" +
+                    $("#add").html("<a href=\"#\" onclick='addType()' id='addType' style='border:white' class=\"mytooltip btn-setting-nav btn-round btn-fab add\"\n" +
                         "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
-                        "               title=\"Add Document Type\" >\n" +
-                        "                <i class=\"material-icons\">add</i></a>\n" +
+                        "               >\n" +
+                        "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\"> add type </span></a>\n" +
                         "            </span> </h4>");
                     // $('#table').DataTable().ajax.reload();
                     DataTableCall('#table',4);
@@ -187,10 +121,10 @@
                         $("#title").html($("#doctype").attr("data-nameeng"));
                     else
                         $("#title").html($("#doctype").attr("data-namear"))
-                    $("#add").html("<button type=\"button\" onclick='addType()' id='addType' class=\"btn btn-primary btn-sm btn-round btn-fab\"\n" +
+                    $("#add").html("<a href=\"#\" onclick='addType()' id='addType' class=\"mytooltip btn-setting-nav add\"\n" +
                         "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
-                        "               title=\"Add Document Type\" >\n" +
-                        "                <i class=\"material-icons\">add</i></a>\n" +
+                        "               title=\"\" >\n" +
+                        "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\"> Add Document Type</span></a>\n" +
                         "            </span> </h4>");
                     // $('#table').DataTable().ajax.reload();
                     DataTableCall('#table',4);
@@ -228,10 +162,10 @@
                         $("#title").html($("#docsetting").attr("data-nameeng"));
                     else
                         $("#title").html($("#docsetting").attr("data-namear"));
-                    $("#add").html("<button type=\"button\" onclick='addSetting()' id=\"addSetting\"class=\"btn btn-primary btn-sm btn-round btn-fab\"\n" +
+                    $("#add").html("<a href=\"#\" onclick='addSetting()' id=\"addSetting\"class=\"mytooltip btn-setting-nav add\"\n" +
                         "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
-                        "               title=\"Add Setting\" >\n" +
-                        "                <i class=\"material-icons\">add</i></button>\n" +
+                        "               title=\"\" >\n" +
+                        "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Setting </span></a>\n" +
                         "            </span> </h4>");
                     DataTableCall('#table',5);
                     $("#table_length").html("");
@@ -253,7 +187,7 @@
 
         });
         function addSelected(value){
-            $(".mainli .nav-item").removeClass("selected-item");
+            $(".mailli33 .nav-item").removeClass("selected-item");
             if(value==1){
                 $("#doctype").addClass("selected-item");
             }
@@ -291,16 +225,16 @@
             Body = $("#table tbody");
                 var url = '{{ route("settings.attachment_types.delete", ":id") }}';
                 url = url.replace(':id', data.id);
-                markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.attachment_type_na+'</td><td>'+data.attachment_type_fo+'</td><td> <button type="button" data-id='+data.id+'\n' +
-                    '                     class="btn btn-sm btn-success btn-round btn-fab editDocType"  data-toggle="tooltip" data-placement="top"\n' +
-                    '                       title="edit"\n' +
+                markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.attachment_type_na+'</td><td>'+data.attachment_type_fo+'</td><td> <a href="#" data-id='+data.id+'\n' +
+                    '                     class="mytooltip btn-setting-nav editDocType"  data-toggle="tooltip" data-placement="top"\n' +
+                    '                       title=""\n' +
                     '                    >\n' +
-                    '                        <i class="material-icons">edit</i>\n' +
-                    '                    </button> <button type="button" href='+url+'\n' +
-                    '                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnCityDelete"\n' +
-                    '                        data-placement="top"  title=" delete ">\n' +
-                    '                    <i class="material-icons">delete</i>\n' +
-                    '                </button>\n</td></tr>';
+                    '                        <i class="material-icons">edit</i><span class=\"mytooltiptext\"> edit </span>\n' +
+                    '                    </a> <a  href='+url+'\n' +
+                    '                        rel="tooltip" class="mytooltip btn-setting-nav btnCityDelete"\n' +
+                    '                        data-placement="top"  title=" ">\n' +
+                    '                    <i class="material-icons">delete</i><span class=\"mytooltiptext\"> delete </span>\n' +
+                    '                </a>\n</td></tr>';
 
 
 
@@ -322,31 +256,31 @@
                    activeStatus = 'Active';
                else
                    activeStatus = 'Inactive';
-                markup = '<tr data-interface=' + data.interface_type_id + ' data-attachment='+data.attachment_type_id+'><td>' + count1 + '</td><td>' + interface.interface_type_na + '</td><td>' + attachment.attachment_type_na + '</td><td>' + activeStatus + '</td><td> <button type="button" data-id=' + data.id + '\n' +
-                    '                     class="btn btn-sm btn-success btn-round btn-fab editSetting"  data-toggle="tooltip" data-placement="top"\n' +
-                    '                       title="edit"\n' +
+                markup = '<tr data-interface=' + data.interface_type_id + ' data-attachment='+data.attachment_type_id+'><td>' + count1 + '</td><td>' + interface.interface_type_na + '</td><td>' + attachment.attachment_type_na + '</td><td>' + activeStatus + '</td><td> <a href="#" data-id=' + data.id + '\n' +
+                    '                     class="mytooltip btn-setting-nav editSetting"  data-toggle="tooltip" data-placement="top"\n' +
+                    '                       title=""\n' +
                     '                    >\n' +
-                    '                        <i class="material-icons">edit</i>\n' +
-                    '                    </button> <button type="button" href=' + url + '\n' +
-                    '                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"\n' +
-                    '                        data-placement="top"  title=" delete ">\n' +
-                    '                    <i class="material-icons">delete</i>\n' +
-                    '                </button>\n</td></tr>';
+                    '                        <i class="material-icons">edit</i><span class=\"mytooltiptext\"> edit </span>\n' +
+                    '                    </a> <a  href=' + url + '\n' +
+                    '                        class="mytooltip btn-setting-nav btnTypeDelete"\n' +
+                    '                        data-placement="top"  title="">\n' +
+                    '                    <i class="material-icons">delete</i><span class=\"mytooltiptext\"> delete </span>\n' +
+                    '                </a>\n</td></tr>';
             } else {
                 if (data.is_hidden==0)
                     activeStatus = 'فعال';
                 else
                     activeStatus = 'غير فعال';
-                markup = '<tr data-id=' + data.id + '><td>' + count1 + '</td><td>' + interface.interface_type_fo + '</td><td>' + attachment.attachment_type_fo + '</td><td>' + activeStatus + '</td><td> <button type="button" data-id=' + data.id + '\n' +
-                    '                     class="btn btn-sm btn-success btn-round btn-fab editSetting"  data-toggle="tooltip" data-placement="top"\n' +
-                    '                       title="edit"\n' +
+                markup = '<tr data-id=' + data.id + '><td>' + count1 + '</td><td>' + interface.interface_type_fo + '</td><td>' + attachment.attachment_type_fo + '</td><td>' + activeStatus + '</td><td> <a href="#" data-id=' + data.id + '\n' +
+                    '                     class="btn mytooltip btn-setting-nav editSetting"  data-toggle="tooltip" data-placement="top"\n' +
+                    '                       title=""\n' +
                     '                    >\n' +
-                    '                        <i class="material-icons">edit</i>\n' +
-                    '                    </button> <button type="button" href=' + url + '\n' +
-                    '                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"\n' +
-                    '                        data-placement="top"  title=" delete ">\n' +
-                    '                    <i class="material-icons">delete</i>\n' +
-                    '                </button>\n</td></tr>';
+                    '                        <i class="material-icons">edit</i><span class=\"mytooltiptext\"> edit </span>\n' +
+                    '                    </a> <a href="#" href=' + url + '\n' +
+                    '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDelete"\n' +
+                    '                        data-placement="top"  title="">\n' +
+                    '                    <i class="material-icons">delete</i><span class=\"mytooltiptext\"> delete </span>\n' +
+                    '                </a>\n</td></tr>';
 
             }
         $(markup).insertAfter("#table tr:first");

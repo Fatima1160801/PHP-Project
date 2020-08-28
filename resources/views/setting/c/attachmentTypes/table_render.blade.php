@@ -25,25 +25,24 @@
             <td>
                 @if($id==1)
                 <a href="{{route('settings.attachment_types.edit',$attachment_types->id)}}"
-                   class="btn btn-sm btn-success btn-round btn-fab  btn-sm"  data-toggle="tooltip" data-placement="top"
-                   title="{{$labels['edit'] ?? 'edit'}} "
+                   class="mytooltip btn-setting-nav editDocType"  data-toggle="tooltip" data-placement="top"
                 >
-                    <i class="material-icons">edit</i>
+                    <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}}</span>
                 </a>
                 @else
-                    <button type="button" data-id="{{$attachment_types->id}}"
-                            class="btn btn-sm btn-success btn-round btn-fab editDocType"  data-toggle="tooltip" data-placement="top"
-                            title="{{$labels['edit'] ?? 'edit'}} "
+                    <a href="#" type="button" data-id="{{$attachment_types->id}}"
+                            class="btn-sm editDocType  mytooltip btn-setting-nav" style="border: white;"  data-toggle="tooltip" data-placement="top"
+
                     >
-                        <i class="material-icons">edit</i>
-                    </button>
+                        <i class="material-icons">edit</i><span class="mytooltiptext"> {{$labels['edit'] ?? 'edit'}}</span>
+                    </a>
                 @endif
 
-                <button type="button" href="{{ route('settings.attachment_types.delete',$attachment_types->id )}}"
-                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab  btn-sm btnCityDelete"
-                        data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
-                    <i class="material-icons">delete</i>
-                </button>
+                <a  href="{{ route('settings.attachment_types.delete',$attachment_types->id )}}"
+                        rel="tooltip" style="border: white;" class=" btn-fab  btn-sm btnCityDelete  mytooltip btn-setting-nav"
+                        data-placement="top">
+                    <i class="material-icons">delete</i><span class="mytooltiptext"> {{$labels['delete'] ?? 'delete'}} </span>
+                </a>
 
             </td>
         </tr>

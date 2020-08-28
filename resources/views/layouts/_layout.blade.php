@@ -132,16 +132,17 @@
 
 <div class="wrapper">
 
-    @include('layouts.sidebar')
+    @include('layouts.sidebar_new')
 
 
     <div class="main-panel">
         <!-- Navbar -->
-    @include('layouts.navbar')
+
     <!-- End Navbar -->
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
+                    @include('layouts.navbar2')
                     @yield('content')
                 </div>
             </div>

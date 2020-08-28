@@ -49,7 +49,9 @@ class CityController extends Controller
     {
         is_permitted(48, getClassName(__CLASS__), 'store', 121, 1);
 
-        $option = [];
+        $option = ['city_name_no' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-7'],
+            'city_name_fo'=>['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-5', 'col_input_Class' => 'col-md-7']
+        ];
 
         $city = new City();
 
@@ -58,13 +60,15 @@ class CityController extends Controller
         $labels = $generator[1];
         $userPermissions = getUserPermission();
         $save=1;
+        $id=1;
         if($request->ajax()){
-            $html =view('setting.c.city.render_create', compact('labels', 'html', 'userPermissions','save'))->render();
+            $id=2;
+            $html =view('setting.c.city.render_create', compact('labels', 'html', 'userPermissions','save','id'))->render();
             return response(['status' => true, 'html' =>$html]);
 
         }
         else
-        return view('setting.c.city.create', compact('labels', 'html', 'userPermissions','save'));
+        return view('setting.c.city.create', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
 
@@ -101,21 +105,25 @@ class CityController extends Controller
     {
         is_permitted(48, getClassName(__CLASS__), 'update', 122, 2);
 
-        $option = [];
+        $option = ['city_name_no' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-7'],
+            'city_name_fo'=>['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-5', 'col_input_Class' => 'col-md-7']
+        ];
 
         $city = City::find($id);
 $save=2;
+$id=1;
         $generator = generator(48, $option, $city);
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
         if($request->ajax()){
-            $html =view('setting.c.city.render_create', compact('labels', 'html', 'userPermissions','save'))->render();
+            $id=2;
+            $html =view('setting.c.city.render_create', compact('labels', 'html', 'userPermissions','save','id'))->render();
             return response(['status' => true, 'html' =>$html]);
 
         }
         else
-        return view('setting.c.city.update', compact('labels', 'html', 'userPermissions','save'));
+        return view('setting.c.city.update', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
 

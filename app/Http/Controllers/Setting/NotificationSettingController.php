@@ -33,7 +33,7 @@ class NotificationSettingController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
          is_permitted(51, getClassName(__CLASS__),__FUNCTION__, 119, 7);
 
@@ -45,7 +45,8 @@ class NotificationSettingController extends Controller
         $saved_settings_users = $saved_notifications_settings->pluck('user_id')->unique()->toArray();
         $userPermissions = getUserPermission();
 
-        return view('setting.notification.notification_settings',compact('staffs','saved_notifications_settings','saved_settings_users','users','labels','screen_commands','modules','userPermissions'));
+//        ,'screen_commands'
+        return view('setting.notification.notification_settings',compact('staffs','saved_notifications_settings','saved_settings_users','users','labels','modules','userPermissions'));
     }
 
 

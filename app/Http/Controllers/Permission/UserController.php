@@ -35,21 +35,26 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         is_permitted('1', 'UserController', 'index', '5', '7');
 
         $users = User::with('staff')
-            ->where('id','<>','1')->get();
+            ->where('id', '<>', '1')->get();
         $messageConfLock = getMessage('2.18');
         $messageConfUnLock = getMessage('2.19');
-        $labels = inputButton(Auth::user()->lang_id ,0);
+        $labels = inputButton(Auth::user()->lang_id, 0);
         $userPermissions = getUserPermission();
-
-        return view('permission.users.index', compact('labels','users','messageConfLock','messageConfUnLock','userPermissions'));
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('permission.users.table_render', compact('labels', 'users', 'messageConfLock', 'messageConfUnLock', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('permission.users.index', compact('labels', 'users', 'messageConfLock', 'messageConfUnLock', 'userPermissions','id'));
+        }
     }
-
-    public function create()
+    public function create(Request $request)
     {
 
         $screen_id = "1";
@@ -63,8 +68,16 @@ class UserController extends Controller
 
         $labels = inputButton(Auth::user()->lang_id ,0);
         $userPermissions = getUserPermission();
+        $save=1;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('permission.users.create_render', compact('labels', 'staff', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('permission.users.create',compact('labels','staff','userPermissions'));
+        }
+        else
+        return view('permission.users.create',compact('labels','staff','userPermissions','save','id'));
     }
 
 
@@ -120,7 +133,7 @@ class UserController extends Controller
         $user = user::find($id);
         $labels = inputButton(Auth::user()->lang_id ,0);
         $projects = Project::where('is_hidden',0)->get();
-        $activities = Activity::where('is_hidden',0)->get();
+//        $activities = Activity::where('is_hidden',0)->get();
 
         $user_data_perms = UserDataPermission::where('user_id',$id)->get();
         $user_data_perms_modules = UserDataPermissionModule::where('user_id',$id)->get();
@@ -158,7 +171,7 @@ class UserController extends Controller
         }
          $userPermissions = getUserPermission();
 
-        return view('permission.users.edit', compact('staff','user','labels','userPermissions','projects','activities','user_data_perms','user_data_perms_modules'));
+        return view('permission.users.edit', compact('staff','user','labels','userPermissions','projects','user_data_perms','user_data_perms_modules'));
     }
 
 

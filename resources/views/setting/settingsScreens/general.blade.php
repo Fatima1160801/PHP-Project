@@ -1,84 +1,13 @@
 @extends('layouts._layout')
 @section('css')
-    <style>
-        a {
-            color: black;
-        }
-        span {
-            font-weight: 500;
-            font-size: 14px;
-        }
-        .mainli li:hover,.mainli li:active,.mainli li:focus,.mainli li:visited{
-            background: #F3F6F9 !important;
-
-        }
-        .mainli li:hover a,.mainli li:hover i, .mainli li:active a,.mainli li:active i,.mainli li:focus a,.mainli li:focus i,.mainli li:visited a,.mainli li:visited i{
-            color:#3699FF !important;
-
-        }
-        .selected-href{
-
-        }
-        .mainli li {
-            padding: 15px !important;
-        }
-        .mainli a,.mainli i {
-           color:#3F4254 !important;
-        }
-        .mainli i {
-            color: #B5B5C3 !important
-        }
-        .default-color{
-            color:#afafaf;
-        }
-        .selected-item,.selected-item i,.selected-item span{
-            background: #F3F6F9 !important;
-            color:#3699FF !important;
-
-        }
-        #containerc{
-            margin-right: -88px;
-        }
-        #table{
-            margin-left:15%;
-            /*width:35em;*/
-            text-align: center;
-        }
-        #createmodal{
-            margin-top:-15px;
-            /*background-color: #5d76a8;*/
-        }
-        #createmodal .card-title,#createmodal .card-title i{
-            text-align: center;
-            font-size: 19px !important;
-            font-weight: bold;
-            color:#5d76a8;
-        }
-        #createmodal .card-body{
-            margin-top: 20px;
-        }
-        /*#formCityCreate .row .row{*/
-        /*    margin-right: -50px;*/
-        /*}*/
-        /*#formCityCreate  .row{*/
-        /*    margin-right: 22px;*/
-        /*}*/
-
-        #table{
-            margin-left: 0% !important;
-        }
-        .table {
-            width: 60em !important;
-        }
-
-    </style>
+    @include('setting.settingsScreens.settings_style')
 @endsection
 @section('content')
     <div class="container ml-2">
-        <div class="row" id="containerc" style="height: 500px;">
+        <div class="row" id="containerc" style="padding:30px;">
             <div class="col-md-2 card p-3 mr-3">
-                <ul class="navbar-nav mainli">
-                    <li class="nav-item mb-3" id="governorate" data-nameeng="Governorates" data-namear="المدن" data-value="1">
+                <ul class="navbar-nav mailli33">
+                    <li class="nav-item mb-3 selected-item" id="governorate" data-nameeng="Governorates" data-namear="المدن" data-value="1">
                         <a href="#"
                            class="navi-link py-4 ">
                             <div class="card-icon ">
@@ -97,53 +26,7 @@
                         </a>
 
                     </li>
-{{--                    <li class="nav-item" >--}}
-{{--                        <a href="/metronic/demo13/custom/apps/profile/profile-1/change-password.html"--}}
-{{--                           class="navi-link py-4">--}}
-{{--                            <div class="card-icon">--}}
-{{--                                <span>  <i class="material-icons"--}}
-{{--                                           style="color:#afafaf;">games</i>Account Information</span>--}}
-{{--                            </div>--}}
-{{--                        </a>--}}
 
-{{--                    </li>--}}
-{{--                    <li class="nav-item mainli selectedmenu" >--}}
-{{--                        <a href="/metronic/demo13/custom/apps/profile/profile-1/change-password.html"--}}
-{{--                           class="navi-link py-4">--}}
-{{--                            <div class="card-icon">--}}
-{{--                                <span>  <i class="material-icons" style="color:#afafaf;">email</i>Email Settings</span>--}}
-{{--                            </div>--}}
-{{--                        </a>--}}
-
-{{--                    </li>--}}
-{{--                    <li class="nav-item mainli selectedmenu" >--}}
-{{--                        <a href="/metronic/demo13/custom/apps/profile/profile-1/change-password.html"--}}
-{{--                           class="navi-link py-4">--}}
-{{--                            <div class="card-icon">--}}
-{{--                                <span>  <i class="material-icons" style="color:#afafaf;">credit_card</i>Saved Credit Cards</span>--}}
-{{--                            </div>--}}
-{{--                        </a>--}}
-
-{{--                    </li>--}}
-{{--                    <li class="nav-item mainli selectedmenu" >--}}
-{{--                        <a href="/metronic/demo13/custom/apps/profile/profile-1/change-password.html"--}}
-{{--                           class="navi-link py-4">--}}
-{{--                            <div class="card-icon">--}}
-{{--                                <span>  <i class='far fa-file-alt' style='font-size:20px;color:#afafaf;'></i>Tax Information</span>--}}
-{{--                            </div>--}}
-{{--                        </a>--}}
-
-{{--                    </li>--}}
-{{--                    <li class="nav-item mainli selectedmenu" >--}}
-{{--                        <a href="/metronic/demo13/custom/apps/profile/profile-1/change-password.html"--}}
-{{--                           class="navi-link py-4">--}}
-{{--                            <div class="card-icon">--}}
-{{--                                <span>  <i class="material-icons" style="color:#afafaf;">subject</i>Statements</span>--}}
-{{--                                <span class="label label-light-danger label-rounded font-weight-bold">5</span>--}}
-{{--                            </div>--}}
-{{--                        </a>--}}
-
-{{--                    </li>--}}
                 </ul>
             </div>
             <div class="col-md-9 p-3 card" ><div class="card-title" id="content">
@@ -193,6 +76,9 @@
             <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
             <script>
+                $(document).ready(function() {
+                    defaultVal();
+                });
                 $("#location").click(function (e) {
                     addSelected($("#location").attr("data-value"));
                     $("#add").html("");
@@ -210,10 +96,10 @@
                             $("#title").html($("#location").attr("data-nameeng"));
                             else
                                 $("#title").html($("#location").attr("data-namear"))
-                            $("#add").html("<button type=\"button\" onclick='addDistrict()' id='addDistrict' class=\"btn btn-primary btn-sm btn-round btn-fab\"\n" +
+                            $("#add").html("<a href=\"#\" onclick='addDistrict()' id='addDistrict' class=\"mytooltip btn-setting-nav add\"\n" +
                                 "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
                                 "               title=\"Add New City\" >\n" +
-                                "                <i class=\"material-icons\">add</i></a>\n" +
+                                "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add District</span></a>\n" +
                                 "            </span> </h4>");
                             // $('#table').DataTable().ajax.reload();
                             DataTableCall('#table',5);
@@ -240,43 +126,46 @@
                     $("#add").html("");
                     $("#title").html("");
                      $("#render_result").html("");
-                    $('#loadScreen div.loader').show();
                     e.preventDefault();
-                    $.get('{{route('settings.cities')}}',function(data){
-                        if(data.status==true){
-                            $("#render_result").html(data.html);
-                            $('#loadScreen div.loader').hide();
-                            var lang=@json($lang);
-                            if(lang==1)
-                            $("#title").html($("#governorate").attr("data-nameeng"));
-                            else
-                                $("#title").html($("#governorate").attr("data-namear"));
-                            $("#add").html("<button type=\"button\" onclick='addCity()' id=\"addCity\"class=\"btn btn-primary btn-sm btn-round btn-fab\"\n" +
-                                "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
-                                "               title=\"Add New City\" >\n" +
-                                "                <i class=\"material-icons\">add</i></button>\n" +
-                                "            </span> </h4>");
-                            DataTableCall('#table',4);
-                            $("#table_length").html("");
-                            $("#table_filter").html("");
-                                // $('#table').DataTable( {
-                                //     "order": [[ 1, "desc" ]]
-                                // } );
-                            var table = $('#table').DataTable();
+                    defaultVal();
+                    });
+function defaultVal(){
+    $('#loadScreen div.loader').show();
+    $.get('{{route('settings.cities')}}',function(data){
+        if(data.status==true){
+            $("#render_result").html(data.html);
+            $('#loadScreen div.loader').hide();
+            var lang=@json($lang);
+            if(lang==1)
+                $("#title").html($("#governorate").attr("data-nameeng"));
+            else
+                $("#title").html($("#governorate").attr("data-namear"));
+            $("#add").html("<a href=\"#\" onclick='addCity()' id=\"addCity\"class=\"mytooltip btn-setting-nav add\"\n" +
+                "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
+                "               title=\"\" >\n" +
+                "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add City</span></a>\n" +
+                "            </span> </h4>");
+            DataTableCall('#table',4);
+            $("#table_length").html("");
+            $("#table_filter").html("");
+            // $('#table').DataTable( {
+            //     "order": [[ 1, "desc" ]]
+            // } );
+            var table = $('#table').DataTable();
 
 // Sort by columns 1 and 2 and redraw
-                            table
-                                .order( [0, 'desc' ] )
-                                .draw();
+            table
+                .order( [0, 'desc' ] )
+                .draw();
 
-                        }else{
+        }else{
 
-                        }
-                    });
+        }
 
                 });
+                }
                 function addSelected(value){
-                    $(".mainli .nav-item").removeClass("selected-item");
+                    $(".mailli33 .nav-item").removeClass("selected-item");
                     if(value==1){
                         $("#governorate").addClass("selected-item");
                     }
@@ -315,42 +204,42 @@ function appendTable(data,count,id,cityname,citynamefo){
     if(id==1){
     var url = '{{ route("settings.cities.delete", ":id") }}';
     url = url.replace(':id', data.id);
-    markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.city_name_no+'</td><td>'+data.city_name_fo+'</td><td> <button type="button" data-id='+data.id+'\n' +
-        '                     class="btn btn-sm btn-success btn-round btn-fab editCity"  data-toggle="tooltip" data-placement="top"\n' +
-        '                       title="edit"\n' +
+    markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.city_name_no+'</td><td>'+data.city_name_fo+'</td><td> <a href="#" data-id='+data.id+'\n' +
+        '                     class="mytooltip btn-setting-nav editCity"  data-toggle="tooltip" data-placement="top"\n' +
+        '                       title=""\n' +
         '                    >\n' +
-        '                        <i class="material-icons">edit</i>\n' +
-        '                    </button> <button type="button" href='+url+'\n' +
-        '                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnCityDelete"\n' +
-        '                        data-placement="top"  title=" delete ">\n' +
-        '                    <i class="material-icons">delete</i>\n' +
-        '                </button>\n</td></tr>';}
+        '                        <i class="material-icons">edit</i><span class=\"mytooltiptext\">edit</span>\n' +
+        '                    </a> <a  href='+url+'\n' +
+        '                        rel="tooltip" class="mytooltip btn-setting-nav btnCityDelete"\n' +
+        '                        data-placement="top"  title=" ">\n' +
+        '                    <i class="material-icons">delete</i><span class=\"mytooltiptext\">delete</span>\n' +
+        '                </a>\n</td></tr>';}
     else{
         var lang=@json($lang);
         var url = '{{ route("settings.districts.delete", ":id") }}';
         url = url.replace(':id', data.id);
         if(lang==1)
-        markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.district_name_no+'</td><td>'+data.district_name_fo+'</td><td>'+cityname+'</td><td> <button type="button" data-id='+data.id+'\n' +
-            '                     class="btn btn-sm btn-success btn-round btn-fab editDistrict"  data-toggle="tooltip" data-placement="top"\n' +
+        markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.district_name_no+'</td><td>'+data.district_name_fo+'</td><td>'+cityname+'</td><td> <a href="#" data-id='+data.id+'\n' +
+            '                     class=" mytooltip btn-setting-nav  editDistrict"  data-toggle="tooltip" data-placement="top"\n' +
             '                       title="edit"\n' +
             '                    >\n' +
-            '                        <i class="material-icons">edit</i>\n' +
-            '                    </button> <button type="button" href='+url+'\n' +
-            '                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnCityDelete"\n' +
-            '                        data-placement="top"  title=" delete ">\n' +
-            '                    <i class="material-icons">delete</i>\n' +
-            '                </button>\n</td></tr>';
+            '                        <i class="material-icons">edit</i><span class=\"mytooltiptext\">edit</span>\n' +
+            '                    </a> <a  href='+url+'\n' +
+            '                        rel="tooltip" class="mytooltip btn-setting-nav btnCityDelete"\n' +
+            '                        data-placement="top"  title="  ">\n' +
+            '                    <i class="material-icons">delete</i><span class=\"mytooltiptext\">delete</span>\n' +
+            '                </a>\n</td></tr>';
         else
-            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.district_name_no+'</td><td>'+data.district_name_fo+'</td><td>'+citynamefo+'</td><td> <button type="button" data-id='+data.id+'\n' +
-                '                     class="btn btn-sm btn-success btn-round btn-fab editDistrict"  data-toggle="tooltip" data-placement="top"\n' +
-                '                       title="edit"\n' +
+            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.district_name_no+'</td><td>'+data.district_name_fo+'</td><td>'+citynamefo+'</td><td> <a href="#" data-id='+data.id+'\n' +
+                '                     class="mytooltip btn-setting-nav editDistrict"  data-toggle="tooltip" data-placement="top"\n' +
+                '                       title=""\n' +
                 '                    >\n' +
-                '                        <i class="material-icons">edit</i>\n' +
-                '                    </button> <button type="button" href='+url+'\n' +
-                '                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnCityDelete"\n' +
-                '                        data-placement="top"  title=" delete ">\n' +
-                '                    <i class="material-icons">delete</i>\n' +
-                '                </button>\n</td></tr>';
+                '                        <i class="material-icons">edit</i><span class=\"mytooltiptext\">edit</span>\n' +
+                '                    </a> <a  href='+url+'\n' +
+                '                        rel="tooltip" class="btn mytooltip btn-setting-nav btnCityDelete"\n' +
+                '                        data-placement="top"  title="  ">\n' +
+                '                    <i class="material-icons">delete</i><span class=\"mytooltiptext\">delete</span>\n' +
+                '                </a>\n</td></tr>';
     }
 
     $(markup).insertAfter("#table tr:first");

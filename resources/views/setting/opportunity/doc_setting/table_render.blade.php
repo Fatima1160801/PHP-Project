@@ -44,23 +44,23 @@
             <td>
                 @if($id==1)
                 <a href="{{route('settings.documents.edit',[$document->interface_type_id,$document->attachment_type_id])}}"
-                   class="btn btn-sm btn-success btn-round btn-fab btn_edit"  data-toggle="tooltip" data-placement="top"
-                   title="{{$labels['edit'] ?? 'edit'}} ">
-                    <i class="material-icons">edit</i>
+                   class="mytooltip btn-setting-nav btn_edit"  data-toggle="tooltip" data-placement="top"
+                   title="">
+                    <i class="material-icons">edit</i><span class="mytooltiptext"> {{$labels['edit'] ?? 'edit'}} </span>
                 </a>
                 @else
-                    <button type="button" data-interface="{{$document->interface_type_id}}" data-attachment="{{$document->attachment_type_id}}"
-                            class="btn btn-sm btn-success btn-round btn-fab editSetting"  data-toggle="tooltip" data-placement="top"
-                            title="{{$labels['edit'] ?? 'edit'}} "
+                    <a href="#" data-interface="{{$document->interface_type_id}}" data-attachment="{{$document->attachment_type_id}}"
+                            class="mytooltip btn-setting-nav editSetting"  data-toggle="tooltip" data-placement="top"
+                            title=" "
                     >
-                        <i class="material-icons">edit</i>
-                    </button>
+                        <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}} </span>
+                    </a>
                 @endif
-                <button type="button" href="{{ route('settings.documents.delete',[$document->interface_type_id,$document->attachment_type_id])}}"
-                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"
-                        data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
-                    <i class="material-icons">delete</i>
-                </button>
+                <a  href="{{ route('settings.documents.delete',[$document->interface_type_id,$document->attachment_type_id])}}"
+                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDelete"
+                        data-placement="top"  title="  ">
+                    <i class="material-icons">delete</i><span class="mytooltiptext">{{$labels['delete'] ?? 'delete'}}</span>
+                </a>
             </td>
 
         </tr>

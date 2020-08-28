@@ -1,5 +1,7 @@
 @extends('layouts._layout')
-
+@section('css')
+    @include('setting.settingsScreens.settings_style')
+@endsection
 @section('content')
     <div class="card ">
 {{--        <div class="card-header card-header-rose card-header-text">--}}
@@ -10,35 +12,36 @@
 {{--        </div>--}}
         <div class="card-body ">
             <h4 class="card-title">Users<span>
-            <a href="{{route('permission.user.create')}}" class="btn btn-primary btn-sm btn-round btn-fab "
-               data-toggle="tooltip" data-placement="top" title=" Add New User"
+            <a href="{{route('permission.user.create')}}" class="mytooltip btn-setting-nav add "
+               data-toggle="tooltip" data-placement="top" title=" "
             >
-                <i class="material-icons">person_add
+                <i class="material-icons">person_add<span class="mytooltiptext"> Add New User</span>
                 </i>
             </a>
             </span></h4>
-            <div class="material-datatables">
-                <table class="table dataTable no-footer table-bordered" id="table">
-                    <thead>
+            @include('permission.users.table_render')
+{{--            <div class="material-datatables">--}}
+{{--                <table class="table dataTable no-footer table-bordered" id="table">--}}
+{{--                    <thead>--}}
 
 
-                    <tr>
-                        <th class="text-center">#</th>
-                        <th></th>
-                        <th>Name</th>
-                        <th>User Name</th>
-                        <th>Job Title</th>
-                        <th>Group</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+{{--                    <tr>--}}
+{{--                        <th class="text-center">#</th>--}}
+{{--                        <th></th>--}}
+{{--                        <th>Name</th>--}}
+{{--                        <th>User Name</th>--}}
+{{--                        <th>Job Title</th>--}}
+{{--                        <th>Group</th>--}}
+{{--                        <th>Actions</th>--}}
+{{--                    </tr>--}}
+{{--                    </thead>--}}
+{{--                    <tbody>--}}
 
-                    @foreach($users  as $index=>$user)
-                        @include('permission.users.row')
-                    @endforeach
-                    </tbody>
-                </table>
+{{--                    @foreach($users  as $index=>$user)--}}
+{{--                        @include('permission.users.row')--}}
+{{--                    @endforeach--}}
+{{--                    </tbody>--}}
+{{--                </table>--}}
                 <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.users.screen')}}"'>Back</button>
 
             </div>
@@ -53,6 +56,7 @@
 @endsection
 
 @section('script')
+    @include('permission.users.users_script')
     <script>
         $(function () {
             active_nev_link('user');
@@ -64,29 +68,29 @@
 
         /*******************************************************************************************/
         /********************************group to user*********************************************/
-        var User_row_change_group = 0;
-        $('#modalUserGroup').on('hidden.bs.modal', function () {
-            var user_id = User_row_change_group;
-            url = '{{route("permission.group.groupForUser")}}' + '/' + user_id;
-            $.ajax({
-                url: url,
-                type: 'get',
-                dataTypes: 'html',
-                beforeSend: function () {
-                },
-                success: function (data) {
-                    var htmlRow = data.html.html;
-                    var $editedRow = $('tr[data-id="' + User_row_change_group + '"]');
-                    var index = $('#table tbody tr').index($editedRow);
-                    // console.log(index)
-                    htmlRow = htmlRow.replace('{index}', index + 1);
-                    $editedRow.replaceWith(htmlRow);
-                    User_row_change_group = 0;
-                },
-                error: function () {
-                }
-            });
-        });
+        {{--var User_row_change_group = 0;--}}
+        {{--$('#modalUserGroup').on('hidden.bs.modal', function () {--}}
+        {{--    var user_id = User_row_change_group;--}}
+        {{--    url = '{{route("permission.group.groupForUser")}}' + '/' + user_id;--}}
+        {{--    $.ajax({--}}
+        {{--        url: url,--}}
+        {{--        type: 'get',--}}
+        {{--        dataTypes: 'html',--}}
+        {{--        beforeSend: function () {--}}
+        {{--        },--}}
+        {{--        success: function (data) {--}}
+        {{--            var htmlRow = data.html.html;--}}
+        {{--            var $editedRow = $('tr[data-id="' + User_row_change_group + '"]');--}}
+        {{--            var index = $('#table tbody tr').index($editedRow);--}}
+        {{--            // console.log(index)--}}
+        {{--            htmlRow = htmlRow.replace('{index}', index + 1);--}}
+        {{--            $editedRow.replaceWith(htmlRow);--}}
+        {{--            User_row_change_group = 0;--}}
+        {{--        },--}}
+        {{--        error: function () {--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--});--}}
 
         $(document).on('click', '#addGroupToUser', function (e) {
             e.preventDefault();

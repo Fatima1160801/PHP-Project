@@ -1,4 +1,7 @@
-<div class="card ">
+<div class="card"   style="margin-bottom: -10px;
+     margin-right: -16px;
+     margin-left: 175px;
+     margin-left: 4px;">
     <div class="card-header card-header-rose  card-header-icon" id="createmodal">
 {{--                    <div class="card-icon">--}}
 {{--                        <i class="material-icons">desktop_windows</i>--}}

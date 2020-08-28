@@ -11,14 +11,14 @@
 {{--        <th style="width:89px;">--}}
 {{--            {{$labels['actions'] ?? 'actions'}}--}}
 {{--        </th>--}}
-        <th style="width:10%;">#</th>
+        <th>#</th>
         <th style="width:40%;">
             {{$labels['city_name_en']??'city_name_en'}}
         </th>
         <th style="width:20%;">
             {{$labels['city_name_ar']??'city_name_ar'}}
         </th>
-        <th style="width:30%">
+        <th style="width:20%">
             {{$labels['actions'] ?? 'actions'}}
         </th>
         <th></th>
@@ -37,25 +37,25 @@
             <td>
                 @if($id==1)
                 <a href="{{route('settings.cities.edit',$city->id)}}"
-                   class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"
-                   title="{{$labels['edit'] ?? 'edit'}} "
+                   class="mytooltip btn-setting-nav "  data-toggle="tooltip" data-placement="top"
+                   title=" "
                 >
-                    <i class="material-icons">edit</i>
+                    <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}}</span>
                 </a>
                 @else
-                    <button type="button" data-id="{{$city->id}}"
-                     class="btn btn-sm btn-success btn-round btn-fab editCity"  data-toggle="tooltip" data-placement="top"
-                       title="{{$labels['edit'] ?? 'edit'}} "
+                    <a href="#"  data-id="{{$city->id}}"
+                     class="mytooltip btn-setting-nav  editCity"  data-toggle="tooltip" data-placement="top"
+                       title=""
                     >
-                        <i class="material-icons">edit</i>
-                    </button>
+                        <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}}</span>
+                    </a>
                 @endif
 
-                <button type="button" href="{{ route('settings.cities.delete',$city->id )}}"
-                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnCityDelete"
-                        data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
-                    <i class="material-icons">delete</i>
-                </button>
+                <a  href="{{ route('settings.cities.delete',$city->id )}}"
+                        rel="tooltip" class="mytooltip btn-setting-nav btn-danger btn-round btn-fab btnCityDelete"
+                        data-placement="top"  title=" ">
+                    <i class="material-icons">delete</i><span class="mytooltiptext">{{$labels['delete'] ?? 'delete'}}</span>
+                </a>
 
             </td>
         </tr>

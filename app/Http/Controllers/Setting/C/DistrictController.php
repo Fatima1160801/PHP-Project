@@ -52,17 +52,19 @@ $id=1;
 
         $district = new District();
 $save=1;
+$id=1;
         $generator = generator(49, $option, $district);
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
         if($request->ajax()){
-            $html =view('setting.c.district.render_create', compact('labels', 'html', 'userPermissions','save'))->render();
+            $id=2;
+            $html =view('setting.c.district.render_create', compact('labels', 'html', 'userPermissions','save','id'))->render();
             return response(['status' => true, 'html' =>$html]);
 
         }
         else
-        return view('setting.c.district.create', compact('labels', 'html', 'userPermissions','save'));
+        return view('setting.c.district.create', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
 
@@ -119,13 +121,15 @@ $save=1;
         $labels = $generator[1];
         $userPermissions = getUserPermission();
         $save=2;
+        $id=1;
         if($request->ajax()){
-            $html =view('setting.c.district.render_create', compact('labels', 'html', 'userPermissions','save'))->render();
+            $id=2;
+            $html =view('setting.c.district.render_create', compact('labels', 'html', 'userPermissions','save','id'))->render();
             return response(['status' => true, 'html' =>$html]);
 
         }
         else
-        return view('setting.c.district.update', compact('labels', 'html', 'userPermissions','save'));
+        return view('setting.c.district.update', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
 

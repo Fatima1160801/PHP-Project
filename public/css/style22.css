@@ -1,10 +1,11 @@
-/*@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900);*/
+﻿/*@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900);*/
 @import url(../fonts/roboto/css.css);
 
 body {
     font-family: 'Roboto', 'Cairo', sans-serif;
     font-size: 12px;
 }
+
 
 
 /*.card [class*="card-header-"] .card-icon,*/
@@ -26,9 +27,7 @@ body {
 /*a .material-icons{*/
 /*color: white;*/
 /*}*/
-.sidebar{
-    width: auto;
-}
+
 #groupName {
 
 }
@@ -75,12 +74,8 @@ body {
 }
 
 .bootstrap-select .dropdown-item.active {
-    background: #F3F6F9;
-    color:  #3699FF !important
-}
-
-.dropdown-menu {
-    z-index: 99999;
+    background: #967f9a;
+    color: #fff;
 }
 
 .dropdown-menu .dropdown-item:focus,
@@ -88,22 +83,9 @@ body {
 .dropdown-menu a:active,
 .dropdown-menu a:focus,
 .dropdown-menu a:hover {
-    /*box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(156, 39, 176, .4);*/
-    box-shadow:none;
-    background-color: #F3F6F9 !important;
-    color: #3699FF !important;
-}
-
-.dropdown-item.selected .text,
-dropdown-item.active .text
-{    color:  #3699FF !important
-}
-.dropdown-item:hover .text {
-    color: #3699FF !important;
-}
-textarea {
-    resize: vertical; /* user can resize vertically, but width is fixed */
-    min-height: 60px;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(156, 39, 176, .4);
+    background-color: #e91e63;
+    color: #FFF;
 }
 
 .loader {
@@ -945,18 +927,16 @@ label.error {
 
 
 .text-primary {
-    background-color: #f3f6f9;
-    color: #000000 !important;
-    font-weight: 400;
+    background-color: #fff7d0;
+    color: #434343 !important;
 }
 
 .fileinput .thumbnail {
     padding: 5px !important;
     margin-top: 7px !important;
 }
-
 #modalActually_beneficiaries .nav-pills .nav-item .nav-link {
-    background-color: rgba(200, 200, 200, .2);
+    background-color: rgba(200,200,200,.2);
 }
 
 .fileuploader {
@@ -970,8 +950,7 @@ label.error {
     text-align: left;
     overflow: hidden;
 }
-
-.dropdown-header {
+.dropdown-header{
     font-size: 13px;
     padding-top: .625rem;
     padding-bottom: .625rem;
@@ -981,330 +960,18 @@ label.error {
     font-weight: 600;
 }
 
-.create_by {
+ .create_by{
     padding: 7px 26px;
     text-align: right;
 }
 
-.col-form-label {
-    text-align: left !important;
-    padding-left: 15px !important;
+.col-form-label
+{
+    text-align:left !important;
+    padding-left:15px !important;
 }
-
-input[disabled="disabled"] {
-    background-color: #fafafa !important;
-}
-
-.mytooltip {
-    position: relative;
-    display: inline-block;
-    /*border-bottom: 1px dotted black;*/
-}
-
-.mytooltip .mytooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: white;
-    color: #000;
-    text-align: center;
-    border-radius: 6px;
-    padding: 8px 7px;
-    margin-top: -40px;
-    position: absolute;
-    z-index: 9999999999999999999 !important;
-    margin-left: -59px;
-    border: 1px solid #f3f3f3;
-}
-
-.mytooltip:hover .mytooltiptext {
-    visibility: visible;
-}
-
-
-
-
-.my-bg-primary {
-    background-color: #f3f6f9 !important;
-}
-
-.my-bg-primary .text-white, .my-bg-primary .title, .my-bg-primary .material-icons {
-    color: #232323 !important;
-    font-weight: 600;
-
-}
-
-.tr-bg-primary {
-    background-color: #fffbe5 !important;
-    color: #232323 !important;
-    font-weight: 600;
-}
-
-.tr-bg-primary .material-icons {
-    color: #232323 !important;
-}
-
-.my-modal-lg {
-    max-width: 70% !important;
-}
-
-label, .card-title, p {
-    text-transform: capitalize;
-}
-
-
-.setting-dropdown {
-    background-color: #22263d !important;
-    min-width: 364px;
-}
-
-.setting-dropdown .setting-btn {
-    margin: 4px;
-    padding: 8px 0px;
-    text-align: center;
-    border: 2px solid #384068;
-    display: inline-block;
-    background-color: #242942;
-    color: #78797e;
-    font-weight: 600;
-    border-radius: 15px;
-    width: 100px !important;
-    font-size: 15px;
-}
-
-.setting-dropdown .setting-btn:hover {
-    background-color: #5d76a8;
-    border: 2px solid #64676e;
-    color: #ffffff;
-}
-
-.setting-dropdown .active.setting-btn {
-    color: #fff;
-    background-color: #5d76a8 !important;
-    border: 2px solid #8eace7;
-}
-
-.setting-dropdown .active.setting-btn .setting-icons {
-    color: #ffffff;
-}
-
-
-.setting-dropdown .setting-icons {
-    font-size: 38px;
-    color: #8db3ff;
-    display: block;
-}
-
-.setting-dropdown .setting-btn:hover .setting-icons {
-    color: #ffffff;
-}
-
-
-.my-tab .setting-dropdown {
-    min-width: 100% !important;
-    margin: 0px 10px;
-    border-radius: 10px;
-}
-
-.my-tab .setting-dropdown .setting-btn {
-    font-size: 13px !important;
-    height: 90px;
-}
-
-.my-tab .my-tab-link {
-    width: 130px !important;
-}
-
-.my-tab .my-tab-body {
-    width: calc(100% - 150px);
-
-}
-
-.my-tab .setting-dropdown ul {
-    padding: 0 10px !important;
-}
-
-body {
-    background-color: #fff !important;
-}
-
-.navbar.navbar-transparent {
-    background-color: #f9f9f9 !important;
-}
-
-.btn-setting-nav {
-    color: #8db3ff !important;
-    width: 40px !important;
-    padding: 9px !important;
-    margin: auto !important;
-    cursor: pointer;
-    border: none !important;
-    background: none;
-    height: 40px !important;
-}
-
-.btn-setting-nav:hover {
-    background-color: #8db3ff !important;
-    color: #fff !important;
-}
-
-.btn-lang-nav {
-    color: #8db3ff !important;
-    width: 70px !important;
-    min-width: 70px !important;
-    padding: 10px !important;
-    border-radius: 3px;
-}
-
-.btn-lang-nav:hover {
-    background-color: #8db3ff !important;
-    color: #fff !important;
-}
-
-.btn-lang-nav a {
-    padding: 0px !important;
-}
-
-.btn-notification-nav {
-    width: 42px !important;
-    min-width: 42px !important;
-
-    padding: 9px 6px !important
-}
-
-.btn-user-nav {
-    color: #8db3ff !important;
-    min-width: 205px !important;
-}
-
-.btn-title-nav {
-    color: #8db3ff !important;
-}
-
-.btn-title-nav .material-icons {
-    font-size: 25px !important;
-}
-
-.my-tab .setting-dropdown .nav {
-    display: block !important;
-}
-
-.result-objective {
-    padding: 12px;
-    /*border: 2px solid #22263d;*/
-    background-color: #f3f6f9;
-    border-radius: 7px;
-    color: #535353;
-    font-weight: 600;
-    margin-top: 5px;
-    margin-bottom: 10px;
-}
-
-.result-objective .tim-note {
-    margin: 0px;
-    padding: 0px;
-    line-height: 25px;
-}
-
-.nav-pills.nav-pills-rose .nav-item .nav-link.active,
-.nav-pills.nav-pills-rose .nav-item .nav-link.active:focus,
-.nav-pills.nav-pills-rose .nav-item .nav-link.active:hover {
-    background-color: #3699FF !important;
-    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(233, 30, 99, .4) !important;
-    color: #E1F0FF !important;
-}
-
-.btn.btn-rose {
-    color: #3699FF;
-    background-color: #E1F0FF;
-    border-color: transparent;
-
-}
-
-
-.btn.btn-rose.focus, .btn.btn-rose:focus, .btn.btn-rose:hover {
-    color: #FFFFFF;
-    background-color: #3699FF;
-    border-color: transparent;
-}
-
-
-.mytooltip.btn-setting-nav .mytooltiptext {
-    margin-top: -69px;
-}
-
-.mytooltip:hover .material-icons {
-    color: #FFFFFF !important;
-}
-
-.mytooltip.btn-setting-nav:hover {
-    border-radius: 5px !important;
-}
-
-.align-r {
-    text-align: right !important;
-    padding-top: 5px !important;
-}
-
-.p-row {
-    text-transform: capitalize;
-    font-size: 12px;
-    font-weight: 400;
-}
-
-.navbar .collapse .navbar-nav .nav-item .nav-link {
-    text-transform: inherit !important;
-}
-
-.badge {
-    text-transform: capitalize;
-}
-
-#formResultAchievementType table .table-body ,#formResultAchievementTypePlane #table-body{
-    max-height: 500px;
-}
-.mytooltip .material-icons {
-    color: #8db3ff !important;
-
-}
-
-.header-row{
-    background-color: #f0f8ff;
-    border-radius: 7px;
-    color: #535353;
-    font-weight: 600;
-    margin-top: 5px;
-    margin-bottom: 10px;
-}
-.header-row-p{
-    line-height: 55px;
-    font-size: 14px;
-    color: #8db3ff;
-}
-.navbar-right {
-    float: right!important;
-    margin-right: -15px;
-}
-
-.hasDatepicker{
-    font-size: 15px !important;
-}
-.main-panel>.content{
-    margin-top: 48px;
-    padding: 0px 0px;
-    min-height: calc(100vh - 105px)
-}
-.main-panel {
-    width: calc(100% - 130px) !important;
-}
-.btn-fix-new{
-    top:8px;
-}
-.btn-fix-new:active,.btn-fix-new:focus {
-    border: 1px solid transparent;
-}
-.pagination>.page-item.active>a, .pagination>.page-item.active>a:focus, .pagination>.page-item.active>a:hover, .pagination>.page-item.active>span, .pagination>.page-item.active>span:focus, .pagination>.page-item.active>span:hover {
-    background: #8db3ff  !important;
-    border-color: #8db3ff ;
+input[disabled="disabled"]{
+    background-color:#fafafa !important;
 }
 .mytooltip {
     position: relative;
