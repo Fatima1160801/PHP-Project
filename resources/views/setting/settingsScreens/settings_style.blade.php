@@ -85,5 +85,9 @@
         background-color: #80808040;
     }
 
+    .mytooltip.add:hover {
+        border-radius: 50% !important;
+    }
+
 
 </style>

@@ -1,94 +1,28 @@
 @extends('layouts._layout')
 @section('css')
+   @include('setting.settingsScreens.settings_style')
     <style>
-    .mainli li:hover,.mainli li:active,.mainli li:focus,.mainli li:visited{
-    background: #F3F6F9 !important;
-
-    }
-    .mainli li:hover a,.mainli li:hover i, .mainli li:active a,.mainli li:active i,.mainli li:focus a,.mainli li:focus i,.mainli li:visited a,.mainli li:visited i{
-    color:#3699FF !important;
-
-    }
-    .selected-href{
-
-    }
-    .mainli li {
-    padding: 15px !important;
-    }
-    .mainli a,.mainli i {
-    color:#3F4254 !important;
-    }
-    .mainli i {
-    color: #B5B5C3 !important
-    }
-    .default-color{
-    color:#afafaf;
-    }
-    .selected-item,.selected-item i,.selected-item span{
-    background: #F3F6F9 !important;
-    color:#3699FF !important;
-
-    }
-    #containerc{
-        margin-right: -88px;
-    }
-    #containerc{
-        margin-right: -88px;
-    }
-    /*#table{*/
-    /*    margin-left:15%;*/
-    /*    width:35em;*/
-    /*    text-align: center;*/
-    /*}*/
-    #createmodal{
-        margin-top:-15px;
-        /*background-color: #5d76a8;*/
-    }
-    #createmodal .card-title,#createmodal .card-title i{
-        text-align: center;
-        font-size: 19px !important;
-        font-weight: bold;
-        color:#5d76a8;
-    }
-    #createmodal .card-body{
-        margin-top: 20px;
-    }
-    .modal-dialog {
-        position: absolute;
-        top: 0px;
-        right: 100px;
-        bottom: 0;
-        left: 710px;
-        z-index: 10040;
-        overflow: auto;
-        overflow-y: auto;
-    }
-    #table{
-        margin-left: 0% !important;
-    }
-    .table {
-        width: 60em !important;
-    }
-    span {
-        font-weight: 500;
-        font-size: 14px;
-    }
-    #table{
-        margin-left: 0% !important;
-    }
-    .table {
-        width: 60em !important;
-    }
-        /*.modalSize{*/
-        /*    position: absolute;*/
-        /*    top: 0px;*/
-        /*    right: 500px;*/
-        /*    bottom: 0;*/
-        /*    left: 800px;*/
-        /*    z-index: 10040;*/
-        /*    overflow: auto;*/
-        /*    overflow-y: auto;*/
-        /*}*/
+        #table{
+            margin-left:8% !important;
+        }
+        .card .card-body .col-form-label{
+            padding-left: 4% !important;
+        }
+        .brandModal{
+            width:60%;
+        }
+        #unit_name_na{
+            margin-left: -46px;
+        }
+        #unit_name_fo  {
+            margin-left: -9px;
+        }
+        #sector_name_na{
+            margin-left: -40px;
+        }
+        #sector_name_fo,#service_name_fo{
+            margin-left: -8px;
+        }
     </style>
 @endsection
 @section('content')
@@ -96,10 +30,10 @@
 
 {{--    //New Design--}}
 <div class="container ml-2">
-    <div class="row" id="containerc" style="height: 500px;">
+    <div class="row" id="containerc" style="padding:30px;">
         <div class="col-md-3 card p-3 mr-4">
-            <ul class="navbar-nav mainli">
-                <li class="nav-item mb-3" id="brand" data-nameeng="Brands" data-namear="العلامات التجارية" data-value="1">
+            <ul class="navbar-nav mailli33">
+                <li class="nav-item mb-3 selected-item" id="brand" data-nameeng="Brands" data-namear="العلامات التجارية" data-value="1">
                     <a href="#"
                        class="navi-link py-4 ">
                         <div class="card-icon ">
@@ -182,13 +116,8 @@
 {{--   Start Modal--}}
 <div class="modal fade" id="procurementModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
+        <div class="modal-content" id="brandModal">
             <div class="card card-signup card-plain">
-                <div  class="modal-header mt-3">
-                    <a type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i class="material-icons">clear</i>
-                    </a>
-                </div>
                 <div class="modal-body" id="procurementModalBody">
                 </div>
             </div>
@@ -203,46 +132,16 @@
     @include('procurement.brand.brand_script')
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script>
+        $(document).ready(function() {
+            defaultVal();
+        });
         $("#brand").click(function (e) {
             addSelected($("#brand").attr("data-value"));
             $("#add").html("");
             $("#title").html("");
             $("#render_result").html("");
-
-            $('#loadScreen div.loader').show();
             e.preventDefault();
-            $.get('{{route('brands.index')}}',function(data){
-                if(data.status==true){
-                    $("#render_result").html(data.html);
-                    $('#loadScreen div.loader').hide();
-                    var lang=@json($lang);
-                    if(lang==1)
-                        $("#title").html($("#brand").attr("data-nameeng"));
-                    else
-                        $("#title").html($("#brand").attr("data-namear"))
-                    $("#add").html("<button type=\"button\" onclick='addBrand()' id='addBrand' class=\"btn btn-primary btn-sm btn-round btn-fab\"\n" +
-                        "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
-                        "               title=\"Add New Brand\" >\n" +
-                        "                <i class=\"material-icons\">add</i></a>\n" +
-                        "            </span> </h4>");
-                    // $('#table').DataTable().ajax.reload();
-                    DataTableCall('#table',3);
-                    $("#table_length").html("");
-                    $("#table_filter").html("");
-                            {{--                            @include('setting.c.city.location_script');--}}
-
-                    var table = $('#table').DataTable();
-
-// Sort by columns 1 and 2 and redraw
-                    table
-                        .order( [0, 'desc' ] )
-                        .draw();
-
-                }else{
-
-                }
-            });
-
+            defaultVal();
         });
         $("#unit").click(function (e) {
             addSelected($("#unit").attr("data-value"));
@@ -262,10 +161,10 @@
                         $("#title").html($("#unit").attr("data-nameeng"));
                     else
                         $("#title").html($("#unit").attr("data-namear"))
-                    $("#add").html("<button type=\"button\" onclick='addUnit()' id='addUnit' class=\"btn btn-primary btn-sm btn-round btn-fab\"\n" +
+                    $("#add").html("<a href=\"#\" onclick='addUnit()' id='addUnit' class=\"mytooltip btn-setting-nav add\"\n" +
                         "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
-                        "               title=\"Add New Brand\" >\n" +
-                        "                <i class=\"material-icons\">add</i></a>\n" +
+                        "               title=\"\" >\n" +
+                        "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Unit</span></a>\n" +
                         "            </span> </h4>");
                     // $('#table').DataTable().ajax.reload();
                     DataTableCall('#table',4);
@@ -304,10 +203,10 @@
                         $("#title").html($("#sector").attr("data-nameeng"));
                     else
                         $("#title").html($("#sector").attr("data-namear"))
-                    $("#add").html("<button type=\"button\" onclick='addSector()' id='addSector' class=\"btn btn-primary btn-sm btn-round btn-fab\"\n" +
+                    $("#add").html("<a type=\"#\" onclick='addSector()' id='addSector' class=\"mytooltip btn-setting-nav add\"\n" +
                         "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
-                        "               title=\"Add New Sector\" >\n" +
-                        "                <i class=\"material-icons\">add</i></a>\n" +
+                        "               title=\"\" >\n" +
+                        "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Sector</span></a>\n" +
                         "            </span> </h4>");
                     // $('#table').DataTable().ajax.reload();
                     DataTableCall('#table',4);
@@ -347,10 +246,10 @@
                         $("#title").html($("#service").attr("data-nameeng"));
                     else
                         $("#title").html($("#service").attr("data-namear"))
-                    $("#add").html("<button type=\"button\" onclick='addService()' id='addService' class=\"btn btn-primary btn-sm btn-round btn-fab\"\n" +
+                    $("#add").html("<a href=\"#\" onclick='addService()' id='addService' class=\"mytooltip btn-setting-nav add\"\n" +
                         "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
-                        "               title=\"Add New Service\" >\n" +
-                        "                <i class=\"material-icons\">add</i></a>\n" +
+                        "               title=\"\" >\n" +
+                        "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Service</span></a>\n" +
                         "            </span> </h4>");
                     // $('#table').DataTable().ajax.reload();
                     DataTableCall('#table',4);
@@ -390,10 +289,10 @@
                         $("#title").html($("#purchase").attr("data-nameeng"));
                     else
                         $("#title").html($("#purchase").attr("data-namear"))
-                    $("#add").html("<button type=\"button\" onclick='addPurchase()' id='addPurchase' class=\"btn btn-primary btn-sm btn-round btn-fab\"\n" +
+                    $("#add").html("<a href=\"#\" onclick='addPurchase()' id='addPurchase' class=\"mytooltip btn-setting-nav add\"\n" +
                         "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
-                        "               title=\"Add New Purchase\" >\n" +
-                        "                <i class=\"material-icons\">add</i></a>\n" +
+                        "               title=\"\" >\n" +
+                        "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Purchase</span></a>\n" +
                         "            </span> </h4>");
                     // $('#table').DataTable().ajax.reload();
                     DataTableCall('#table',4);
@@ -432,10 +331,10 @@
                         $("#title").html($("#item").attr("data-nameeng"));
                     else
                         $("#title").html($("#item").attr("data-namear"))
-                    $("#add").html("<button type=\"button\" onclick='addItem()' id='addItem' class=\"btn btn-primary btn-sm btn-round btn-fab\"\n" +
+                    $("#add").html("<a href=\"#\" onclick='addItem()' id='addItem' class=\"mytooltip btn-setting-nav add\"\n" +
                         "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
-                        "               title=\"Add New Item\" >\n" +
-                        "                <i class=\"material-icons\">add</i></a>\n" +
+                        "               title=\"\" >\n" +
+                        "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Item</span></a>\n" +
                         "            </span> </h4>");
                     // $('#table').DataTable().ajax.reload();
                     DataTableCall('#table',10);
@@ -474,10 +373,10 @@
                         $("#title").html($("#itemgroup").attr("data-nameeng"));
                     else
                         $("#title").html($("#itemgroup").attr("data-namear"))
-                    $("#add").html("<button type=\"button\" onclick='addItemGroup()' id='addItemgroup' class=\"btn btn-primary btn-sm btn-round btn-fab\"\n" +
+                    $("#add").html("<a href=\"#\" onclick='addItemGroup()' id='addItemgroup' class=\"mytooltip btn-setting-nav add\"\n" +
                         "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
-                        "               title=\"Add New Item Group\" >\n" +
-                        "                <i class=\"material-icons\">add</i></a>\n" +
+                        "               title=\"\" >\n" +
+                        "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Item Group</span></a>\n" +
                         "            </span> </h4>");
                     // $('#table').DataTable().ajax.reload();
                     DataTableCall('#table',4);
@@ -500,26 +399,27 @@
         });
 
         function addSelected(value){
-            $(".mainli .nav-item").removeClass("selected-item");
+            $(".mailli33 .nav-item").removeClass("selected-item");
             if(value==1){
                 $("#brand").addClass("selected-item");
 
             }
             else  if(value==2){
                 $("#unit").addClass("selected-item");
-
+                $("#brandModal").removeClass("brandModal");
 
             }
             else  if(value==3){
                 $("#sector").addClass("selected-item");
-
+                $("#brandModal").removeClass("brandModal");
             }
             else  if(value==4){
                 $("#service").addClass("selected-item");
-
+                $("#brandModal").removeClass("brandModal");
             }
             else  if(value==5){
                 $("#purchase").addClass("selected-item");
+                $("#brandModal").removeClass("brandModal");
 
             }
             else  if(value==6){
@@ -585,7 +485,7 @@
             });
         }
         function addItem() {
-            $('#loadScreen div.loader').show();
+            // $('#loadScreen div.loader').show();
             $.get('{{route('items.create')}}',function(data){
                 if(data.status==true) {
                     $("#render_result").html("");
@@ -596,7 +496,7 @@
             });
         }
         function addItemGroup() {
-            $('#loadScreen div.loader').show();
+            // $('#loadScreen div.loader').show();
             $.get('{{route('item.groups.create')}}',function(data){
                 if(data.status==true) {
                     $("#render_result").html("");
@@ -687,77 +587,77 @@
             if(id==1){
                 var url = '{{ route("brands.delete", ":id") }}';
                 url = url.replace(':id', data.id);
-                markup='<tr data-id='+data.id+'><td>'+count1 +'</td><td>'+data.brand_name+'</td><td> <button type="button" data-id='+data.id+'\n' +
-                    '                     class="btn btn-sm btn-success btn-round btn-fab editBrand"  data-toggle="tooltip" data-placement="top"\n' +
-                    '                       title="edit"\n' +
+                markup='<tr data-id='+data.id+'><td>'+count1 +'</td><td>'+data.brand_name+'</td><td> <a href="#" data-id='+data.id+'\n' +
+                    '                     class="mytooltip btn-setting-nav editBrand"  data-toggle="tooltip" data-placement="top"\n' +
+                    '                       title=""\n' +
                     '                    >\n' +
-                    '                        <i class="material-icons">edit</i>\n' +
-                    '                    </button> <button type="button" href='+url+'\n' +
-                    '                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDelete"\n' +
-                    '                        data-placement="top"  title=" delete ">\n' +
-                    '                    <i class="material-icons">delete</i>\n' +
-                    '                </button>\n</td></tr>';}
+                    '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                    '                    </a> <a href='+url+'\n' +
+                    '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDelete"\n' +
+                    '                        data-placement="top"  title=" ">\n' +
+                    '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
+                    '                </a>\n</td></tr>';}
             else if(id==2){
                 var lang=@json($lang);
                 var url = '{{ route("units.delete", ":id") }}';
                 url = url.replace(':id', data.id);
 
-                    markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.unit_name_na+'</td><td>'+data.unit_name_fo+'</td><td> <button type="button" data-id='+data.id+'\n' +
-                        '                     class="btn btn-sm btn-success btn-round btn-fab editUnit"  data-toggle="tooltip" data-placement="top"\n' +
+                    markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.unit_name_na+'</td><td>'+data.unit_name_fo+'</td><td> <a href="#" data-id='+data.id+'\n' +
+                        '                     class="mytooltip btn-setting-nav editUnit"  data-toggle="tooltip" data-placement="top"\n' +
                         '                       title="edit"\n' +
                         '                    >\n' +
-                        '                        <i class="material-icons">edit</i>\n' +
-                        '                    </button> <button type="button" href='+url+'\n' +
-                        '                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDeleteUnit"\n' +
-                        '                        data-placement="top"  title=" delete ">\n' +
-                        '                    <i class="material-icons">delete</i>\n' +
-                        '                </button>\n</td></tr>';
+                        '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                        '                    </a> <a  href='+url+'\n' +
+                        '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDeleteUnit"\n' +
+                        '                        data-placement="top"  title=" ">\n' +
+                        '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
+                        '                </a>\n</td></tr>';
 
             }
             else if(id==3){
                 var lang=@json($lang);
                 var url = '{{ route("sectors.delete", ":id") }}';
                 url = url.replace(':id', data.id);
-                    markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.sector_name_na+'</td><td>'+data.sector_name_fo+'</td><td> <button type="button" data-id='+data.id+'\n' +
-                        '                     class="btn btn-sm btn-success btn-round btn-fab editSector"  data-toggle="tooltip" data-placement="top"\n' +
-                        '                       title="edit"\n' +
+                    markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.sector_name_na+'</td><td>'+data.sector_name_fo+'</td><td> <a href="#" data-id='+data.id+'\n' +
+                        '                     class=" mytooltip btn-setting-nav editSector"  data-toggle="tooltip" data-placement="top"\n' +
+                        '                       title=""\n' +
                         '                    >\n' +
-                        '                        <i class="material-icons">edit</i>\n' +
-                        '                    </button> <button type="button" href='+url+'\n' +
-                        '                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDeleteSector"\n' +
-                        '                        data-placement="top"  title=" delete ">\n' +
-                        '                    <i class="material-icons">delete</i>\n' +
-                        '                </button>\n</td></tr>';
+                        '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                        '                    </a> <a href='+url+'\n' +
+                        '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDeleteSector"\n' +
+                        '                        data-placement="top"  title=" ">\n' +
+                        '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
+                        '                </a>\n</td></tr>';
             }
             else if(id==4){
                 var lang=@json($lang);
                 var url = '{{ route("services.delete", ":id") }}';
                 url = url.replace(':id', data.id);
 
-                    markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.service_name_na+'</td><td>'+data.service_name_fo+'</td><td> <button type="button" data-id='+data.id+'\n' +
-                        '                     class="btn btn-sm btn-success btn-round btn-fab editService"  data-toggle="tooltip" data-placement="top"\n' +
-                        '                       title="edit"\n' +
+                    markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.service_name_na+'</td><td>'+data.service_name_fo+'</td><td> <a data-id='+data.id+'\n' +
+                        '                     class=" mytooltip btn-setting-nav editService"  data-toggle="tooltip" data-placement="top"\n' +
+                        '                       title=""\n' +
                         '                    >\n' +
-                        '                        <i class="material-icons">edit</i>\n' +
-                        '                    </button> <button type="button" href='+url+'\n' +
-                        '                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDeleteService"\n' +
-                        '                        data-placement="top"  title=" delete ">\n' +
-                        '                    <i class="material-icons">delete</i>\n' +
-                        '                </button>\n</td></tr>';
+                        '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                        '                    </a> <a  href='+url+'\n' +
+                        '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDeleteService"\n' +
+                        '                        data-placement="top"  title="">\n' +
+                        '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
+                        '                </a>\n</td></tr>';
             }
             else if(id==5){
                 var lang=@json($lang);
                 var url = '{{ route("purchasemethods.delete", ":id") }}';
                 url = url.replace(':id', data.id);
-                    markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.method_name_na+'</td><td>'+data.method_name_fo+'</td><td> <button type="button" data-id='+data.id+'\n' +
-                        '                     class="btn btn-sm btn-success btn-round btn-fab editPurchase"  data-toggle="tooltip" data-placement="top"\n' +
-                        '                       title="edit"\n' +
+                    markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.method_name_na+'</td><td>'+data.method_name_fo+'</td><td> <a  data-id='+data.id+'\n' +
+                        '                     class="mytooltip btn-setting-nav editPurchase"  data-toggle="tooltip" data-placement="top"\n' +
+                        '                       title=""\n' +
                         '                    >\n' +
-                        '                        <i class="material-icons">edit</i>\n' +
-                        '                    </button> <button type="button" href='+url+'\n' +
-                        '                        rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDeleteMethod"\n' +
-                        '                        data-placement="top"  title=" delete ">\n' +
-                        '                    <i class="material-icons">delete</i>\n' +
+                        '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                        '                    </a> <a href='+url+'\n' +
+                        '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDeleteMethod"\n' +
+                        '                        data-placement="top"  title=" ">\n' +
+                        '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
                         '                </button>\n</td></tr>';
             }
 
@@ -849,6 +749,43 @@
             // $(".filename").html(fileName);
             $(".def-icon").css("display","none");
         });
+        function defaultVal(){
+            $("#brandModal").addClass("brandModal");
+            $('#loadScreen div.loader').show();
+
+            $.get('{{route('brands.index')}}',function(data){
+                if(data.status==true){
+                    $("#render_result").html(data.html);
+                    $('#loadScreen div.loader').hide();
+                    var lang=@json($lang);
+                    if(lang==1)
+                        $("#title").html($("#brand").attr("data-nameeng"));
+                    else
+                        $("#title").html($("#brand").attr("data-namear"))
+                    $("#add").html("<a href=\"#\" onclick='addBrand()' id='addBrand' class=\"mytooltip btn-setting-nav add\"\n" +
+                        "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
+                        "               title=\"\" >\n" +
+                        "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Brand</span></a>\n" +
+                        "            </span> </h4>");
+                    // $('#table').DataTable().ajax.reload();
+                    DataTableCall('#table',3);
+                    $("#table_length").html("");
+                    $("#table_filter").html("");
+                            {{--                            @include('setting.c.city.location_script');--}}
+
+                    var table = $('#table').DataTable();
+
+// Sort by columns 1 and 2 and redraw
+                    table
+                        .order( [0, 'desc' ] )
+                        .draw();
+
+                }else{
+
+                }
+            });
+
+        }
     </script>
 @endsection
 @section('js')

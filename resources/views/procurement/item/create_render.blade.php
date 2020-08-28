@@ -1,12 +1,12 @@
-<div class="card ">
-    <div class="card-header card-header-rose  card-header-icon" id="createmodal">
-        {{--            <div class="card-icon">--}}
-        {{--                <i class="material-icons">desktop_windows</i>--}}
-        {{--            </div>--}}
+{{--<div class="card ">--}}
+{{--    <div class="card-header card-header-rose  card-header-icon" id="createmodal">--}}
+{{--        --}}{{--            <div class="card-icon">--}}
+{{--        --}}{{--                <i class="material-icons">desktop_windows</i>--}}
+{{--        --}}{{--            </div>--}}
 {{--        <h4 class="card-title">--}}
 {{--          <i class="material-icons">games</i>  {{$labels['items'] ?? 'items'}}--}}
 {{--        </h4>--}}
-    </div>
+{{--    </div>--}}
     <div class="card-body ">
 
         <div id="result-msg"></div>
@@ -58,4 +58,4 @@
 
         {!! Form::close() !!}
     </div>
-</div>
+{{--</div>--}}

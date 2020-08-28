@@ -1,7 +1,9 @@
-<div class="card " style="margin-top: -15px;
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: -15px">
+<div class="card " style="    margin-top: -15px;
+    /* margin-right: 15px; */
+    /* margin-right: 15px; */
+    margin-bottom: -15px;
+    width: 106%;
+    margin-left: -21px;">
     <div class="card-header card-header-rose  card-header-icon" id="createmodal">
         <h4 class="card-title">
 

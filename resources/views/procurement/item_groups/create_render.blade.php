@@ -1,4 +1,6 @@
-<div class="card-body ">
+
+<div class="card-body "style="
+    margin-top: -73px;">
 
     <div id="result-msg"></div>
 

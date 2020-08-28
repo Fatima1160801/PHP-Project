@@ -1,10 +1,14 @@
-<div class="card ">
+<div class="card "style="    margin-top: 6px;
+    margin-bottom: -14px;
+    margin-left: -22px;
+    width:106%;"
+     ">
     <div class="card-header card-header-rose  card-header-icon" id="createmodal">
         {{--            <div class="card-icon">--}}
         {{--                <i class="material-icons">desktop_windows</i>--}}
         {{--            </div>--}}
         <h4 class="card-title">
-           <i class='fas fa-ruler-vertical' style='font-size:24px'></i>{{$labels['units'] ?? 'Unit'}}
+        </i>{{$labels['units'] ?? 'Unit'}}
         </h4>
     </div>
     <div class="card-body ">

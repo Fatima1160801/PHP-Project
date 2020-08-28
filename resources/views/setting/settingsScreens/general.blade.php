@@ -1,6 +1,11 @@
 @extends('layouts._layout')
 @section('css')
     @include('setting.settingsScreens.settings_style')
+    <style>
+        /*.card .card-body .col-form-label{*/
+        /*    padding-left: 6% !important;*/
+        /*}*/
+    </style>
 @endsection
 @section('content')
     <div class="container ml-2">

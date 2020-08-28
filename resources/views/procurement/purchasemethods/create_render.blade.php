@@ -1,10 +1,14 @@
-<div class="card ">
+<div class="card " style="width: 106%;
+    margin-top: 0;
+    margin-bottom: -14px;
+    margin-left: -23px;
+">
     <div class="card-header card-header-rose  card-header-icon" id="createmodal">
         {{--            <div class="card-icon">--}}
         {{--                <i class="material-icons">desktop_windows</i>--}}
         {{--            </div>--}}
         <h4 class="card-title">
-          <i class="material-icons">shopping_cart</i>  {{$labels['purchasemethods'] ?? 'Purchase Methods'}}
+         {{$labels['purchasemethods'] ?? 'Purchase Methods'}}
         </h4>
     </div>
     <div class="card-body ">

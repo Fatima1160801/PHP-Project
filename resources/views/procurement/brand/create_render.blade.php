@@ -1,10 +1,15 @@
-<div class="card ">
+<div class="card " style="margin-bottom: -12px;
+    margin-top: 0;
+    margin-right: 3px !important;
+    width: 110%;
+    /* margin-right: -14px; */
+    margin-left: -20px;">
     <div class="card-header card-header-rose  card-header-icon" id="createmodal">
         {{--            <div class="card-icon">--}}
         {{--                <i class="material-icons">desktop_windows</i>--}}
         {{--            </div>--}}
         <h4 class="card-title">
-         <i class="material-icons">storage</i>   {{$labels['brand'] ?? ' Brand'}}
+        {{$labels['brand'] ?? ' Brand'}}
         </h4>
     </div>
     <div class="card-body ">

@@ -5,6 +5,15 @@
       #table{
           margin-left: 10% !important;
       }
+      #attachment_type_na{
+          margin-left: -82px;
+      }
+      #attachment_type_fo{
+          margin-left: -37px
+      }
+      .card .card-body .col-form-label, .card .card-body .label-on-right {
+          margin-right: -4px;
+      }
       </style>
 @endsection
 @section('content')

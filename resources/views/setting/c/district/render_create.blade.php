@@ -1,5 +1,8 @@
-<div class="card " style="margin-top: -13px;
-    margin-bottom: -13px;">
+<div class="card " style="    margin-left: -22px;
+    /* width: 103%; */
+    margin-top: -13px;
+    margin-bottom: -13px;
+    width: 106%;">
     <div class="card-header card-header-rose  card-header-icon" id="createmodal">
         {{--            <div class="card-icon">--}}
         {{--                <i class="material-icons">desktop_windows</i>--}}

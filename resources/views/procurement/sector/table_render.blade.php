@@ -26,22 +26,22 @@
                 <td>
                     @if($id==1)
                     <a href="{{route('sectors.edit',$item->id)}}"
-                       class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"
-                       title="{{$labels['edit'] ?? 'edit'}} "
+                       class="mytooltip btn-setting-nav"  data-toggle="tooltip" data-placement="top"
+                       title=" "
                     >
-                        <i class="material-icons">edit</i>
+                        <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}}</span>
                     </a>
                     @else
                         <button type="button" data-id="{{$item->id}}"
-                                class="btn btn-sm btn-success btn-round btn-fab editSector"  data-toggle="tooltip" data-placement="top"
-                                title="{{$labels['edit'] ?? 'edit'}} "
+                                class="mytooltip btn-setting-nav editSector"  data-toggle="tooltip" data-placement="top"
+                                title=" "
                         >
-                            <i class="material-icons">edit</i>
+                            <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}}</span>
                         </button>@endif
                     <button type="button" href="{{ route('sectors.delete',$item->id )}}"
-                            rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnTypeDeleteSector"
-                            data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
-                        <i class="material-icons">delete</i>
+                            rel="tooltip" class="mytooltip btn-setting-nav btnTypeDeleteSector"
+                            data-placement="top"  title="">
+                        <i class="material-icons">delete</i><span class="mytooltiptext">{{$labels['delete'] ?? 'delete'}}</span>
                     </button>
                 </td>
 
