@@ -343,10 +343,10 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
 
     Route::get('projectcategories/index', ['uses' => 'Project\ProjectCategoryController@index'])->name('project.projectcategories.index');
     Route::get('projectcategories/create', ['uses' => 'Project\ProjectCategoryController@create'])->name('project.projectcategories.create');
-    Route::post('/projectcategories/store', ['uses' => 'Project\ProjectCategoryController@store'])->name('project.projectcategories.store');
+    Route::post('/projectcategories/store/{id}', ['uses' => 'Project\ProjectCategoryController@store'])->name('project.projectcategories.store');
     Route::get('projectcategories/{id}/edit', ['uses' => 'Project\ProjectCategoryController@edit'])->name('project.projectcategories.edit');
-    Route::PATCH('/projectcategories/update', ['uses' => 'Project\ProjectCategoryController@update'])->name('project.projectcategories.update');
-    Route::DELETE('/projectcategories/{id}', ['uses' => 'Project\ProjectCategoryController@destroy'])->name('project.projectcategories.destroy');
+    Route::post('/projectcategories/update/{id}', ['uses' => 'Project\ProjectCategoryController@update'])->name('project.projectcategories.update');
+    Route::DELETE('/projectcategories/{id}/{id1}', ['uses' => 'Project\ProjectCategoryController@destroy'])->name('project.projectcategories.destroy');
 
     Route::get('donors/types/index', ['uses' => 'Project\DonorTypeController@index'])->name('project.donors.types.index');
     Route::get('donors/types/create', ['uses' => 'Project\DonorTypeController@create'])->name('project.donors.types.create');

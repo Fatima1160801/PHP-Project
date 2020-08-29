@@ -30,7 +30,7 @@
                     <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}}</span>
                 </a>
                 @else
-                    <a href="#" type="button" data-id="{{$attachment_types->id}}"
+                    <a href="#"  data-id="{{$attachment_types->id}}"
                             class="btn-sm editDocType  mytooltip btn-setting-nav" style="border: white;"  data-toggle="tooltip" data-placement="top"
 
                     >

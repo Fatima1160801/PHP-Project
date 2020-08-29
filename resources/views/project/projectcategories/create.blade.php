@@ -1,52 +1,53 @@
 @extends('layouts._layout')
 
 @section('content')
-
-    <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
+@include('project.projectcategories.create_render')
+{{--    <div class="card ">--}}
+{{--        <div class="card-header card-header-rose card-header-text">--}}
 {{--            <div class="card-icon">--}}
 {{--                <i class="material-icons">work--}}
 {{--                </i>--}}
 {{--            </div>--}}
-            <h4 class="card-title">
-                {{$labels['screen_project_categories_add'] ?? 'screen_project_categories_add'}}
+{{--            <h4 class="card-title">--}}
+{{--                {{$labels['screen_project_categories_add'] ?? 'screen_project_categories_add'}}--}}
 
-            </h4>
-        </div>
+{{--            </h4>--}}
+{{--        </div>--}}
 
-        {!! Form::open(['route' => 'project.projectcategories.store' ,'novalidate'=>'novalidate' ,'action'=>'post' ,'id'=>'formAdd']) !!}
-        <div class="card-body ">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+{{--        {!! Form::open(['route' => 'project.projectcategories.store' ,'novalidate'=>'novalidate' ,'action'=>'post' ,'id'=>'formAdd']) !!}--}}
+{{--        <div class="card-body ">--}}
+{{--            @if ($errors->any())--}}
+{{--                <div class="alert alert-danger">--}}
+{{--                    <ul>--}}
+{{--                        @foreach ($errors->all() as $error)--}}
+{{--                            <li>{{ $error }}</li>--}}
+{{--                        @endforeach--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            @endif--}}
 
-                    {!! $html !!}
+{{--                    {!! $html !!}--}}
 
 
-            <div class="card-footer ml-auto mr-auto">
-                <div class="ml-auto mr-auto">
-                        <a href="{{route('project.projectcategories.index')}}"class="btn btn-sm btn-default pull-left">
-                            {{$labels['back'] ?? 'back'}}</a>
-                        <button  btn="btnToggleDisabled" type="submit" class="btn btn-rose btn-sm pull-right" id="saveProjectCategory">
-                            {{$labels['save'] ?? 'save'}}
-                                <div class="loader pull-left" style="display: none;">  </div>
-                        </button>
-                </div>
-            </div>
+{{--            <div class="card-footer ml-auto mr-auto">--}}
+{{--                <div class="ml-auto mr-auto">--}}
+{{--                        <a href="{{route('project.projectcategories.index')}}"class="btn btn-sm btn-default pull-left">--}}
+{{--                            {{$labels['back'] ?? 'back'}}</a>--}}
+{{--                        <button  btn="btnToggleDisabled" type="submit" class="btn btn-rose btn-sm pull-right" id="saveProjectCategory">--}}
+{{--                            {{$labels['save'] ?? 'save'}}--}}
+{{--                                <div class="loader pull-left" style="display: none;">  </div>--}}
+{{--                        </button>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-        {!! Form::close() !!}
-    </div>
+{{--        {!! Form::close() !!}--}}
+{{--    </div>--}}
 
 @endsection
 
 
 @section('script')
+    @include('project.projectcategories.othersettings_script')
             <script>
                 $(document).ready(function(){
                     active_nev_link('project_category');

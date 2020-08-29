@@ -1,4 +1,12 @@
 @extends('layouts._layout')
+@section('css')
+    @include('setting.settingsScreens.settings_style')
+    <style>
+        .card .card-body .col-form-label, .card .card-body .label-on-right{
+            margin-right: -70px;
+        }
+    </style>
+@endsection
 @section('content')
 
 {{--    <div class="row p-4" style="row-gap: 0em;">--}}
@@ -252,4 +260,452 @@
 {{--</div>--}}
 {{--  New New  --}}
 
+<div class="container ml-2">
+    <div class="row" id="containerc" style="padding:30px;">
+        <div class="col-md-3 card p-3 mr-4">
+            <ul class="navbar-nav mailli33">
+                <li class="nav-item mb-3 selected-item" id="role" data-nameeng="Institution Roles" data-namear="العلامات التجارية" data-value="1">
+                    <a href="#"
+                       class="navi-link py-4 ">
+                        <div class="card-icon ">
+                                <span>  <i class="material-icons default-color mr-2 "
+                                    >local_offer</i>@if($lang==1)Institution Role @elseدور المؤسسة@endif</span>
+                        </div>
+                    </a>
+
+                </li>
+                <li class="nav-item mb-3 " id="visit" data-nameeng="Visits Types" data-namear="نوع الزيارات" data-value="2">
+                    <a href="#"
+                       class="navi-link py-4">
+                        <div class="card-icon">
+                            <span>  <i class='material-icons'>weekend</i>&nbsp;&nbsp;&nbsp;&nbsp;@if($lang==1)Visits Types @elseنوع الزيارات @endif</span>
+                        </div>
+                    </a>
+
+                </li>
+                <li class="nav-item mb-3 " id="achievement" data-nameeng="Achievement Types" data-namear="أنواع الإنجاز" data-value="3">
+                    <a href="#"
+                       class="navi-link py-4">
+                        <div class="card-icon">
+                            <span>  <i class='material-icons'>card_giftcard</i>&nbsp;&nbsp;@if($lang==1)Achievement Types @elseأنواع الإنجاز@endif</span>
+                        </div>
+                    </a>
+
+                </li>
+                <li class="nav-item mb-3 " id="achievementty" data-nameeng="Indicators Measure Units" data-namear="وحدات القياس للمؤشرات" data-value="4">
+                    <a href="#"
+                       class="navi-link py-4">
+                        <div class="card-icon">
+                            <span>  <i class='material-icons'>straighten</i>&nbsp;&nbsp;@if($lang==1)Indicators Measure Units @elseوحدات القياس للمؤشرات@endif</span>
+                        </div>
+                    </a>
+
+                </li>
+
+                <li class="nav-item mb-3 " id="income" data-nameeng="Income Range" data-namear="معدل الدخل" data-value="5">
+                    <a href="#"
+                       class="navi-link py-4">
+                        <div class="card-icon">
+                            <span>  <i class='material-icons'>payment</i>&nbsp;&nbsp;@if($lang==1)Income Range @elseمعدل الدخل@endif</span>
+                        </div>
+                    </a>
+
+                </li>
+                <li class="nav-item mb-3 " id="currencies" data-nameeng="Currencies" data-namear="العملات" data-value="6">
+                    <a href="#"
+                       class="navi-link py-4">
+                        <div class="card-icon">
+                            <span>  <i class='material-icons'>money</i>&nbsp;&nbsp;@if($lang==1)Currencies @elseالعملات@endif</span>
+                        </div>
+                    </a>
+
+                </li>
+                <li class="nav-item mb-3 " id="issue" data-nameeng="Issues Types" data-namear="أنواع القضايا" data-value="7">
+                    <a href="#"
+                       class="navi-link py-4">
+                        <div class="card-icon">
+                            <span>  <i class='material-icons'>subject</i>&nbsp;&nbsp;@if($lang==1)Issues Types @elseأنواع القضايا@endif</span>
+                        </div>
+                    </a>
+
+                </li>
+                <li class="nav-item mb-3 " id="issuesetting" data-nameeng="Issue Relations Setting" data-namear="إعدادات القضايا" data-value="8">
+                    <a href="#"
+                       class="navi-link py-4">
+                        <div class="card-icon">
+                            <span>  <i class='material-icons'>settings</i>&nbsp;&nbsp;@if($lang==1)Issue Relations Setting @elseإعدادات القضايا@endif</span>
+                        </div>
+                    </a>
+
+                </li>
+
+            </ul>
+        </div>
+        <div class="col-md-8 p-3 card" style="width:2000px;"><div class="card-title" id="content">
+                <label id="title" style="font-weight: bold;font-size: 19px !important;"></label>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<span id="add"></span>
+            </div>
+            <div id="loadScreen" class="col-md-2" style="padding-left:300px;"><div class="loader pull-center" style="display: none;width: 30px;
+ height: 30px;"></div></div>
+
+            <div id="render_result">
+
+            </div>
+        </div>
+    </div>
+</div>
+{{--   Start Modal--}}
+<div class="modal fade" id="procurementModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="brandModal">
+            <div class="card card-signup card-plain">
+                <div class="modal-body" id="procurementModalBody">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
+@section('script')
+    @include('project.projectcategories.othersettings_script')
+    <script>
+    $(document).ready(function() {
+    defaultVal();
+        active_nev_link('project_category');
+        funValidateForm();
+    });
+    $("#role").click(function (e) {
+    addSelected($("#role").attr("data-value"));
+    $("#add").html("");
+    $("#title").html("");
+    $("#render_result").html("");
+    e.preventDefault();
+    defaultVal();
+    });
+
+    function addSelected(value){
+        $(".mailli33 .nav-item").removeClass("selected-item");
+        if(value==1){
+            $("#role").addClass("selected-item");
+
+        }
+        else  if(value==2){
+            $("#visit").addClass("selected-item");
+
+        }
+        else  if(value==3){
+            $("#achievement").addClass("selected-item");
+        }
+        else  if(value==4){
+            $("#achievementty").addClass("selected-item");
+        }
+        else  if(value==5){
+            $("#income").addClass("selected-item");
+        }
+        else  if(value==6){
+            $("#currencies").addClass("selected-item");
+
+        }
+        else  if(value==7){
+            $("#issue").addClass("selected-item");
+
+        }
+        else{
+            $("#issuesetting").addClass("selected-item");
+
+        }
+
+    }
+    function defaultVal(){
+        $('#loadScreen div.loader').show();
+        $.get('{{route('project.projectcategories.index')}}',function(data){
+            if(data.status==true){
+                $("#render_result").html(data.html);
+                $('#loadScreen div.loader').hide();
+                var lang=@json($lang);
+                if(lang==1)
+                    $("#title").html($("#role").attr("data-nameeng"));
+                else
+                    $("#title").html($("#role").attr("data-namear"))
+                $("#add").html("<a href=\"#\" onclick='addRole()' id='addRole' class=\"mytooltip btn-setting-nav add\"\n" +
+                    "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
+                    "               title=\"\" >\n" +
+                    "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Role</span></a>\n" +
+                    "            </span> </h4>");
+                // $('#table').DataTable().ajax.reload();
+                DataTableCall('#table',5);
+                $("#table_length").html("");
+                $("#table_filter").html("");
+                        {{--                            @include('setting.c.city.location_script');--}}
+
+                var table = $('#table').DataTable();
+
+// Sort by columns 1 and 2 and redraw
+                table
+                    .order( [0, 'desc' ] )
+                    .draw();
+
+            }else{
+
+            }
+        });
+
+
+    }
+    function addRole() {
+        $.get('{{route('project.projectcategories.create')}}',function(data){
+            if(data.status==true) {
+                $("#procurementModalBody").html(data.html);
+                $('.selectpicker').selectpicker();
+                $('#procurementModal').modal({
+                    show: true
+                });
+            }
+        });
+    }
+    $(document).on("click", ".editRoleType", function (e) {
+        var val=$(this).attr("data-id");
+        $.get('{{url('projectcategories')}}'+'/'+val+'/edit',function(data){
+            if(data.status==true) {
+                $("#procurementModalBody").html(data.html);
+                $('.selectpicker').selectpicker();
+                $('#procurementModal').modal({
+                    show: true
+                });
+            }
+        });
+    })
+    // $(document).on('submit', '#formAdd', function (e) {
+    // e.preventDefault();
+    // var form = new FormData($(this)[0]);
+    // var url = $(this).attr('action');
+    // $.ajax({
+    //     url: url,
+    //     data: form,
+    //     type: 'post',
+    //     processData: false,
+    //     contentType: false,
+    //     beforeSend: function () {
+    //         $('#saveProjectCategory').attr("disabled", true);
+    //         $('.loader').show();
+    //     },
+    //     success: function (data) {
+    //         //  $('#btnAddbrand').attr("disabled", false);
+    //         if (data.status == true) {
+    //
+    //             var table = $('#table').dataTable();
+    //             //Get the total rows
+    //             var count=table.fnGetData().length;
+    //             alert("before");
+    //             appendTable(data.city,data.statusObj,count,1,"","");
+    //             myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+    //             $('.loader').hide();
+    //         }
+    //
+    //
+    //     },
+    //     error: function (data) {
+    //
+    //     }
+    // });
+    // });
+    function appendTable(data,status,count,id,cityname,citynamefo){
+        var table = document.getElementById("table");
+        var count1=count+1;
+        // var number = table.rows.length;
+        // if($dd==1){
+        Body = $("#table tbody");
+        if(id==1){
+            {{--var url = '{{ route("project.projectcategories.destroy", ":id") }}';--}}
+            // url = url.replace(':id', data.id);
+var modal="#delete"+data.id;
+var modalname="delete"+data.id;
+            markup='<tr data-id='+data.id+'><td>'+count1 +'</td><td>'+data.category_name_na+'</td><td>'+data.category_name_fo+'</td><td>'+ status+'</td><td> <a href="#" data-id='+data.id+'\n' +
+                '                     class="mytooltip btn-setting-nav editRoleType"  data-toggle="tooltip" data-placement="top"\n' +
+                '                       title=""\n' +
+                '                    >\n' +
+                '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                '                    </a> <a href="#"\n' +
+                '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDelete" data-toggle="modal"\n' +
+                '                        data-target='+modal+'\n' +
+                '                        data-placement="top"  data-tooltip="tooltip" title=" ">\n' +
+                '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
+                '                </a></td></tr>'
+            var mark='<div class="modal" id='+modalname+' tabindex="-1" role="dialog"\n' +
+                '             aria-labelledby="myModalLabel">\n' +
+                '            <div class="modal-dialog" role="document">\n' +
+                '                <div class="modal-content">\n' +
+                '                    <div class="modal-header">\n' +
+                '                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span\n' +
+                '                                    aria-hidden="true">&times;</span></button>\n' +
+                '                        <h4 class="modal-title text-center" id="myModalLabel">Delete Project Category\n' +
+                '                            Confirmation</h4>\n' +
+                '                    </div><form>\n' +
+                '                    <div class="modal-body">\n' +
+                '                        <p class="text-center">\n' +
+                '                            Are you sure you want to delete this?\n' +
+                '                        </p>\n' +
+                '                    </div>\n' +
+                '                    <div class="modal-footer">\n' +
+                '                        <button type="button" class="btn btn-success" data-dismiss="modal">No, Cancel\n' +
+                '                        </button>\n' +
+                '                        <button type="submit" class="btn btn-warning yes" data-id="'+data.id+'">Yes, Delete</button>\n' +
+                '                    </div>\n' +
+                '                    </form>\n' +
+                '\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '        </div> <!-- End Modal -->\n';$("#render_result").append(mark);}
+
+        else if(id==2){
+            var lang=@json($lang);
+            var url = '{{ route("units.delete", ":id") }}';
+            url = url.replace(':id', data.id);
+
+            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.unit_name_na+'</td><td>'+data.unit_name_fo+'</td><td> <a href="#" data-id='+data.id+'\n' +
+                '                     class="mytooltip btn-setting-nav editUnit"  data-toggle="tooltip" data-placement="top"\n' +
+                '                       title="edit"\n' +
+                '                    >\n' +
+                '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                '                    </a> <a  href='+url+'\n' +
+                '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDeleteUnit"\n' +
+                '                        data-placement="top"  title=" ">\n' +
+                '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
+                '                </a>\n</td></tr>';
+
+        }
+        else if(id==3){
+            var lang=@json($lang);
+            var url = '{{ route("sectors.delete", ":id") }}';
+            url = url.replace(':id', data.id);
+            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.sector_name_na+'</td><td>'+data.sector_name_fo+'</td><td> <a href="#" data-id='+data.id+'\n' +
+                '                     class=" mytooltip btn-setting-nav editSector"  data-toggle="tooltip" data-placement="top"\n' +
+                '                       title=""\n' +
+                '                    >\n' +
+                '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                '                    </a> <a href='+url+'\n' +
+                '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDeleteSector"\n' +
+                '                        data-placement="top"  title=" ">\n' +
+                '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
+                '                </a>\n</td></tr>';
+        }
+        else if(id==4){
+            var lang=@json($lang);
+            var url = '{{ route("services.delete", ":id") }}';
+            url = url.replace(':id', data.id);
+
+            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.service_name_na+'</td><td>'+data.service_name_fo+'</td><td> <a data-id='+data.id+'\n' +
+                '                     class=" mytooltip btn-setting-nav editService"  data-toggle="tooltip" data-placement="top"\n' +
+                '                       title=""\n' +
+                '                    >\n' +
+                '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                '                    </a> <a  href='+url+'\n' +
+                '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDeleteService"\n' +
+                '                        data-placement="top"  title="">\n' +
+                '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
+                '                </a>\n</td></tr>';
+        }
+        else if(id==5){
+            var lang=@json($lang);
+            var url = '{{ route("purchasemethods.delete", ":id") }}';
+            url = url.replace(':id', data.id);
+            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.method_name_na+'</td><td>'+data.method_name_fo+'</td><td> <a  data-id='+data.id+'\n' +
+                '                     class="mytooltip btn-setting-nav editPurchase"  data-toggle="tooltip" data-placement="top"\n' +
+                '                       title=""\n' +
+                '                    >\n' +
+                '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                '                    </a> <a href='+url+'\n' +
+                '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDeleteMethod"\n' +
+                '                        data-placement="top"  title=" ">\n' +
+                '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
+                '                </button>\n</td></tr>';
+        }
+
+        $(markup).insertAfter("#table tr:first");
+        $('#procurementModal').modal('hide');
+        // }
+    }
+    {{--$(document).on('submit', '#formEdit', function (e) {--}}
+    {{--    if (!is_valid_form($(this))) {--}}
+    {{--        return false;--}}
+    {{--    }--}}
+
+    {{--    e.preventDefault();--}}
+
+    {{--    var form = new FormData($(this)[0]);--}}
+    {{--    var url = $(this).attr('action');--}}
+    {{--    // alert($(this).attr('action'));s--}}
+    {{--    $.ajax({--}}
+    {{--        url: url,--}}
+    {{--        data: form,--}}
+    {{--        type: 'post',--}}
+    {{--        processData: false,--}}
+    {{--        contentType: false,--}}
+    {{--        beforeSend: function () {--}}
+    {{--            $('#updateRole').attr("disabled", true);--}}
+    {{--            $('.loader').show();--}}
+    {{--        },--}}
+    {{--        success: function (data) {--}}
+    {{--            $('#updateRole').attr("disabled", false);--}}
+    {{--            $('.loader').hide();--}}
+    {{--            if (data.status == true) {--}}
+    {{--                editRow(data.city,data.statusObj,1,"","");--}}
+    {{--                myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
+    {{--                $('.loader').hide();--}}
+    {{--            }--}}
+    {{--            --}}{{--setTimeout(() => {--}}
+    {{--            --}}{{--    window.location.href = "{{route('sectors.index')}}";--}}
+    {{--            --}}{{--}, 1000);--}}
+
+
+    {{--        },--}}
+    {{--        error: function (data) {--}}
+
+    {{--        }--}}
+    {{--    });--}}
+
+    {{--});--}}
+    function editRow(data,status,id,cityname,citynamefo){
+        var lang=@json($lang);
+
+        if(id==1){
+            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.category_name_na);
+            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.category_name_fo);
+            $('tr[data-id='+data.id+']').find("td:eq(3)").html(status);
+
+        }
+        else if(id==2){
+            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.unit_name_na);
+            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.unit_name_fo);
+        }
+        else if(id==3){
+            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.sector_name_na);
+            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.sector_name_fo);
+        }
+        else if(id==4){
+            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.service_name_na);
+            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.service_name_fo);
+        }
+        else if(id==5){
+            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.method_name_na);
+            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.method_name_fo);
+        }
+        $('#procurementModal').modal('hide');
+    }
+    </script>
+@endsection
+@section('js')
+    <!-- Forms Validations Plugin -->
+    <script src="{{ asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins/moment.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-datetimepicker.min.js')}}"></script>
+
+
+    <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+    <script src="{{ asset('assets/js/plugins/bootstrap-selectpicker.js')}}"></script>
+    <!--  DataTables.net Plugin, full documentation here: https://datatables.net/    -->
+    {{--<script src="{{ asset('assets/js/plugins/jquery.datatables.min.js')}}"></script>--}}
+    <script src="{{ asset('js/datatables/datatables.min.js')}}"></script>
+    <script src="{{ asset('js/modal_setting.js')}}"></script>
+    <script src="{{ asset('js/wizardReport.js')}}"></script>
 @endsection

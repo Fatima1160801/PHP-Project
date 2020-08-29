@@ -88,6 +88,8 @@
     .mytooltip.add:hover {
         border-radius: 50% !important;
     }
-
+.instrole{
+    margin-left: 7% !important;
+}
 
 </style>
