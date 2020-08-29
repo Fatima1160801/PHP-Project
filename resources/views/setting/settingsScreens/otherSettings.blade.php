@@ -3,7 +3,7 @@
     @include('setting.settingsScreens.settings_style')
     <style>
         .card .card-body .col-form-label, .card .card-body .label-on-right{
-            margin-right: -70px;
+            margin-right: -21px;
         }
     </style>
 @endsection
@@ -372,6 +372,8 @@
     $(document).ready(function() {
     defaultVal();
         active_nev_link('project_category');
+        active_nev_link('visittypeSettings');
+        active_nev_link('indicators_measure_unit');
         funValidateForm();
     });
     $("#role").click(function (e) {
@@ -381,6 +383,87 @@
     $("#render_result").html("");
     e.preventDefault();
     defaultVal();
+    });
+
+    $("#visit").click(function (e) {
+        addSelected($("#visit").attr("data-value"));
+        $("#add").html("");
+        $("#title").html("");
+        $("#render_result").html("");
+        e.preventDefault();
+        $('#loadScreen div.loader').show();
+        $.get('{{route('settings.visit.type.index')}}',function(data){
+            if(data.status==true){
+                $("#render_result").html(data.html);
+                $('#loadScreen div.loader').hide();
+                var lang=@json($lang);
+                if(lang==1)
+                    $("#title").html($("#visit").attr("data-nameeng"));
+                else
+                    $("#title").html($("#visit").attr("data-namear"))
+                $("#add").html("<a href=\"#\" onclick='addVisit()' id='addVisit' class=\"mytooltip btn-setting-nav add\"\n" +
+                    "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
+                    "               title=\"\" >\n" +
+                    "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Visit Type</span></a>\n" +
+                    "            </span> </h4>");
+                // $('#table').DataTable().ajax.reload();
+                DataTableCall('#table',5);
+                $("#table_length").html("");
+                $("#table_filter").html("");
+                        {{--                            @include('setting.c.city.location_script');--}}
+
+                var table = $('#table').DataTable();
+
+// Sort by columns 1 and 2 and redraw
+                table
+                    .order( [0, 'desc' ] )
+                    .draw();
+
+            }else{
+
+            }
+        });
+
+    });
+    $("#achievementty").click(function (e) {
+        addSelected($("#achievementty").attr("data-value"));
+        $("#add").html("");
+        $("#title").html("");
+        $("#render_result").html("");
+        e.preventDefault();
+        $('#loadScreen div.loader').show();
+        $.get('{{route('goals.indicators.measure.unit.index')}}',function(data){
+            if(data.status==true){
+                $("#render_result").html(data.html);
+                $('#loadScreen div.loader').hide();
+                var lang=@json($lang);
+                if(lang==1)
+                    $("#title").html($("#achievementty").attr("data-nameeng"));
+                else
+                    $("#title").html($("#achievementty").attr("data-namear"))
+                $("#add").html("<a href=\"#\" onclick='addAchType()' id='addAchType' class=\"mytooltip btn-setting-nav add\"\n" +
+                    "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
+                    "               title=\"\" >\n" +
+                    "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Unit</span></a>\n" +
+                    "            </span> </h4>");
+                // $('#table').DataTable().ajax.reload();
+                DataTableCall('#table',3);
+                $("#table_length").html("");
+                $("#table_filter").html("");
+                        {{--                            @include('setting.c.city.location_script');--}}
+
+                var table = $('#table').DataTable();
+
+// Sort by columns 1 and 2 and redraw
+                table
+                    .order( [0, 'desc' ] )
+                    .draw();
+
+            }else{
+
+            }
+        });
+
     });
 
     function addSelected(value){
@@ -475,40 +558,41 @@
             }
         });
     })
-    // $(document).on('submit', '#formAdd', function (e) {
-    // e.preventDefault();
-    // var form = new FormData($(this)[0]);
-    // var url = $(this).attr('action');
-    // $.ajax({
-    //     url: url,
-    //     data: form,
-    //     type: 'post',
-    //     processData: false,
-    //     contentType: false,
-    //     beforeSend: function () {
-    //         $('#saveProjectCategory').attr("disabled", true);
-    //         $('.loader').show();
-    //     },
-    //     success: function (data) {
-    //         //  $('#btnAddbrand').attr("disabled", false);
-    //         if (data.status == true) {
-    //
-    //             var table = $('#table').dataTable();
-    //             //Get the total rows
-    //             var count=table.fnGetData().length;
-    //             alert("before");
-    //             appendTable(data.city,data.statusObj,count,1,"","");
-    //             myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-    //             $('.loader').hide();
-    //         }
-    //
-    //
-    //     },
-    //     error: function (data) {
-    //
-    //     }
-    // });
-    // });
+    $(document).on("click", ".editVisit", function (e) {
+        var val=$(this).attr("data-id");
+        $.get('{{url('settings/visit/type')}}'+'/'+val+'/edit',function(data){
+            if(data.status==true) {
+                $("#procurementModalBody").html(data.html);
+                $('.selectpicker').selectpicker();
+                $('#procurementModal').modal({
+                    show: true
+                });
+            }
+        });
+    })
+function addAchType(){
+    $.get('{{route('goals.indicators.measure.unit.create')}}',function(data){
+        if(data.status==true) {
+            $("#procurementModalBody").html(data.html);
+            $('.selectpicker').selectpicker();
+            $('#procurementModal').modal({
+                show: true
+            });
+        }
+    });
+}
+    $(document).on("click", ".editAcType", function (e) {
+        var val=$(this).attr("data-id");
+        $.get('{{url('goals/indicators/measure/units')}}'+'/'+val+'/edit',function(data){
+            if(data.status==true) {
+                $("#procurementModalBody").html(data.html);
+                $('.selectpicker').selectpicker();
+                $('#procurementModal').modal({
+                    show: true
+                });
+            }
+        });
+    })
     function appendTable(data,status,count,id,cityname,citynamefo){
         var table = document.getElementById("table");
         var count1=count+1;
@@ -559,16 +643,16 @@ var modalname="delete"+data.id;
 
         else if(id==2){
             var lang=@json($lang);
-            var url = '{{ route("units.delete", ":id") }}';
+            var url = '{{ route("settings.visit.type.delete", ":id") }}';
             url = url.replace(':id', data.id);
 
-            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.unit_name_na+'</td><td>'+data.unit_name_fo+'</td><td> <a href="#" data-id='+data.id+'\n' +
-                '                     class="mytooltip btn-setting-nav editUnit"  data-toggle="tooltip" data-placement="top"\n' +
+            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.visit_name_na+'</td><td>'+data.visit_name_fo+'</td><td>'+ status+'</td><td> <a href="#" data-id='+data.id+'\n' +
+                '                     class="mytooltip btn-setting-nav editVisit"  data-toggle="tooltip" data-placement="top"\n' +
                 '                       title="edit"\n' +
                 '                    >\n' +
                 '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
                 '                    </a> <a  href='+url+'\n' +
-                '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDeleteUnit"\n' +
+                '                        rel="tooltip" class="mytooltip btn-setting-nav btnVisitTypeDelete"\n' +
                 '                        data-placement="top"  title=" ">\n' +
                 '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
                 '                </a>\n</td></tr>';
@@ -591,16 +675,16 @@ var modalname="delete"+data.id;
         }
         else if(id==4){
             var lang=@json($lang);
-            var url = '{{ route("services.delete", ":id") }}';
+            var url = '{{ route("goals.indicators.measure.unit.delete", ":id") }}';
             url = url.replace(':id', data.id);
 
-            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.service_name_na+'</td><td>'+data.service_name_fo+'</td><td> <a data-id='+data.id+'\n' +
-                '                     class=" mytooltip btn-setting-nav editService"  data-toggle="tooltip" data-placement="top"\n' +
+            markup='<tr data-id='+data.id+'><td colspan="2">'+count1+'</td><td>'+data.unit_name_no+'</td><td> <a data-id='+data.id+'\n' +
+                '                     class=" mytooltip btn-setting-nav editAcType"  data-toggle="tooltip" data-placement="top"\n' +
                 '                       title=""\n' +
                 '                    >\n' +
                 '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
                 '                    </a> <a  href='+url+'\n' +
-                '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDeleteService"\n' +
+                '                        rel="tooltip" class="mytooltip btn-setting-nav deleteAcType"\n' +
                 '                        data-placement="top"  title="">\n' +
                 '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
                 '                </a>\n</td></tr>';
@@ -625,46 +709,7 @@ var modalname="delete"+data.id;
         $('#procurementModal').modal('hide');
         // }
     }
-    {{--$(document).on('submit', '#formEdit', function (e) {--}}
-    {{--    if (!is_valid_form($(this))) {--}}
-    {{--        return false;--}}
-    {{--    }--}}
 
-    {{--    e.preventDefault();--}}
-
-    {{--    var form = new FormData($(this)[0]);--}}
-    {{--    var url = $(this).attr('action');--}}
-    {{--    // alert($(this).attr('action'));s--}}
-    {{--    $.ajax({--}}
-    {{--        url: url,--}}
-    {{--        data: form,--}}
-    {{--        type: 'post',--}}
-    {{--        processData: false,--}}
-    {{--        contentType: false,--}}
-    {{--        beforeSend: function () {--}}
-    {{--            $('#updateRole').attr("disabled", true);--}}
-    {{--            $('.loader').show();--}}
-    {{--        },--}}
-    {{--        success: function (data) {--}}
-    {{--            $('#updateRole').attr("disabled", false);--}}
-    {{--            $('.loader').hide();--}}
-    {{--            if (data.status == true) {--}}
-    {{--                editRow(data.city,data.statusObj,1,"","");--}}
-    {{--                myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
-    {{--                $('.loader').hide();--}}
-    {{--            }--}}
-    {{--            --}}{{--setTimeout(() => {--}}
-    {{--            --}}{{--    window.location.href = "{{route('sectors.index')}}";--}}
-    {{--            --}}{{--}, 1000);--}}
-
-
-    {{--        },--}}
-    {{--        error: function (data) {--}}
-
-    {{--        }--}}
-    {{--    });--}}
-
-    {{--});--}}
     function editRow(data,status,id,cityname,citynamefo){
         var lang=@json($lang);
 
@@ -675,22 +720,34 @@ var modalname="delete"+data.id;
 
         }
         else if(id==2){
-            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.unit_name_na);
-            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.unit_name_fo);
+            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.visit_name_na);
+            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.visit_name_fo);
+            $('tr[data-id='+data.id+']').find("td:eq(3)").html(status);
+
         }
         else if(id==3){
             $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.sector_name_na);
             $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.sector_name_fo);
         }
         else if(id==4){
-            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.service_name_na);
-            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.service_name_fo);
+            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.unit_name_no);
         }
         else if(id==5){
             $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.method_name_na);
             $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.method_name_fo);
         }
         $('#procurementModal').modal('hide');
+    }
+   function addVisit(){
+       $.get('{{route('settings.visit.type.create')}}',function(data){
+           if(data.status==true) {
+               $("#procurementModalBody").html(data.html);
+               $('.selectpicker').selectpicker();
+               $('#procurementModal').modal({
+                   show: true
+               });
+           }
+       });
     }
     </script>
 @endsection

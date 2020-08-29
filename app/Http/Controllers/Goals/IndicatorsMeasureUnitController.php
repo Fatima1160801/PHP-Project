@@ -28,26 +28,31 @@ class IndicatorsMeasureUnitController extends Controller
     $this->middleware('auth');
   }
 
-  public function index()
+  public function index(Request $request)
   {
-    is_permitted(22, getClassName(__CLASS__), __FUNCTION__, 90, 7);
+      is_permitted(22, getClassName(__CLASS__), __FUNCTION__, 90, 7);
 
-    $imus = IndicatorsMeasureUnit::get();
-    // $screenName = screenName(22);
-    $messageDeleteMeasureUnit = getMessage('2.27');
-    $labels = inputButton(Auth::user()->lang_id, 22);
-    $userPermissions = getUserPermission();
-
-    return view('goals.indicators.measureUnit.index', compact('labels', 'imus', 'messageDeleteMeasureUnit', 'userPermissions'));
+      $imus = IndicatorsMeasureUnit::get();
+      // $screenName = screenName(22);
+      $messageDeleteMeasureUnit = getMessage('2.27');
+      $labels = inputButton(Auth::user()->lang_id, 22);
+      $userPermissions = getUserPermission();
+      $id = 1;
+      if ($request->ajax()) {
+          $id = 2;
+          $html = view('goals.indicators.measureUnit.table_render', compact('labels', 'imus', 'userPermissions', 'id'))->render();
+          return response(['status' => true, 'html' => $html]);
+      } else {
+          return view('goals.indicators.measureUnit.index', compact('labels', 'imus', 'messageDeleteMeasureUnit', 'userPermissions','id'));
+      }
   }
-
-  public function create()
+  public function create(Request $request)
   {
     is_permitted(22, getClassName(__CLASS__), 'store', 91, 1);
 
     $imu = new IndicatorsMeasureUnit();
-    $unit_name_no = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
-    $unit_name_fo = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
+    $unit_name_no = ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
+    $unit_name_fo = ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-5', 'col_input_Class' => 'col-md-7'];
     $is_hidden = ['html_type' => '13'];
     $option = [
         'unit_name_fo' => $unit_name_fo,
@@ -58,11 +63,20 @@ class IndicatorsMeasureUnitController extends Controller
     $html = $generator[0];
     $labels = $generator[1];
     $userPermissions = getUserPermission();
+      $save=1;
+      $id=1;
+      if($request->ajax()){
+          $id=2;
+          $html =view('goals.indicators.measureUnit.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
 
-    return view('goals.indicators.measureUnit.create', compact('labels', 'html', 'userPermissions'));
+          return response(['status' => true, 'html' =>$html]);
+
+      }
+      else
+    return view('goals.indicators.measureUnit.create', compact('labels', 'html', 'userPermissions','save','id'));
   }
 
-  public function store(Request $request)
+  public function store(Request $request,$id)
   {
     is_permitted(22, getClassName(__CLASS__), __FUNCTION__, 91, 1);
 
@@ -91,17 +105,23 @@ class IndicatorsMeasureUnitController extends Controller
 
     $array = ['message' => 'Data Added successfully'];
     session(['array' => $array]);
-    return redirect()->route('goals.indicators.measure.unit.index');
+      $message=getMessage('2.1');
+      if($id==1)
+          return redirect()->route('goals.indicators.measure.unit.index');
+      else{
+
+          return response(['status' => true, 'city' =>$imu,'message'=>$message]);
+  }
   }
 
-  public function edit($id)
+  public function edit(Request $request,$id)
   {
     is_permitted(22, getClassName(__CLASS__), 'update', 92, 2);
 
     $imu = IndicatorsMeasureUnit::find($id);
-    $unit_name_no = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
-    $unit_name_fo = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
-    $is_hidden = ['html_type' => '5', 'selectArray' => ['0' => 'Active', '1' => 'Inactive'], 'col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
+    $unit_name_no = ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
+    $unit_name_fo = ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'];
+    $is_hidden = ['html_type' => '5', 'selectArray' => ['0' => 'Active', '1' => 'Inactive'], 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
     $id_html = ['html_type' => '10'];
     $option = [
         'unit_name_no' => $unit_name_no,
@@ -113,15 +133,22 @@ class IndicatorsMeasureUnitController extends Controller
     $html = $generator[0];
     $labels = $generator[1];
     $userPermissions = getUserPermission();
+      $save=2;
+      $id=1;
+      if($request->ajax()){
+          $id=2;
+          $html =view('goals.indicators.measureUnit.create_render', compact('labels', 'html','userPermissions','save','id'))->render();
+          return response(['status' => true, 'html' =>$html]);
 
-    return view('goals.indicators.measureUnit.edit', compact('labels', 'html', 'data', 'userPermissions'));
+      }
+      else
+    return view('goals.indicators.measureUnit.edit', compact('labels', 'html', 'userPermissions','save','id'));
   }
 
 
-  public function update(Request $request)
+  public function update(Request $request,$id)
   {
     is_permitted(22, getClassName(__CLASS__), __FUNCTION__, 92, 2);
-
     $input = $request->all();
     $data = fieldInDatabase(4, $input);
     $field = $data['field'];
@@ -147,10 +174,18 @@ class IndicatorsMeasureUnitController extends Controller
     $imu->save();
     Log::instance()->save();
     notifications(getClassName(__CLASS__), __FUNCTION__, route('goals.indicators.measure.unit.edit', $imu->id));
-
+      $message=getMessage('2.2');
     $array = ['message' => 'Data Updated successfully'];
     session(['array' => $array]);
-    return redirect()->route('goals.indicators.measure.unit.index');
+      if($id==1) {
+          dd("ff");
+          return redirect()->route('goals.indicators.measure.unit.index');
+      }
+      else{
+
+          return response(['status' => true, 'city' =>$imu,'message'=>$message]);
+
+  }
   }
 
   public function destroy($id)

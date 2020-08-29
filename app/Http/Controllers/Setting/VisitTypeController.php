@@ -19,20 +19,25 @@ class VisitTypeController extends Controller
     $this->middleware('auth');
   }
 
-  public function index()
+  public function index(Request $request)
   {
-     //is_permitted(126, getClassName(__CLASS__),__FUNCTION__, 128, 7);
+      //is_permitted(126, getClassName(__CLASS__),__FUNCTION__, 128, 7);
 
-    $visitTypes = VisitType::all();
-    $messageDeleteVisitTypes = getMessage('2.1');
-    $labels = inputButton(Auth::user()->lang_id, '126');
-    $userPermissions = getUserPermission();
-
-    return view('setting.visitType.index', compact('labels', 'visitTypes', 'messageDeleteVisitTypes', 'userPermissions'));
+      $visitTypes = VisitType::all();
+      $messageDeleteVisitTypes = getMessage('2.1');
+      $labels = inputButton(Auth::user()->lang_id, '126');
+      $userPermissions = getUserPermission();
+      $id = 1;
+      if ($request->ajax()) {
+          $id = 2;
+          $html = view('setting.visitType.table_render', compact('labels', 'visitTypes', 'userPermissions', 'id'))->render();
+          return response(['status' => true, 'html' => $html]);
+      } else {
+          return view('setting.visitType.index', compact('labels', 'visitTypes', 'messageDeleteVisitTypes', 'userPermissions','id'));
+      }
   }
 
-
-  public function getCreate()
+  public function getCreate(Request $request)
   {
     // is_permitted(126, getClassName(__CLASS__),'store', 129, 1);
 
@@ -44,8 +49,16 @@ class VisitTypeController extends Controller
     $html = $generator[0];
     $labels = $generator[1];
     $userPermissions = getUserPermission();
+      $save=1;
+      $id=1;
+      if($request->ajax()){
+          $id=2;
+          $html =view('setting.visitType.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+          return response(['status' => true, 'html' =>$html]);
 
-    return view('setting.visitType.create', compact('labels', 'html', 'userPermissions'));
+      }
+      else
+    return view('setting.visitType.create', compact('labels', 'html', 'userPermissions','save','id'));
   }
 
 
@@ -75,11 +88,11 @@ class VisitTypeController extends Controller
 
 //        notifications(getClassName(__CLASS__),__FUNCTION__,route('settings.activity_types.edit',$activityType->id));
 
-    return response(['success' => true, 'message' => getMessage('2.1')]);
+    return response(['success' => true, 'message' => getMessage('2.1'),'city'=>$visitType,'statusObj'=>activeLabel($visitType->is_hidden)]);
   }
 
 
-  public function getEdit($id)
+  public function getEdit(Request $request,$id)
   {
     // is_permitted(50, getClassName(__CLASS__),'update', 130, 2);
 
@@ -91,8 +104,16 @@ class VisitTypeController extends Controller
     $html = $generator[0];
     $labels = $generator[1];
     $userPermissions = getUserPermission();
+      $save=2;
+      $id=1;
+      if($request->ajax()){
+          $id=2;
+          $html =view('setting.visitType.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+          return response(['status' => true, 'html' =>$html]);
 
-    return view('setting.visitType.update', compact('labels', 'html', 'userPermissions'));
+      }
+      else
+    return view('setting.visitType.update', compact('labels', 'html', 'userPermissions','save','id'));
   }
 
 
@@ -119,7 +140,7 @@ class VisitTypeController extends Controller
 
     //  notifications(getClassName(__CLASS__), __FUNCTION__, route('settings.activity_types.edit', $activityType->id));
 
-    return response(['success' => true, 'message' => getMessage('2.2')]);
+    return response(['success' => true, 'message' => getMessage('2.2'),'city'=>$visitType,'statusObj'=>activeLabel($visitType->is_hidden)]);
   }
 
 
@@ -128,7 +149,7 @@ class VisitTypeController extends Controller
     //  is_permitted(50, getClassName(__CLASS__),__FUNCTION__, 131, 4);
 
     try {
-      $visit_count = Visit::where('visit_type_id', $id)->Count();
+      $visit_count = Visit::where('visit_type_id', $id)->count();
       if ($visit_count > 0) {
         $message = getMessage('2.339');
         return response(['status' => 'false', 'message' => $message]);

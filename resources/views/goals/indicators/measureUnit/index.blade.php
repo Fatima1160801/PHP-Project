@@ -34,53 +34,54 @@
 
             </a>
             </span></h4>
-            <table class="table dataTable no-footer table-bordered" id="table">
-                <thead>
-                <tr>
-                    <th colspan="2">#</th>
+            @include('goals.indicators.measureUnit.table_render')
+{{--            <table class="table dataTable no-footer table-bordered" id="table">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th colspan="2">#</th>--}}
 
-                    <th>
-                        {{$labels['unit_name']?? 'unit_name'}}
+{{--                    <th>--}}
+{{--                        {{$labels['unit_name']?? 'unit_name'}}--}}
 
-                    </th>
-                    <th>                        {{$labels['actions']?? 'actions'}}
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
+{{--                    </th>--}}
+{{--                    <th>                        {{$labels['actions']?? 'actions'}}--}}
+{{--                    </th>--}}
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
 
-                @if($imus != null)
+{{--                @if($imus != null)--}}
 
-                    @foreach($imus  as $index=>$imu)
-                        <tr>
+{{--                    @foreach($imus  as $index=>$imu)--}}
+{{--                        <tr>--}}
 
-                            <td colspan="2">{{$index+1}}</td>
-                            <td>{{ $imu->unit_name_no }}</td>
-                            <td>
-                                <a href="{{route('goals.indicators.measure.unit.edit',$imu->id)}}" rel="tooltip"
-                                   class="btn btn-sm   btn-round btn-success btn-fab"
-                                   rel="tooltip" data-original-title="" title="{{$labels['edit']?? 'edit'}}"
-                                   data-placement="top" id="">
-                                    <i class="material-icons">edit</i>
-                                </a>
-                                <a href="{{route('goals.indicators.measure.unit.delete',$imu->id)}}"
-                                   class="btn btn-sm   btn-round btn-danger btn-fab"
-                                   rel="tooltip" data-original-title="" title="{{$labels['delete']?? 'delete'}}"
-                                   data-placement="top" id="deleteUnit">
-                                    <i class="material-icons">delete</i>
-                                </a>
+{{--                            <td colspan="2">{{$index+1}}</td>--}}
+{{--                            <td>{{ $imu->unit_name_no }}</td>--}}
+{{--                            <td>--}}
+{{--                                <a href="{{route('goals.indicators.measure.unit.edit',$imu->id)}}" rel="tooltip"--}}
+{{--                                   class="btn btn-sm   btn-round btn-success btn-fab"--}}
+{{--                                   rel="tooltip" data-original-title="" title="{{$labels['edit']?? 'edit'}}"--}}
+{{--                                   data-placement="top" id="">--}}
+{{--                                    <i class="material-icons">edit</i>--}}
+{{--                                </a>--}}
+{{--                                <a href="{{route('goals.indicators.measure.unit.delete',$imu->id)}}"--}}
+{{--                                   class="btn btn-sm   btn-round btn-danger btn-fab"--}}
+{{--                                   rel="tooltip" data-original-title="" title="{{$labels['delete']?? 'delete'}}"--}}
+{{--                                   data-placement="top" id="deleteUnit">--}}
+{{--                                    <i class="material-icons">delete</i>--}}
+{{--                                </a>--}}
 
-                            </td>
+{{--                            </td>--}}
 
-                        </tr>
+{{--                        </tr>--}}
 
-                    @endforeach
+{{--                    @endforeach--}}
 
-                @endif
+{{--                @endif--}}
 
-                </tbody>
+{{--                </tbody>--}}
 
-            </table>
+{{--            </table>--}}
             <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.othersettings.screen')}}"'>Back</button>
 
         </div>
@@ -89,47 +90,48 @@
 @stop
 
 @section('script')
+    @include('project.projectcategories.othersettings_script')
 
     <script>
         $(document).ready(function () {
             active_nev_link('indicators_measure_unit');
             DataTableCall('#table', 3)
         })
-        $(document).on('click', '#deleteUnit', function (e) {
-            e.preventDefault();
-            $this = $(this);
+        {{--$(document).on('click', '#deleteUnit', function (e) {--}}
+        {{--    e.preventDefault();--}}
+        {{--    $this = $(this);--}}
 
-            swal({
-                text: '{{$messageDeleteMeasureUnit['text']}}',
-                confirmButtonClass: 'btn btn-success  btn-sm',
-                cancelButtonClass: 'btn btn-danger  btn-sm',
-                buttonsStyling: false,
-                showCancelButton: true
-            }).then(result => {
-                if (result == true) {
-                    // var project_id = $('#formProjectMain #id').val();
-                    url = $(this).attr('href');
-                    $.ajax({
-                        url: url,
-                        type: 'delete',
-                        data: {"_token": "{{csrf_token()}}"},
-                        beforeSend: function () {
+        {{--    swal({--}}
+        {{--        text: '{{$messageDeleteMeasureUnit['text']}}',--}}
+        {{--        confirmButtonClass: 'btn btn-success  btn-sm',--}}
+        {{--        cancelButtonClass: 'btn btn-danger  btn-sm',--}}
+        {{--        buttonsStyling: false,--}}
+        {{--        showCancelButton: true--}}
+        {{--    }).then(result => {--}}
+        {{--        if (result == true) {--}}
+        {{--            // var project_id = $('#formProjectMain #id').val();--}}
+        {{--            url = $(this).attr('href');--}}
+        {{--            $.ajax({--}}
+        {{--                url: url,--}}
+        {{--                type: 'delete',--}}
+        {{--                data: {"_token": "{{csrf_token()}}"},--}}
+        {{--                beforeSend: function () {--}}
 
-                        },
-                        success: function (data) {
-                            if (data.status == 'true') {
-                                $($this).closest('tr').css('background', 'red').delay(1000).hide(1000);
-                                myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                            } else {
-                                myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                            }
-                        },
-                        error: function () {
-                        }
-                    });
-                }
-            })
-        });
+        {{--                },--}}
+        {{--                success: function (data) {--}}
+        {{--                    if (data.status == 'true') {--}}
+        {{--                        $($this).closest('tr').css('background', 'red').delay(1000).hide(1000);--}}
+        {{--                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
+        {{--                    } else {--}}
+        {{--                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
+        {{--                    }--}}
+        {{--                },--}}
+        {{--                error: function () {--}}
+        {{--                }--}}
+        {{--            });--}}
+        {{--        }--}}
+        {{--    })--}}
+        {{--});--}}
 
     </script>
 

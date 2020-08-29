@@ -383,9 +383,9 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
 
     Route::get('goals/indicators/measure/units/index', ['uses' => 'Goals\IndicatorsMeasureUnitController@index'])->name('goals.indicators.measure.unit.index');
     Route::get('goals/indicators/measure/units/create', ['uses' => 'Goals\IndicatorsMeasureUnitController@create'])->name('goals.indicators.measure.unit.create');
-    Route::post('goals/indicators/measure/units/store', ['uses' => 'Goals\IndicatorsMeasureUnitController@store'])->name('goals.indicators.measure.unit.store');
+    Route::post('goals/indicators/measure/units/store/{id}', ['uses' => 'Goals\IndicatorsMeasureUnitController@store'])->name('goals.indicators.measure.unit.store');
     Route::get('goals/indicators/measure/units/{id}/edit', ['uses' => 'Goals\IndicatorsMeasureUnitController@edit'])->name('goals.indicators.measure.unit.edit');
-    Route::put('goals/indicators/measure/units/update', ['uses' => 'Goals\IndicatorsMeasureUnitController@update'])->name('goals.indicators.measure.unit.update');
+    Route::post('goals/indicators/measure/units/update/{id}', ['uses' => 'Goals\IndicatorsMeasureUnitController@update'])->name('goals.indicators.measure.unit.update');
     Route::delete('goals/indicators/measure/units/{id}/delete', ['uses' => 'Goals\IndicatorsMeasureUnitController@destroy'])->name('goals.indicators.measure.unit.delete');
 
 

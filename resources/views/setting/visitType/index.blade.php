@@ -27,57 +27,58 @@
                 <i class="material-icons">add</i>
             </a>
             </span> </h4>
+            @include('setting.visitType.table_render')
 
-            <table class="table dataTable no-footer table-bordered" id="table">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>
+{{--            <table class="table dataTable no-footer table-bordered" id="table">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th>#</th>--}}
+{{--                    <th>--}}
 
-                        {{$labels['visit_name_na']??'visit_name_na'}}
-                    </th>
-                    <th>
+{{--                        {{$labels['visit_name_na']??'visit_name_na'}}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
 
-                        {{$labels['visit_name_fo']??'visit_name_fo'}}
+{{--                        {{$labels['visit_name_fo']??'visit_name_fo'}}--}}
 
-                    </th>
-                    <th>
-                        {{$labels['status']??'status'}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['status']??'status'}}--}}
 
-                    </th>
-                    <th>
-                        {{$labels['actions'] ?? 'actions'}}
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($visitTypes  as $index => $visitType)
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['actions'] ?? 'actions'}}--}}
+{{--                    </th>--}}
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
+{{--                @foreach($visitTypes  as $index => $visitType)--}}
 
-                    <tr>
-                        <td>{{$index+1}}</td>
-                        <td>{{$visitType->visit_name_na}}</td>
-                        <td>{{$visitType->visit_name_fo}}</td>
-                        <td>
-                          {!! activeLabel($visitType->is_hidden ) !!}
-                           </td>
+{{--                    <tr>--}}
+{{--                        <td>{{$index+1}}</td>--}}
+{{--                        <td>{{$visitType->visit_name_na}}</td>--}}
+{{--                        <td>{{$visitType->visit_name_fo}}</td>--}}
+{{--                        <td>--}}
+{{--                          {!! activeLabel($visitType->is_hidden ) !!}--}}
+{{--                           </td>--}}
 
-                        <td>
-                            <a href="{{route('settings.visit.type.edit',$visitType->id)}}"
-                               class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"
-                               title="{{$labels['edit'] ?? 'edit'}} ">
-                                <i class="material-icons">edit</i>
-                            </a>
-                            <button type="button" href="{{ route('settings.visit.type.delete',$visitType->id )}}"
-                                    rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnVisitTypeDelete"
-                                    data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
-                                <i class="material-icons">delete</i>
-                            </button>
-                        </td>
-                    </tr>
+{{--                        <td>--}}
+{{--                            <a href="{{route('settings.visit.type.edit',$visitType->id)}}"--}}
+{{--                               class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"--}}
+{{--                               title="{{$labels['edit'] ?? 'edit'}} ">--}}
+{{--                                <i class="material-icons">edit</i>--}}
+{{--                            </a>--}}
+{{--                            <button type="button" href="{{ route('settings.visit.type.delete',$visitType->id )}}"--}}
+{{--                                    rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnVisitTypeDelete"--}}
+{{--                                    data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">--}}
+{{--                                <i class="material-icons">delete</i>--}}
+{{--                            </button>--}}
+{{--                        </td>--}}
+{{--                    </tr>--}}
 
-                @endforeach
-                </tbody>
-            </table>
+{{--                @endforeach--}}
+{{--                </tbody>--}}
+{{--            </table>--}}
             <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.othersettings.screen')}}"'>Back</button>
 
         </div>
@@ -86,6 +87,7 @@
 
 @endsection
 @section('script')
+    @include('project.projectcategories.othersettings_script')
     <script>
         $(function () {
             active_nev_link('visittypeSettings');
@@ -93,39 +95,39 @@
             $('[data-toggle="tooltip"]').tooltip();
             //CheckSessionStatus(icon = 'done', title = 'SUCCESS', type = 'success', delay = '5000');
 
-            $(document).on('click', '.btnVisitTypeDelete', function (e) {
-                e.preventDefault();
-                $this = $(this);
-                swal({
-                    text: '{{$messageDeleteVisitTypes['text']}}',
-                    confirmButtonClass: 'btn btn-success  btn-sm',
-                    cancelButtonClass: 'btn btn-danger  btn-sm',
-                    buttonsStyling: false,
-                    showCancelButton: true
-                }).then(result => {
-                    if (result == true){
-                        // var project_id = $('#formProjectMain #id').val();
-                        url = $(this).attr('href');
-                        $.ajax({
-                            url: url,
-                            type: 'delete',
-                            beforeSend: function () {
-                            },
-                            success: function (data) {
-                                if (data.status == 'true') {
-                                    $($this).closest('tr').css('background','red').delay(1000).hide(1000);
-                                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                                    $('#contentModal .close').click();
-                                }else {
-                                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                                }
-                            },
-                            error: function () {
-                            }
-                        });
-                    }
-                })
-            });
+            {{--$(document).on('click', '.btnVisitTypeDelete', function (e) {--}}
+            {{--    e.preventDefault();--}}
+            {{--    $this = $(this);--}}
+            {{--    swal({--}}
+            {{--        text: '{{$messageDeleteVisitTypes['text']}}',--}}
+            {{--        confirmButtonClass: 'btn btn-success  btn-sm',--}}
+            {{--        cancelButtonClass: 'btn btn-danger  btn-sm',--}}
+            {{--        buttonsStyling: false,--}}
+            {{--        showCancelButton: true--}}
+            {{--    }).then(result => {--}}
+            {{--        if (result == true){--}}
+            {{--            // var project_id = $('#formProjectMain #id').val();--}}
+            {{--            url = $(this).attr('href');--}}
+            {{--            $.ajax({--}}
+            {{--                url: url,--}}
+            {{--                type: 'delete',--}}
+            {{--                beforeSend: function () {--}}
+            {{--                },--}}
+            {{--                success: function (data) {--}}
+            {{--                    if (data.status == 'true') {--}}
+            {{--                        $($this).closest('tr').css('background','red').delay(1000).hide(1000);--}}
+            {{--                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
+            {{--                        $('#contentModal .close').click();--}}
+            {{--                    }else {--}}
+            {{--                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
+            {{--                    }--}}
+            {{--                },--}}
+            {{--                error: function () {--}}
+            {{--                }--}}
+            {{--            });--}}
+            {{--        }--}}
+            {{--    })--}}
+            {{--});--}}
 
 
         })

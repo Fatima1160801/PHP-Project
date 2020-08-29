@@ -1,5 +1,6 @@
 @extends('layouts._layout')
 @section('content')
+    @include('setting.visitType.create_render')
     <div class="card ">
         <div class="card-header card-header-rose  card-header-icon">
 {{--            <div class="card-icon">--}}
@@ -48,6 +49,7 @@
 
 @endsection
 @section('script')
+    @include('project.projectcategories.othersettings_script')
     <script>
         $(document).ready(function () {
             active_nev_link('visittypeSettings');
@@ -55,46 +57,48 @@
             $('.selectpicker').selectpicker();
         });
 
-        $('#formVisitTypeUpdate').submit(function(e){
-
-            e.preventDefault();
-
-            if (!is_valid_form($(this))) {
-                return false;
-            }
-
-            var form = $(this).serialize();
-            var url = $(this).attr('action');
-            $.ajax({
-                url: url,
-                data: form,
-                type: 'post',
-                beforeSend: function () {
-                    $('#btnVisitTypeUpdate').attr("disabled", true);
-                    $('.loader').show();
-                },
-                success: function (data) {
-                    $('#btnVisitTypeUpdate').attr("disabled", false);
-                    $('.loader').hide();
-                    if (data.success == true) {
-                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                        $('#formVisitTypeUpdate').reset();
-                        $('.loader').hide();
-                    } else if (data.success == false) {
-                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                    }
-                    //$('#addBenf').prop("disabled", false);
-
-
-
-                },
-                error: function (data) {
-
-                }
-            });
-
-        });
-
+        // $('#formVisitTypeUpdate').submit(function(e){
+        //
+        //     e.preventDefault();
+        //
+        //     if (!is_valid_form($(this))) {
+        //         return false;
+        //     }
+        //
+        //     var form = $(this).serialize();
+        //     var url = $(this).attr('action');
+        //     $.ajax({
+        //         url: url,
+        //         data: form,
+        //         type: 'post',
+        //         beforeSend: function () {
+        //             $('#btnVisitTypeUpdate').attr("disabled", true);
+        //             $('.loader').show();
+        //         },
+        //         success: function (data) {
+        //             $('#btnVisitTypeUpdate').attr("disabled", false);
+        //             $('.loader').hide();
+        //             if (data.success == true) {
+        //                 myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+        //                 $('#formVisitTypeUpdate').reset();
+        //                 $('.loader').hide();
+        //             } else if (data.success == false) {
+        //                 myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+        //             }
+        //             //$('#addBenf').prop("disabled", false);
+        //
+        //
+        //
+        //         },
+        //         error: function (data) {
+        //
+        //         }
+        //     });
+        //
+        // });
+function editRow(city,statusObj,id,cityname,districtname) {
+    return false;
+}
     </script>
 @endsection
 
