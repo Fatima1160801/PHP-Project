@@ -18,7 +18,7 @@ class LessonsTypeController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         is_permitted(109, getClassName(__CLASS__), 'index', 217, 7);
 
@@ -26,12 +26,17 @@ class LessonsTypeController extends Controller
         $messageDeleteLessonsTypes = getMessage('2.185');
         $labels = inputButton(Auth::user()->lang_id, '109');
         $userPermissions = getUserPermission();
-
-        return view('activity.lessons.type.index', compact('labels', 'lessons_type', 'messageDeleteLessonsTypes', 'userPermissions'));
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('activity.lessons.type.render_table', compact('labels', 'lessons_type', 'messageDeleteLessonsTypes', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('activity.lessons.type.index', compact('labels', 'lessons_type', 'messageDeleteLessonsTypes', 'userPermissions','id'));
+        }
     }
 
-
-    public function getCreate()
+    public function getCreate(Request $request)
     {
         is_permitted(109, getClassName(__CLASS__), 'store', 218, 1);
 
@@ -43,8 +48,16 @@ class LessonsTypeController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
+        $save=1;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('activity.lessons.type.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('activity.lessons.type.create', compact('labels', 'html', 'userPermissions'));
+        }
+        else
+        return view('activity.lessons.type.create', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
 
@@ -72,11 +85,11 @@ class LessonsTypeController extends Controller
 
         notifications(getClassName(__CLASS__), __FUNCTION__, route('activity.lessons.type.edit', $lessons_type->id));
 
-        return response(['success' => true, 'message' => getMessage('2.1')]);
+        return response(['success' => true, 'message' => getMessage('2.1'),'city'=>$lessons_type]);
     }
 
 
-    public function getEdit($id)
+    public function getEdit($id,Request $request)
     {
         is_permitted(109, getClassName(__CLASS__), 'store', 219, 2);
 
@@ -87,8 +100,16 @@ class LessonsTypeController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
+        $save=2;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('activity.lessons.type.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('activity.lessons.type.update', compact('labels', 'html', 'userPermissions'));
+        }
+        else
+        return view('activity.lessons.type.update', compact('labels', 'html', 'userPermissions','save','id'));
     }
 
 
@@ -114,7 +135,7 @@ class LessonsTypeController extends Controller
 
         notifications(getClassName(__CLASS__), __FUNCTION__, route('activity.lessons.type.edit', $lessons_type->id));
 
-        return response(['success' => true, 'message' => getMessage('2.2')]);
+        return response(['success' => true, 'message' => getMessage('2.2'),'city'=>$lessons_type]);
     }
 
 

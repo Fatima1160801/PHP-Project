@@ -5,6 +5,9 @@
         .card .card-body .col-form-label, .card .card-body .label-on-right{
             margin-right: -21px;
         }
+        #activity_lessons_type_name_na,#activity_lessons_related_name_na{
+            margin-left: -51px;
+        }
     </style>
 @endsection
 @section('content')
@@ -369,11 +372,17 @@
 @section('script')
     @include('project.projectcategories.othersettings_script')
     <script>
+        measure=[];
     $(document).ready(function() {
     defaultVal();
+        active_nev_link('incomeRange-link');
         active_nev_link('project_category');
         active_nev_link('visittypeSettings');
         active_nev_link('indicators_measure_unit');
+        active_nev_link('currency-link');
+        active_nev_link('activity_lessons_type');
+        active_nev_link('activity_lessons_related');
+        active_nev_link('achievementtypeSettings');
         funValidateForm();
     });
     $("#role").click(function (e) {
@@ -465,6 +474,126 @@
         });
 
     });
+    $("#income").click(function (e) {
+        addSelected($("#income").attr("data-value"));
+        $("#add").html("");
+        $("#title").html("");
+        $("#render_result").html("");
+        e.preventDefault();
+        $('#loadScreen div.loader').show();
+        $.get('{{route('settings.incomeRange.index')}}',function(data){
+            if(data.status==true){
+                $("#render_result").html(data.html);
+                $('#loadScreen div.loader').hide();
+                var lang=@json($lang);
+                if(lang==1)
+                    $("#title").html($("#income").attr("data-nameeng"));
+                else
+                    $("#title").html($("#income").attr("data-namear"))
+                $("#add").html("<a href=\"#\" onclick='addIncome()' id='addIncome' class=\"mytooltip btn-setting-nav add\"\n" +
+                    "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
+                    "               title=\"\" >\n" +
+                    "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Income Range</span></a>\n" +
+                    "            </span> </h4>");
+                // $('#table').DataTable().ajax.reload();
+                DataTableCall('#table',4);
+                $("#table_length").html("");
+                $("#table_filter").html("");
+                        {{--                            @include('setting.c.city.location_script');--}}
+
+                var table = $('#table').DataTable();
+
+// Sort by columns 1 and 2 and redraw
+                table
+                    .order( [0, 'desc' ] )
+                    .draw();
+
+            }else{
+
+            }
+        });
+
+    });
+    $("#issue").click(function (e) {
+        addSelected($("#issue").attr("data-value"));
+        $("#add").html("");
+        $("#title").html("");
+        $("#render_result").html("");
+        e.preventDefault();
+        $('#loadScreen div.loader').show();
+        $.get('{{route('activity.lessons.type')}}',function(data){
+            if(data.status==true){
+                $("#render_result").html(data.html);
+                $('#loadScreen div.loader').hide();
+                var lang=@json($lang);
+                if(lang==1)
+                    $("#title").html($("#issue").attr("data-nameeng"));
+                else
+                    $("#title").html($("#issue").attr("data-namear"))
+                $("#add").html("<a href=\"#\" onclick='addIssue()' id='addIssue' class=\"mytooltip btn-setting-nav add\"\n" +
+                    "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
+                    "               title=\"\" >\n" +
+                    "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Issue</span></a>\n" +
+                    "            </span> </h4>");
+                // $('#table').DataTable().ajax.reload();
+                DataTableCall('#table',4);
+                $("#table_length").html("");
+                $("#table_filter").html("");
+                        {{--                            @include('setting.c.city.location_script');--}}
+
+                var table = $('#table').DataTable();
+
+// Sort by columns 1 and 2 and redraw
+                table
+                    .order( [0, 'desc' ] )
+                    .draw();
+
+            }else{
+
+            }
+        });
+
+    });
+    $("#issuesetting").click(function (e) {
+        addSelected($("#issuesetting").attr("data-value"));
+        $("#add").html("");
+        $("#title").html("");
+        $("#render_result").html("");
+        e.preventDefault();
+        $('#loadScreen div.loader').show();
+        $.get('{{route('activity.lessons.related')}}',function(data){
+            if(data.status==true){
+                $("#render_result").html(data.html);
+                $('#loadScreen div.loader').hide();
+                var lang=@json($lang);
+                if(lang==1)
+                    $("#title").html($("#issuesetting").attr("data-nameeng"));
+                else
+                    $("#title").html($("#issuesetting").attr("data-namear"))
+                $("#add").html("<a href=\"#\" onclick='addIssueSetting()' id='addIssueSetting' class=\"mytooltip btn-setting-nav add\"\n" +
+                    "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
+                    "               title=\"\" >\n" +
+                    "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add</span></a>\n" +
+                    "            </span> </h4>");
+                // $('#table').DataTable().ajax.reload();
+                DataTableCall('#table',4);
+                $("#table_length").html("");
+                $("#table_filter").html("");
+                        {{--                            @include('setting.c.city.location_script');--}}
+
+                var table = $('#table').DataTable();
+
+// Sort by columns 1 and 2 and redraw
+                table
+                    .order( [0, 'desc' ] )
+                    .draw();
+
+            }else{
+
+            }
+        });
+
+    });
 
     function addSelected(value){
         $(".mailli33 .nav-item").removeClass("selected-item");
@@ -535,8 +664,92 @@
 
 
     }
+    $("#currencies").click(function (e) {
+        addSelected($("#currencies").attr("data-value"));
+        $("#add").html("");
+        $("#title").html("");
+        $("#render_result").html("");
+        e.preventDefault();
+        $('#loadScreen div.loader').show();
+        $.get('{{route('settings.currency')}}',function(data){
+            if(data.status==true){
+                $("#render_result").html(data.html);
+                $('#loadScreen div.loader').hide();
+                var lang=@json($lang);
+                if(lang==1)
+                    $("#title").html($("#currencies").attr("data-nameeng"));
+                else
+                    $("#title").html($("#currencies").attr("data-namear"))
+                $("#add").html("<a href=\"#\" onclick='addCurrency()' id='addCurrency' class=\"mytooltip btn-setting-nav add\"\n" +
+                    "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
+                    "               title=\"\" >\n" +
+                    "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Currency</span></a>\n" +
+                    "            </span> </h4>");
+                // $('#table').DataTable().ajax.reload();
+                DataTableCall('#table',4);
+                $("#table_length").html("");
+                $("#table_filter").html("");
+                        {{--                            @include('setting.c.city.location_script');--}}
+
+                var table = $('#table').DataTable();
+
+// Sort by columns 1 and 2 and redraw
+                table
+                    .order( [0, 'desc' ] )
+                    .draw();
+
+            }else{
+
+            }
+        });
+
+    });
+    $("#achievement").click(function (e) {
+        addSelected($("#achievement").attr("data-value"));
+        $("#add").html("");
+        $("#title").html("");
+        $("#render_result").html("");
+        // $("#procurementModal").addClass("modalSize")
+
+        $('#loadScreen div.loader').show();
+        e.preventDefault();
+        index();
+    });
     function addRole() {
         $.get('{{route('project.projectcategories.create')}}',function(data){
+            if(data.status==true) {
+                $("#procurementModalBody").html(data.html);
+                $('.selectpicker').selectpicker();
+                $('#procurementModal').modal({
+                    show: true
+                });
+            }
+        });
+    }
+    function addIncome(){
+        $.get('{{route('settings.incomeRange.create')}}',function(data){
+            if(data.status==true) {
+                $("#procurementModalBody").html(data.html);
+                $('.selectpicker').selectpicker();
+                $('#procurementModal').modal({
+                    show: true
+                });
+            }
+        });
+    }
+    function addIssue() {
+        $.get('{{route('activity.lessons.type.create')}}',function(data){
+            if(data.status==true) {
+                $("#procurementModalBody").html(data.html);
+                $('.selectpicker').selectpicker();
+                $('#procurementModal').modal({
+                    show: true
+                });
+            }
+        });
+    }
+    function addIssueSetting() {
+        $.get('{{route('activity.lessons.related.create')}}',function(data){
             if(data.status==true) {
                 $("#procurementModalBody").html(data.html);
                 $('.selectpicker').selectpicker();
@@ -570,6 +783,18 @@
             }
         });
     })
+    $(document).on("click", ".editIssue", function (e) {
+        var val=$(this).attr("data-id");
+        $.get('{{url('settings/issues/type')}}'+'/'+val+'/edit',function(data){
+            if(data.status==true) {
+                $("#procurementModalBody").html(data.html);
+                $('.selectpicker').selectpicker();
+                $('#procurementModal').modal({
+                    show: true
+                });
+            }
+        });
+    })
 function addAchType(){
     $.get('{{route('goals.indicators.measure.unit.create')}}',function(data){
         if(data.status==true) {
@@ -593,6 +818,73 @@ function addAchType(){
             }
         });
     })
+    $(document).on("click", ".editRange", function (e) {
+        var val=$(this).attr("data-id");
+        $.get('{{url('settings/incomeRange')}}'+'/'+val+'/edit',function(data){
+            if(data.status==true) {
+                $("#procurementModalBody").html(data.html);
+                $('.selectpicker').selectpicker();
+                $('#procurementModal').modal({
+                    show: true
+                });
+            }
+        });
+    })
+    $(document).on("click", ".editCurrency", function (e) {
+        var val=$(this).attr("data-id");
+        $.get('{{url('settings/currency')}}'+'/'+val+'/edit',function(data){
+            if(data.status==true) {
+                $("#procurementModalBody").html(data.html);
+                $('.selectpicker').selectpicker();
+                $('#procurementModal').modal({
+                    show: true
+                });
+            }
+        });
+    })
+    $(document).on("click", ".editRelatedIssue", function (e) {
+        var val=$(this).attr("data-id");
+        $.get('{{url('settings/issues/related')}}'+'/'+val+'/edit',function(data){
+            if(data.status==true) {
+                $("#procurementModalBody").html(data.html);
+                $('.selectpicker').selectpicker();
+                $('#procurementModal').modal({
+                    show: true
+                });
+            }
+        });
+    })
+    $(document).on("click", ".editAchievement", function (e) {
+        var val=$(this).attr("data-id");
+        $.get('{{url('settings/achievement/type')}}'+'/'+val+'/edit',function(data){
+            if(data.status==true) {
+                measure=data.measureUnit;
+                $("#render_result").html(data.html);
+            }
+        });
+    })
+    function addCurrency() {
+        $.get('{{route('settings.currency.create')}}',function(data){
+            if(data.status==true) {
+                $("#procurementModalBody").html(data.html);
+                $('.selectpicker').selectpicker();
+                $('#procurementModal').modal({
+                    show: true
+                });
+            }
+        });
+    }
+    function addAch() {
+        // $('#loadScreen div.loader').show();
+        $.get('{{route('settings.achievement.type.create')}}',function(data){
+            if(data.status==true) {
+                $("#render_result").html("");
+                $("#render_result").html(data.html);
+                $('.selectpicker').selectpicker();
+                $('#loadScreen div.loader').hide();
+            }
+        });
+    }
     function appendTable(data,status,count,id,cityname,citynamefo){
         var table = document.getElementById("table");
         var count1=count+1;
@@ -691,20 +983,63 @@ var modalname="delete"+data.id;
         }
         else if(id==5){
             var lang=@json($lang);
-            var url = '{{ route("purchasemethods.delete", ":id") }}';
+            {{--var url = '{{ route("purchasemethods.delete", ":id") }}';--}}
+            // url = url.replace(':id', data.id);
+            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.income_name_na+'</td><td>'+data.income_name_fo+'</td><td> <a  data-id='+data.id+'\n' +
+                '                     class="mytooltip btn-setting-nav editRange"  data-toggle="tooltip" data-placement="top"\n' +
+                '                       title=""\n' +
+                '                    >\n' +
+                '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                '                    </a> </td></tr>';
+        }
+        else if(id==6){
+            var lang=@json($lang);
+            var url = '{{ route("settings.currency.delete", ":id") }}';
             url = url.replace(':id', data.id);
-            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.method_name_na+'</td><td>'+data.method_name_fo+'</td><td> <a  data-id='+data.id+'\n' +
-                '                     class="mytooltip btn-setting-nav editPurchase"  data-toggle="tooltip" data-placement="top"\n' +
+            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.currency_name_na+'</td><td>'+data.currency_name_fo+'</td><td> <a href="#" data-id='+data.id+'\n' +
+                '                     class=" mytooltip btn-setting-nav editCurrency"  data-toggle="tooltip" data-placement="top"\n' +
                 '                       title=""\n' +
                 '                    >\n' +
                 '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
                 '                    </a> <a href='+url+'\n' +
-                '                        rel="tooltip" class="mytooltip btn-setting-nav btnTypeDeleteMethod"\n' +
+                '                        rel="tooltip" class="mytooltip btn-setting-nav btnCDelete"\n' +
                 '                        data-placement="top"  title=" ">\n' +
                 '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
-                '                </button>\n</td></tr>';
-        }
+                '                </a>\n</td></tr>';
 
+        }
+        else if(id==7){
+            var lang=@json($lang);
+            var url = '{{ route("activity.lessons.type.delete", ":id") }}';
+            url = url.replace(':id', data.id);
+            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.activity_lessons_type_name_na+'</td><td>'+data.activity_lessons_type_name_fo+'</td><td> <a href="#" data-id='+data.id+'\n' +
+                '                     class=" mytooltip btn-setting-nav editIssue"  data-toggle="tooltip" data-placement="top"\n' +
+                '                       title=""\n' +
+                '                    >\n' +
+                '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                '                    </a> <a href='+url+'\n' +
+                '                        rel="tooltip" class="mytooltip btn-setting-nav  btnIssueDelete"\n' +
+                '                        data-placement="top"  title=" ">\n' +
+                '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
+                '                </a>\n</td></tr>';
+
+        }
+        else if(id==8){
+            var lang=@json($lang);
+            var url = '{{ route("activity.lessons.related.delete", ":id") }}';
+            url = url.replace(':id', data.id);
+            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.activity_lessons_related_name_na+'</td><td>'+data.activity_lessons_related_name_fo+'</td><td> <a href="#" data-id='+data.id+'\n' +
+                '                     class=" mytooltip btn-setting-nav editRelatedIssue"  data-toggle="tooltip" data-placement="top"\n' +
+                '                       title=""\n' +
+                '                    >\n' +
+                '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                '                    </a> <a href='+url+'\n' +
+                '                        rel="tooltip" class="mytooltip btn-setting-nav  btnRelatedtDelete"\n' +
+                '                        data-placement="top"  title=" ">\n' +
+                '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
+                '                </a>\n</td></tr>';
+
+        }
         $(markup).insertAfter("#table tr:first");
         $('#procurementModal').modal('hide');
         // }
@@ -733,8 +1068,20 @@ var modalname="delete"+data.id;
             $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.unit_name_no);
         }
         else if(id==5){
-            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.method_name_na);
-            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.method_name_fo);
+            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.income_name_na);
+            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.income_name_fo);
+        }
+        else if(id==6){
+            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.currency_name_na);
+            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.currency_name_fo);
+        }
+        else if(id==7){
+            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.activity_lessons_type_name_na);
+            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.activity_lessons_type_name_fo);
+        }
+        else if(id==8){
+            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data. activity_lessons_related_name_na);
+            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data. activity_lessons_related_name_fo);
         }
         $('#procurementModal').modal('hide');
     }
@@ -749,6 +1096,43 @@ var modalname="delete"+data.id;
            }
        });
     }
+    function  index() {
+        $.get('{{route('settings.achievement.type')}}',function(data){
+            if(data.status==true){
+                $("#render_result").html(data.html);
+                measure=data.measureUnit;
+                $('#loadScreen div.loader').hide();
+                var lang=@json($lang);
+                if(lang==1)
+                    $("#title").html($("#achievement").attr("data-nameeng"));
+                else
+                    $("#title").html($("#achievement").attr("data-namear"))
+                $("#add").html("<a href=\"#\" onclick='addAch()' id='addAch' class=\"mytooltip btn-setting-nav add\"\n" +
+                    "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
+                    "               title=\"\" >\n" +
+                    "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add Achievement</span></a>\n" +
+                    "            </span> </h4>");
+                // $('#table').DataTable().ajax.reload();
+                DataTableCall('#table',4);
+                $("#table_length").html("");
+                $("#table_filter").html("");
+                        {{--                            @include('setting.c.city.location_script');--}}
+
+                var table = $('#table').DataTable();
+
+// Sort by columns 1 and 2 and redraw
+                table
+                    .order( [0, 'desc' ] )
+                    .draw();
+
+            }else{
+
+            }
+        });
+    }
+    function measureVal(){
+        return measure;
+        }
     </script>
 @endsection
 @section('js')

@@ -130,7 +130,7 @@ class DonorController extends Controller
         $screenName = screenName(6);
         $userPermissions = getUserPermission();
 
-        return view('project.donors.edit', compact('html', 'screenName', 'data', 'labels','userPermissions'));
+        return view('project.donors.edit', compact('html', 'screenName', 'labels','userPermissions'));
     }
 
     public function store(Request $request)

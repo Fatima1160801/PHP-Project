@@ -21,46 +21,47 @@
                 <i class="material-icons">add</i></a>
 
             </span> </h4>
-            <table class="table dataTable no-footer table-bordered" id="table">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>
-                        {{$labels['Name_English_IncomeRange'] ?? 'Name_English_IncomeRange'}}
-                    </th>
-                    <th>
-                        {{$labels['Name_Arabic_IncomeRange'] ?? 'Name_Arabic_IncomeRange'}}
+            @include('project.projectcategories.table_rander')
+{{--            <table class="table dataTable no-footer table-bordered" id="table">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th>#</th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['Name_English_IncomeRange'] ?? 'Name_English_IncomeRange'}}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['Name_Arabic_IncomeRange'] ?? 'Name_Arabic_IncomeRange'}}--}}
 
-                    </th>
-                    <th>
-                        {{$labels['actions'] ?? 'actions'}}
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($incomeRanges  as $index => $incomeRange)
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['actions'] ?? 'actions'}}--}}
+{{--                    </th>--}}
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
+{{--                @foreach($incomeRanges  as $index => $incomeRange)--}}
 
-                    <tr>
-                        <td>{{$index+1}}</td>
-                        <td>{{$incomeRange->income_name_na}}</td>
-                        <td>{{$incomeRange->income_name_fo}}</td>
-                         <td>
-                            <a href="{{route('settings.incomeRange.edit',$incomeRange->id)}}"
-                               class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"
-                               title="{{$labels['edit'] ?? 'edit'}} " >
-                                <i class="material-icons">edit</i>
-                            </a>
-                        {{--<button type="button" href="{{ route('settings.incomeRange.delete',$incomeRange->id )}}"--}}
-                                    {{--rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnDelete"--}}
-                                    {{--data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">--}}
-                                {{--<i class="material-icons">delete</i>--}}
-                            {{--</button>--}}
-                        </td>
-                    </tr>
+{{--                    <tr>--}}
+{{--                        <td>{{$index+1}}</td>--}}
+{{--                        <td>{{$incomeRange->income_name_na}}</td>--}}
+{{--                        <td>{{$incomeRange->income_name_fo}}</td>--}}
+{{--                         <td>--}}
+{{--                            <a href="{{route('settings.incomeRange.edit',$incomeRange->id)}}"--}}
+{{--                               class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"--}}
+{{--                               title="{{$labels['edit'] ?? 'edit'}} " >--}}
+{{--                                <i class="material-icons">edit</i>--}}
+{{--                            </a>--}}
+{{--                        --}}{{--<button type="button" href="{{ route('settings.incomeRange.delete',$incomeRange->id )}}"--}}
+{{--                                    --}}{{--rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnDelete"--}}
+{{--                                    --}}{{--data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">--}}
+{{--                                --}}{{--<i class="material-icons">delete</i>--}}
+{{--                            --}}{{--</button>--}}
+{{--                        </td>--}}
+{{--                    </tr>--}}
 
-                @endforeach
-                </tbody>
-            </table>
+{{--                @endforeach--}}
+{{--                </tbody>--}}
+{{--            </table>--}}
             <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.othersettings.screen')}}"'>Back</button>
 
         </div>

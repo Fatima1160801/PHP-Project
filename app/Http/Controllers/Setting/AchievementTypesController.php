@@ -22,24 +22,33 @@ class AchievementTypesController extends Controller
     $this->middleware('auth');
   }
 
-  public function index()
+  public function index(Request $request)
   {
-    is_permitted(125, getClassName(__CLASS__), __FUNCTION__, 295, 7);
+      is_permitted(125, getClassName(__CLASS__), __FUNCTION__, 295, 7);
 
-    $achievements = AchievementTypes::get();
-    $messageDeleteAchievement = getMessage('2.199');
-    $messageDeleteAchievementMetric = getMessage('2.400');
-    $labels = inputButton(Auth::user()->lang_id, 125);
-    $userPermissions = getUserPermission();
-
-    return view('setting.achievement.index', compact('labels', 'achievements',
-        'messageDeleteAchievement',
-        'messageDeleteAchievementMetric',
-        'userPermissions'));
+      $achievements = AchievementTypes::get();
+      $messageDeleteAchievement = getMessage('2.199');
+      $messageDeleteAchievementMetric = getMessage('2.400');
+      $labels = inputButton(Auth::user()->lang_id, 125);
+      $userPermissions = getUserPermission();
+      $id = 1;
+      if ($request->ajax()) {
+          $id = 2;
+          $html = view('setting.achievement.rende_table', compact('labels', 'achievements',
+              'messageDeleteAchievement',
+              'messageDeleteAchievementMetric',
+              'userPermissions', 'id'))->render();
+          return response(['status' => true, 'html' => $html]);
+      } else {
+          return view('setting.achievement.index', compact('labels', 'achievements',
+              'messageDeleteAchievement',
+              'messageDeleteAchievementMetric',
+              'userPermissions','id'));
+      }
   }
 
 
-  public function create()
+  public function create(Request $request)
   {
     is_permitted(125, getClassName(__CLASS__), 'store', 296, 1);
 
@@ -64,12 +73,18 @@ class AchievementTypesController extends Controller
     $html = $generator[0];
     $labels = $generator[1];
     $userPermissions = getUserPermission();
+      $id=1;
+      if($request->ajax()){
+          $id=2;
+          $html =view('setting.achievement.create_render', compact('labels', 'html', 'userPermissions','measureUnit','id'))->render();
+          return response(['status' => true, 'html' =>$html,'measureUnit'=>$measureUnit]);
 
-    return view('setting.achievement.create', compact('labels', 'html', 'userPermissions', 'measureUnit'));
+      }
+    return view('setting.achievement.create', compact('labels', 'html', 'userPermissions', 'measureUnit','id'));
   }
 
 
-  public function store(Request $request)
+  public function store(Request $request,$id)
   {
     is_permitted(125, getClassName(__CLASS__), 'store', 296, 1);
 
@@ -82,8 +97,9 @@ class AchievementTypesController extends Controller
     inputValidator($data, $optionValidator);
 
     $field = $data['field'];
+    $idObject=$field['id'];
     $data = DB::transaction(function () use ($request, $field) {
-      $achievementType = new AchievementTypes();
+        $achievementType = new AchievementTypes();
       $achievementType->fill($field);
       $achievementType->created_by = Auth::id();
       $achievementType->is_hidden = 0;
@@ -112,12 +128,14 @@ class AchievementTypesController extends Controller
       notifications(getClassName(__CLASS__), __FUNCTION__, route('settings.achievement.type.edit', $achievementType->id));
       return $achievementType;
     });
+    if($id==1)
     return redirect()->route('settings.achievement.type.edit', $data->id)->with('message', getMessage('2.2'));
-
+else
+    return response(['status'=>true,'message'=>getMessage('2.1'),'id'=>$idObject]);
     //  return response(['status' => 'true', 'message' => getMessage('2.1')]);
   }
 
-  public function edit($id)
+  public function edit(Request $request,$id)
   {
     is_permitted(125, getClassName(__CLASS__), 'update', 297, 2);
 
@@ -139,13 +157,20 @@ class AchievementTypesController extends Controller
     $labels = $generator[1];
     $userPermissions = getUserPermission();
     $messageDeleteAchievementMetric = getMessage('2.400');
+      $id1=1;
+      if($request->ajax()){
+          $id1=2;
+          $html =view('setting.achievement.update_render', compact('messageDeleteAchievementMetric', 'labels', 'html', 'userPermissions', 'measureUnit', 'achievementTypesMetrics', 'id','id1'))->render();
+          return response(['status' => true, 'html' =>$html,'measureUnit'=>$measureUnit]);
 
+      }
+      else
 
     return view('setting.achievement.edit', compact(
-        'messageDeleteAchievementMetric', 'labels', 'html', 'userPermissions', 'measureUnit', 'achievementTypesMetrics', 'id'));
+        'messageDeleteAchievementMetric', 'labels', 'html', 'userPermissions', 'measureUnit', 'achievementTypesMetrics', 'id','id1'));
   }
 
-  public function update($id, Request $request)
+  public function update($id, Request $request,$id1)
   {
     is_permitted(125, getClassName(__CLASS__), 'update', 297, 2);
 
@@ -158,6 +183,7 @@ class AchievementTypesController extends Controller
 
     $field = $data['field'];
     $field['id'] = $id;
+    $idObject=$request->$id;
     DB::transaction(function () use ($request, $field) {
 
       /*
@@ -195,7 +221,6 @@ class AchievementTypesController extends Controller
       $achievementType->fill($field);
       $achievementType->updated_by = Auth::id();
       $achievementType->save();
-
       if ($request->has('metric_no_edit')) {
 
         if (count($request->get('metric_no_edit')) > 0) {
@@ -252,8 +277,10 @@ class AchievementTypesController extends Controller
       notifications(getClassName(__CLASS__), __FUNCTION__, route('settings.achievement.type.edit', $achievementType->id));
 
     });
-
-    return redirect()->back()->with('message', getMessage('2.2'));
+      if($id1==1)
+          return redirect()->back()->with('message', getMessage('2.2'));
+      else
+          return response(['status'=>true,'message'=>getMessage('2.2'),'id'=>$idObject]);
     // return response(['status' => true, 'message' => getMessage('2.2')]);
   }
 

@@ -48,7 +48,7 @@
                         {{$labels['back'] ?? 'back'}}
                     </a>
                     @else
-                        <button type="button" id="index" class="btn btn-default btn-sm" onclick="showIndex(1)" data-dismiss="modal"><div class="loader pull-left " style="display: none;"></div>Back</button>
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
 
                     @endif
                     @if($save==1)

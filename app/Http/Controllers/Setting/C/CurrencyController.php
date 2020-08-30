@@ -21,29 +21,46 @@ class CurrencyController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-         is_permitted(107, getClassName(__CLASS__),'index', 160, 7);
+        is_permitted(107, getClassName(__CLASS__), 'index', 160, 7);
 
         $currencies = Currencies::all();
         $messageDeleteCity = getMessage('2.181');
-        $labels = inputButton(Auth::user()->lang_id,0);
+        $labels = inputButton(Auth::user()->lang_id, 0);
         $userPermissions = getUserPermission();
-
-        return view('setting.c.currency.index',compact('labels','currencies','messageDeleteCity','userPermissions'));
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('setting.c.currency.table_render', compact('labels', 'currencies', 'messageDeleteCity', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('setting.c.currency.index', compact('labels', 'currencies', 'messageDeleteCity', 'userPermissions', 'id'));
+        }
     }
 
-
-    public function getCreate()
+    public function getCreate(Request $request)
     {
        is_permitted(107, getClassName(__CLASS__),'store', 161, 1);
-        $option = [];
+        $option = [ 'currency_name_na' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-5', 'col_input_Class' => 'col-md-7'],
+            'currency_name_fo' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-5', 'col_input_Class' => 'col-md-7'
+            ],'currency_symbol' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-5', 'col_input_Class' => 'col-md-7']
+        ];
         $currency = new Currencies();
         $generator = generator(107, $option, $currency);
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('setting.c.currency.create', compact('labels','html','userPermissions'));
+        $save=1;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('setting.c.currency.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        else
+        return view('setting.c.currency.create', compact('labels','html','userPermissions','save','id'));
     }
 
 
@@ -71,15 +88,18 @@ class CurrencyController extends Controller
 
         notifications(getClassName(__CLASS__),__FUNCTION__,route('settings.cities.edit',$currency->id));
 
-        return response(['status' => 'true', 'message' => getMessage('2.87')]);
+        return response(['status' => 'true', 'message' => getMessage('2.1'),'city'=>$currency]);
     }
 
 
-    public function getEdit($id)
+    public function getEdit(Request $request,$id)
     {
       is_permitted(107, getClassName(__CLASS__),'update', 162, 2);
 
-        $option = [];
+        $option = [ 'currency_name_na' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-5', 'col_input_Class' => 'col-md-7'],
+            'currency_name_fo' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-5', 'col_input_Class' => 'col-md-7'
+            ],'currency_symbol' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-5', 'col_input_Class' => 'col-md-7']
+        ];
 
         $currency = Currencies::find($id);
 
@@ -87,7 +107,15 @@ class CurrencyController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
+        $save=2;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('setting.c.currency.create_render', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
+        }
+        else
         return view('setting.c.currency.update', compact('labels','html','userPermissions'));
     }
 
@@ -115,7 +143,7 @@ class CurrencyController extends Controller
 
         notifications(getClassName(__CLASS__),__FUNCTION__,route('settings.cities.edit',$currency->id));
 
-        return response(['success' => true,'message' => getMessage('2.88')]);
+        return response(['success' => true,'message' => getMessage('2.2'),'city'=>$currency]);
     }
 
 

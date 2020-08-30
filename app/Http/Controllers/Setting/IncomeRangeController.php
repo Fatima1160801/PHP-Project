@@ -17,25 +17,30 @@ class IncomeRangeController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-       is_permitted(66, getClassName(__CLASS__),'index', 140, 7);
+        is_permitted(66, getClassName(__CLASS__), 'index', 140, 7);
 
-        $incomeRanges  = IncomeRange::all();
+        $incomeRanges = IncomeRange::all();
         $messageDelete = getMessage('2.114');
         $labels = inputButton(Auth::user()->lang_id, 66);
         $userPermissions = getUserPermission();
-
-        return view('setting.incomeRange.index',compact('labels','incomeRanges','messageDelete','userPermissions'));
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('setting.incomeRange.table_render', compact('labels', 'incomeRanges', 'messageDelete', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('setting.incomeRange.index', compact('labels', 'incomeRanges', 'messageDelete', 'userPermissions', 'id'));
+        }
     }
-
-    public function create()
+    public function create(Request $request)
     {
          is_permitted(66, getClassName(__CLASS__),'store', 141, 1);
 
         $option = [
-            'income_name_na' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
-            'income_name_fo' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8']
+            'income_name_na' => ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
+            'income_name_fo' => ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8']
            , 'is_hidden' =>['html_type'=>'13']
         ];
 
@@ -45,8 +50,16 @@ class IncomeRangeController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
+        $save=1;
+        $id=1;
+        if($request->ajax()){
+            $id=2;
+            $html =view('setting.incomeRange.render_create', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('setting.incomeRange.create', compact('labels','html','userPermissions'));
+        }
+        else
+        return view('setting.incomeRange.create', compact('labels','html','userPermissions','save','id'));
     }
 
 
@@ -74,18 +87,18 @@ class IncomeRangeController extends Controller
 
         notifications(getClassName(__CLASS__),__FUNCTION__,route('settings.incomeRange.edit',$incomeRanges->id));
 
-        return response(['success' => true, 'message' => getMessage('2.1')]);
+        return response(['success' => true, 'message' => getMessage('2.1'),'city'=>$incomeRanges]);
     }
 
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
     is_permitted(66, getClassName(__CLASS__),'update', 142, 2);
 
         $option = [
-            'income_name_na' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
-            'income_name_fo' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
-            'is_hidden' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8','selectArray' => ['0' => 'Active', '1' => 'Inactive']]
+            'income_name_na' => ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
+            'income_name_fo' => ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
+            'is_hidden' => ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8','selectArray' => ['0' => 'Active', '1' => 'Inactive']]
         ];
 
         $incomeRange = IncomeRange::find($id);
@@ -93,8 +106,15 @@ class IncomeRangeController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
+        $save=2;
+        if($request->ajax()){
+            $id=2;
+            $html =view('setting.incomeRange.render_create', compact('labels', 'html', 'userPermissions','save','id'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('setting.incomeRange.edit', compact('labels','html','userPermissions'));
+        }
+        else
+        return view('setting.incomeRange.edit', compact('labels','html','userPermissions','save','id'));
     }
 
 
@@ -117,7 +137,7 @@ class IncomeRangeController extends Controller
         Log::instance()->save();
         $incomeRange->save();
         notifications(getClassName(__CLASS__),__FUNCTION__,route('settings.incomeRange.edit',$incomeRange->id));
-        return response(['success' => true,'message' => getMessage('2.2')]);
+        return response(['success' => true,'message' => getMessage('2.2'),'city'=>$incomeRange]);
     }
 
 

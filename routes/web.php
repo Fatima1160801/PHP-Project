@@ -316,9 +316,9 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
 
     Route::get('settings/achievement/type', ['uses' => 'Setting\AchievementTypesController@index', 'as' => 'settings.achievement.type']);
     Route::get('settings/achievement/type/create', ['uses' => 'Setting\AchievementTypesController@create', 'as' => 'settings.achievement.type.create']);
-    Route::post('settings/achievement/type/store', ['uses' => 'Setting\AchievementTypesController@store', 'as' => 'settings.achievement.type.store']);
+    Route::post('settings/achievement/type/store/{id1}', ['uses' => 'Setting\AchievementTypesController@store', 'as' => 'settings.achievement.type.store']);
     Route::get('settings/achievement/type/{id}/edit', ['uses' => 'Setting\AchievementTypesController@edit', 'as' => 'settings.achievement.type.edit']);
-    Route::post('settings/achievement/type/update/{id}', ['uses' => 'Setting\AchievementTypesController@update', 'as' => 'settings.achievement.type.update']);
+    Route::post('settings/achievement/type/update/{id}/{id1}', ['uses' => 'Setting\AchievementTypesController@update', 'as' => 'settings.achievement.type.update']);
     Route::delete('settings/achievement/type/delete/{id}', ['uses' => 'Setting\AchievementTypesController@delete', 'as' => 'settings.achievement.type.delete']);
     Route::delete('settings/achievement/metric/delete/{id}', ['uses' => 'Setting\AchievementTypesController@deleteAchievement', 'as' => 'settings.achievement.metric.delete']);
 

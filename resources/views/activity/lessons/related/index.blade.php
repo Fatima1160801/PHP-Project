@@ -1,7 +1,6 @@
 @extends('layouts._layout')
 
 @section('content')
-
      <div class="card ">
 {{--        <div class="card-header card-header-rose card-header-text">--}}
 {{--            <div class="card-icon">--}}
@@ -29,50 +28,52 @@
             </a>
 
             </span></h4>
-            <table class="table dataTable no-footer table-bordered" id="table">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>
+            @include('activity.lessons.related.render_table')
 
-                        {{$labels['activity_lessons_related_name_na']??'activity_lessons_related_name_na'}}
-                    </th>
-                    <th>
+{{--            <table class="table dataTable no-footer table-bordered" id="table">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th>#</th>--}}
+{{--                    <th>--}}
 
-                        {{$labels['activity_lessons_related_name_fo']??'activity_lessons_related_name_fo'}}
+{{--                        {{$labels['activity_lessons_related_name_na']??'activity_lessons_related_name_na'}}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
 
-                    </th>
+{{--                        {{$labels['activity_lessons_related_name_fo']??'activity_lessons_related_name_fo'}}--}}
 
-                    <th>
-                        {{$labels['actions'] ?? 'actions'}}
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($lessons_related  as $index => $related)
+{{--                    </th>--}}
 
-                    <tr>
-                        <td>{{$index+1}}</td>
-                        <td>{{$related->activity_lessons_related_name_na}}</td>
-                        <td>{{$related->activity_lessons_related_name_fo}}</td>
+{{--                    <th>--}}
+{{--                        {{$labels['actions'] ?? 'actions'}}--}}
+{{--                    </th>--}}
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
+{{--                @foreach($lessons_related  as $index => $related)--}}
 
-                        <td>
-                            <a href="{{route('activity.lessons.related.edit',$related->id)}}"
-                               class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"
-                               title="{{$labels['edit'] ?? 'edit'}} ">
-                                <i class="material-icons">edit</i>
-                            </a>
-                            <button type="button" href="{{ route('activity.lessons.related.delete',$related->id )}}"
-                                    rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnDistrictDelete"
-                                    data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">
-                                <i class="material-icons">delete</i>
-                            </button>
-                        </td>
-                    </tr>
+{{--                    <tr>--}}
+{{--                        <td>{{$index+1}}</td>--}}
+{{--                        <td>{{$related->activity_lessons_related_name_na}}</td>--}}
+{{--                        <td>{{$related->activity_lessons_related_name_fo}}</td>--}}
 
-                @endforeach
-                </tbody>
-            </table>
+{{--                        <td>--}}
+{{--                            <a href="{{route('activity.lessons.related.edit',$related->id)}}"--}}
+{{--                               class="btn btn-sm btn-success btn-round btn-fab"  data-toggle="tooltip" data-placement="top"--}}
+{{--                               title="{{$labels['edit'] ?? 'edit'}} ">--}}
+{{--                                <i class="material-icons">edit</i>--}}
+{{--                            </a>--}}
+{{--                            <button type="button" href="{{ route('activity.lessons.related.delete',$related->id )}}"--}}
+{{--                                    rel="tooltip" class="btn btn-sm btn-danger btn-round btn-fab btnDistrictDelete"--}}
+{{--                                    data-placement="top"  title=" {{$labels['delete'] ?? 'delete'}} ">--}}
+{{--                                <i class="material-icons">delete</i>--}}
+{{--                            </button>--}}
+{{--                        </td>--}}
+{{--                    </tr>--}}
+
+{{--                @endforeach--}}
+{{--                </tbody>--}}
+{{--            </table>--}}
             <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.othersettings.screen')}}"'>Back</button>
 
         </div>
@@ -81,6 +82,7 @@
 
 @endsection
 @section('script')
+    @include('project.projectcategories.othersettings_script')
     <script>
         $(function () {
 
@@ -91,40 +93,40 @@
             $('[data-toggle="tooltip"]').tooltip();
             //CheckSessionStatus(icon = 'done', title = 'SUCCESS', type = 'success', delay = '5000');
 
-            $(document).on('click', '.btnDistrictDelete', function (e) {
-                 e.preventDefault();
-                $this = $(this);
+            {{--$(document).on('click', '.btnDistrictDelete', function (e) {--}}
+            {{--     e.preventDefault();--}}
+            {{--    $this = $(this);--}}
 
-                swal({
-                    text: '{{$messageDeleteLessonsRelateds['text']}}',
-                    confirmButtonClass: 'btn btn-success  btn-sm',
-                    cancelButtonClass: 'btn btn-danger  btn-sm',
-                    buttonsStyling: false,
-                    showCancelButton: true
-                }).then(result => {
-                    if (result == true){
-                        // var project_id = $('#formProjectMain #id').val();
-                        url = $(this).attr('href');
-                        $.ajax({
-                            url: url,
-                            type: 'delete',
-                            beforeSend: function () {
-                            },
-                            success: function (data) {
-                                if (data.status == 'true') {
-                                    $($this).closest('tr').css('background','red').delay(1000).hide(1000);
-                                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                                    $('#contentModal .close').click();
-                                }else {
-                                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                                }
-                            },
-                            error: function () {
-                            }
-                        });
-                    }
-                })
-            });
+            {{--    swal({--}}
+            {{--        text: '{{$messageDeleteLessonsRelateds['text']}}',--}}
+            {{--        confirmButtonClass: 'btn btn-success  btn-sm',--}}
+            {{--        cancelButtonClass: 'btn btn-danger  btn-sm',--}}
+            {{--        buttonsStyling: false,--}}
+            {{--        showCancelButton: true--}}
+            {{--    }).then(result => {--}}
+            {{--        if (result == true){--}}
+            {{--            // var project_id = $('#formProjectMain #id').val();--}}
+            {{--            url = $(this).attr('href');--}}
+            {{--            $.ajax({--}}
+            {{--                url: url,--}}
+            {{--                type: 'delete',--}}
+            {{--                beforeSend: function () {--}}
+            {{--                },--}}
+            {{--                success: function (data) {--}}
+            {{--                    if (data.status == 'true') {--}}
+            {{--                        $($this).closest('tr').css('background','red').delay(1000).hide(1000);--}}
+            {{--                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
+            {{--                        $('#contentModal .close').click();--}}
+            {{--                    }else {--}}
+            {{--                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);--}}
+            {{--                    }--}}
+            {{--                },--}}
+            {{--                error: function () {--}}
+            {{--                }--}}
+            {{--            });--}}
+            {{--        }--}}
+            {{--    })--}}
+            {{--});--}}
 
 
         })

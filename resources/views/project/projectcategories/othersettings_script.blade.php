@@ -183,7 +183,7 @@
         e.preventDefault();
         $this = $(this);
         swal({
-            text: 'Are you sure to delete visit type',
+            text: 'Are you sure to delete visit type?',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -217,7 +217,7 @@
         $this = $(this);
 
         swal({
-            text: 'Are you sure to delete  Measure Unit',
+            text: 'Are you sure to delete  Measure Unit?',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -319,6 +319,612 @@
 
 
     })
+        $(document).on('submit', '#formUpdate', function (e) {
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+
+        e.preventDefault();
+
+        var form = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            beforeSend: function () {
+                $('#btnUpdate').attr("disabled", true);
+                $('.loader').show();
+            },
+            success: function (data) {
+                $('#btnUpdate').attr("disabled", false);
+                $('.loader').hide();
+                if (data.success == true) {
+                    editRow(data.city,"",5,"","");
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    // $('#formUpdate').reset();
+                    resetFormUpdate();
+                    $('.loader').hide();
+                } else if (data.success == false) {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                }
+                //$('#addBenf').prop("disabled", false);
+
+
+
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
+    function resetFormCreate() {
+        $('#formCreate #income_name_na').val('');
+        $('#formCreate #income_name_fo').val('');
+    }
+    function resetFormUpdate() {
+        $('#formUpdate #income_name_na').val('');
+        $('#formUpdate #income_name_fo').val('');
+    }
+
+
+    $(document).on('submit', '#formCreate', function (e) {
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+
+        e.preventDefault();
+
+        var form = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            beforeSend: function () {
+                $('#btnSave').attr("disabled", true);
+                $('.loader').show();
+            },
+            success: function (data) {
+                $('#btnSave').attr("disabled", false);
+                $('.loader').hide();
+                if (data.success == true) {
+                    var table = $('#table').dataTable();
+                    //Get the total rows
+                    var count=table.fnGetData().length;
+                    appendTable(data.city,"",count,5,"","");
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    // $('#formCreate').reset();
+                    resetFormCreate();
+                    $('.loader').hide();
+                } else if (data.success == false) {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                }
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
+        $(document).on('submit', '#formCurrencyCreate', function (e) {
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+
+        e.preventDefault();
+
+        var form = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            beforeSend: function () {
+                $('#btnAddCurrency').attr("disabled", true);
+
+                $('.loader').show();
+            },
+            success: function (data) {
+
+                if (data.status == 'true') {
+                    var table = $('#table').dataTable();
+                    //Get the total rows
+                    var count=table.fnGetData().length;
+                    appendTable(data.city,"",count,6,"","");
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    $('#formCurrencyCreate')[0].reset();
+                    $('#btnAddCurrency').attr("disabled", false);
+                    $('.loader').hide();
+
+                } else if (data.status == 'false') {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                }
+                //$('#addBenf').prop("disabled", false);
+
+
+
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
+        $(document).on('submit', '#formCurrencyUpdate', function (e) {
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+
+        e.preventDefault();
+
+        var form = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            beforeSend: function () {
+                $('#btnUpdateCurrency').attr("disabled", true);
+                $('.loader').show();
+            },
+            success: function (data) {
+                $('#btnUpdateCurrency').attr("disabled", false);
+                $('.loader').hide();
+                if (data.success == true) {
+                    editRow(data.city,"",6,"","");
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    // $('#formBeneficiaryCreate').reset();
+                    $('.loader').hide();
+                } else if (data.success == false) {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                }
+
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
+
+    $(document).on('click', '.btnCDelete', function (e) {
+        e.preventDefault();
+        $this = $(this);
+
+        swal({
+            text: 'Are you sure to delete currency?',
+            confirmButtonClass: 'btn btn-success  btn-sm',
+            cancelButtonClass: 'btn btn-danger  btn-sm',
+            buttonsStyling: false,
+            showCancelButton: true
+        }).then(result => {
+            if (result == true){
+                // var project_id = $('#formProjectMain #id').val();
+                url = $(this).attr('href');
+                $.ajax({
+                    url: url,
+                    type: 'delete',
+                    beforeSend: function () {
+                    },
+                    success: function (data) {
+                        if (data.status == 'true') {
+                            $($this).closest('tr').css('background','red').delay(1000).hide(1000);
+                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                            $('#contentModal .close').click();
+                        }else {
+                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        })
+    });
+        $(document).on('submit', '#formLessonsTypeCreate', function (e) {
+        e.preventDefault();
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+        var form = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            beforeSend: function () {
+                $('#btnActTypeCreate').attr("disabled", true);
+                $('.loader').show();
+            },
+            success: function (data) {
+                $('#btnActTypeCreate').attr("disabled", false);
+                $('.loader').hide();
+                if (data.success == true) {
+                    var table = $('#table').dataTable();
+                    //Get the total rows
+                    var count=table.fnGetData().length;
+                    appendTable(data.city,"",count,7,"","");
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    // $('#formActTypeCreate').reset();
+                    $('.loader').hide();
+                } else if (data.success == false) {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                }
+                //$('#addBenf').prop("disabled", false);
+
+
+
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
+        $(document).on('submit', '#formLessonsTypeUpdate', function (e) {
+        e.preventDefault();
+
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+
+        var form = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            beforeSend: function () {
+                $('#btnActTypeUpdate').attr("disabled", true);
+                $('.loader').show();
+            },
+            success: function (data) {
+                $('#btnActTypeUpdate').attr("disabled", false);
+                $('.loader').hide();
+                if (data.success == true) {
+                    editRow(data.city,"",7,"","");
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    // $('#formActTypeUpdate').reset();
+                    $('.loader').hide();
+                } else if (data.success == false) {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                }
+                //$('#addBenf').prop("disabled", false);
+
+
+
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
+    $(document).on('click', '.btnIssueDelete', function (e) {
+        e.preventDefault();
+        $this = $(this);
+
+        swal({
+            text: 'Are you sure to delete issue type?',
+            confirmButtonClass: 'btn btn-success  btn-sm',
+            cancelButtonClass: 'btn btn-danger  btn-sm',
+            buttonsStyling: false,
+            showCancelButton: true
+        }).then(result => {
+            if (result == true) {
+                // var project_id = $('#formProjectMain #id').val();
+                url = $(this).attr('href');
+                $.ajax({
+                    url: url,
+                    type: 'delete',
+                    beforeSend: function () {
+                    },
+                    success: function (data) {
+                        if (data.status == 'true') {
+                            $($this).closest('tr').css('background', 'red').delay(1000).hide(1000);
+                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                            $('#contentModal .close').click();
+                        } else {
+                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        })
+    });
+
+        $(document).on('submit', '#formLessonsRelatedCreate', function (e) {
+        e.preventDefault();
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+        var form = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            beforeSend: function () {
+                $('#btnActTypeCreate').attr("disabled", true);
+                $('.loader').show();
+            },
+            success: function (data) {
+                $('#btnActTypeCreate').attr("disabled", false);
+                $('.loader').hide();
+                if (data.success == true) {
+                    var table = $('#table').dataTable();
+                    //Get the total rows
+                    var count=table.fnGetData().length;
+                    appendTable(data.city,"",count,8,"","");
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    // $('#formActTypeCreate').reset();
+                    $('.loader').hide();
+                } else if (data.success == false) {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                }
+                //$('#addBenf').prop("disabled", false);
+
+
+
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
+        $(document).on('submit', '#formLessonsRelatedUpdate', function (e) {
+        e.preventDefault();
+
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+
+        var form = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            beforeSend: function () {
+                $('#btnActTypeUpdate').attr("disabled", true);
+                $('.loader').show();
+            },
+            success: function (data) {
+                $('#btnActTypeUpdate').attr("disabled", false);
+                $('.loader').hide();
+                if (data.success == true) {
+                    editRow(data.city,"",8,"","");
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    // $('#formActTypeUpdate').reset();
+                    $('.loader').hide();
+                } else if (data.success == false) {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                }
+                //$('#addBenf').prop("disabled", false);
+
+
+
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
+    $(document).on('click', '.btnRelatedtDelete', function (e) {
+        e.preventDefault();
+        $this = $(this);
+
+        swal({
+            text: 'Are you sure to delete related issue type?',
+            confirmButtonClass: 'btn btn-success  btn-sm',
+            cancelButtonClass: 'btn btn-danger  btn-sm',
+            buttonsStyling: false,
+            showCancelButton: true
+        }).then(result => {
+            if (result == true){
+                // var project_id = $('#formProjectMain #id').val();
+                url = $(this).attr('href');
+                $.ajax({
+                    url: url,
+                    type: 'delete',
+                    beforeSend: function () {
+                    },
+                    success: function (data) {
+                        if (data.status == 'true') {
+                            $($this).closest('tr').css('background','red').delay(1000).hide(1000);
+                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                            $('#contentModal .close').click();
+                        }else {
+                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        })
+    });
+    $(document).on('click', '.btnAchievementDelete', function (e) {
+        e.preventDefault();
+        $this = $(this);
+
+        swal({
+            text: 'Are you sure to delete achievement type?',
+            confirmButtonClass: 'btn btn-success  btn-sm',
+            cancelButtonClass: 'btn btn-danger  btn-sm',
+            buttonsStyling: false,
+            showCancelButton: true
+        }).then(result => {
+            if (result == true){
+                // var project_id = $('#formProjectMain #id').val();
+                url = $(this).attr('href');
+                $.ajax({
+                    url: url,
+                    type: 'delete',
+                    beforeSend: function () {
+                    },
+                    success: function (data) {
+                        if (data.status == 'true') {
+                            $($this).closest('tr').css('background','red').delay(1000).hide(1000);
+                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                            $('#contentModal .close').click();
+                        }else {
+                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        })
+    });
+    // $('#formCreate').submit(function (e) {
+    $(document).on('submit', '#formATCreate', function (e) {
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+
+        e.preventDefault();
+
+        var form = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            beforeSend: function () {
+                $('#btnAdd').attr("disabled", true);
+                // $('#btnAdd div. loader').show();
+            },
+            success: function (data) {
+                $('#btnAdd').attr("disabled", false);
+                // $('#btnAdd div.loader').hide();
+                if (data.status == true) {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    // clearForm('#formCreate');
+                    $('.loader').hide();
+                    var url = '{{ route("settings.achievement.type.update",[":id",":id1"]) }}';
+                    url = url.replace(':id', data.id);
+                    url = url.replace(':id1',2);
+
+                    $("#formATCreate").attr("action",url);
+                                    $("#id").val(data.id);
+                } else if (data.status == false) {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                }
+                //$('#addBenf').prop("disabled", false);
+
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
+    var row_id = $('#achievementTypeMetric >tbody >tr').length;
+    var measureUnit = measureVal();
+
+    function addRow() {
+        row_id += 1;
+        var html = ' <tr>';
+        html += '<td style="padding: 1px"> <input required style="width: 100%;" class="form-control " type="text" name="metric_no[' + row_id + ']"></td>';
+        html += '<td style="padding: 1px"><input required style="width: 100%;" class="form-control " type="text" name="metric_fo[' + row_id + ']"></td>';
+        html += '<td style="padding: 1px"><select required class="form-control  selectpicker "  name="unit[' + row_id + ']"  data-style="btn btn-link" >';
+        html += '<option style="height: 37px;" value=""></option>';
+        $.each(measureUnit, function (index, value) {
+            html += '<option style="height: 37px;" value="' + index + '">' + value + '</option>';
+        });
+        html += '</select></td>';
+        html += ' <td style="padding: 1px" >';
+        html += '    <a class="btn btn-danger btn-sm" href="#" id="deleteRow"><i class="fa fa-remove"></i></a>';
+        html += ' </td> </tr>';
+        $('#achievementTypeMetric tbody').append(html);
+        $('.selectpicker').selectpicker('refresh');
+    }
+
+    $(document).on('click', '#AddRowMetric', function (e) {
+        e.preventDefault();
+        addRow();
+    })
+    $(document).on('click', '#deleteRow', function (e) {
+        e.preventDefault();
+        $this = $(this);
+        var href = $(this).attr('href');
+        if (href == '#') {
+            $(this).closest('tr').remove();
+        } else {
+
+            swal({
+                text: 'Are you sure to delete?	',
+                confirmButtonClass: 'btn btn-success  btn-sm',
+                cancelButtonClass: 'btn btn-danger  btn-sm',
+                buttonsStyling: false,
+                showCancelButton: true
+            }).then(result => {
+                if (result == true) {
+                    var url_ = $(this).attr('href');
+                    $.ajax({
+                        url: url_,
+                        type: 'delete',
+                        beforeSend: function () {
+
+                        },
+                        success: function (data) {
+                            if (data.status == 'true') {
+                                $this.closest('tr').css('background', 'red').delay(1000).hide(1000);
+                            }
+                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+
+                        },
+                        error: function () {
+                        }
+                    });
+                }
+            })
+        }
+
+
+    })
+    $(document).on('submit', '#formATUpdate', function (e) {
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+
+        e.preventDefault();
+
+        var form = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            beforeSend: function () {
+                $('#btnAdd').attr("disabled", true);
+                $('#btnAdd div.loader').show();
+            },
+            success: function (data) {
+                $('#btnAdd').attr("disabled", false);
+                $('.loader').hide();
+                if (data.status == true) {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                     $('.loader').hide();
+                } else if (data.status == 'false') {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                }
+
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
 </script>
 @section('js')
     <!-- Forms Validations Plugin -->
