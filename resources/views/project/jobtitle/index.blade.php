@@ -25,11 +25,11 @@
                             <i class="material-icons">add
                             </i>
                         </a></span></h4>
-
-            <table class="table dataTable no-footer table-bordered" id="table">
-                <thead>
-                <tr>
-                    <th colspan="6">
+@include('project.jobtitle.render_table')
+{{--            <table class="table dataTable no-footer table-bordered" id="table">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th colspan="6">--}}
 {{--                        <h4 class="card-title"><span>--}}
 {{--                            {{$labels['job_title'] ?? 'job_title'}}--}}
 
@@ -41,95 +41,95 @@
 {{--                            <i class="material-icons">add--}}
 {{--                            </i>--}}
 {{--                        </a></span></h4>--}}
-                    </th>
-                </tr>
-                <tr>
-                    <th>#</th>
-                    <th>
-                        {{$labels['job_title_enghlish'] ?? 'job_title_enghlish'}}
-                    </th>
-                    <th>
-                        {{$labels['job_title_rabic'] ?? 'job_title_rabic'}}
-                    </th>
-                    <th>
-                        {{$labels['job_title_status'] ?? 'job_title_status'}}
-                    </th>
-                    <th>
-                        {{$labels['used_status'] ?? 'used_status'}}
-                    </th>
-                    <th>
-                        {{$labels['actions'] ?? 'actions'}}
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($jobtitles  as $index=>$jobtitle)
-                    <tr>
-                        <td>{{$index+1}}</td>
-                        <td>{{$jobtitle->job_title_name_na}}</td>
-                        <td>{{$jobtitle->job_title_name_fo}}</td>
-                        <td>
-                            {!! activeLabel($jobtitle->is_hidden ) !!}
-                        </td>
-                        <td>
-                            {!! is_inside_outside($jobtitle->is_inside_outside) !!}
+{{--                    </th>--}}
+{{--                </tr>--}}
+{{--                <tr>--}}
+{{--                    <th>#</th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['job_title_enghlish'] ?? 'job_title_enghlish'}}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['job_title_rabic'] ?? 'job_title_rabic'}}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['job_title_status'] ?? 'job_title_status'}}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['used_status'] ?? 'used_status'}}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['actions'] ?? 'actions'}}--}}
+{{--                    </th>--}}
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
+{{--                @foreach($jobtitles  as $index=>$jobtitle)--}}
+{{--                    <tr>--}}
+{{--                        <td>{{$index+1}}</td>--}}
+{{--                        <td>{{$jobtitle->job_title_name_na}}</td>--}}
+{{--                        <td>{{$jobtitle->job_title_name_fo}}</td>--}}
+{{--                        <td>--}}
+{{--                            {!! activeLabel($jobtitle->is_hidden ) !!}--}}
+{{--                        </td>--}}
+{{--                        <td>--}}
+{{--                            {!! is_inside_outside($jobtitle->is_inside_outside) !!}--}}
 
 
-                        </td>
-                        <td>
-                            <a href="{{route('project.jobtitle.edit',$jobtitle->id)}}"
-                               class="btn btn-success btn-round btn-fab btn-sm" data-toggle="tooltip"
-                               data-placement="top"
-                               title="{{$labels['edit'] ?? 'edit'}}">
-                                <i class="material-icons">edit</i>
-                            </a>
+{{--                        </td>--}}
+{{--                        <td>--}}
+{{--                            <a href="{{route('project.jobtitle.edit',$jobtitle->id)}}"--}}
+{{--                               class="btn btn-success btn-round btn-fab btn-sm" data-toggle="tooltip"--}}
+{{--                               data-placement="top"--}}
+{{--                               title="{{$labels['edit'] ?? 'edit'}}">--}}
+{{--                                <i class="material-icons">edit</i>--}}
+{{--                            </a>--}}
 
-                            <button class="btn btn-danger btn-round btn-fab btn-sm" data-toggle="modal"
-                                    data-target="#delete{{$jobtitle->id}}"
-                                    data-tooltip="tooltip" data-placement="top"
-                                    title="{{$labels['delete'] ?? 'delete'}}"
+{{--                            <button class="btn btn-danger btn-round btn-fab btn-sm" data-toggle="modal"--}}
+{{--                                    data-target="#delete{{$jobtitle->id}}"--}}
+{{--                                    data-tooltip="tooltip" data-placement="top"--}}
+{{--                                    title="{{$labels['delete'] ?? 'delete'}}"--}}
 
-                            >
-                                <i class="material-icons">delete</i>
-                            </button>
-                            {!! Form::close() !!}
+{{--                            >--}}
+{{--                                <i class="material-icons">delete</i>--}}
+{{--                            </button>--}}
+{{--                            {!! Form::close() !!}--}}
 
-                        </td>
-                    </tr>
-                    <!-- Modal -->
-                    <div class="modal" id="delete{{$jobtitle->id}}" tabindex="-1" role="dialog"
-                         aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                                aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title text-center" id="myModalLabel">Delete Job Title
-                                        Confirmation</h4>
-                                </div>
-                                {!! Form::open(['method' => 'DELETE','route' => ['project.jobtitle.destroy', $jobtitle->id],'style'=>'display:inline']) !!}
-                                {{method_field('delete')}}
-                                {{csrf_field()}}
-                                <div class="modal-body">
-                                    <p class="text-center">
-                                        Are you sure you want to delete this?
-                                    </p>
+{{--                        </td>--}}
+{{--                    </tr>--}}
+{{--                    <!-- Modal -->--}}
+{{--                    <div class="modal" id="delete{{$jobtitle->id}}" tabindex="-1" role="dialog"--}}
+{{--                         aria-labelledby="myModalLabel">--}}
+{{--                        <div class="modal-dialog" role="document">--}}
+{{--                            <div class="modal-content">--}}
+{{--                                <div class="modal-header">--}}
+{{--                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span--}}
+{{--                                                aria-hidden="true">&times;</span></button>--}}
+{{--                                    <h4 class="modal-title text-center" id="myModalLabel">Delete Job Title--}}
+{{--                                        Confirmation</h4>--}}
+{{--                                </div>--}}
+{{--                                {!! Form::open(['method' => 'DELETE','route' => ['project.jobtitle.destroy', $jobtitle->id],'style'=>'display:inline']) !!}--}}
+{{--                                {{method_field('delete')}}--}}
+{{--                                {{csrf_field()}}--}}
+{{--                                <div class="modal-body">--}}
+{{--                                    <p class="text-center">--}}
+{{--                                        Are you sure you want to delete this?--}}
+{{--                                    </p>--}}
 
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-success" data-dismiss="modal">No, Cancel
-                                    </button>
-                                    <button type="submit" class="btn btn-warning">Yes, Delete</button>
-                                </div>
-                                {!! Form::close() !!}
+{{--                                </div>--}}
+{{--                                <div class="modal-footer">--}}
+{{--                                    <button type="button" class="btn btn-success" data-dismiss="modal">No, Cancel--}}
+{{--                                    </button>--}}
+{{--                                    <button type="submit" class="btn btn-warning">Yes, Delete</button>--}}
+{{--                                </div>--}}
+{{--                                {!! Form::close() !!}--}}
 
-                            </div>
-                        </div>
-                    </div> <!-- End Modal -->
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div> <!-- End Modal -->--}}
 
-                @endforeach
-                </tbody>
-            </table>
+{{--                @endforeach--}}
+{{--                </tbody>--}}
+{{--            </table>--}}
             <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.users.screen')}}"'>Back</button>
 
         </div>

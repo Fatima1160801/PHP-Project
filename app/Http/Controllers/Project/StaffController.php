@@ -26,18 +26,23 @@ class StaffController extends Controller
   }
 
 
-  public function index()
+  public function index(Request $request)
   {
-    is_permitted('18', 'StaffController', 'index', '31', '7');
+      is_permitted('18', 'StaffController', 'index', '31', '7');
 
-    $staffs = Staff::with('user')->get();
-    $labels = inputButton(Auth::user()->lang_id, 43);
-    $userPermissions = getUserPermission();
-
-    return view('project.staff.index', compact('labels', 'staffs', 'userPermissions'));
+      $staffs = Staff::with('user')->get();
+      $labels = inputButton(Auth::user()->lang_id, 43);
+      $userPermissions = getUserPermission();
+      $id = 1;
+      if ($request->ajax()) {
+          $id = 2;
+          $html = view('project.staff.table_render', compact('labels', 'staffs', 'userPermissions', 'userPermissions', 'id'))->render();
+          return response(['status' => true, 'html' => $html]);
+      } else {
+          return view('project.staff.index', compact('labels', 'staffs', 'userPermissions','id'));
+      }
   }
-
-  public function create()
+  public function create(Request $request)
   {
     is_permitted('18', 'StaffController', 'store', '32', '1');
     $staff = new Staff();
@@ -88,11 +93,19 @@ class StaffController extends Controller
 
     $screenName = screenName(18);
     $userPermissions = getUserPermission();
+      $save=1;
+      $id1=1;
+      if($request->ajax()){
+          $id1=2;
+          $html =view('project.staff.create_render', compact('labels', 'html', 'screenName', 'userPermissions','save','id1'))->render();
+          return response(['status' => true, 'html' =>$html]);
 
+      }
+      else
     return view('project.staff.create', compact('labels', 'html', 'screenName', 'userPermissions'));
   }
 
-  public function store(Request $request)
+  public function store(Request $request,$id)
   {
 
     is_permitted('18', 'StaffController', 'store', '32', '1');
@@ -176,10 +189,14 @@ class StaffController extends Controller
 
     $array = getMessage('2.1');
     //  session(['array' => $array]);
-    return redirect()->route('project.staff.index')->with('array', $array);
+      if($id==1)
+          return redirect()->route('project.staff.index')->with('array', $array);
+      else
+          return response(['status' => true, 'city' =>$user,'message'=>$array]);
+
   }
 
-  public function show($id)
+  public function show(Request $request,$id)
   {
     is_permitted('18', 'StaffController', 'show', '35', '3');
 
@@ -228,11 +245,13 @@ class StaffController extends Controller
 
     $screenName = screenName(18);
     $userPermissions = getUserPermission();
-
-    return view('project.staff.show', compact('labels', 'html', 'screenName', 'data', 'userPermissions'));
+if($id==1)
+    return view('project.staff.show', compact('labels', 'html', 'screenName', 'data', 'userPermissions','id'));
+else
+    return view('project.staff.show_render',compact('labels', 'html', 'screenName', 'data', 'userPermissions','id'));
   }
 
-  public function edit($id)
+  public function edit(Request $request,$id)
   {
     is_permitted('18', 'StaffController', 'update', '33', '2');
     $data = Staff::find($id);
@@ -280,8 +299,16 @@ class StaffController extends Controller
 
     $screenName = screenName(18);
     $userPermissions = getUserPermission();
+      $save=2;
+      $id1=1;
+      if($request->ajax()){
+          $id1=2;
+          $html =view('project.staff.create_render', compact('labels', 'html', 'screenName', 'data', 'userPermissions','save','id1'))->render();
+          return response(['status' => true, 'html' =>$html]);
 
-    return view('project.staff.edit', compact('labels', 'html', 'screenName', 'data', 'userPermissions'));
+      }
+      else
+    return view('project.staff.edit', compact('labels', 'html', 'screenName', 'data', 'userPermissions','save','id1'));
   }
 
   public function update(Request $request)
@@ -383,10 +410,15 @@ class StaffController extends Controller
     notifications(getClassName(__CLASS__), __FUNCTION__, route('project.staff.edit', $staff->id));
     $staff->save();
     $array = getMessage('2.2');
-    return redirect()->route('project.staff.index')->with('array', $array);
+      if($id==1)
+          return redirect()->route('project.staff.index')->with('array', $array);
+
+      else
+          return response(['status' => true, 'city' =>$staff,'message'=>$array]);
+
   }
 
-  public function destroy($id)
+  public function destroy($id,$id1)
   {
 
     is_permitted('18', 'StaffController', 'destroy', '34', '4');
@@ -408,7 +440,11 @@ class StaffController extends Controller
 
       $message = getMessage('2.192');
       session(['array' => $message]);
-      return redirect()->route('project.staff.index');
+        if($id1==1)
+            return redirect()->route('project.staff.index');
+        else
+            return response(['status' => true, 'message' => $message]);
+
     }
 
   }

@@ -1,78 +1,6 @@
 @extends('layouts._layout')
 @section('css')
-    <style>
-        a {
-            color: black;
-        }
-        span {
-            font-weight: 500;
-            font-size: 14px;
-        }
-        .mainli li:hover,.mainli li:active,.mainli li:focus,.mainli li:visited{
-            background: #3699FF !important;
-
-        }
-        .mainli li:hover a,.mainli li:hover i, .mainli li:active a,.mainli li:active i,.mainli li:focus a,.mainli li:focus i,.mainli li:visited a,.mainli li:visited i{
-            color:white !important;
-
-        }
-        .selected-href{
-
-        }
-        .mainli li {
-            padding: 15px !important;
-        }
-        .mainli a,.mainli i {
-            color:#3F4254 !important;
-        }
-        .mainli i {
-            color: #B5B5C3 !important
-        }
-        .default-color{
-            color:#afafaf;
-        }
-        .selected-item,.selected-item i,.selected-item span{
-            background: #3699FF !important;
-            color:white !important;
-
-        }
-        #containerc{
-            margin-right: -88px;
-        }
-        /*#table{*/
-        /*    margin-left:15%;*/
-        /*    !*width:35em;*!*/
-        /*    text-align: center;*/
-        /*}*/
-        #createmodal{
-            margin-top:-15px;
-            /*background-color: #5d76a8;*/
-        }
-        #createmodal .card-title,#createmodal .card-title i{
-            text-align: center;
-            font-size: 19px !important;
-            font-weight: bold;
-            color:#5d76a8;
-        }
-        #createmodal .card-body{
-            margin-top: 20px;
-        }
-        /*#formCityCreate .row .row{*/
-        /*    margin-right: -50px;*/
-        /*}*/
-        /*#formCityCreate  .row{*/
-        /*    margin-right: 22px;*/
-        /*}*/
-
-        #table{
-            margin-left: 0% !important;
-            width: 45em !important;
-        }
-        .table {
-            width: 60em !important;
-        }
-
-    </style>
+    @include('setting.settingsScreens.settings_style')
 @endsection
 @section('content')
 {{--    <div class="row p-4" style="row-gap: 0em;">--}}
@@ -164,7 +92,7 @@
 <div class="container ml-2">
     <div class="row" id="containerc" style="height: 500px;">
         <div class="col-md-3 card p-3 mr-3">
-            <ul class="navbar-nav mainli">
+            <ul class="navbar-nav mailli33">
                 <li class="nav-item mb-3" id="notification" data-nameeng="Notifications" data-namear="الإشعارات" data-value="1">
                     <a href="#"
                        class="navi-link py-4 ">
@@ -238,11 +166,13 @@
 @endsection
 
 @section('script')
-    @include('setting.email.email_script_render')
+{{--    @include('setting.email.email_script_render')--}}
+@include('setting.setting.system_script')
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script>
         $(document).ready(function () {
             active_nev_link('visitType-link');
+            active_nev_link('settings');
             funValidateForm();
             $('input').prop('required',false);
             $('input[id^="label_"]').attr('disabled',true);
@@ -279,7 +209,7 @@
             });
 
             function addSelected(value) {
-                $(".mainli .nav-item").removeClass("selected-item");
+                $(".mailli33 .nav-item").removeClass("selected-item");
                 if (value == 1) {
                     $("#notification").addClass("selected-item");
 
@@ -295,6 +225,24 @@
 
                 }
             }
+        $("#general").click(function (e) {
+            // $('#loadScreen div.loader').show();
+            addSelected($("#general").attr("data-value"));
+            $("#add").html("");
+            $("#title").html("");
+            $("#render_result").html("");
+            // $("#procurementModal").addClass("modalSize")
+            e.preventDefault();
+            $.get('{{route('settings.index')}}',function(data){
+                if(data.status==true) {
+                    $("#render_result").html("");
+                    $("#render_result").html(data.html);
+                    $('.selectpicker').selectpicker();
+                    $('#loadScreen div.loader').hide();
+                }
+            });
+        });
+
     </script>
 @endsection
 @section('js')

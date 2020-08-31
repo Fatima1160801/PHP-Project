@@ -30,7 +30,7 @@ class PermissionController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index($type  ,$id){
+    public function index($type  ,$id,Request $request){
         $labels = inputButton(Auth::user()->lang_id ,0);
 
 
@@ -42,13 +42,17 @@ class PermissionController extends Controller
             $title = 'grant permissions to  user :' . $user->user_full_name;
             return view('permission.permission.index' ,compact('labels','type','user','modules','title','userPermissions'));
         }elseif ($type =='group'){
-
             is_permitted(2, 'PermissionController', 'grantGroup', 4, 5);
              $group = Group::find($id);
             $title = 'grant group to  user :' . $group->group_name;
-
-            return view('permission.permission.index' ,compact('labels','type','group','modules','title','userPermissions'));
-
+            $id1 = 1;
+            if ($request->ajax()) {
+                $id1 = 2;
+                $html = view('permission.permission.render', compact('labels','type','group','modules','title','userPermissions' ,'id1'))->render();
+                return response(['status' => true, 'html' => $html]);
+            } else {
+                return view('permission.permission.index', compact('labels', 'type', 'group', 'modules', 'title', 'userPermissions', 'id1'));
+            }
         }else{
             return redirect('/');
         }

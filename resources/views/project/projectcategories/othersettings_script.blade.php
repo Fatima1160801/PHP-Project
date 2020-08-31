@@ -828,7 +828,7 @@
 
     });
     var row_id = $('#achievementTypeMetric >tbody >tr').length;
-    var measureUnit = measureVal();
+    var measureUnit =[]; //measureVal();
 
     function addRow() {
         row_id += 1;

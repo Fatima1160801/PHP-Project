@@ -1,49 +1,50 @@
 @extends('layouts._layout')
 
 @section('content')
+    @include('project.staff.create_render')
 
-    <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
+{{--    <div class="card ">--}}
+{{--        <div class="card-header card-header-rose card-header-text">--}}
 {{--            <div class="card-icon">--}}
 {{--                <i class="material-icons">business_center--}}
 {{--                </i>--}}
 {{--            </div>--}}
-            <h4 class="card-title">
-                {{$labels['screen_edit_staff_name' ??'screen_edit_staff_name']}}
-            </h4>
+{{--            <h4 class="card-title">--}}
+{{--                {{$labels['screen_edit_staff_name' ??'screen_edit_staff_name']}}--}}
+{{--            </h4>--}}
 
-        </div>
+{{--        </div>--}}
 
-        {!! Form::open(['route' => 'project.staff.update'   ,'novalidate'=>'novalidate','action'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formAdd']) !!}
-        <div class="card-body ">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+{{--        {!! Form::open(['route' => 'project.staff.update'   ,'novalidate'=>'novalidate','action'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formAdd']) !!}--}}
+{{--        <div class="card-body ">--}}
+{{--            @if ($errors->any())--}}
+{{--                <div class="alert alert-danger">--}}
+{{--                    <ul>--}}
+{{--                        @foreach ($errors->all() as $error)--}}
+{{--                            <li>{{ $error }}</li>--}}
+{{--                        @endforeach--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            @endif--}}
 
-            <input type="hidden" name="staff_id" id="staff_id" value="{{$data->id}}">
-            
-                {!! $html !!}
+{{--            <input type="hidden" name="staff_id" id="staff_id" value="{{$data->id}}">--}}
+{{--            --}}
+{{--                {!! $html !!}--}}
 
-            <div class="card-footer ml-auto mr-auto">
-                <div class="ml-auto mr-auto">
-                    <input type="hidden" name="_method" value="PATCH">
-                    <a href="{{route('project.staff.index')}}"class="btn btn-sm btn-default pull-left">
-                        {{$labels['back'] ?? 'back'}}</a>
-                    <button  btn="btnToggleDisabled" type="submit" class="btn btn-rose btn-sm pull-right" id="updateStaff">
-                        {{$labels['save'] ?? 'save'}}
-                        <div class="loader pull-left" style="display: none;">  </div>
-                    </button>
-                </div>
-            </div>
+{{--            <div class="card-footer ml-auto mr-auto">--}}
+{{--                <div class="ml-auto mr-auto">--}}
+{{--                    <input type="hidden" name="_method" value="PATCH">--}}
+{{--                    <a href="{{route('project.staff.index')}}"class="btn btn-sm btn-default pull-left">--}}
+{{--                        {{$labels['back'] ?? 'back'}}</a>--}}
+{{--                    <button  btn="btnToggleDisabled" type="submit" class="btn btn-rose btn-sm pull-right" id="updateStaff">--}}
+{{--                        {{$labels['save'] ?? 'save'}}--}}
+{{--                        <div class="loader pull-left" style="display: none;">  </div>--}}
+{{--                    </button>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-        {!! Form::close() !!}
-    </div>
+{{--        {!! Form::close() !!}--}}
+{{--    </div>--}}
 
 
 

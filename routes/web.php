@@ -327,10 +327,10 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
 
     Route::get('jobtitle/index', ['uses' => 'Project\JobTitleController@index'])->name('project.jobtitle.index');
     Route::get('jobtitle/create', ['uses' => 'Project\JobTitleController@create'])->name('project.jobtitle.create');
-    Route::post('/jobtitle/store', ['uses' => 'Project\JobTitleController@store'])->name('project.jobtitle.store');
+    Route::post('/jobtitle/store/{id}', ['uses' => 'Project\JobTitleController@store'])->name('project.jobtitle.store');
     Route::get('jobtitle/{id}/edit', ['uses' => 'Project\JobTitleController@edit'])->name('project.jobtitle.edit');
-    Route::PUT('/jobtitle/update', ['uses' => 'Project\JobTitleController@update'])->name('project.jobtitle.update');
-    Route::DELETE('/jobtitle/{id}', ['uses' => 'Project\JobTitleController@destroy'])->name('project.jobtitle.destroy');
+    Route::post('/jobtitle/update/{id}', ['uses' => 'Project\JobTitleController@update'])->name('project.jobtitle.update');
+    Route::DELETE('/jobtitle/{id}/{id1}', ['uses' => 'Project\JobTitleController@destroy'])->name('project.jobtitle.destroy');
 
     Route::get('staff/index', ['uses' => 'Project\StaffController@index'])->name('project.staff.index');
     Route::get('staff/create', ['uses' => 'Project\StaffController@create'])->name('project.staff.create');

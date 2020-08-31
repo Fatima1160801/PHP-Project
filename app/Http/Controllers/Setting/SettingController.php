@@ -21,40 +21,45 @@ class SettingController extends Controller
     $this->middleware('auth');
   }
 
-  public function index()
+  public function index(Request $request)
   {
-    is_permitted(81, 'SettingController', 'update', 233, 2);
+      is_permitted(81, 'SettingController', 'update', 233, 2);
 
-    $setting = Setting::first();
+      $setting = Setting::first();
 
-    if ($setting == null) {
-      $setting = new Setting();
-    }
+      if ($setting == null) {
+          $setting = new Setting();
+      }
 
-    $project_objective_based_on_array = [
-        1 => ['0' => 'Stratigic Plan objective', '1' => 'Program objective'],
-        2 => ['0' => 'الخطة الاستراتيجية', '1' => 'البرنامج'],
-    ];
-    $project_objective_based_on = ['selectArray' => $project_objective_based_on_array[Auth::user()->lang_id]];
+      $project_objective_based_on_array = [
+          1 => ['0' => 'Stratigic Plan objective', '1' => 'Program objective'],
+          2 => ['0' => 'الخطة الاستراتيجية', '1' => 'البرنامج'],
+      ];
+      $project_objective_based_on = ['selectArray' => $project_objective_based_on_array[Auth::user()->lang_id]];
 
 
-    $option = [
-        'organization_mobile' => ["inputClass" => "check-is-number"],
-        'organization_tel' => ["inputClass" => "check-is-number"],
-        'organization_fax' => ["inputClass" => "check-is-number"],
-        'run_time_recording' => ["attr" => " min='5' "],
-        'project_objective_based_on' => $project_objective_based_on,
-    ];
+      $option = [
+          'organization_mobile' => ["inputClass" => "check-is-number"],
+          'organization_tel' => ["inputClass" => "check-is-number"],
+          'organization_fax' => ["inputClass" => "check-is-number"],
+          'run_time_recording' => ["attr" => " min='5' "],
+          'project_objective_based_on' => $project_objective_based_on,
+      ];
 
-    $generator = generator(81, $option, $setting);
-    $html = $generator[0];
-    $labels = $generator[1];
-    $userPermissions = getUserPermission();
+      $generator = generator(81, $option, $setting);
+      $html = $generator[0];
+      $labels = $generator[1];
+      $userPermissions = getUserPermission();
+      $id = 1;
+      if ($request->ajax()) {
+          $id = 2;
+          $html = view('setting.setting.create_rende', compact('labels', 'html', 'userPermissions', 'id'))->render();
+          return response(['status' => true, 'html' => $html]);
+      } else {
+          return view('setting.setting.index', compact('labels', 'html', 'userPermissions','id'));
+      }
 
-    return view('setting.setting.index', compact('labels', 'html', 'userPermissions'));
   }
-
-
   public function update_(Request $request)
   {
     is_permitted(81, 'SettingController', 'update', 233, '2');

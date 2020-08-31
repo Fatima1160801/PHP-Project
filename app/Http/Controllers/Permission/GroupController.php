@@ -29,15 +29,21 @@ class GroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         is_permitted('2', 'GroupController', 'index', '8', '7');
 
         $groups = Group::get();
-        $labels = inputButton(Auth::user()->lang_id ,0);
+        $labels = inputButton(Auth::user()->lang_id, 0);
         $userPermissions = getUserPermission();
-
-        return view('permission.group.index', compact('labels','groups','userPermissions'));
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('permission.group.render_table', compact('labels', 'groups', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('permission.group.index', compact('labels', 'groups', 'userPermissions','id'));
+        }
     }
 
     public function store(Request $request)
