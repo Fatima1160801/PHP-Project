@@ -76,6 +76,7 @@ class AchievementTypesController extends Controller
       $id=1;
       if($request->ajax()){
           $id=2;
+
           $html =view('setting.achievement.create_render', compact('labels', 'html', 'userPermissions','measureUnit','id'))->render();
           return response(['status' => true, 'html' =>$html,'measureUnit'=>$measureUnit]);
 

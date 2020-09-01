@@ -50,9 +50,9 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
 
     Route::get('permission/user/index', ['uses' => 'Permission\UserController@index'])->name('permission.user.index');
     Route::get('permission/user/create', ['uses' => 'Permission\UserController@create'])->name('permission.user.create');
-    Route::post('/permission/user/store', ['uses' => 'Permission\UserController@store'])->name('permission.user.store');
+    Route::post('/permission/user/store/{id}', ['uses' => 'Permission\UserController@store'])->name('permission.user.store');
     Route::get('permission/user/{id}/edit', ['uses' => 'Permission\UserController@edit'])->name('permission.user.edit');
-    Route::put('/permission/user/update', ['uses' => 'Permission\UserController@update'])->name('permission.user.update');
+    Route::post('/permission/user/update/{id}', ['uses' => 'Permission\UserController@update'])->name('permission.user.update');
     Route::post('permission/user/updateDataPerms', ['uses' => 'Permission\UserController@updateDataPerms'])->name('permission.user.updateDataPerms');
     Route::get('permission/user/editmyprofile', ['uses' => 'Permission\UserController@editMyProfile'])->name('permission.user.editMyProfile');
     Route::post('permission/user/updatemyprofile', ['uses' => 'Permission\UserController@updateMyProfile'])->name('permission.user.updateMyProfile');
@@ -333,11 +333,11 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::DELETE('/jobtitle/{id}/{id1}', ['uses' => 'Project\JobTitleController@destroy'])->name('project.jobtitle.destroy');
 
     Route::get('staff/index', ['uses' => 'Project\StaffController@index'])->name('project.staff.index');
-    Route::get('staff/create', ['uses' => 'Project\StaffController@create'])->name('project.staff.create');
-    Route::post('/staff/store', ['uses' => 'Project\StaffController@store'])->name('project.staff.store');
-    Route::get('staff/{id}/edit', ['uses' => 'Project\StaffController@edit'])->name('project.staff.edit');
-    Route::PATCH('/staff/update', ['uses' => 'Project\StaffController@update'])->name('project.staff.update');
-    Route::DELETE('/staff/{id}', ['uses' => 'Project\StaffController@destroy'])->name('project.staff.destroy');
+    Route::get('staff/create/{id}', ['uses' => 'Project\StaffController@create'])->name('project.staff.create');
+    Route::post('/staff/store/{id}', ['uses' => 'Project\StaffController@store'])->name('project.staff.store');
+    Route::post('usera/staff/update/{id}', ['uses' => 'Project\StaffController@update'])->name('project.staff.update');
+    Route::get('staff/{id}/{id1}/edit', ['uses' => 'Project\StaffController@edit'])->name('project.staff.edit');
+    Route::DELETE('/staff/{id}/{id1}', ['uses' => 'Project\StaffController@destroy'])->name('project.staff.destroy');
     Route::get('staff/{id}', ['uses' => 'Project\StaffController@show'])->name('project.staff.show');
 
 

@@ -1,3 +1,4 @@
+
 <table id="table" class="table dataTable no-footer table-bordered">
     <thead>
     <tr>
@@ -35,59 +36,68 @@
             <td>
                 @if($id==1)
                 @if($staff->user != null)
-                    <a href="{{route('permission.user.edit',$staff->user->id)}}"
+                    <a href="{{route('permission.user.edit',$staff->user->id,1)}}"
                        class="mytooltip btn-setting-nav" data-toggle="tooltip"
                        data-placement="left"
                        title="">
-                        <i class="material-icons">person</i><span class="mytooltiptext">{{$labels['user_staff'] ?? 'user_staff'}}</span>
+                        <i class="material-icons">person</i><span class="mytooltiptext">{{$labels['user_staff'] ?? 'user_staff'}} </span>
                     </a>
                 @endif
 
                 <a href="{{route('project.staff.show',$staff->id)}}"
                    class="mytooltip btn-setting-nav" data-toggle="tooltip"
                    data-placement="left"
-                   title="">
+                   title="{{$labels['view'] ?? 'view'}}">
                     <i class="material-icons">pageview</i><span class="mytooltiptext">{{$labels['view'] ?? 'view'}} </span>
                 </a>
 
                 <a href="{{route('project.staff.edit',$staff->id)}} "
                    class="mytooltip btn-setting-nav" data-toggle="tooltip"
                    data-placement="left"
-                   title="">
-                    <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}}</span>
+                   title="{{$labels['edit'] ?? 'edit'}}">
+                    <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['view'] ?? 'view'}} </span>
                 </a>
-                @else
-                    @if($staff->user != null)
-                        <a href="#"
-                           class="mytooltip btn-setting-nav" data-id="{{$staff->user->id}}"data-toggle="tooltip"
-                           data-placement="left"
-                           title="">
-                            <i class="material-icons">person</i><span class="mytooltiptext">{{$labels['user_staff'] ?? 'user_staff'}}</span>
-                        </a>
-                    @endif
 
-                    <a href="#"
-                       class="mytooltip btn-setting-nav" data-id="{{$staff->id}}"data-toggle="tooltip"
-                       data-placement="left"
-                       title="">
-                        <i class="material-icons">pageview</i><span class="mytooltiptext">{{$labels['view'] ?? 'view'}} </span>
-                    </a>
-
-                    <a href="#"
-                       class="mytooltip btn-setting-nav" data-d="{{$staff->id}}" data-toggle="tooltip"
-                       data-placement="left"
-                       title="">
-                        <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}}</span>
-                    </a>
-                @endif
-                <a href="#" class="mytooltip btn-setting-nav" data-toggle="modal"
+                <button class="mytooltip btn-setting-nav" data-toggle="modal"
                         data-target="#delete{{$staff->id}}"
                         data-tooltip="tooltip" data-placement="top"
                         title="">
-                    <i class="material-icons">delete</i><span class="mytooltiptext"> {{$labels['delete'] ?? 'delete'}}</span>
-                </a>
+                    <i class="material-icons">delete</i><span class="mytooltiptext">{{$labels['delete'] ?? 'delete'}} </span>
+                </button>
+                @else
+                    @if($staff->user != null)
+                        <a href="#" data-id="{{$staff->user->id}}"
+                           class="mytooltip btn-setting-nav edituserstaff" data-toggle="tooltip"
+                           data-placement="left"
+                           title=""><span class="mytooltiptext">{{$labels['user_staff'] ?? 'user_staff'}} </span>
+                            <i class="material-icons">person</i>
+                        </a>
+                    @endif
 
+                    <a href="#"data-id="{{$staff->id}}"
+                       class="mytooltip btn-setting-nav show" data-toggle="tooltip"
+                       data-placement="left"
+                       title="{{$labels['view'] ?? 'view'}}">
+                        <i class="material-icons">pageview</i><span class="mytooltiptext">{{$labels['view'] ?? 'view'}} </span>
+                    </a>
+
+                    <a href="# " data-id="{{$staff->id}}" data-type="1"
+                       class="mytooltip btn-setting-nav editStaff" data-toggle="tooltip"
+                       data-placement="left"
+                       title=""><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}}</span>
+                        <i class="material-icons">edit</i>
+                    </a>
+
+                    <a href="#" class="mytooltip btn-setting-nav" data-toggle="modal"
+                            data-target="#delete{{$staff->id}}"
+                            data-tooltip="tooltip" data-placement="top"
+                            title=""><span class="mytooltiptext">{{$labels['delete'] ?? 'delete'}}</span>
+                        <i class="material-icons">delete</i>
+                    </a>
+                @endif
             </td>
+            
+                
         </tr>
         <!--Modal -->
         <div class="modal" id="delete{{$staff->id}}" tabindex="-1" role="dialog"
@@ -101,11 +111,11 @@
                             Confirmation</h4>
                     </div>
                     @if($id==1)
-                    {!! Form::open(['method' => 'DELETE','route' => ['project.staff.destroy', $staff->id,1],'style'=>'display:inline']) !!}
-                    @else
-                        {!! Form::open(['action' => 'DELETE','route' => ['project.staff.destroy', $staff->id,2],'style'=>'display:inline','id'=>'formDelete']) !!}
+                                        {!! Form::open(['method' => 'DELETE','route' => ['project.staff.destroy', $staff->id,1],'style'=>'display:inline']) !!}
+                                        @else
+                                            {!! Form::open(['action' => 'DELETE','route' => ['project.staff.destroy', $staff->id,2],'style'=>'display:inline','id'=>'formDelete']) !!}
 
-                    @endif
+                                        @endif
                     {{method_field('delete')}}
                     {{csrf_field()}}
                     <div class="modal-body">
@@ -116,7 +126,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal">No, Cancel
                         </button>
-                        <button type="submit" class="btn btn-warning yes"data-id="{{$staff->id}}">Yes, Delete</button>
+                        <button type="submit" class="btn btn-warning yes1" data-id="{{$staff->id}}" >Yes, Delete</button>
                     </div>
                     {!! Form::close() !!}
 

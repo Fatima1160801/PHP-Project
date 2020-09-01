@@ -1,10 +1,10 @@
-<div class="card ">
+{{--<div class="card ">--}}
     <div class="card-header card-header-rose card-header-text">
         {{--            <div class="card-icon">--}}
         {{--                <i class="material-icons">business_center--}}
         {{--                </i>--}}
         {{--            </div>--}}
-        <h4 class="card-title">Show Staff</h4>
+
 
     </div>
 
@@ -29,10 +29,14 @@
 
         <div class="card-footer ml-auto mr-auto">
             <div class="ml-auto mr-auto">
+                @if($id1==1)
                 <a href="{{route('project.staff.index')}}"class="btn btn-sm btn-default pull-left">
                     {{$labels['back'] ?? 'back'}}
                 </a>
+                @else
+                    <button type="button" class="btn btn-default btn-sm" onclick="staffVal()" data-dismiss="modal">Back</button>
+
+                @endif
             </div>
         </div>
     </div>
-</div>

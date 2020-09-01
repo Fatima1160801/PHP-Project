@@ -18,5 +18,10 @@
             @include('permission.users.row')
         @endforeach
         </tbody>
+        <div class="modal fade" id="modalUserGroup" tabindex="-1" role="">
+            <div class="modal-dialog modal-login" role="document">
+                <div id="contentModal"></div>
+            </div>
+        </div>
     </table>
 

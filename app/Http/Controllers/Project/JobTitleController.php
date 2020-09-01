@@ -48,9 +48,9 @@ class JobTitleController extends Controller
         is_permitted('4', 'JobTitleController', 'store', '15', '1');
 
         $job_title = new JobTitle();
-        $job_title_name_na = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
-        $job_title_name_fo = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
-        $is_inside_outside = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-3', 'selectArray' => ['0' => 'All', '1' => 'Inside the institution', '2' => 'Outside the institution']];
+        $job_title_name_na = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
+        $job_title_name_fo = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
+        $is_inside_outside = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'selectArray' => ['0' => 'All', '1' => 'Inside the institution', '2' => 'Outside the institution']];
         $is_hidden = ['html_type' => '13'];
         $option = [
             'job_title_name_na' => $job_title_name_na,
@@ -118,10 +118,10 @@ class JobTitleController extends Controller
         is_permitted('4', 'JobTitleController', 'update', '16', '2');
         $job_title = new JobTitle();
         $data = JobTitle::where('id', $id)->first();
-        $job_title_name_na = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
-        $job_title_name_fo = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
-        $is_inside_outside = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-3', 'selectArray' => ['0' => 'All', '1' => 'Inside the institution', '2' => 'Outside the institution'], "attr" => "value='$data->is_inside_outside'"];
-        $is_hidden = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-3', 'selectArray' => ['0' => 'Active', '1' => 'Inactive'], "attr" => "value='$data->is_hidden'"];
+        $job_title_name_na = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
+        $job_title_name_fo = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
+        $is_inside_outside = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'selectArray' => ['0' => 'All', '1' => 'Inside the institution', '2' => 'Outside the institution'], "attr" => "value='$data->is_inside_outside'"];
+        $is_hidden = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'selectArray' => ['0' => 'Active', '1' => 'Inactive'], "attr" => "value='$data->is_hidden'"];
        $id=['html_type'=>'10'];
         $option = [
             'job_title_name_na' => $job_title_name_na,
@@ -199,7 +199,10 @@ class JobTitleController extends Controller
 
                 $message = getMessage('2.191');
                 session(['array' => $message]);
-                return redirect()->route('project.jobtitle.index');
+                if($id1==1)
+                    return redirect()->route('project.jobtitle.index');
+                else
+                    return response(['status' => false, 'message' => $message]);
 
             } else {
             $jobtitle = JobTitle::find($id);
@@ -214,16 +217,20 @@ class JobTitleController extends Controller
 
             $array = ['text' => 'Data Deleted successfully'];
             session(['array' => $array]);
-            return redirect()->route('project.jobtitle.index');
+                if($id1==1)
+                    return redirect()->route('project.jobtitle.index');
+                else
+                    return response(['status' => true, 'message' => $array]);
+
             }
         }catch (\Illuminate\Database\QueryException $e) {
             $message = getMessage('2.191');
             session(['array' => $message]);
-            if($id1==1)
-                return redirect()->route('project.jobtitle.index');
-            else
-                return response(['status' => true, 'message' => $message]);
-        }
+
+        }if($id1==1)
+        return redirect()->route('project.jobtitle.index');
+    else
+        return response(['status' => false, 'message' => $message]);
     }
 
 }

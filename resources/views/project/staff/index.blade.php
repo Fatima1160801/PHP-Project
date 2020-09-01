@@ -16,13 +16,14 @@
             <h4 class="card-title"><span>
                 {{$labels['staff'] ?? 'staff'}}
 
-            <a href="{{route('project.staff.create')}}" class="btn btn-sm btn-primary btn-round btn-fab"
+            <a href="{{route('project.staff.create',1)}}" class="btn btn-sm btn-primary btn-round btn-fab"
                data-toggle="tooltip" data-placement="top"
                title="{{$labels['add'] ?? 'add'}}">
                 <i class="material-icons">add
                 </i>
             </a>
             </span></h4>
+            @include('project.staff.table_render')
 {{--            <table id="table" class="table dataTable no-footer table-bordered">--}}
 {{--                <thead>--}}
 {{--                <tr>--}}

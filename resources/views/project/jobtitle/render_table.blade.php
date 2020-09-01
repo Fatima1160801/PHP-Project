@@ -57,7 +57,7 @@
                     <i class="material-icons">edit</i>
                 </a>
                 @else
-                    <a href="#"  data-id="$jobtitle->id"
+                    <a href="#"  data-id="{{$jobtitle->id}}"
                        class="btn-sm editRole  mytooltip btn-setting-nav"  data-toggle="tooltip" data-placement="top"
 
                     >

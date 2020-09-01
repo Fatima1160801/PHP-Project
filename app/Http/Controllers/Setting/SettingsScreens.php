@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
 use App\Models\Activity\Location;
 use App\Models\Beneficiary\BeneficiaryOrganization;
+use App\Models\Goals\IndicatorsMeasureUnit;
 use App\Models\Locality\Locality;
 use App\Models\Visit;
 use Illuminate\Http\Request;
@@ -42,9 +43,13 @@ class SettingsScreens extends Controller
         return view('setting.settingsScreens.systemSettings',compact('userPermissions','lang'));
     }
     public function otherSettings(){
+        $unit_name = 'unit_name_' . lang_character1();
+        $measureUnit= $measureUnit = IndicatorsMeasureUnit::whereNull('deleted_at')->where('is_hidden', 0)
+            ->pluck($unit_name, 'id')->toArray();
+
         $lang=Auth::user()->lang_id;
         $userPermissions = getUserPermission();
-        return view('setting.settingsScreens.otherSettings',compact('userPermissions','lang'));
+        return view('setting.settingsScreens.otherSettings',compact('userPermissions','lang','measureUnit'));
     }
     public function general(){
         $userPermissions = getUserPermission();

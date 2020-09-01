@@ -1,4 +1,10 @@
-<div class="card ">
+<div class="card " style="width: 106%;
+    margin-left: -24px;
+    margin-top: -3px;
+
+    /* margin-top: 0; */
+    margin-top: -15px;
+    margin-bottom: -16px;">
     <div class="card-header card-header-rose card-header-text" id="createmodal">
         {{--            <div class="card-icon">--}}
         {{--                <i class="material-icons">work--}}

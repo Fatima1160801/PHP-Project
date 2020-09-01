@@ -42,7 +42,7 @@ class StaffController extends Controller
           return view('project.staff.index', compact('labels', 'staffs', 'userPermissions','id'));
       }
   }
-  public function create(Request $request)
+  public function create(Request $request,$type)
   {
     is_permitted('18', 'StaffController', 'store', '32', '1');
     $staff = new Staff();
@@ -97,21 +97,21 @@ class StaffController extends Controller
       $id1=1;
       if($request->ajax()){
           $id1=2;
-          $html =view('project.staff.create_render', compact('labels', 'html', 'screenName', 'userPermissions','save','id1'))->render();
+          $html =view('project.staff.create_render', compact('labels', 'html', 'screenName', 'userPermissions','save','id1','type'))->render();
           return response(['status' => true, 'html' =>$html]);
 
       }
       else
-    return view('project.staff.create', compact('labels', 'html', 'screenName', 'userPermissions'));
+    return view('project.staff.create', compact('labels', 'html', 'screenName', 'userPermissions','save','id1','type'));
   }
 
   public function store(Request $request,$id)
   {
 
+
     is_permitted('18', 'StaffController', 'store', '32', '1');
 
     $input = $request->all();
-
     $data = fieldInDatabase(18, $input);
     $optionValidator = [
         'staff_name_na' => [
@@ -185,7 +185,7 @@ class StaffController extends Controller
     Log::instance()->record('2.34', null, 18, null, null, $staff, null);
     Log::instance()->save();
 
-    notifications(getClassName(__CLASS__), __FUNCTION__, route('project.staff.edit', $staff->id));
+//    notifications(getClassName(__CLASS__), __FUNCTION__, route('project.staff.edit', $staff->id));
 
     $array = getMessage('2.1');
     //  session(['array' => $array]);
@@ -245,13 +245,18 @@ class StaffController extends Controller
 
     $screenName = screenName(18);
     $userPermissions = getUserPermission();
-if($id==1)
-    return view('project.staff.show', compact('labels', 'html', 'screenName', 'data', 'userPermissions','id'));
-else
-    return view('project.staff.show_render',compact('labels', 'html', 'screenName', 'data', 'userPermissions','id'));
+      $id1=1;
+      if($request->ajax()){
+          $id1=2;
+          $html =view('project.staff.show_render', compact('labels', 'html', 'screenName', 'data', 'userPermissions','id1'))->render();
+          return response(['status' => true, 'html' =>$html]);
+
+      }
+      else
+    return view('project.staff.show',compact('labels', 'html', 'screenName', 'data', 'userPermissions','id1'));
   }
 
-  public function edit(Request $request,$id)
+  public function edit(Request $request,$id,$type)
   {
     is_permitted('18', 'StaffController', 'update', '33', '2');
     $data = Staff::find($id);
@@ -303,15 +308,15 @@ else
       $id1=1;
       if($request->ajax()){
           $id1=2;
-          $html =view('project.staff.create_render', compact('labels', 'html', 'screenName', 'data', 'userPermissions','save','id1'))->render();
+          $html =view('project.staff.create_render', compact('labels', 'html', 'screenName', 'data', 'userPermissions','save','id1','type'))->render();
           return response(['status' => true, 'html' =>$html]);
 
       }
       else
-    return view('project.staff.edit', compact('labels', 'html', 'screenName', 'data', 'userPermissions','save','id1'));
+    return view('project.staff.edit', compact('labels', 'html', 'screenName', 'data', 'userPermissions','save','id1','type'));
   }
 
-  public function update(Request $request)
+  public function update(Request $request,$id1)
   {
     is_permitted('18', 'StaffController', 'update', '33', '2');
 
@@ -407,14 +412,16 @@ else
     }
     Log::instance()->save();
 
-    notifications(getClassName(__CLASS__), __FUNCTION__, route('project.staff.edit', $staff->id));
+   // notifications(getClassName(__CLASS__), __FUNCTION__, route('project.staff.edit', $staff->id));
     $staff->save();
     $array = getMessage('2.2');
-      if($id==1)
-          return redirect()->route('project.staff.index')->with('array', $array);
+    if($request->ajax()){
+        return response(['status' => true, 'city' =>$staff,'message'=>$array]);
+    }else{
+        return redirect()->route('project.staff.index')->with('array', $array);
 
-      else
-          return response(['status' => true, 'city' =>$staff,'message'=>$array]);
+    }
+
 
   }
 
@@ -430,7 +437,12 @@ else
 
       $message = getMessage('2.192');
       session(['array' => $message]);
-      return redirect()->route('project.staff.index');
+        if($id1==1)
+            return redirect()->route('project.staff.index');
+        else
+            return response(['status' => false, 'message' => $message]);
+
+
     } else {
       $staff->deleted_by = Auth::id();
       $staff->delete();
@@ -438,7 +450,7 @@ else
       Log::instance()->save();
       notifications(getClassName(__CLASS__), __FUNCTION__, '');
 
-      $message = getMessage('2.192');
+      $message = getMessage('2.3');
       session(['array' => $message]);
         if($id1==1)
             return redirect()->route('project.staff.index');

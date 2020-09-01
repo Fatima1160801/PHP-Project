@@ -1,17 +1,26 @@
-<div class="card ">
+{{--<div class="card ">--}}
     <div class="card-header card-header-rose card-header-text" id="createmodal">
         {{--            <div class="card-icon">--}}
         {{--                <i class="material-icons">person--}}
         {{--                </i>--}}
         {{--            </div>--}}
-        <h4 class="card-title">
-            {{$labels['staff'] ?? 'staff'}}        </h4>
+{{--        <h4 class="card-title">--}}
+{{--            {{$labels['staff'] ?? 'staff'}}        </h4>--}}
     </div>
 @if($save==1)
-    {!! Form::open(['route' => 'project.staff.store'  ,'novalidate'=>'novalidate','enctype'=>'multipart/form-data','action'=>'post' ,'id'=>'formAdd']) !!}
+    @if($id1==1)
+    {!! Form::open(['route' => ['project.staff.store',1] ,'novalidate'=>'novalidate','enctype'=>'multipart/form-data','action'=>'post' ,'id'=>'formAddStaff']) !!}
     @else
-        {!! Form::open(['route' => 'project.staff.update'   ,'novalidate'=>'novalidate','action'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formEdit']) !!}
+        {!! Form::open(['route' => ['project.staff.store',2] ,'novalidate'=>'novalidate','enctype'=>'multipart/form-data','action'=>'post' ,'id'=>'formAddStaff']) !!}
 
+    @endif
+
+    @else
+    @if($id1==1)
+        {!! Form::open(['route' => ['project.staff.update',1]   ,'novalidate'=>'novalidate','action'=>'post','id'=>'formEditStaff']) !!}
+    @else
+        {!! Form::open(['route' => ['project.staff.update',2]   ,'novalidate'=>'novalidate','action'=>'post','id'=>'formEditStaff']) !!}
+    @endif
     @endif
     <div class="card-body ">
         @if ($errors->any())
@@ -30,9 +39,16 @@
 
         <div class="card-footer ml-auto mr-auto">
             <div class="ml-auto mr-auto">
-                @if($id==1)
+                @if($id1==1)
                 <a href="{{route('project.staff.index')}}" class="btn btn-sm btn-default pull-left">
                     {{$labels['back'] ?? 'back'}}</a>
+                @else
+                    @if($type==1)
+                        <button type="button" class="btn btn-default btn-sm" onclick="staffVal()" data-dismiss="modal">Back</button>
+                    @else
+                        <button type="button" class="btn btn-default btn-sm" onclick="defaultVal()" data-dismiss="modal">Back</button>
+
+                    @endif
                 @endif
                 @if($save==1)
                 <button btn="btnToggleDisabled" type="submit" class="btn btn-rose btn-sm pull-right" id="saveStaff">
@@ -51,4 +67,4 @@
         {!! Form::close() !!}
     </div>
 
-</div>
+{{--</div>--}}

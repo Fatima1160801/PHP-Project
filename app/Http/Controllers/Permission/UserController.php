@@ -81,7 +81,7 @@ class UserController extends Controller
     }
 
 
-    public function store()
+    public function store($id)
     {
 
 
@@ -119,13 +119,15 @@ class UserController extends Controller
         $array=['message' =>'Data Saved successfully'];
         session(['array' => $array]);
 
-
+if($id==1)
         return redirect()->route('permission.user.index');
+else
+    return response(['status' => true,'message'=>getMessage("2.1")]);
 
     }
 
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
 
         is_permitted('1', 'UserController', 'update', '2', '2');
@@ -170,14 +172,20 @@ class UserController extends Controller
             $staff =$staff_this_user;
         }
          $userPermissions = getUserPermission();
+         $id1=1;
+        if($request->ajax()){
+            $id1=2;
+            $html =view('permission.users.edit_render', compact('staff','user','labels','userPermissions','projects','user_data_perms','user_data_perms_modules','id1'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('permission.users.edit', compact('staff','user','labels','userPermissions','projects','user_data_perms','user_data_perms_modules'));
+        }
+        else
+        return view('permission.users.edit', compact('staff','user','labels','userPermissions','projects','user_data_perms','user_data_perms_modules','id1'));
     }
 
 
-    public function update(Request $request)
+    public function update(Request $request,$key)
     {
-
         is_permitted('1', 'UserController', 'update', '2', '2');
 
         $user_id = $request->get('id');
@@ -227,8 +235,10 @@ class UserController extends Controller
 
         $array=['message' =>'Data edited successfully'];
         session(['array' => $array]);
+        if($key==1){
         return redirect()->route('permission.user.index');
-
+    }else
+    return response(['status'=>true,'message'=>getMessage('2.2')]);
     }
 
 
