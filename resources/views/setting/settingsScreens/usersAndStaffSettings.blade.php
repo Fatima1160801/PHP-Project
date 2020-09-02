@@ -77,11 +77,19 @@
                     </a>
 
                 </li>
-                <li class="nav-item mb-3 " id="teamrole" data-nameeng="Team Role" data-namear="Team Role" data-value="4">
+                <li class="nav-item mb-3 " id="teamrole" data-nameeng="Job Title" data-namear="Job Title" data-value="4">
                     <a href="#"
                        class="navi-link py-4">
                         <div class="card-icon">
-                            <span>  <i class="material-icons default-color mr-2">work</i>@if($lang==1)Team Role @else Team Role @endif</span>
+                            <span>  <i class="material-icons default-color mr-2">work</i>@if($lang==1)Job Title @else Job Title @endif</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item mb-3 " id="teamrole1" data-nameeng="Team Role" data-namear="Team Role" data-value="5">
+                    <a href="#"
+                       class="navi-link py-4">
+                        <div class="card-icon">
+                            <span>  <i class="material-icons default-color mr-2">stars</i>@if($lang==1)Team Role @else Team Role @endif</span>
                         </div>
                     </a>
 
@@ -226,10 +234,12 @@
                     $("#group").addClass("selected-item");
                 } else if (value == 3) {
                     $("#staff").addClass("selected-item");
-                } else {
+                } else if (value == 4){
                     $("#teamrole").addClass("selected-item");
-
                 }
+                else
+                    $("#teamrole1").addClass("selected-item");
+
             }
 
             function defaultVal() {
@@ -419,6 +429,45 @@
                     }
                 });
             });
+        $("#teamrole1").click(function (e) {
+            addSelected($("#teamrole1").attr("data-value"));
+            $("#add").html("");
+            $("#title").html("");
+            $("#render_result").html("");
+            e.preventDefault();
+            $('#loadScreen div.loader').show();
+            $.get('{{route('project.teamrole.index')}}', function (data) {
+                if (data.status == true) {
+                    $("#render_result").html(data.html);
+                    $('#loadScreen div.loader').hide();
+                    var lang =@json($lang);
+                    if (lang == 1)
+                        $("#title").html($("#teamrole1").attr("data-nameeng"));
+                    else
+                        $("#title").html($("#teamrole1").attr("data-namear"))
+                    $("#add").html("<a href=\"#\" onclick='addTeamRole()' id='addTeamRole' class=\"mytooltip btn-setting-nav add\"\n" +
+                        "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
+                        "               title=\"\" >\n" +
+                        "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add </span></a>\n" +
+                        "            </span> </h4>");
+                    // $('#table').DataTable().ajax.reload();
+                    DataTableCall('#table', 5);
+                    $("#table_length").html("");
+                    $("#table_filter").html("");
+                            {{--                            @include('setting.c.city.location_script');--}}
+
+                    var table = $('#table').DataTable();
+
+// Sort by columns 1 and 2 and redraw
+                    table
+                        .order([0, 'desc'])
+                        .draw();
+
+                } else {
+
+                }
+            });
+        });
 
             function addRole() {
                 $.get('{{route('project.jobtitle.create')}}', function (data) {
@@ -431,6 +480,17 @@
                     }
                 });
             }
+        function addTeamRole() {
+            $.get('{{route('project.teamrole.create')}}', function (data) {
+                if (data.status == true) {
+                    $("#locationModalBody").html(data.html);
+                    $('.selectpicker').selectpicker();
+                    $('#locationModal').modal({
+                        show: true
+                    });
+                }
+            });
+        }
 
             $(document).on("click", ".editRole", function (e) {
                 var val = $(this).attr("data-id");
@@ -444,6 +504,19 @@
                     }
                 });
             })
+        $(document).on("click", ".editTeamRole", function (e) {
+            var val = $(this).attr("data-id");
+            $.get('{{url('teamrole')}}' + '/' + val + '/edit', function (data) {
+                if (data.status == true) {
+                    $("#locationModalBody").html(data.html);
+                    $('.selectpicker').selectpicker();
+                    $('#locationModal').modal({
+                        show: true
+                    });
+                }
+            });
+        })
+
 
             function appendTable(data, status, count, id, cityname, citynamefo, usedStatus) {
                 var table = document.getElementById("table");
@@ -494,6 +567,22 @@
                         '        </div> <!-- End Modal -->\n';
                     $("#render_result").append(mark);
                 }
+               else if (id == 5) {
+                    var url = '{{ route("project.teamrole.destroy", ":id") }}';
+                    url = url.replace(':id', data.id);
+                    markup = '<tr data-id=' + data.id + '><td>' + count1 + '</td><td>' + data.role_name_na + '</td><td>' + data.role_name_fo + '</td><td>' + status + '</td><td> <a href="#" data-id=' + data.id + '\n' +
+                        '                     class="mytooltip btn-setting-nav editTeamRole"  data-toggle="tooltip" data-placement="top"\n' +
+                        '                       title=""\n' +
+                        '                    >\n' +
+                        '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                        '                    </a> <a href='+url+'\n' +
+                        '                        rel="tooltip" class="mytooltip btn-setting-nav deleteTeamRole" \n' +
+                        '                        \n' +
+                        '                        data-placement="top"  data-tooltip="tooltip" title=" ">\n' +
+                        '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
+                        '                </a></td></tr>'
+
+                }
                 $(markup).insertAfter("#table tr:first");
                 $('#locationModal').modal('hide');
             }
@@ -506,6 +595,13 @@
                     $('tr[data-id=' + data.id + ']').find("td:eq(2)").text(data.job_title_name_fo);
                     $('tr[data-id=' + data.id + ']').find("td:eq(3)").html(status);
                     $('tr[data-id=' + data.id + ']').find("td:eq(4)").html(usedStatus);
+
+                }
+                else  if (id == 5) {
+                    $('tr[data-id=' + data.id + ']').find("td:eq(1)").text(data.role_name_na);
+                    $('tr[data-id=' + data.id + ']').find("td:eq(2)").text(data.role_name_fo);
+                    $('tr[data-id=' + data.id + ']').find("td:eq(3)").html(status);
+
 
                 }
                 $('#locationModal').modal('hide');

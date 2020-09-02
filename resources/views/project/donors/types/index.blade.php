@@ -25,65 +25,66 @@
                 </a>
 
             </h4>
-            <table class="table" id="table">
-                <thead>
-                <tr>
-                    <th colspan="5">
+            @include('project.donors.types.table_render')
+{{--            <table class="table" id="table">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th colspan="5">--}}
 {{--                        <a href="{{route('project.donors.types.create')}}"--}}
 {{--                           class="btn btn-primary btn-sm btn-fab btn-round "--}}
 {{--                           data-toggle="tooltip" data-placement="top" title="{{$labels['add']??'add'}}">--}}
 {{--                            <i class="material-icons">add--}}
 {{--                            </i>--}}
 {{--                        </a>--}}
-                    </th>
-                </tr>
-                <tr>
-                    <th>#</th>
-                    <th>
-                        {{$labels['donor_types_name_anglish']??'donor_types_name_anglish'}}
-                    </th>
-                    <th>
-                        {{$labels['donor_types_name_arabic']??'donor_types_name_arabic'}}
-                    </th>
-                    <th>
-                        {{$labels['status'] ?? 'status'}}
-                    </th>
+{{--                    </th>--}}
+{{--                </tr>--}}
+{{--                <tr>--}}
+{{--                    <th>#</th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['donor_types_name_anglish']??'donor_types_name_anglish'}}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['donor_types_name_arabic']??'donor_types_name_arabic'}}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{$labels['status'] ?? 'status'}}--}}
+{{--                    </th>--}}
 
-                    <th>
-                        {{$labels['actions']??'actions'}}
+{{--                    <th>--}}
+{{--                        {{$labels['actions']??'actions'}}--}}
 
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($donorstypes  as $index=>$donorstype)
-                    <tr>
-                         <td>{{$index+1}}</td>
-                        <td>{{$donorstype->type_name_na}}</td>
-                        <td>{{$donorstype->type_name_fo}}</td>
-                        <td>{!! activeLabel($donorstype->is_hidden)  !!} </td>
-                        <td>
+{{--                    </th>--}}
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
+{{--                @foreach($donorstypes  as $index=>$donorstype)--}}
+{{--                    <tr>--}}
+{{--                         <td>{{$index+1}}</td>--}}
+{{--                        <td>{{$donorstype->type_name_na}}</td>--}}
+{{--                        <td>{{$donorstype->type_name_fo}}</td>--}}
+{{--                        <td>{!! activeLabel($donorstype->is_hidden)  !!} </td>--}}
+{{--                        <td>--}}
 
-                            <a href="{{route('project.donors.types.edit',$donorstype->id)}}"
-                               class="btn btn-success btn-round btn-fab btn-sm" data-toggle="tooltip"
-                               data-placement="left" title=" {{$labels['edit']??'edit'}}">
-                                <i class="material-icons">edit</i>
-                            </a>
+{{--                            <a href="{{route('project.donors.types.edit',$donorstype->id)}}"--}}
+{{--                               class="btn btn-success btn-round btn-fab btn-sm" data-toggle="tooltip"--}}
+{{--                               data-placement="left" title=" {{$labels['edit']??'edit'}}">--}}
+{{--                                <i class="material-icons">edit</i>--}}
+{{--                            </a>--}}
 
-                            <a href="{{route('project.donors.types.destroy',$donorstype->id)}}"
-                               class="btn btn-danger btn-sm btn-round btn-fab"
-                               data-tooltip="tooltip" data-placement="right" title="{{$labels['delete']??'delete'}}"
-                               id="DeleteDonorType">
-                                <i class="material-icons">delete</i>
-                            </a>
+{{--                            <a href="{{route('project.donors.types.destroy',$donorstype->id)}}"--}}
+{{--                               class="btn btn-danger btn-sm btn-round btn-fab"--}}
+{{--                               data-tooltip="tooltip" data-placement="right" title="{{$labels['delete']??'delete'}}"--}}
+{{--                               id="DeleteDonorType">--}}
+{{--                                <i class="material-icons">delete</i>--}}
+{{--                            </a>--}}
 
-                        </td>
-                    </tr>
+{{--                        </td>--}}
+{{--                    </tr>--}}
 
 
-                @endforeach
-                </tbody>
-            </table>
+{{--                @endforeach--}}
+{{--                </tbody>--}}
+{{--            </table>--}}
 
         </div>
 

@@ -13,9 +13,9 @@
             </h4>
         </div>
         <div class="card-body ">
-            <a href="{{route('project.donors.donorWizard')}}" class="btn btn-primary btn-round btn-sm btn-fab"
-               data-toggle="tooltip" data-placement="top" title=" {{$labels['add'] ?? 'add'}}">
-                <i class="material-icons">add</i>
+            <a href="{{route('project.donors.donorWizard')}}" class="mytooltip btn-setting-nav"
+               data-toggle="tooltip" data-placement="top" title="">
+                <i class="material-icons">add</i><span class="mytooltiptext"> {{$labels['add'] ?? 'add'}} </span>
             </a>
 
             <table class="table" id="table">
@@ -45,15 +45,15 @@
                         <td>
 
                             <a href="{{route('project.donors.donorWizard',$donor->id)}}"
-                               class="btn btn-success btn-round btn-fab btn-sm" data-toggle="tooltip"
-                               data-placement="top" title="{{$labels['edit'] ?? 'edit'}}">
-                                <i class="material-icons">edit</i>
+                               class="mytooltip btn-setting-nav" data-toggle="tooltip"
+                               data-placement="top" title="">
+                                <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}} </span>
                             </a>
 
                             <a href="{{route('project.donors.destroy',$donor->id)}}"
-                               class="btn btn-danger btn-round btn-fab btn-sm" id="deleteDonor"
-                               data-tooltip="tooltip" data-placement="right" title="{{$labels['delete'] ?? 'delete'}}">
-                                <i class="material-icons">delete</i>
+                               class="mytooltip btn-setting-nav" id="deleteDonor"
+                               data-tooltip="tooltip" data-placement="right" title="">
+                                <i class="material-icons">delete</i><span class="mytooltiptext"> {{$labels['delete'] ?? 'delete'}}</span>
                             </a>
 
 

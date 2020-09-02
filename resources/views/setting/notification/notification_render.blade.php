@@ -1,19 +1,19 @@
-<div class="card card-wizard" data-color="rose" id="wizardNotification">
+<div class="" data-color="rose" id="wizardNotification">
     <div class="card-header card-header-rose card-header-text">
-                    <div class="card-icon">
-                        <i class="material-icons">lock</i>
-                    </div>
-        <h4 class="card-title">System Notifications Settings</h4>
+{{--                    <div class="card-icon">--}}
+{{--                        <i class="material-icons">lock</i>--}}
+{{--                    </div>--}}
+        <h4 class="card-title" style="text-align: center;margin-top: -22px;font-weight: bold;"> Notifications Settings</h4>
     </div>
     <br><br>
     <div class="wizard-navigation">
         <ul class="nav nav-pills">
-            <li class="nav-item" id="task_link" data-task-id="">
+            <li class="nav-item" id="task_link" data-task-id="" style="width: 48.3333%;">
                 <a class="nav-link active" href="#select_users" data-toggle="tab" role="tab">
                     Select Users
                 </a>
             </li>
-            <li class="nav-item" id="task_link" data-task-id="">
+            <li class="nav-item" id="task_link" data-task-id="" style="width: 48.3333%;">
                 <a class="nav-link" href="#configure_notifications" data-toggle="tab" role="tab">
                     Notifications Settings
                 </a>

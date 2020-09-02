@@ -571,6 +571,7 @@
         });
 
     });
+
     $(document).on("submit", "#formEditUser", function (e) {
 
         e.preventDefault();
@@ -580,6 +581,8 @@
             url: url,
             data: form,
             type: 'post',
+            processData: false,
+            contentType: false,
             beforeSend: function () {
                 $('#formAddSubmit').attr("disabled", true);
                 // $('.loader').show();
@@ -587,9 +590,9 @@
             success: function (data) {
                 $('.loader').hide();
                 $('#formAddSubmit').attr("disabled", false);
-                if (data.success == true) {
+                if (data.status == true) {
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                } else if (data.success == false) {
+                } else if (data.status == false) {
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                 }
             },
@@ -597,8 +600,109 @@
             }
         });
     });
+    $(document).on('submit', '#formAddRole', function (e) {
+        e.preventDefault();
+        var form = new FormData($(this)[0]);
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                $('#saveRole').attr("disabled", true);
+                $('#saveRole div  .loader').show();
+            },
+            success: function (data) {
+                //  $('#btnAddbrand').attr("disabled", false);
+                if (data.status == true) {
+
+                    var table = $('#table').dataTable();
+                    //Get the total rows
+                    var count=table.fnGetData().length;
+                    appendTable(data.city,data.statusObj,count,5,"","","");
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    $('.loader').hide();
+                }
 
 
+            },
+            error: function (data) {
+
+            }
+        });
+    });
+    $(document).on('submit', '#formUpdateRole', function (e) {
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+
+        e.preventDefault();
+
+        var form = new FormData($(this)[0]);
+        var url = $(this).attr('action');
+        // alert($(this).attr('action'));s
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                $('#updateRole').attr("disabled", true);
+                $('#updateRole div.loader').show();
+            },
+            success: function (data) {
+                $('#updateRole').attr("disabled", false);
+                $('.loader').hide();
+                if (data.status == true) {
+                    editRow(data.city,data.statusObj,5,"","","");
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    $('.loader').hide();
+                }
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
+
+    $(document).on('click', '.deleteTeamRole', function (e) {
+        e.preventDefault();
+        $this = $(this);
+        swal({
+            text: 'Are you sure to delete team role?',
+            confirmButtonClass: 'btn btn-success  btn-sm',
+            cancelButtonClass: 'btn btn-danger  btn-sm',
+            buttonsStyling: false,
+            showCancelButton: true
+        }).then(result => {
+            if (result == true){
+                // var project_id = $('#formProjectMain #id').val();
+                url = $(this).attr('href');
+                // alert(url);
+                $.ajax({
+                    url: url,
+                    type: 'delete',
+                    beforeSend: function () {
+                    },
+                    success: function (data) {
+                        if (data.status == true) {
+                            $($this).closest('tr').css('background','red').delay(1000).hide(1000);
+                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                            $('#contentModal .close').click();
+                        }else {
+                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        })
+    });
 
 
 </script>

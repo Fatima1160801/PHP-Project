@@ -151,7 +151,7 @@
                     <div class="ml-auto mr-auto">
                         <button type="button" class="btn btn-default btn-sm" onclick="defaultVal()" data-dismiss="modal">Back</button>
 
-                        <button type="submit" id="formAddSubmit" class="btn btn-rose btn-sm">
+                        <button type="submit" id="formAddSubmit44444" class="btn btn-rose btn-sm">
                             <div class="loader pull-left btn-sm" style="display: none;"></div>
                             {{$labels['save'] ?? 'save'}}
                         </button>

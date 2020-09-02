@@ -1,16 +1,18 @@
-<div class="card ">
-    <div class="card-header card-header-rose  card-header-icon">
+{{--<div class="card ">--}}
+    <div class="card-header card-header-rose  card-header-icon" style="
+    margin-top: -12%;
+">
         {{--        <div class="card-icon">--}}
         {{--            <i class="material-icons">desktop_windows</i>--}}
         {{--        </div>--}}
-        <h4 class="card-title">
+        <h4 class="card-title" style="font-weight: bold;text-align: center;">
             {{$labels['EmailSettings'] ?? 'Email Settings'}}
         </h4>
     </div>
     <div class="card-body ">
 
         <div id="result-msg"></div>
-        {!! Form::open(['route'=>'settings.email.store','novalidate'=>'novalidate','method'=>'post' ,'id'=>'formSearch']) !!}
+        {!! Form::open(['route'=>'settings.email.search','novalidate'=>'novalidate','action'=>'post' ,'id'=>'formSearch']) !!}
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -152,8 +154,8 @@
 {{--                <div class="loader pull-left" style="display: none;"></div> {{$labels['search'] ?? 'search'}}--}}
 {{--            </button>--}}
 {{--        @endif--}}
-        @if($id==1)
-            <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.system.screen')}}"'>Back</button>
-        @endif
+{{--        @if($id==1)--}}
+{{--            <button type="button"  class="btn  btn-sm btn-default" onclick='location.href="{{ route('settings.system.screen')}}"'>Back</button>--}}
+{{--        @endif--}}
     </div>
-</div>
+{{--</div>--}}

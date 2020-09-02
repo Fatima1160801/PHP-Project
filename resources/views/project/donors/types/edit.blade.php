@@ -1,52 +1,53 @@
 @extends('layouts._layout')
 
 @section('content')
+    @include('project.donors.types.create_render')
 
-    <div class="card ">
-        <div class="card-header card-header-rose card-header-text">
+{{--    <div class="card ">--}}
+{{--        <div class="card-header card-header-rose card-header-text">--}}
 {{--            <div class="card-icon">--}}
 {{--                <i class="material-icons">business_center--}}
 {{--                </i>--}}
 {{--            </div>--}}
-            <h4 class="card-title">
-                {{$labels['screen_edit_donor_types']??'screen_edit_donor_types'}}
-            </h4>
+{{--            <h4 class="card-title">--}}
+{{--                {{$labels['screen_edit_donor_types']??'screen_edit_donor_types'}}--}}
+{{--            </h4>--}}
 
-        </div>
+{{--        </div>--}}
 
 
-        {!! Form::open(['route' => 'project.donors.types.update' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formAdd']) !!}
+{{--        {!! Form::open(['route' => 'project.donors.types.update' ,'novalidate'=>'novalidate','action'=>'post' ,'id'=>'formAdd']) !!}--}}
 
-        <div class="card-body ">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            {{method_field('PUT')}}
-            {!! $html !!}
+{{--        <div class="card-body ">--}}
+{{--            @if ($errors->any())--}}
+{{--                <div class="alert alert-danger">--}}
+{{--                    <ul>--}}
+{{--                        @foreach ($errors->all() as $error)--}}
+{{--                            <li>{{ $error }}</li>--}}
+{{--                        @endforeach--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            @endif--}}
+{{--            {{method_field('PUT')}}--}}
+{{--            {!! $html !!}--}}
 
-            <div class="card-footer ml-auto mr-auto">
-                <div class="ml-auto mr-auto">
-                    <a href="{{route('project.donors.types.index')}}"
-                       class="btn btn-sm btn-default pull-left">
-                        {{$labels['back'] ?? 'back'}}
-                    </a>
-                    <button btn="btnToggleDisabled" type="submit" class="btn btn-rose btn-sm pull-right" id="saveDonor">
-                        {{$labels['edit'] ?? 'edit'}}
-                        <div class="loader pull-left" style="display: none;"></div>
-                    </button>
-                </div>
-            </div>
+{{--            <div class="card-footer ml-auto mr-auto">--}}
+{{--                <div class="ml-auto mr-auto">--}}
+{{--                    <a href="{{route('project.donors.types.index')}}"--}}
+{{--                       class="btn btn-sm btn-default pull-left">--}}
+{{--                        {{$labels['back'] ?? 'back'}}--}}
+{{--                    </a>--}}
+{{--                    <button btn="btnToggleDisabled" type="submit" class="btn btn-rose btn-sm pull-right" id="saveDonor">--}}
+{{--                        {{$labels['edit'] ?? 'edit'}}--}}
+{{--                        <div class="loader pull-left" style="display: none;"></div>--}}
+{{--                    </button>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-            {!! Form::close() !!}
-        </div>
+{{--            {!! Form::close() !!}--}}
+{{--        </div>--}}
 
-    </div>
+{{--    </div>--}}
 @endsection
 
 

@@ -11,7 +11,8 @@
         {{--                </i>--}}
         {{--            </div>--}}
         <h4 class="card-title">
-            {{$labels['job_title'] ?? 'job_title'}}
+            Job Title
+{{--            {{$labels['job_title'] ?? 'job_title'}}--}}
         </h4>
 
     </div>

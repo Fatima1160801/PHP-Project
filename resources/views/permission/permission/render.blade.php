@@ -2,6 +2,7 @@
 </div>
 <div class="card-body">
 
+
     <div class="collapse-group">
         <button class="btn btn-primary open-button" type="button">
             Open all
@@ -9,7 +10,9 @@
         <button class="btn btn-primary close-button" type="button">
             Close all
         </button>
-
+{{--        <a href="{{route('settings.users.screen')}}" class="btn-sm btn-default" style="--}}
+{{--    margin-left: 71%;--}}
+{{--">Back</a>--}}
         @foreach($modules as $module)
 
             <div class="card">
@@ -48,7 +51,7 @@
                                             <div class="row">
                                                 @if($type =='user')
                                                     @foreach($screen->screen_commands()->get() as $command)
-                                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                                        <div class="col-md-6 col-sm-6 col-xs-12">
                                                             <div class="togglebutton switch-sidebar-mini">
                                                                 <label class="text-dark">
                                                                     <input class="permissionCheckBoxUser screen{{$screen->id}}"
@@ -68,7 +71,7 @@
                                                 @endif
                                                 @if($type =='group')
                                                     @foreach($screen->screen_commands()->get() as $command)
-                                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                                        <div class="col-md-6 col-sm-6 col-xs-12">
                                                             <div class="togglebutton switch-sidebar-mini">
                                                                 <label class="text-dark">
                                                                     <input class="permissionCheckboxGroup screen{{$screen->id}}"

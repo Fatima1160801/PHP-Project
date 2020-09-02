@@ -1,10 +1,11 @@
 @extends('layouts._layout')
 @section('content')
     <div class="card ">
+        @include('setting.labelsSettings.index_render')
         <div class="card-header card-header-rose  card-header-icon">
-{{--            <div class="card-icon">--}}
-{{--                <i class="material-icons">desktop_windows</i>--}}
-{{--            </div>--}}
+            <div class="card-icon">
+                <i class="material-icons">desktop_windows</i>
+            </div>
             <h4 class="card-title">
                 {{$labels['LabelsSettings'] ?? 'LabelsSettings'}}
             </h4>
@@ -65,13 +66,13 @@
                             <div class=" col-md-3">
                                 <div class="form-group has-default bmd-form-group">
                                     <label>{{$result->label ?? ""}}</label>
-                                    {{--<input type="text" value="{{$result->label}}" class="form-control  " name="label_{{$result->id}}" id="label_{{$result->id}}" required="" minlength="0" maxlength="100" alt="Inerface">--}}
+                                    <input type="text" value="{{$result->label}}" class="form-control  " name="label_{{$result->id}}" id="label_{{$result->id}}" required="" minlength="0" maxlength="100" alt="Inerface">
                                 </div>
                             </div>
                             <div class=" col-md-3">
                                 <div class="form-group has-default bmd-form-group">
                                     <label>{{$result->label_hint ?? ""}}</label>
-                                    {{--<input type="text" value="{{$result->label_hint}}" class="form-control  " name="labelHint_{{$result->id}}" id="labelHint_{{$result->id}}" required="" minlength="0" maxlength="100" alt="Inerface">--}}
+                                    <input type="text" value="{{$result->label_hint}}" class="form-control  " name="labelHint_{{$result->id}}" id="labelHint_{{$result->id}}" required="" minlength="0" maxlength="100" alt="Inerface">
                                 </div>
                             </div>
                             <div class=" col-md-3">

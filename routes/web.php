@@ -313,6 +313,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
 
     Route::get('/labelsSettings', ['uses' => 'Setting\LabelSettingController@index'])->name('labelsSettings.index');
     Route::post('/labelsSettings', ['uses' => 'Setting\LabelSettingController@index'])->name('labelsSettings.index');
+    Route::post('/labelsSettings/search', ['uses' => 'Setting\LabelSettingController@search'])->name('labelsSettings.search');
 
     Route::get('settings/achievement/type', ['uses' => 'Setting\AchievementTypesController@index', 'as' => 'settings.achievement.type']);
     Route::get('settings/achievement/type/create', ['uses' => 'Setting\AchievementTypesController@create', 'as' => 'settings.achievement.type.create']);
@@ -331,6 +332,16 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('jobtitle/{id}/edit', ['uses' => 'Project\JobTitleController@edit'])->name('project.jobtitle.edit');
     Route::post('/jobtitle/update/{id}', ['uses' => 'Project\JobTitleController@update'])->name('project.jobtitle.update');
     Route::DELETE('/jobtitle/{id}/{id1}', ['uses' => 'Project\JobTitleController@destroy'])->name('project.jobtitle.destroy');
+
+
+    Route::get('teamrole/index', ['uses' => 'Project\TeamRoleController@index'])->name('project.teamrole.index');
+    Route::get('teamrole/create', ['uses' => 'Project\TeamRoleController@create'])->name('project.teamrole.create');
+    Route::post('/teamrole/store', ['uses' => 'Project\TeamRoleController@store'])->name('project.teamrole.store');
+    Route::get('teamrole/{id}/edit', ['uses' => 'Project\TeamRoleController@edit'])->name('project.teamrole.edit');
+    Route::post('/teamrole/update', ['uses' => 'Project\TeamRoleController@update'])->name('project.teamrole.update');
+    Route::delete('/teamrole/delete/{id}', ['uses' => 'Project\TeamRoleController@destroy'])->name('project.teamrole.destroy');
+
+
 
     Route::get('staff/index', ['uses' => 'Project\StaffController@index'])->name('project.staff.index');
     Route::get('staff/create/{id}', ['uses' => 'Project\StaffController@create'])->name('project.staff.create');
@@ -370,7 +381,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('donors/types/create', ['uses' => 'Project\DonorTypeController@create'])->name('project.donors.types.create');
     Route::post('/donors/types/store', ['uses' => 'Project\DonorTypeController@store'])->name('project.donors.types.store');
     Route::get('donors/types/{id}/edit', ['uses' => 'Project\DonorTypeController@edit'])->name('project.donors.types.edit');
-    Route::put('/donors/types/update', ['uses' => 'Project\DonorTypeController@update'])->name('project.donors.types.update');
+    Route::post('/donors/types/update', ['uses' => 'Project\DonorTypeController@update'])->name('project.donors.types.update');
     Route::DELETE('/donors/types/{id}', ['uses' => 'Project\DonorTypeController@destroy'])->name('project.donors.types.destroy');
     Route::get('/donors/types/desc/{id?}', ['uses' => 'Project\DonorTypeController@getDesc'])->name('project.donors.types.desc');
 
@@ -398,6 +409,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
 
     Route::get('settings/email/index', ['uses' => 'Setting\EmailSettingController@index'])->name('settings.email.index');
     Route::post('settings/email/index', ['uses' => 'Setting\EmailSettingController@index'])->name('settings.email.store');
+    Route::post('settings/email/search', ['uses' => 'Setting\EmailSettingController@search'])->name('settings.email.search');
 
 
 

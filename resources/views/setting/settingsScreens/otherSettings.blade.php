@@ -8,6 +8,9 @@
         #activity_lessons_type_name_na,#activity_lessons_related_name_na{
             margin-left: -51px;
         }
+       #table{
+            margin-top: -12%  !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -89,6 +92,24 @@
                     </a>
 
                 </li>
+{{--                <li class="nav-item mb-3 " id="funder" data-nameeng="Funders And Partners" data-namear="الممولون والشركاء" data-value="9">--}}
+{{--                    <a href="#"--}}
+{{--                       class="navi-link py-4">--}}
+{{--                        <div class="card-icon">--}}
+{{--                            <span>  <i class='material-icons'>people</i>&nbsp;&nbsp;@if($lang==1)Funders And Partners @elseالممولون والشركاء@endif</span>--}}
+{{--                        </div>--}}
+{{--                    </a>--}}
+
+                </li>
+                <li class="nav-item mb-3 " id="fundertype" data-nameeng="Funder Types" data-namear="أنواع الممولون" data-value="10">
+                    <a href="#"
+                       class="navi-link py-4">
+                        <div class="card-icon">
+                            <span>  <i class='material-icons'>business_center</i>&nbsp;&nbsp;@if($lang==1)Funder Types @elseأنواع الممولون@endif</span>
+                        </div>
+                    </a>
+
+                </li>
 
             </ul>
         </div>
@@ -131,6 +152,8 @@
         active_nev_link('activity_lessons_type');
         active_nev_link('activity_lessons_related');
         active_nev_link('achievementtypeSettings');
+        active_nev_link('donor_types');
+        active_nev_link('donors1');
         funValidateForm();
     });
     $("#role").click(function (e) {
@@ -370,8 +393,16 @@
             $("#issue").addClass("selected-item");
 
         }
-        else{
+        else  if(value==8){
             $("#issuesetting").addClass("selected-item");
+
+        }
+        else  if(value==9){
+            $("#funder").addClass("selected-item");
+
+        }
+        else{
+            $("#fundertype").addClass("selected-item");
 
         }
 
@@ -463,6 +494,87 @@
         e.preventDefault();
         index();
     });
+        $("#fundertype").click(function (e) {
+            addSelected($("#fundertype").attr("data-value"));
+            $("#add").html("");
+            $("#title").html("");
+            $("#render_result").html("");
+            e.preventDefault();
+            $('#loadScreen div.loader').show();
+            $.get('{{route('project.donors.types.index')}}',function(data){
+                if(data.status==true){
+                    $("#render_result").html(data.html);
+                    $('#loadScreen div.loader').hide();
+                    var lang=@json($lang);
+                    if(lang==1)
+                        $("#title").html($("#fundertype").attr("data-nameeng"));
+                    else
+                        $("#title").html($("#fundertype").attr("data-namear"))
+                    $("#add").html("<a href=\"#\" onclick='addFunderType()' id='addVisit' class=\"mytooltip btn-setting-nav add\"\n" +
+                        "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
+                        "               title=\"\" >\n" +
+                        "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add </span></a>\n" +
+                        "            </span> </h4>");
+                    // $('#table').DataTable().ajax.reload();
+                    DataTableCall('#table',5);
+                    $("#table_length").html("");
+                    $("#table_filter").html("");
+                            {{--                            @include('setting.c.city.location_script');--}}
+
+                    var table = $('#table').DataTable();
+
+// Sort by columns 1 and 2 and redraw
+                    table
+                        .order( [0, 'desc' ] )
+                        .draw();
+
+                }else{
+
+                }
+            });
+
+        });
+{{--        $("#funder").click(function (e) {--}}
+{{--            addSelected($("#funder").attr("data-value"));--}}
+{{--            $("#add").html("");--}}
+{{--            $("#title").html("");--}}
+{{--            $("#render_result").html("");--}}
+{{--            e.preventDefault();--}}
+{{--            $('#loadScreen div.loader').show();--}}
+{{--            $.get('{{route('project.donors.index')}}',function(data){--}}
+{{--                if(data.status==true){--}}
+{{--                    $("#render_result").html(data.html);--}}
+{{--                    $('#loadScreen div.loader').hide();--}}
+{{--                    var lang=@json($lang);--}}
+{{--                    if(lang==1)--}}
+{{--                        $("#title").html($("#funder").attr("data-nameeng"));--}}
+{{--                    else--}}
+{{--                        $("#title").html($("#funder").attr("data-namear"))--}}
+{{--                    $("#add").html("<a href=\"#\" onclick='addFunder()' id='addFunder' class=\"mytooltip btn-setting-nav add\"\n" +--}}
+{{--                        "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +--}}
+{{--                        "               title=\"\" >\n" +--}}
+{{--                        "                <i class=\"material-icons\">add</i><span class=\"mytooltiptext\">Add </span></a>\n" +--}}
+{{--                        "            </span> </h4>");--}}
+{{--                    // $('#table').DataTable().ajax.reload();--}}
+{{--                    DataTableCall('#table',6);--}}
+{{--                    $("#table_length").html("");--}}
+{{--                    $("#table_filter").html("");--}}
+{{--                            --}}{{--                            @include('setting.c.city.location_script');--}}
+
+{{--                    var table = $('#table').DataTable();--}}
+
+{{--// Sort by columns 1 and 2 and redraw--}}
+{{--                    table--}}
+{{--                        .order( [0, 'desc' ] )--}}
+{{--                        .draw();--}}
+
+{{--                }else{--}}
+
+{{--                }--}}
+{{--            });--}}
+
+{{--        });--}}
+
     function addRole() {
         $.get('{{route('project.projectcategories.create')}}',function(data){
             if(data.status==true) {
@@ -543,6 +655,47 @@
             }
         });
     })
+        {{--function addFunder(){--}}
+        {{--    $.get('{{route('project.donors.donorWizard')}}',function(data){--}}
+        {{--        if(data.status==true) {--}}
+        {{--            $("#render_result").html(data.html);--}}
+        {{--            $('.selectpicker').selectpicker();--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--}--}}
+        function addFunderType(){
+            $.get('{{route('project.donors.types.create')}}',function(data){
+                if(data.status==true) {
+                    $("#procurementModalBody").html(data.html);
+                    $('.selectpicker').selectpicker();
+                    $('#procurementModal').modal({
+                        show: true
+                    });
+                }
+            });
+        }
+        $(document).on("click", ".editFunType", function (e) {
+            var val=$(this).attr("data-id");
+            $.get('{{url('donors/types')}}'+'/'+val+'/edit',function(data){
+                if(data.status==true) {
+                    $("#procurementModalBody").html(data.html);
+                    $('.selectpicker').selectpicker();
+                    $('#procurementModal').modal({
+                        show: true
+                    });
+                }
+            });
+        })
+        {{--$(document).on("click", ".editFunder", function (e) {--}}
+        {{--    var val=$(this).attr("data-id");--}}
+        {{--    $.get('{{url('donors/wizard')}}'+'/'+val,function(data){--}}
+        {{--        if(data.status==true) {--}}
+        {{--            $("#render_result").html(data.html);--}}
+        {{--            $('.selectpicker').selectpicker();--}}
+
+        {{--        }--}}
+        {{--    });--}}
+        {{--})--}}
 function addAchType(){
     $.get('{{route('goals.indicators.measure.unit.create')}}',function(data){
         if(data.status==true) {
@@ -788,6 +941,22 @@ var modalname="delete"+data.id;
                 '                </a>\n</td></tr>';
 
         }
+        else if(id==10){
+            var lang=@json($lang);
+            var url = '{{ route("project.donors.types.destroy", ":id") }}';
+            url = url.replace(':id', data.id);
+            markup='<tr data-id='+data.id+'><td>'+count1+'</td><td>'+data.type_name_na+'</td><td>'+data.type_name_na+'</td><td>'+cityname+'</td><td> <a href="#" data-id='+data.id+'\n' +
+                '                     class=" mytooltip btn-setting-nav editFunType"  data-toggle="tooltip" data-placement="top"\n' +
+                '                       title=""\n' +
+                '                    >\n' +
+                '                        <i class="material-icons">edit</i><span class="mytooltiptext">edit</span>\n' +
+                '                    </a> <a href='+url+'\n' +
+                '                        rel="tooltip" class="mytooltip btn-setting-nav  DeleteDonorType"\n' +
+                '                        data-placement="top"  title=" " id="DeleteDonorType">\n' +
+                '                    <i class="material-icons">delete</i><span class="mytooltiptext">delete</span>\n' +
+                '                </a>\n</td></tr>';
+
+        }
         $(markup).insertAfter("#table tr:first");
         $('#procurementModal').modal('hide');
         // }
@@ -830,6 +999,12 @@ var modalname="delete"+data.id;
         else if(id==8){
             $('tr[data-id='+data.id+']').find("td:eq(1)").text(data. activity_lessons_related_name_na);
             $('tr[data-id='+data.id+']').find("td:eq(2)").text(data. activity_lessons_related_name_fo);
+        }
+        else if(id==10){
+            $('tr[data-id='+data.id+']').find("td:eq(1)").text(data.type_name_na);
+            $('tr[data-id='+data.id+']').find("td:eq(2)").text(data.type_name_fo);
+            $('tr[data-id='+data.id+']').find("td:eq(3)").html(cityname);
+
         }
         $('#procurementModal').modal('hide');
     }

@@ -1,4 +1,3 @@
-
         {!! Form::open(['route' => 'project.donors.store' ,'action'=>'post' ,'novalidate'=>'novalidate','id'=>'formAddDonors']) !!}
         <div class="card-body ">
             @if ($errors->any())

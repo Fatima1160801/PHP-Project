@@ -22,7 +22,7 @@ class DonorTypeController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         is_permitted('7', 'DonorTypeController', 'index', '27', '7');
 
@@ -30,11 +30,16 @@ class DonorTypeController extends Controller
         $messageDeleteDonorTypet  =getMessage('2.49');
         $labels = inputButton(Auth::user()->lang_id ,7);
         $userPermissions = getUserPermission();
-
-        return view('project.donors.types.index', compact('labels','donorstypes','messageDeleteDonorTypet','userPermissions'));
+        $id=1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('project.donors.types.table_render', compact('labels','donorstypes','messageDeleteDonorTypet','userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        }else
+        return view('project.donors.types.index', compact('labels','donorstypes','messageDeleteDonorTypet','userPermissions','id'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         is_permitted('7', 'DonorTypeController', 'store', '28', '1');
         $donorType = new DonorType();
@@ -52,8 +57,16 @@ class DonorTypeController extends Controller
         $html =$generator[0];
         $labels =$generator[1];
         $userPermissions = getUserPermission();
+        $save=1;
+        $id1=1;
+        if($request->ajax()){
+            $id1=2;
+            $html =view('project.donors.types.create_render', compact('html','labels','userPermissions','id1','save'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('project.donors.types.create', compact('html','labels','userPermissions'));
+        }
+        else
+        return view('project.donors.types.create', compact('html','labels','userPermissions','id1','save'));
     }
 
     public function store(Request $request)
@@ -73,14 +86,17 @@ class DonorTypeController extends Controller
         Log::instance()->record('2.58',null,7,null,null,null,null);
         Log::instance()->save();
 
-        notifications(getClassName(__CLASS__),__FUNCTION__,route('project.donors.types.edit',$donorstype->id));
+//        notifications(getClassName(__CLASS__),__FUNCTION__,route('project.donors.types.edit',$donorstype->id));
 
         $array = ['text' => 'Data saved successfully'];
         session(['array' => $array]);
-        return redirect()->route('project.donors.types.index');
-    }
+        if($request->ajax())
+            return response(['status'=>true,'message'=>getMessage('2.1'),'city'=>$donorstype,'statusObj'=>activeLabel($donorstype->is_hidden)]);
 
-    public function edit($id)
+        else
+    return redirect()->route('project.donors.types.index');
+}
+    public function edit(Request $request,$id)
     {
         is_permitted('7', 'DonorTypeController', 'update', '29', '2');
 
@@ -89,7 +105,7 @@ class DonorTypeController extends Controller
         $type_name_fo = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'];
         $type_desc_na = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10', 'html_type' => '3'];
         $type_desc_fo = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10', 'html_type' => '3'];
-        $is_hidden = ['selectArray' => ['0' => 'Active', '1' => 'unActive'], 'html_type' => '5'];
+        $is_hidden = ['selectArray' => ['0' => 'Active', '1' => 'unActive'], 'html_type' => '5','col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'];
         $id = ['html_type' => '10'];
         $option = [
             'type_name_na' => $type_name_na,
@@ -103,8 +119,16 @@ class DonorTypeController extends Controller
         $html =$generator[0];
         $labels =$generator[1];
         $userPermissions = getUserPermission();
+        $save=2;
+        $id1=1;
+        if($request->ajax()){
+            $id1=2;
+            $html =view('project.donors.types.create_render', compact('html','labels','userPermissions','id1','save'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('project.donors.types.edit', compact('html','labels','userPermissions'));
+        }
+        else
+        return view('project.donors.types.edit', compact('html','labels','userPermissions','id1','save'));
     }
 
     public function update(Request $request)
@@ -124,11 +148,17 @@ class DonorTypeController extends Controller
         Log::instance()->save();
         $donorstype->save();
 
-        notifications(getClassName(__CLASS__),__FUNCTION__,route('project.donors.types.edit',$donorstype->id));
+//        notifications(getClassName(__CLASS__),__FUNCTION__,route('project.donors.types.edit',$donorstype->id));
 
         $array = ['text' => 'Data Updated successfully'];
         session(['array' => $array]);
+
+        if($request->ajax())
+            return response(['status'=>true,'message'=>getMessage('2.2'),'city'=>$donorstype,'statusObj'=>activeLabel($donorstype->is_hidden)]);
+
+        else
         return redirect()->route('project.donors.types.index');
+
     }
 
     public function destroy($id)

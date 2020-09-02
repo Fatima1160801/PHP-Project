@@ -93,7 +93,7 @@
     <div class="row" id="containerc" style="height: 500px;">
         <div class="col-md-3 card p-3 mr-3">
             <ul class="navbar-nav mailli33">
-                <li class="nav-item mb-3" id="notification" data-nameeng="Notifications" data-namear="الإشعارات" data-value="1">
+                <li class="nav-item mb-3 selected-item" id="notification" data-nameeng="Notifications" data-namear="الإشعارات" data-value="1">
                     <a href="#"
                        class="navi-link py-4 ">
                         <div class="card-icon ">
@@ -171,28 +171,54 @@
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script>
         $(document).ready(function () {
+            $('.selectpicker').selectpicker({
+                @if(Auth::user()->lang_id == 2 )
+                noneSelectedText: 'لم يتم تحديد شيء',
+                @endif
+            });            active_nev_link('notifications-link')
             active_nev_link('visitType-link');
             active_nev_link('settings');
             funValidateForm();
             $('input').prop('required',false);
             $('input[id^="label_"]').attr('disabled',true);
             $('input[id^="labelHint_"]').attr('disabled',true);
+
+
+            defaultVal();
         });
 
-      function  search(){
-            $('#button_clicked').val('search');
-            $.get('{{route('settings.email.index')}}',function(data){
+      {{--function  search(){--}}
+      {{--      $('#button_clicked').val('search');--}}
+      {{--      $.get('{{route('settings.email.index')}}',function(data){--}}
+      {{--          if(data.status==true) {--}}
+      {{--              $("#render_result").html(data.html);--}}
+      {{--              $('.selectpicker').selectpicker();--}}
+      {{--          }--}}
+      {{--      });--}}
+
+      {{--  }--}}
+
+        // // $('#btnSave').click(function(){
+        // //     $(document).on("click", '#btnSave', function () {
+        // //     $('#button_clicked').val('save');
+        // });
+        $("#notification").click(function (e) {
+            addSelected($("#notification").attr("data-value"));
+            $("#add").html("");
+            $("#title").html("");
+            $("#render_result").html("");
+            // $("#procurementModal").addClass("modalSize")
+            e.preventDefault();
+            defaultVal();
+        });
+        function defaultVal(){
+            $.get('{{route('settings.notifications')}}',function(data){
                 if(data.status==true) {
                     $("#render_result").html(data.html);
                     $('.selectpicker').selectpicker();
                 }
             });
-
         }
-
-        $('#btnSave').click(function(){
-            $('#button_clicked').val('save');
-        });
         $("#email").click(function (e) {
                 addSelected($("#email").attr("data-value"));
                 $("#add").html("");
@@ -207,6 +233,20 @@
                     }
                 });
             });
+        $("#label").click(function (e) {
+            addSelected($("#label").attr("data-value"));
+            $("#add").html("");
+            $("#title").html("");
+            $("#render_result").html("");
+            // $("#procurementModal").addClass("modalSize")
+            e.preventDefault();
+            $.get('{{route('labelsSettings.index')}}',function(data){
+                if(data.status==true) {
+                    $("#render_result").html(data.html);
+                    $('.selectpicker').selectpicker();
+                }
+            });
+        });
 
             function addSelected(value) {
                 $(".mailli33 .nav-item").removeClass("selected-item");
@@ -239,6 +279,77 @@
                     $("#render_result").html(data.html);
                     $('.selectpicker').selectpicker();
                     $('#loadScreen div.loader').hide();
+                }
+            });
+        });
+// emailSearch
+        $(document).on("submit", '#formSearch', function (e) {
+        e.preventDefault();
+        var form = new FormData($(this)[0]);
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                $('#btnSearch').attr("disabled", true);
+                $('#btnSearch div  .loader').show();
+                $('#btnSave').attr("disabled", true);
+                $('#btnSave div  .loader').show();
+            },
+            success: function (data) {
+                $('#btnSearch').attr("disabled", false);
+                $('#btnSearch div  .loader').hide();
+                $('#btnSave').attr("disabled", false);
+                $('#btnSave div  .loader').hide();
+                //  $('#btnAddbrand').attr("disabled", false);
+                if (data.status == true) {
+                    $('.loader').hide();
+                    $("#render_result").html(data.html);
+                    $('.selectpicker').selectpicker();
+
+                }
+
+
+            },
+            error: function (data) {
+            }
+        });
+        });
+        $(document).on("submit", '#formSearchLabel', function (e) {
+            e.preventDefault();
+            var form = new FormData($(this)[0]);
+            var url = $(this).attr('action');
+            $.ajax({
+                url: url,
+                data: form,
+                type: 'post',
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    $('#btnSearch').attr("disabled", true);
+                    $('#btnSearch div  .loader').show();
+                    $('#btnSave').attr("disabled", true);
+                    $('#btnSave div  .loader').show();
+                },
+                success: function (data) {
+                    $('#btnSearch').attr("disabled", false);
+                    $('#btnSearch div  .loader').hide();
+                    $('#btnSave').attr("disabled", false);
+                    $('#btnSave div  .loader').hide();
+                    //  $('#btnAddbrand').attr("disabled", false);
+                    if (data.status == true) {
+                        $('.loader').hide();
+                        $("#render_result").html(data.html);
+                        $('.selectpicker').selectpicker();
+
+                    }
+
+
+                },
+                error: function (data) {
                 }
             });
         });

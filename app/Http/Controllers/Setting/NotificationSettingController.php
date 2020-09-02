@@ -46,6 +46,11 @@ class NotificationSettingController extends Controller
         $userPermissions = getUserPermission();
 
 //        ,'screen_commands'
+        if ($request->ajax()) {
+            $html = view('setting.notification.notification_render', compact('staffs','saved_notifications_settings','saved_settings_users','users','labels','modules','userPermissions'))->render();
+            return response(['status' => true, 'html' => $html]);
+        }
+        else
         return view('setting.notification.notification_settings',compact('staffs','saved_notifications_settings','saved_settings_users','users','labels','modules','userPermissions'));
     }
 

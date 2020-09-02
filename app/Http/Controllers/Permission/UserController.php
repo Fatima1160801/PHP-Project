@@ -209,10 +209,15 @@ else
         ]);
 
         if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+            if($request->ajax()){
+                return response(['status'=>false,'message'=>'']);
+            }else{
+                return back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+            }
+
 
         $input = $request->all();
         $user = User::find($input['id']);
