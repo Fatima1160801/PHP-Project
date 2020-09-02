@@ -1104,6 +1104,119 @@
         })
     });
 
+    $(document).on('submit','#formTaskTypeCreate',function(e){
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+
+        e.preventDefault();
+
+        var form = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            beforeSend: function () {
+                $('#btnAddTaskType').attr("disabled", true);
+                $('.loader').show();
+            },
+            success: function (data) {
+                $('#btnAddTaskType').attr("disabled", false);
+                $('#btnAddTaskType div.loader').hide();
+                if (data.status == true) {
+                    var table = $('#table').dataTable();
+                    var count=table.fnGetData().length;
+                    appendTable(data.city,data.statusObj,count,9,"","")
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    // $('#formTaskTypeCreate')[0].reset();
+                    $('.loader').hide();
+                } else if (data.status == false) {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                }
+                //$('#addBenf').prop("disabled", false);
+
+
+
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
+    $(document).on('submit', '#formtaskTypeUpdate', function (e) {
+
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+
+        e.preventDefault();
+
+        var form = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            beforeSend: function () {
+                $('#btntaskTypeCity').attr("disabled", true);
+                $('.loader').show();
+            },
+            success: function (data) {
+                $('#btntaskTypeCity').attr("disabled", false);
+                $('.loader').hide();
+                if (data.status == true) {
+                    editRow(data.city,data.statusObj,9,"","")
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    $('.loader').hide();
+                } else if (data.status == false) {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                }
+
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
+    $(document).on('click', '.btnTaskDelete', function (e) {
+        e.preventDefault();
+        $this = $(this);
+
+        swal({
+            text: 'Are you sure to delete task type',
+            confirmButtonClass: 'btn btn-success  btn-sm',
+            cancelButtonClass: 'btn btn-danger  btn-sm',
+            buttonsStyling: false,
+            showCancelButton: true
+        }).then(result => {
+            if (result == true){
+                // var project_id = $('#formProjectMain #id').val();
+                url = $(this).attr('href');
+                $.ajax({
+                    url: url,
+                    type: 'delete',
+                    beforeSend: function () {
+                    },
+                    success: function (data) {
+                        if (data.status == 'true') {
+                            $($this).closest('tr').css('background','red').delay(1000).hide(1000);
+                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                            // $('#contentModal .close').click();
+                        }else {
+                            myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        })
+    });
+
+
 </script>
 @section('js')
     <!-- Forms Validations Plugin -->

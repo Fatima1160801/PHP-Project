@@ -3,7 +3,7 @@
     {{--                <i class="material-icons"> group_work--}}
     {{--                </i>--}}
     {{--            </div>--}}
-    <h4 class="card-title">Groups</h4>
+    <h4 class="card-title" style="color:black;">Groups</h4>
 
 </div>
 <div class="card-body ">

@@ -501,5 +501,12 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('/beneficiary/organization/report', ['uses' => 'Beneficiary\BeneficiaryOrganizationsController@reportBeneficiaryOrganization'])->name('beneficiary.organization.report.form');
 
 
+    Route::get('settings/taskType', ['uses' => 'Setting\C\TaskTypeController@index', 'as' => 'settings.taskType']);
+    Route::get('settings/taskType/create', ['uses' => 'Setting\C\TaskTypeController@create', 'as' => 'settings.taskType.create']);
+    Route::post('settings/taskType/store', ['uses' => 'Setting\C\TaskTypeController@store', 'as' => 'settings.taskType.store']);
+    Route::get('settings/taskType/{id}/edit', ['uses' => 'Setting\C\TaskTypeController@edit', 'as' => 'settings.taskType.edit']);
+    Route::post('settings/taskType/update', ['uses' => 'Setting\C\TaskTypeController@update', 'as' => 'settings.taskType.update']);
+    Route::delete('settings/taskType/delete/{id}', ['uses' => 'Setting\C\TaskTypeController@delete', 'as' => 'settings.taskType.delete']);
+
 });
 

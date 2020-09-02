@@ -20,20 +20,25 @@ class TaskTypeController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        is_permitted(86, getClassName(__CLASS__),__FUNCTION__, 148, 7);
+        is_permitted(86, getClassName(__CLASS__), __FUNCTION__, 148, 7);
 
         $taskType = TaskType::all();
         $messageDeleteType = getMessage('2.164');
-        $labels = inputButton(Auth::user()->lang_id,86);
+        $labels = inputButton(Auth::user()->lang_id, 86);
         $userPermissions = getUserPermission();
-
-        return view('setting.c.taskType.index',compact('labels','taskType','messageDeleteType','userPermissions'));
+        $id = 1;
+        if ($request->ajax()) {
+            $id = 2;
+            $html = view('setting.c.taskType.table_render', compact('labels', 'taskType', 'messageDeleteType', 'userPermissions', 'id'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('setting.c.taskType.index', compact('labels', 'taskType', 'messageDeleteType', 'userPermissions','id'));
+        }
     }
 
-
-    public function create()
+    public function create(Request $request)
     {
         is_permitted(86, getClassName(__CLASS__),'store', 149, 1);
 
@@ -45,7 +50,16 @@ class TaskTypeController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
-        return view('setting.c.taskType.create', compact('labels','html','userPermissions'));
+        $save=1;
+        $id1=1;
+        if($request->ajax()){
+            $id1=2;
+            $html =view('setting.c.taskType.create_render', compact('labels', 'html', 'userPermissions','save','id1'))->render();
+            return response(['status' => true, 'html' =>$html]);
+
+        }
+        else
+        return view('setting.c.taskType.create', compact('labels','html','userPermissions','save','id1'));
     }
 
 
@@ -74,11 +88,11 @@ class TaskTypeController extends Controller
 
         notifications(getClassName(__CLASS__),__FUNCTION__,route('settings.taskType.edit',$taskType->id));
 
-        return response(['status' => 'true', 'message' => getMessage('2.1')]);
+        return response(['status' => true, 'message' => getMessage('2.1'),'city'=>$taskType,'statusObj'=>activeLabel($taskType->is_hidden)]);
     }
 
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
         is_permitted(86, getClassName(__CLASS__),'update', 150, 2);
 
@@ -98,8 +112,16 @@ class TaskTypeController extends Controller
         $html = $generator[0];
         $labels = $generator[1];
         $userPermissions = getUserPermission();
+        $save=2;
+        $id1=1;
+        if($request->ajax()){
+            $id1=2;
+            $html =view('setting.c.taskType.create_render', compact('labels', 'html', 'userPermissions','save','id1'))->render();
+            return response(['status' => true, 'html' =>$html]);
 
-        return view('setting.c.taskType.edit', compact('labels','html','userPermissions'));
+        }
+        else
+        return view('setting.c.taskType.edit', compact('labels','html','userPermissions','save','id1'));
     }
 
 
@@ -126,7 +148,7 @@ class TaskTypeController extends Controller
 
         notifications(getClassName(__CLASS__),__FUNCTION__,route('settings.taskType.edit',$taskType->id));
 
-        return response(['success' => true,'message' => getMessage('2.2')]);
+        return response(['status' => true,'message' => getMessage('2.2'),'city'=>$taskType,'statusObj'=>activeLabel($taskType->is_hidden)]);
     }
 
 
