@@ -26,7 +26,7 @@
         <th>
             {{$labels['isbn'] ?? 'ISBN'}}
         </th>
-        <th style="width: 95px;">
+        <th>
             {{$labels['actions'] ?? 'actions'}}
         </th>
 

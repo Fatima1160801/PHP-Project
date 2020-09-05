@@ -50,7 +50,7 @@ class JobTitleController extends Controller
         $job_title = new JobTitle();
         $job_title_name_na = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
         $job_title_name_fo = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
-        $is_inside_outside = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'selectArray' => ['0' => 'All', '1' => 'Inside the institution', '2' => 'Outside the institution']];
+        $is_inside_outside = ['col_all_Class' => 'col-md-8','attr' => ' data-live-search="true" ', 'col_label_Class' => 'col-md-3', 'selectArray' => ['0' => 'All', '1' => 'Inside the institution', '2' => 'Outside the institution']];
         $is_hidden = ['html_type' => '13'];
         $option = [
             'job_title_name_na' => $job_title_name_na,
@@ -120,8 +120,8 @@ class JobTitleController extends Controller
         $data = JobTitle::where('id', $id)->first();
         $job_title_name_na = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
         $job_title_name_fo = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
-        $is_inside_outside = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'selectArray' => ['0' => 'All', '1' => 'Inside the institution', '2' => 'Outside the institution'], "attr" => "value='$data->is_inside_outside'"];
-        $is_hidden = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'selectArray' => ['0' => 'Active', '1' => 'Inactive'], "attr" => "value='$data->is_hidden'"];
+        $is_inside_outside = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'attr' => ' data-live-search="true" ','selectArray' => ['0' => 'All', '1' => 'Inside the institution', '2' => 'Outside the institution'], "attr" => "value='$data->is_inside_outside'"];
+        $is_hidden = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3','attr' => ' data-live-search="true" ', 'selectArray' => ['0' => 'Active', '1' => 'Inactive'], "attr" => "value='$data->is_hidden'"];
        $id=['html_type'=>'10'];
         $option = [
             'job_title_name_na' => $job_title_name_na,

@@ -1,7 +1,7 @@
-<div class="card" style="margin-left: -21px;
-    margin-top: -12px;
-    margin-bottom: -15px;
-    width: 106%;">
+{{--<div class="card" style="margin-left: -21px;--}}
+{{--    margin-top: -12px;--}}
+{{--    margin-bottom: -15px;--}}
+{{--    width: 106%;">--}}
     <div class="card-header card-header-rose  card-header-icon" id="createmodal">
         {{--            <div class="card-icon">--}}
         {{--                <i class="material-icons">desktop_windows</i>--}}
@@ -65,4 +65,4 @@
 
         {!! Form::close() !!}
     </div>
-</div>
+{{--</div>--}}

@@ -73,8 +73,8 @@ class BeneficiaryFamIndvController extends Controller
         ];
         $ben_type_id = ['relatedWhere' => 'id in (1,2) ', 'col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-4', 'html_type' => '5'];
         $gender = ['html_type' => '7', 'selectArray' => $gender_a[Auth::user()->lang_id]];
-        $ben_city = ['html_type' => '5', 'relatedWhere' => 'deleted_at is null and is_hidden =0'];
-        $marital_status = ['html_type' => '5', 'selectArray' => ['1' => 'Single', '2' => 'Married', '3' => 'Widowed', '4' => 'Divorced']];
+        $ben_city = ['html_type' => '5', 'relatedWhere' => 'deleted_at is null and is_hidden =0','attr' => ' data-live-search="true"'];
+        $marital_status = ['html_type' => '5', 'selectArray' => ['1' => 'Single', '2' => 'Married', '3' => 'Widowed', '4' => 'Divorced'],'attr' => ' data-live-search="true"'];
         $ben_desc = ['html_type' => '3', 'col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'];
         $is_hidden = ['html_type' => '13'];
         $ben_idno = ['inputClass' => 'check-is-number'];
@@ -99,6 +99,7 @@ class BeneficiaryFamIndvController extends Controller
             'no_of_family' => $no_of_family,
             'no_males' => $no_males,
             'no_females' => $no_females,
+            'district_id'=>['attr' => ' data-live-search="true"'],
         ];
 
         $beneficiary = new Beneficiary();
@@ -238,7 +239,7 @@ class BeneficiaryFamIndvController extends Controller
         ];
         $ben_type_id = ['relatedWhere' => 'id != 3', 'col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-4', 'html_type' => '5'];
         $gender = ['html_type' => '7', 'selectArray' => $gender_a[Auth::user()->lang_id]];
-        $ben_city = ['html_type' => '5', 'relatedWhere' => 'deleted_at is null  and is_hidden =0'];
+        $ben_city = ['html_type' => '5', 'relatedWhere' => 'deleted_at is null  and is_hidden =0','attr' => ' data-live-search="true"'];
         $marital_status = ['html_type' => '5', 'selectArray' => $ms[Auth::user()->lang_id]];
         $ben_desc = ['html_type' => '3', 'col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'];
         $is_hidden = ['html_type' => '5', 'selectArray' => $pst[Auth::user()->lang_id]];
@@ -275,6 +276,7 @@ class BeneficiaryFamIndvController extends Controller
             'no_of_family' => $no_of_family,
             'no_males' => $no_males,
             'no_females' => $no_females,
+            'district_id'=>['attr' => ' data-live-search="true"'],
         ];
         $customFields = CustomField::where('table_name', 'beneficiary')->get();
         $customFieldTypes = FieldTypeUser::all();

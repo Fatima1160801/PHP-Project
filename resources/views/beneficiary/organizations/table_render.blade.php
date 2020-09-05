@@ -16,10 +16,10 @@
            title="">
             <i class="material-icons">search</i><span class="mytooltiptext">{{$labels['search'] ?? 'search'}}</span>
         </a>
-    <table class="table" id="table">
+    <table class="table dataTable no-footer table-bordered" id="table">
         <thead>
         <tr>
-            <th>#</th>
+            <th style="width: 22px;">#</th>
             <th>
 
                 {{$labels['organization_name'] ?? 'organization_name'}}
@@ -33,7 +33,7 @@
             <th>
                 {{$labels['added_at'] ?? 'added_at'}}
             </th>
-            <th>
+            <th style="width: 139px;">
                 {{$labels['actions'] ?? 'actions'}}
             </th>
         </tr>

@@ -3,7 +3,7 @@
         e.preventDefault();
         $this = $(this);
         swal({
-            text: 'Are you sure to delete brand?',
+            text: '{{getMessage('2.348')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -48,7 +48,7 @@
             contentType: false,
             beforeSend: function () {
                 $('#btnAddbrand').attr("disabled", true);
-                $('.loader').show();
+                $('#btnAddbrand div .loader').show();
             },
             success: function (data) {
 
@@ -58,7 +58,8 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,count,1,"","");
+                    // appendTable(data.city,count,1,"","");
+                    $("#brand").click();
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     var update_url="{{route("brands.update")}}"
                     $("#formBrandCreate").attr("action",update_url);
@@ -99,7 +100,7 @@
             contentType: false,
             beforeSend: function () {
                 $('#btnEditbrand').attr("disabled", true);
-                $('.loader').show();
+                $('#btnEditbrand div .loader').show();
             },
             success: function (data) {
                 $('#btnEditbrand').attr("disabled", false);
@@ -136,7 +137,7 @@
             contentType: false,
             beforeSend: function () {
                 $('#btnAddunit').attr("disabled", true);
-                $('.loader').show();
+                $('#btnAddunit div .loader').show();
             },
             success: function (data) {
 
@@ -151,7 +152,8 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,count,2,"","");
+                    // appendTable(data.city,count,2,"","");
+                    $("#unit").click();
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     var update_url="{{route("units.update")}}"
                     $("#formUnitCreate").attr("action",update_url);
@@ -219,7 +221,7 @@
         e.preventDefault();
         $this = $(this);
         swal({
-            text: 'Are you sure to delete unit?',
+            text: '{{getMessage('2.347')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -264,7 +266,7 @@
             contentType: false,
             beforeSend: function () {
                 $('#btnAddsector').attr("disabled", true);
-                $('.loader').show();
+                $('#btnAddsector div .loader').show();
             },
             success: function (data) {
 
@@ -274,7 +276,8 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,count,3,"","");
+                    // appendTable(data.city,count,3,"","");
+                    $("#sector").click();
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     var update_url="{{route("sectors.update")}}"
                     $("#formSectorCreate").attr("action",update_url);
@@ -315,7 +318,7 @@
             contentType: false,
             beforeSend: function () {
                 $('#btnEditsector').attr("disabled", true);
-                $('.loader').show();
+                $('#btnEditsector div .loader').show();
             },
             success: function (data) {
                 $('#btnEditsector').attr("disabled", false);
@@ -341,7 +344,7 @@
         e.preventDefault();
         $this = $(this);
         swal({
-            text: 'Are you sure to delete sector?',
+            text: '{{getMessage('2.346')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -387,7 +390,7 @@
             contentType: false,
             beforeSend: function () {
                 $('#btnAddservice').attr("disabled", true);
-                $('.loader').show();
+                $('#btnAddservice div .loader').show();
             },
             success: function (data) {
 
@@ -398,7 +401,8 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,count,4,"","");
+                    // appendTable(data.city,count,4,"","");
+                    $("#service").click();
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     var update_url="{{route("services.update")}}"
                     $("#formServiceCreate").attr("action",update_url);
@@ -439,7 +443,7 @@
             contentType: false,
             beforeSend: function () {
                 $('#btnEditservice').attr("disabled", true);
-                $('.loader').show();
+                $('#btnEditservice div .loader').show();
             },
             success: function (data) {
                 $('#btnEditservice').attr("disabled", false);
@@ -465,7 +469,7 @@
         e.preventDefault();
         $this = $(this);
         swal({
-            text: 'Are you sure to delete service?',
+            text: '{{getMessage('2.351')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -511,7 +515,7 @@
             contentType: false,
             beforeSend: function () {
                 $('#btnAddmethod').attr("disabled", true);
-                $('.loader').show();
+                $('#btnAddmethod div .loader').show();
             },
             success: function (data) {
 
@@ -521,7 +525,8 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,count,5,"","");
+                    // appendTable(data.city,count,5,"","");
+                    $("#purchase").click();
                     var update_url="{{route("purchasemethods.update")}}"
                     $("#formMethodCreate").attr("action",update_url);
                     $("#id").val(data.id);
@@ -563,7 +568,7 @@
             contentType: false,
             beforeSend: function () {
                 $('#btnEditmethod').attr("disabled", true);
-                $('.loader').show();
+                $('#btnEditmethod div .loader').show();
             },
             success: function (data) {
                 $('#btnEditmethod').attr("disabled", false);
@@ -589,7 +594,7 @@
         e.preventDefault();
         $this = $(this);
         swal({
-            text: 'Are you sure to delete purchase method?',
+            text: '{{getMessage('2.349')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -706,7 +711,7 @@
         e.preventDefault();
         $this = $(this);
         swal({
-            text: 'Are you sure to delete item?',
+            text: '{{getMessage('2.352')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -741,7 +746,7 @@
         e.preventDefault();
         $this = $(this);
         swal({
-            text: 'Are tyou sure to delete item group?',
+            text: '{{getMessage('2.350')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,

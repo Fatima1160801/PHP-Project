@@ -41,8 +41,8 @@ class LocalityController extends Controller
         is_permitted(68, getClassName(__CLASS__), 'store', 203, 1);
 
         $option = [
-            'city_id' => ['relatedWhere' => ' deleted_at is null', 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
-            'district_id' => ['relatedWhere' => ' deleted_at is null', 'is_related' => '0', 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
+            'city_id' => ['relatedWhere' => ' deleted_at is null', 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8','attr' => ' data-live-search="true"'],
+            'district_id' => ['relatedWhere' => ' deleted_at is null', 'is_related' => '0', 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8','attr' => ' data-live-search="true"'],
             'contact_email' => ['inputClass' => 'noArabic'],
             'contact_mobile' => ['inputClass' => 'check-is-number'],
             'note' => ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'],
@@ -101,8 +101,8 @@ class LocalityController extends Controller
         }
 
         $option = [
-            'city_id' => ['relatedWhere' => ' deleted_at is null', 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
-            'district_id' => ['relatedWhere' => ' deleted_at is null and city_id=' . $locality->city_id, 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
+            'city_id' => ['relatedWhere' => ' deleted_at is null', 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8','attr' => ' data-live-search="true"'],
+            'district_id' => ['relatedWhere' => ' deleted_at is null and city_id=' . $locality->city_id, 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8','attr' => ' data-live-search="true"'],
             'contact_email' => ['inputClass' => 'noArabic'],
             'contact_mobile' => ['inputClass' => 'check-is-number'],
             'registration_number' => ['inputClass' => 'check-is-number'],

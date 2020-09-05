@@ -43,7 +43,7 @@
 {{--            <i class="material-icons">settings</i><span class="mytooltiptext">{{Auth::user()->lang_id == 1 ? 'Settings' : 'إعدادات'}}</span>--}}
 {{--        </a>--}}
 
-    <table class="table" id="table">
+    <table class="table table dataTable no-footer table-bordered" id="table">
         <thead>
         <tr>
             <th>#</th>

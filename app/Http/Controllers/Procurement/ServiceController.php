@@ -37,7 +37,7 @@ class ServiceController extends Controller
     {
 
         is_permitted(145, getClassName(__CLASS__), __FUNCTION__, 322, 7);
-        $list = Service::orderby('id', 'desc')->get();
+        $list = Service::get();
         $messageDeleteType = getMessage('2.351');
         $labels = inputButton(Auth::user()->lang_id, 145);
         $userPermissions = getUserPermission();

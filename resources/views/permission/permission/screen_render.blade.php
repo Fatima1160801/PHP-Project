@@ -21,7 +21,7 @@
 
         {!! $html !!}
 
-        <div id="loader" class="col-md-2" style="padding-left:300px;"><div class="loader pull-center" style="width: 30px;
+        <div id="loader" class="col-md-2" style="padding-left:300px;"><div class="loader pull-center" style="display: none;swidth: 30px;
  height: 30px;"></div></div>
 
         <div class="col-md-12" id="grant_result">

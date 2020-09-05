@@ -28,11 +28,11 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-
-                    appendTable(data.city,count,1,"","");
+                    // appendTable(data.city,count,1,"","");
                     // $('#table').DataTable();
+                    $("#governorate").click();
 
-                    $('#locationModal').modal('hide');
+                    // $('#locationModal').modal('hide');
                  {{--// }--}}
                     $('.loader').hide();
                 } else if (data.status == 'false') {
@@ -94,7 +94,7 @@
         $this = $(this);
 
         swal({
-            text: 'Are you sure you want to delete city ?',
+            text: '{{getMessage('2.86')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,

@@ -37,7 +37,7 @@ class ItemGroupsController extends Controller
     {
 
         is_permitted(143, getClassName(__CLASS__), __FUNCTION__, 314, 7);
-        $list = ItemGroups::orderby('id', 'desc')->get();
+        $list = ItemGroups::get();
         $messageDeleteType = getMessage('2.350');
         $labels = inputButton(Auth::user()->lang_id, 143);
         $userPermissions = getUserPermission();

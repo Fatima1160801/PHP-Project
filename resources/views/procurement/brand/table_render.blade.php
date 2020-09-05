@@ -1,4 +1,4 @@
-<table class="table dataTable no-footer table-bordered" id="table" style="height:400px;min-height: 400px;max-height: 400px;overflow-y: scroll;">
+<table class="table dataTable no-footer table-bordered" id="table" >
     <thead>
     <tr>
         <th>#</th>
@@ -19,7 +19,7 @@
         @foreach($list  as $index => $item)
             <tr data-id="{{$item->id}}">
                 <td>{{$index+1}}</td>
-                <td style="width: 30em;">{{$item->brand_name ?? ""}}</td>
+                <td >{{$item->brand_name ?? ""}}</td>
 
                 <td>
                     @if($id==1)

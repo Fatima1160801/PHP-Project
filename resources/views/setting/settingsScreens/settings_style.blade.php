@@ -62,11 +62,11 @@
     /*    margin-right: 22px;*/
     /*}*/
 
-    /*#table{*/
-    /*    margin-left: 12% !important;*/
-    /*    text-align: center;*/
-    /*    width: 45em !important;*/
-    /*}*/
+    #table{
+        /*margin-top: -2% !important;*/
+        text-align: center;
+        /*width: 45em !important;*/
+    }
     /*.table {*/
     /*    width: 60em !important;*/
     /*}*/
@@ -89,7 +89,7 @@
     /*    border-radius: 50% !important;*/
     /*}*/
 .instrole{
-    margin-left: 7% !important;
+    margin-left: 0% !important;
 }
     #render_result{
         min-height: 400px;

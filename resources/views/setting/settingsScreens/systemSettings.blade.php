@@ -89,8 +89,8 @@
 {{--</div>--}}
 
 {{--New New--}}
-<div class="container ml-2">
-    <div class="row" id="containerc" style="height: 500px;">
+<div class="container col-md-12 ml-2">
+    <div class="row mt-4" id="containerc">
         <div class="col-md-3 card p-3 mr-3">
             <ul class="navbar-nav mailli33">
                 <li class="nav-item mb-3 selected-item" id="notification" data-nameeng="Notifications" data-namear="الإشعارات" data-value="1">

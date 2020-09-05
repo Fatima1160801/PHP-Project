@@ -38,7 +38,7 @@ class SectorController extends Controller
     {
 
         is_permitted(140, getClassName(__CLASS__), __FUNCTION__, 299, 7);
-        $list = Sector::orderby('id', 'desc')->get();
+        $list = Sector::get();
         $messageDeleteType = getMessage('2.346');
         $labels = inputButton(Auth::user()->lang_id, 140);
         $userPermissions = getUserPermission();

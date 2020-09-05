@@ -4,7 +4,7 @@
         $this = $(this);
 
         swal({
-            text: 'Are you sure to delete document type?',
+            text: '{{getMessage('2.180')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -58,7 +58,8 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,count,1,"","");
+                    // appendTable(data.city,count,1,"","");
+                   $("#doctype") .click();
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     $('#formAttachmentTypesCreate')[0].reset();
                     $('.loader').hide();
@@ -117,7 +118,7 @@
         e.preventDefault();
         $this = $(this);
         swal({
-            text: 'Are you sure to delete document setting?',
+            text: '{{getMessage('2.203')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -217,7 +218,9 @@ alert("kk");
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTableSetting(data.city,count,data.interface,data.attachment);}
+                    // appendTableSetting(data.city,count,data.interface,data.attachment);
+                        $("#docsetting").click();
+                         }
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
 
                     $('.loader').hide();

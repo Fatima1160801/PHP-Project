@@ -45,8 +45,8 @@
 {{--    </div>--}}
 {{--</div>--}}
 {{--New--}}
-<div class="container ml-2">
-    <div class="row" id="containerc" >
+<div class="container col-md-12 ml-2">
+    <div class="row mt-4" id="containerc" >
         <div class="col-md-3 card p-3 mr-3">
             <ul class="navbar-nav mailli33 ">
                 <li class="nav-item mb-3 selected-item" id="user" data-nameeng="Users" data-namear="المستخدمين" data-value="1">
@@ -243,7 +243,12 @@
             }
 
             function defaultVal() {
-                $('#loadScreen div.loader').show();
+                $("#user").addClass("selected-item");
+            $("#group").removeClass("selected-item");
+            $("#staff").removeClass("selected-item");
+            $("#teamrole").removeClass("selected-item");
+            $("#teamrole1").removeClass("selected-item");
+        $('#loadScreen div.loader').show();
                 $.get('{{route('permission.user.index')}}', function (data) {
                     if (data.status == true) {
                         $("#render_result").html(data.html);
@@ -402,6 +407,7 @@
                     }
 
                 });
+                $('#loadScreen').hide();
             });
                 $(document).on("click", ".grantPermissionUser", function (e) {
                     $('#loadScreen div.loader').show();

@@ -26,7 +26,7 @@ class DistrictController extends Controller
     {
         is_permitted(49, getClassName(__CLASS__), __FUNCTION__, 124, 7);
 $id=1;
-        $districts = District::latest()->take(30)->get();;
+        $districts = District::take(30)->get();;
        $messageDeleteDistrict = getMessage('2.1');
         $labels = inputButton(Auth::user()->lang_id, 49);
         $userPermissions = getUserPermission();
@@ -45,7 +45,7 @@ $id=1;
         is_permitted(49, getClassName(__CLASS__), 'store', 125, 1);
 
         $option = [
-            'city_id' => ['relatedWhere' => ' deleted_at is null', 'col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-4']
+            'city_id' => ['relatedWhere' => ' deleted_at is null', 'col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-4','attr' => ' data-live-search="true" ']
             , 'longitude' => ['inputClass' => 'check-is-number']
             , 'latitude' => ['inputClass' => 'check-is-number']
         ];

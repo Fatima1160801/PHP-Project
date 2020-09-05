@@ -5,7 +5,7 @@
         <i class="material-icons">add</i></a>
 
 
-    <table class="table" id="table">
+    <table class="table table dataTable no-footer table-bordered" id="table">
         <thead>
         <tr>
             <th>#</th>

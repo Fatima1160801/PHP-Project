@@ -37,7 +37,7 @@ class ItemController extends Controller
     {
 
         is_permitted(146, getClassName(__CLASS__), __FUNCTION__, 326, 7);
-        $list = Item::orderby('id', 'desc')->get();
+        $list = Item::get();
         $messageDeleteType = getMessage('2.352');
         $labels = inputButton(Auth::user()->lang_id, 146);
         $userPermissions = getUserPermission();

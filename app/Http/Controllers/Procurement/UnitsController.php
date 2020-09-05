@@ -37,7 +37,7 @@ class UnitsController extends Controller
     {
 
         is_permitted(141, getClassName(__CLASS__), __FUNCTION__, 304, 7);
-        $list = Unit::orderby('id', 'desc')->get();
+        $list = Unit::get();
         $messageDeleteType = getMessage('2.347');
         $labels = inputButton(Auth::user()->lang_id, 141);
         $userPermissions = getUserPermission();

@@ -8,8 +8,8 @@
     </style>
 @endsection
 @section('content')
-    <div class="container ml-2">
-        <div class="row" id="containerc" style="padding:30px;">
+    <div class="container col-md-12 ml-2">
+        <div class="row mt-4" id="containerc">
             <div class="col-md-2 card p-3 mr-3">
                 <ul class="navbar-nav mailli33">
                     <li class="nav-item mb-3 selected-item" id="governorate" data-nameeng="Governorates" data-namear="المدن" data-value="1">
@@ -249,7 +249,7 @@ function appendTable(data,count,id,cityname,citynamefo){
     // $("#table").find('tbody').append(markup);
     $(markup).insertBefore("#table tbody tr:first");
     // $("#table tbody tr:first").after(markup);
-    $('#locationModal').modal('hide');
+    // $('#locationModal').modal('hide');
     // }
 }
 function editRow(data,id,cityname,citynamefo){

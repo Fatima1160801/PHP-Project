@@ -32,17 +32,17 @@
                         <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}}</span>
                     </a>
                     @else
-                        <button type="button" data-id="{{$item->id}}"
+                        <a href="#" data-id="{{$item->id}}"
                                 class="mytooltip btn-setting-nav editSector"  data-toggle="tooltip" data-placement="top"
                                 title=" "
                         >
                             <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}}</span>
-                        </button>@endif
-                    <button type="button" href="{{ route('sectors.delete',$item->id )}}"
+                        </a>@endif
+                    <a href="{{ route('sectors.delete',$item->id )}}"
                             rel="tooltip" class="mytooltip btn-setting-nav btnTypeDeleteSector"
                             data-placement="top"  title="">
                         <i class="material-icons">delete</i><span class="mytooltiptext">{{$labels['delete'] ?? 'delete'}}</span>
-                    </button>
+                    </a>
                 </td>
 
             </tr>

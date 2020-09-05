@@ -38,7 +38,7 @@ class BrandController extends Controller
     {
 
         is_permitted(142, getClassName(__CLASS__), __FUNCTION__, 309, 7);
-        $list = Brand::orderby('id', 'desc')->get();
+        $list = Brand::get();
         $messageDeleteType = getMessage('2.348');
 //        $labels = inputButton(Auth::user()->lang_id, 142);
         $userPermissions = getUserPermission();

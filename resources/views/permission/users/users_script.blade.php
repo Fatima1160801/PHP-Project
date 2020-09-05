@@ -40,15 +40,16 @@
                 var htmlRow = data.data.html;
                 var $massage='';
                 if (data.status == 'save') {
-                    alert("before");
+                    $("#group").click();
+                    // alert("before");
                     var length = $('#table tbody tr').length;
-                    alert("after");
+                    // alert("after");
                     htmlRow = htmlRow.replace('{index}', length + 1);
-                    alert(htmlRow);
+                    // alert(htmlRow);
                     // $(htmlRow).appendTo('#table tbody');
                     // $("#table tbody").append(htmlRow);
                     $(htmlRow).insertAfter("#table tr:first");
-                    alert("after");
+                    // alert("after");
                 }
                     // $massage="Saved Successfully";
                  else if (data.status == 'edit') {
@@ -80,11 +81,11 @@
         };
         var $messageConf ="";
         if($(this).attr('status')== '1'){
-            $messageConf ='Are you sure to lock user ?';
+            $messageConf ='{{getMessage('2.18')['text']}}',
             $this.attr('status','3');
             $this.attr('data-original-title','Un lock');
         }else if($(this).attr('status')== '3'){
-            $messageConf ='Are you sure to un lock user ?';
+            $messageConf ='{{getMessage('2.19')['text']}}',
             $this.attr('status','1');
             $this.attr('data-original-title',' lock');
         }
@@ -316,7 +317,8 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,data.statusObj,count,1,"","",data.usedStatus);
+                    // appendTable(data.city,data.statusObj,count,1,"","",data.usedStatus);
+                    $("#teamrole").click();
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     $('.loader').hide();
                 }
@@ -653,7 +655,8 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,data.statusObj,count,5,"","","");
+                    // appendTable(data.city,data.statusObj,count,5,"","","");
+                    $("#teamrole1").click();
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     $('.loader').hide();
                 }
@@ -705,7 +708,7 @@
         e.preventDefault();
         $this = $(this);
         swal({
-            text: 'Are you sure to delete team role?',
+            text: '{{getMessage('2.1004')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,

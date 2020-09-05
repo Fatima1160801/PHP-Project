@@ -97,7 +97,7 @@ class CityController extends Controller
 
         notifications(getClassName(__CLASS__), __FUNCTION__, route('settings.cities.edit', $city->id));
 
-        return response(['status' => 'true', 'message' => getMessage('2.87'),'city'=>$city,'count'=>$count]);
+        return response(['status' => 'true', 'message' => getMessage('2.1'),'city'=>$city,'count'=>$count]);
     }
 
 
@@ -150,7 +150,7 @@ $id=1;
 
         notifications(getClassName(__CLASS__), __FUNCTION__, route('settings.cities.edit', $city->id));
 
-        return response(['success' => true, 'message' => getMessage('2.88'),'city'=>$city]);
+        return response(['success' => true, 'message' => getMessage('2.2'),'city'=>$city]);
     }
 
 

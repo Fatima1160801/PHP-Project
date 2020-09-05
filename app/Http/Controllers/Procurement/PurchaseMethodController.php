@@ -37,7 +37,7 @@ class PurchaseMethodController extends Controller
     {
 
         is_permitted(144, getClassName(__CLASS__), __FUNCTION__, 318, 7);
-        $list = Purchase::orderby('id', 'desc')->get();
+        $list = Purchase::get();
         $messageDeleteType = getMessage('2.349');
         $labels = inputButton(Auth::user()->lang_id, 144);
         $userPermissions = getUserPermission();

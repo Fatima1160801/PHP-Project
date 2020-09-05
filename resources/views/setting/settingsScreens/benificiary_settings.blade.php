@@ -11,8 +11,8 @@
     </style>
 @endsection
 @section('content')
-    <div class="container ml-2">
-        <div class="row" id="containerc" style="padding:30px;">
+    <div class="container col-md-12 ml-2">
+        <div class="row mt-4" id="containerc" style="padding:30px;">
             <div class="col-md-3 card p-3 mr-4">
                 <ul class="navbar-nav mailli33">
                     <li class="nav-item mb-3 selected-item" id="beneficiary" data-nameeng="{{$labels['families_individuals'] ?? 'families_individuals'}}" data-namear="{{$labels['families_individuals'] ?? 'families_individuals'}}" data-value="1">
@@ -46,7 +46,7 @@
 
                 </ul>
             </div>
-            <div class="col-md-8 p-3 card" style="width:2000px;"><div class="card-title" id="content">
+            <div class="col-md-8 p-3 card"><div class="card-title" id="content">
                     <label id="title" style="font-weight: bold;font-size: 19px !important;"></label>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<span id="add"></span>
                 </div>
                 <div id="loadScreen" class="col-md-2" style="padding-left:300px;"><div class="loader pull-center" style="display: none;width: 30px;

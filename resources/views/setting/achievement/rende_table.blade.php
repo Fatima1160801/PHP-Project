@@ -1,4 +1,4 @@
-<table class="table dataTable no-footer table-bordered" id="table"style="margin-left: 7% !important;margin-top: -10% !important; ">
+<table class="table dataTable no-footer table-bordered" id="table"s>
     <thead>
     <tr>
         <th>#</th>

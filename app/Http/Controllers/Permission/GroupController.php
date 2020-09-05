@@ -34,7 +34,7 @@ class GroupController extends Controller
     {
         is_permitted('2', 'GroupController', 'index', '8', '7');
 
-        $groups = Group::get();
+        $groups = Group::orderby('id','desc')->get();
         $labels = inputButton(Auth::user()->lang_id, 0);
         $userPermissions = getUserPermission();
         $id = 1;

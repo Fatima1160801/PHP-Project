@@ -79,9 +79,9 @@ class DocumentController extends Controller
         $attachments = AttachmentSpecific::where('is_hidden',0)->pluck($attach_name, 'id');
         $selectArray = [0=>'No',1=>'Yes'];
 
-        $option = [ 'interface_type_id' => ['selectArray' => $interfaces],
-                    'attachment_type_id'=> ['selectArray' => $attachments], 
-                    'fixed_in_interface_flag'=>['selectArray'=>$selectArray,'html_type'=>'5'],
+        $option = [ 'interface_type_id' => ['selectArray' => $interfaces,'attr' => ' data-live-search="true" ','col_all_Class' => 'col-md-8',],
+                    'attachment_type_id'=> ['selectArray' => $attachments,'attr' => ' data-live-search="true" ','col_all_Class' => 'col-md-8',],
+                    'fixed_in_interface_flag'=>['selectArray'=>$selectArray,'html_type'=>'5','col_all_Class' => 'col-md-8',],
                 ];
 
         $documents = new Document();

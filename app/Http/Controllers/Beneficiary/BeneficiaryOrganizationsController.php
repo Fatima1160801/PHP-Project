@@ -82,8 +82,8 @@ class BeneficiaryOrganizationsController extends Controller
             'ben_mobile_no' => $ben_mobile_no,
             'contact_mobile' => $contact_mobile,
             'note' => $note,
-            'city_id' => ['relatedWhere' => ' deleted_at is null', 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
-            'district_id' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
+            'city_id' => ['relatedWhere' => ' deleted_at is null', 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8','attr' => ' data-live-search="true"'],
+            'district_id' => ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8','attr' => ' data-live-search="true"'],
         ];
 
         $beneficiaryOrganization = new BeneficiaryOrganization();
@@ -198,8 +198,8 @@ class BeneficiaryOrganizationsController extends Controller
             'ben_mobile_no' => $ben_mobile_no,
             'contact_mobile' => $contact_mobile,
             'note' => $note,
-            'city_id' => ['relatedWhere' => ' deleted_at is null', 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
-            'district_id' => ['selectArray' => $districts, 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8'],
+            'city_id' => ['relatedWhere' => ' deleted_at is null', 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8','attr' => ' data-live-search="true"'],
+            'district_id' => ['selectArray' => $districts, 'col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8','attr' => ' data-live-search="true"'],
         ];
 
         $generator = generator(27, $option, $beneficiaryOrganization);

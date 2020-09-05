@@ -112,7 +112,7 @@ class TeamRoleController extends Controller
         $data = TeamRole::where('id', $id)->first();
         $role_name_na = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
         $role_name_fo = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'col_input_Class' => 'col-md-8'];
-        $is_hidden = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-3', 'selectArray' => ['0' => 'Active', '1' => 'Inactive'], "attr" => "value='$data->is_hidden'"];
+        $is_hidden = ['col_all_Class' => 'col-md-8', 'attr' => ' data-live-search="true" ','col_label_Class' => 'col-md-3', 'selectArray' => ['0' => 'Active', '1' => 'Inactive'], "attr" => "value='$data->is_hidden'"];
         $id = ['html_type' => '10'];
         $option = [
             'role_name_na' => $role_name_na,

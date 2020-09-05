@@ -2,9 +2,9 @@
 @section('css')
     @include('setting.settingsScreens.settings_style')
     <style>
-        /*.card .card-body .col-form-label, .card .card-body .label-on-right{*/
-        /*    margin-right: -21px;*/
-        /*}*/
+        .card .card-body .col-form-label, .card .card-body .label-on-right{
+            margin-right: -21px;
+        }
         #activity_lessons_type_name_na,#activity_lessons_related_name_na{
             margin-left: -51px;
         }
@@ -15,7 +15,7 @@
 @endsection
 @section('content')
 <div class="container col-md-12 ml-2">
-    <div class="row" id="containerc " >
+    <div class="row mt-4" id="containerc " >
         <div class="col-md-3 card p-3 mr-4">
             <ul class="navbar-nav mailli33">
                 <li class="nav-item mb-3 selected-item" id="role" data-nameeng="Institution Roles" data-namear="العلامات التجارية" data-value="1">
@@ -113,7 +113,7 @@
 
             </ul>
         </div>
-        <div class="col-md-8 p-3 card" style="width:2000px;"><div class="card-title" id="content">
+        <div class="col-md-8 p-3 card"><div class="card-title" id="content">
                 <label id="title" style="font-weight: bold;font-size: 19px !important;"></label>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<span id="add"></span>
             </div>
             <div id="loadScreen" class="col-md-2" style="padding-left:300px;"><div class="loader pull-center" style="display: none;width: 30px;

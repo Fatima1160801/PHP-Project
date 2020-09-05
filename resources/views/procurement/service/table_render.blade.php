@@ -1,4 +1,4 @@
-<table class="table dataTable no-footer settingInfo table-bordered" id="table" style="width: 70em;">
+<table class="table dataTable no-footer settingInfo table-bordered" id="table">
     <thead>
     <tr>
         <th>#</th>

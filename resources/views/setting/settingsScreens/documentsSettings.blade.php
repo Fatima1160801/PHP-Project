@@ -2,9 +2,9 @@
 @section('css')
     @include('setting.settingsScreens.settings_style')
   <style>
-      #table{
-          margin-left: 10% !important;
-      }
+      /*#table{*/
+      /*    margin-left: 10% !important;*/
+      /*}*/
       #attachment_type_na{
           margin-left: -82px;
       }
@@ -18,8 +18,8 @@
 @endsection
 @section('content')
 {{--New New--}}
-<div class="container ml-2">
-    <div class="row" id="containerc" style="padding:30px;">
+<div class="container col-md-12 ml-2">
+    <div class="row mt-4" id="containerc" >
         <div class="col-md-3 card p-3 mr-3">
             <ul class="navbar-nav mailli33">
                 <li class="nav-item mb-3 selected-item" id="doctype" data-nameeng="Documents Types" data-namear="أنواع المستندات" data-value="1">
