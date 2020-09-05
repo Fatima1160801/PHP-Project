@@ -12,7 +12,7 @@
             $this = $(this);
 
             swal({
-                text: '{{$messageDeleteLocality['text']}}',
+                text: '{{getMessage('2.150')['text']}}',
                 confirmButtonClass: 'btn btn-success  btn-sm',
                 cancelButtonClass: 'btn btn-danger  btn-sm',
                 buttonsStyling: false,

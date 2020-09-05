@@ -14,12 +14,12 @@
 {{--            <i class="material-icons">search</i>--}}
 {{--        </a>--}}
 {{--    @endif--}}
-{{--    <a href="{{route('beneficiary.fam_indev.settings')}}"--}}
-{{--       class="mytooltip btn-setting-nav"--}}
-{{--       rel="tooltip" data-placement="top"--}}
-{{--       title="{{Auth::user()->lang_id == 1 ? 'Settings' : 'إعدادات'}}">--}}
-{{--        <i class="material-icons">settings</i>--}}
-{{--    </a>--}}
+    <a href="{{route('beneficiary.fam_indev.settings')}}"
+       class="mytooltip btn-setting-nav"
+       rel="tooltip" data-placement="top"
+       title="{{Auth::user()->lang_id == 1 ? 'Settings' : 'إعدادات'}}">
+        <i class="material-icons">settings</i>
+    </a>
             <a href="#"
                class="mytooltip btn-setting-nav" onclick='addFam_indev()'id='addFam_indev'
                data-toggle="tooltip" data-placement="top"

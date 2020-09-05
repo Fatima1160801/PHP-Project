@@ -5,7 +5,8 @@
         funValidateForm();
     });
 
-    $('#formLocalityCreate').submit(function(e){
+    // $('#formLocalityCreate').submit(function(e){
+        $(document).on('submit','#formLocalityCreate',function(e){
 
         e.preventDefault();
         if (!is_valid_form($(this))) {
@@ -26,6 +27,7 @@
                 $('.loader').hide();
                 if (data.success == true) {
                     $('[id="formLocalityCreate"]')[0].reset();
+                    $("#Localities").click();
                 }
                 myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
             },

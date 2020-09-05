@@ -78,6 +78,9 @@
     @include('beneficiary.organizations.update_script')
     @include('beneficiary.organizations.script_render')
     @include('beneficiary.organizations.create_script')
+    @include('locality.create_script')
+    @include('locality.script_render')
+    @include('locality.update_script')
     <script>
         $(document).ready(function() {
             defaultVal();
@@ -138,6 +141,10 @@
                     $("#render_result").html(data.html);
                     $('#loadScreen div.loader').hide();
                     var lang=@json($lang);
+                    if(lang==1)
+                        $("#title").html($("#Localities").attr("data-nameeng"));
+                    else
+                        $("#title").html($("#Localities").attr("data-namear"))
                     $("#add").html("<a href=\"#\" onclick='addLocalities()' id='addLocalities' class=\"mytooltip btn-setting-nav add\"\n" +
                         "               data-toggle=\"tooltip\" data-placement=\"top\"\n" +
                         "               title=\"\" >\n" +
