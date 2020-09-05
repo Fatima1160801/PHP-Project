@@ -1,13 +1,13 @@
 <div class="card-body">
     <div id="result-msg"></div>
     <ul id="taps_" class="nav nav-pills nav-pills-warning" role="tablist">
-        <li class="nav-item">
+        <li class="nav-item" style="    width: 49%;">
             <a class="nav-link active" data-toggle="tab" href="#benInfo" role="tablist">
                 {{$labels['beneficiary_info'] ?? 'beneficiary_info'}}
             </a>
         </li>
         @if($beneficiary->ben_type_id == 2)
-            <li id="ben_fam_tap" class="nav-item">
+            <li id="ben_fam_tap" class="nav-item" style="    width: 49%;">
                 <a class="nav-link" data-toggle="tab" href="#benFam" role="tablist">
                     {{$labels['family_individuals'] ?? 'family_individuals'}}
                 </a>

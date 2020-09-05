@@ -2,9 +2,9 @@
 @section('css')
     @include('setting.settingsScreens.settings_style')
     <style>
-        .card .card-body .col-form-label, .card .card-body .label-on-right{
-            margin-right: -21px;
-        }
+        /*.card .card-body .col-form-label, .card .card-body .label-on-right{*/
+        /*    margin-right: -21px;*/
+        /*}*/
         #activity_lessons_type_name_na,#activity_lessons_related_name_na{
             margin-left: -51px;
         }
@@ -14,8 +14,8 @@
     </style>
 @endsection
 @section('content')
-<div class="container ml-2">
-    <div class="row" id="containerc" style="padding:30px;">
+<div class="container col-md-12 ml-2">
+    <div class="row" id="containerc " >
         <div class="col-md-3 card p-3 mr-4">
             <ul class="navbar-nav mailli33">
                 <li class="nav-item mb-3 selected-item" id="role" data-nameeng="Institution Roles" data-namear="العلامات التجارية" data-value="1">
@@ -409,7 +409,18 @@
 
     }
     function defaultVal(){
+        $("#role").addClass("selected-item")
+        $("#visit").removeClass("selected-item");
+            $("#achievement").removeClass("selected-item");
+            $("#achievementty").removeClass("selected-item");
+            $("#income").removeClass("selected-item");
+            $("#currencies").removeClass("selected-item");
+            $("#issue").removeClass("selected-item");
+            $("#issuesetting").removeClass("selected-item");
+            $("#task").removeClass("selected-item");
+            $("#fundertype").removeClass("selected-item");
         $('#loadScreen div.loader').show();
+
         $.get('{{route('project.projectcategories.index')}}',function(data){
             if(data.status==true){
                 $("#render_result").html(data.html);

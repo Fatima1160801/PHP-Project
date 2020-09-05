@@ -116,7 +116,7 @@ else
         $data = ProjectCategory::where('id',$id)->first();
         $category_name_na = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-5', 'col_input_Class' => 'col-md-6'];
         $category_name_fo = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-5', 'col_input_Class' => 'col-md-6'];
-        $is_hidden         = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-5','selectArray' => ['0' => 'Active', '1' => 'Inactive']];
+        $is_hidden         = ['col_all_Class' => 'col-md-8', 'col_label_Class' => 'col-md-5','selectArray' => ['0' => 'Active', '1' => 'Inactive'], 'col_input_Class' => 'col-md-6'];
         $id_col=['html_type'=>'10'];
         $option = [
             'category_name_na' => $category_name_na,

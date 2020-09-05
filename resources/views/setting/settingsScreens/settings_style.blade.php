@@ -34,9 +34,9 @@
         color:white !important;
 
     }
-    #containerc{
-        margin-right: -88px;
-    }
+    /*#containerc{*/
+    /*    margin-right: -88px;*/
+    /*}*/
     /*#table{*/
     /*    margin-left:15%;*/
     /*    !*width:35em;*!*/
@@ -63,7 +63,7 @@
     /*}*/
 
     /*#table{*/
-    /*    margin-left: 15% !important;*/
+    /*    margin-left: 12% !important;*/
     /*    text-align: center;*/
     /*    width: 45em !important;*/
     /*}*/
@@ -94,5 +94,14 @@
     #render_result{
         min-height: 400px;
     }
-
+    /*.modal-dialog {*/
+    /*    position: absolute;*/
+    /*    !*top: 0px;*!*/
+    /*    !*right: 100px;*!*/
+    /*    !*bottom: 0;*!*/
+    /*    !*left: 710px;*!*/
+    /*    !*z-index: 10040;*!*/
+    /*    !*overflow: auto;*!*/
+    /*    !*overflow-y: auto;*!*/
+    /*}*/
 </style>

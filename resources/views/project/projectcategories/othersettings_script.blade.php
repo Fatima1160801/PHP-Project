@@ -14,16 +14,16 @@
                 $('#saveProjectCategory div.loader').show();
             },
             success: function (data) {
-                //  $('#btnAddbrand').attr("disabled", false);
-                if (data.status == true) {
 
+                if (data.status == true) {
+                     $('#btnAddbrand').attr("disabled", false);
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
 $("#role").click();
                     // appendTable(data.city,data.statusObj,count,1,"","");
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                    $('#procurementModal').modal('hide');
+                    // $('#procurementModal').modal('hide');
                     $('.loader').hide();
                 }
 
@@ -128,7 +128,7 @@ $("#role").click();
                     var count=table.fnGetData().length;
                     // appendTable(data.city,data.statusObj,count,2,"","");
                     $("#visit").click();
-                    $('#procurementModal').modal('hide');
+                    // $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#btnVisitTypeCreate').reset();
                     $('.loader').hide();
@@ -272,14 +272,15 @@ $("#role").click();
                 // $('.loader').show();
             },
             success: function (data) {
-                //  $('#btnAddbrand').attr("disabled", false);
+
                 if (data.status == true) {
+                     // $('#btnAddbrand').attr("disabled", false);
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
                     // appendTable(data.city,"",count,4,"","");
                     $("#achievementty").click();
-                    $('#procurementModal').modal('hide');
+                    // $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('.loader').hide();
                 }
@@ -406,7 +407,7 @@ $("#role").click();
                     var count=table.fnGetData().length;
                     // appendTable(data.city,"",count,5,"","");
                     $("#income").click();
-                    $('#procurementModal').modal('hide');
+                    // $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#formCreate').reset();
                     resetFormCreate();
@@ -447,7 +448,7 @@ $("#role").click();
                     var count=table.fnGetData().length;
                     // appendTable(data.city,"",count,6,"","");
                     $("#currencies").click();
-                    $('#procurementModal').modal('hide');
+                    // $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     $('#formCurrencyCreate')[0].reset();
                     $('#btnAddCurrency').attr("disabled", false);
@@ -563,7 +564,7 @@ $("#role").click();
                     var count=table.fnGetData().length;
                     // appendTable(data.city,"",count,7,"","");
                     $("#issue").click();
-                    $('#procurementModal').modal('hide');
+                    // $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#formActTypeCreate').reset();
                     $('.loader').hide();
@@ -680,7 +681,7 @@ $("#role").click();
                     var count=table.fnGetData().length;
                     // appendTable(data.city,"",count,8,"","");
                     $("issuesetting").click();
-                    $('#procurementModal').modal('hide');
+                    // $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#formActTypeCreate').reset();
                     $('.loader').hide();
@@ -990,7 +991,7 @@ $("#role").click();
                     var count=table.fnGetData().length;
                     // appendTable(data.city,"",count,10,data.statusObj,"");
                     $("#fundertype").click();
-                    $('#procurementModal').modal('hide');
+                    // $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     var update_url="{{route("project.donors.types.update")}}"
                     $("#formAddFType").attr("action",update_url);
@@ -1151,7 +1152,7 @@ $("#role").click();
                     var count=table.fnGetData().length;
                     // appendTable(data.city,data.statusObj,count,9,"","");
                     $("#task").click();
-                    $('#procurementModal').modal('hide');
+                    // $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#formTaskTypeCreate')[0].reset();
                     $('.loader').hide();
