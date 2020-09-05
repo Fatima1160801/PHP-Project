@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Permission;
 
 use App\Http\Controllers\Controller;
+use http\Message;
 use Illuminate\Http\Request;
 use App\Models\Permission\Modules;
 use App\Models\Permission\GroupPermission;
@@ -64,7 +65,7 @@ class GroupController extends Controller
                 $group->updated_by = Auth::id();
                 $group->save();
                 $html = view('permission.group.row', compact('group'))->render();
-                return response(['status' => 'edit', 'data' => compact('group', 'html')]);
+                return response(['status' => 'edit', 'data' => compact('group', 'html'),'message'=>getMessage('2.2')]);
 
             } else {
                 is_permitted('2', 'GroupController', 'store', '7', '1');
@@ -72,7 +73,7 @@ class GroupController extends Controller
                 $data['created_by'] = Auth::id();
                 $group = Group::create($data);
                 $html = view('permission.group.row', compact('group'))->render();
-                return response(['status' => 'save', 'data' => compact('group', 'html')]);
+                return response(['status' => 'save', 'data' => compact('group', 'html'),'message'=>getMessage('2.1')]);
             }
 
         }

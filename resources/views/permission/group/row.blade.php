@@ -8,16 +8,16 @@
             rel="tooltip"  data-original-title="top" title="">
             <i class="material-icons">edit</i><span class="mytooltiptext">{{$labels['edit'] ?? 'edit'}}</span>
         </a>
-@if($id==1)
-        <a href="{{route('permission.permission.index',['group',$group->id])}}" rel="tooltip"
-           class="mytooltip btn-setting-nav" data-original-title="top" title="">
-            <i class="material-icons">vpn_key</i><span class="mytooltiptext">ُGrant Permission</span>
-        </a>
-        @else
+{{--@if($id==1)--}}
+{{--        <a href="{{route('permission.permission.index',['group',$group->id])}}" rel="tooltip"--}}
+{{--           class="mytooltip btn-setting-nav" data-original-title="top" title="">--}}
+{{--            <i class="material-icons">vpn_key</i><span class="mytooltiptext">ُGrant Permission</span>--}}
+{{--        </a>--}}
+{{--        @else--}}
             <a href="#" data-id="{{$group->id}}" rel="tooltip"
                class="mytooltip btn-setting-nav grantPermission" data-original-title="top" title="">
                 <i class="material-icons">vpn_key</i><span class="mytooltiptext">ُGrant Permission</span>
             </a>
-        @endif
+{{--        @endif--}}
     </td>
 </tr>

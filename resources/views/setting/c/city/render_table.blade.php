@@ -1,4 +1,4 @@
-<table class="table dataTable no-footer table-bordered table-responsive" id="table">
+<table class="table dataTable no-footer table-bordered"  id="table">
     <thead>
     <tr>
 {{--        <th style="width:20px;">#</th>--}}
@@ -52,7 +52,7 @@
                 @endif
 
                 <a  href="{{ route('settings.cities.delete',$city->id )}}"
-                        rel="tooltip" class="mytooltip btn-setting-nav btn-danger btn-round btn-fab btnCityDelete"
+                        rel="tooltip" class="mytooltip btn-setting-nav  btnCityDelete"
                         data-placement="top"  title=" ">
                     <i class="material-icons">delete</i><span class="mytooltiptext">{{$labels['delete'] ?? 'delete'}}</span>
                 </a>

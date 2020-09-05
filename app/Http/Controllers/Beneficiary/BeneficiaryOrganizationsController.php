@@ -36,11 +36,11 @@ class BeneficiaryOrganizationsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         is_permitted(27, getClassName(__CLASS__), __FUNCTION__, 75, 7);
 
-        $beneficiaryOrganizations = BeneficiaryOrganization::orderby('id', 'desc')->get();
+        $beneficiaryOrganizations = BeneficiaryOrganization::get();
         $messageDeleteBeneficiary = getMessage('2.46');
         $org_types = [
             1 => ['1' => 'Governmental', '2' => 'Non-Governmental', '3' => 'CPOs', '4' => 'Grass Root'],
@@ -48,12 +48,16 @@ class BeneficiaryOrganizationsController extends Controller
         ];
         $labels = inputButton(Auth::user()->lang_id, 27);
         $userPermissions = getUserPermission();
-
-        return view('beneficiary.organizations.index', compact('labels', 'beneficiaryOrganizations', 'org_types', 'messageDeleteBeneficiary', 'userPermissions'));
+        if ($request->ajax()) {
+            $html= view('beneficiary.organizations.table_render', compact('labels', 'beneficiaryOrganizations', 'org_types', 'messageDeleteBeneficiary', 'userPermissions'))->render();
+            return response(['status' => true, 'html' => $html]);
+        }else{
+            return view('beneficiary.organizations.index', compact('labels', 'beneficiaryOrganizations', 'org_types', 'messageDeleteBeneficiary', 'userPermissions'));
+        }
     }
 
 
-    public function getCreate()
+    public function getCreate(Request $request)
     {
         is_permitted(27, getClassName(__CLASS__), 'store', 76, 1);
 
@@ -89,7 +93,14 @@ class BeneficiaryOrganizationsController extends Controller
         $userPermissions = getUserPermission();
         //$screenName = screenName(25);
         // $screenName = "Add Beneficiary Organization";
-        return view('beneficiary.organizations.create', compact('labels', 'html', 'userPermissions'));
+
+        if ($request->ajax()) {
+            $html= view('beneficiary.organizations.create_render', compact('labels', 'html', 'userPermissions'))->render();
+            return response(['status' => true, 'html' => $html]);
+        }else{
+            return view('beneficiary.organizations.create', compact('labels', 'html', 'userPermissions'));
+        }
+
     }
 
     public function getDistanceByCityId($city_id)
@@ -145,7 +156,7 @@ class BeneficiaryOrganizationsController extends Controller
     }
 
 
-    public function getEdit($id)
+    public function getEdit($id,Request $request)
     {
         is_permitted(27, getClassName(__CLASS__), 'update', 77, 2);
         $beneficiaryOrganization = BeneficiaryOrganization::where('id', $id)->first();
@@ -172,7 +183,7 @@ class BeneficiaryOrganizationsController extends Controller
         ];
         $note = ['col_all_Class' => 'col-md-12', 'col_label_Class' => 'col-md-2', 'col_input_Class' => 'col-md-10'];
         $ben_type_id = ['col_all_Class' => 'col-md-6', 'col_label_Class' => 'col-md-4', 'col_input_Class' => 'col-md-8', 'html_type' => '5', 'selectArray' => $org_types[Auth::user()->lang_id]];
-        $is_hidden = ['html_type' => '13', 'selectArray' => $pst[Auth::user()->lang_id]];
+        $is_hidden = ['html_type' => '5', 'selectArray' => $pst[Auth::user()->lang_id]];
         $ben_mobile_no = ['inputClass' => 'check-is-number'];
         $ben_tel_no = ['inputClass' => 'check-is-number'];
         $ben_fax_no = ['inputClass' => 'check-is-number'];
@@ -197,7 +208,14 @@ class BeneficiaryOrganizationsController extends Controller
         $userPermissions = getUserPermission();
 
         //$screenName = screenName(25);
-        return view('beneficiary.organizations.update', compact('labels', 'html', 'userPermissions'));
+
+        if ($request->ajax()) {
+            $html= view('beneficiary.organizations.update_render', compact('labels', 'html', 'userPermissions'))->render();
+            return response(['status' => true, 'html' => $html]);
+        }else{
+            return view('beneficiary.organizations.update', compact('labels', 'html', 'userPermissions'));
+        }
+
     }
 
 
@@ -235,7 +253,7 @@ class BeneficiaryOrganizationsController extends Controller
             $beneficiaryOrganization->save();
             $message = getMessage('2.39');
 
-            notifications(getClassName(__CLASS__), __FUNCTION__, route('beneficiary.oraganizations.getedit', $beneficiaryOrganization->id));
+//            notifications(getClassName(__CLASS__), __FUNCTION__, route('beneficiary.oraganizations.getedit', $beneficiaryOrganization->id));
 
         }
 
@@ -255,18 +273,19 @@ class BeneficiaryOrganizationsController extends Controller
 //                $message = getMessage('2.198');
 //                return response(['status' => 'false', 'message' => $message]);
 //            }
-          $activity_beneficiaries = ActivityBeneficiaries::where('ben_id',$id)
-              ->where('ben_type_id',3)
-              ->get()
-              ->count();
-          if ($activity_beneficiaries> 0) {
-            $message = getMessage('2.198');
-            return response(['status' => 'false', 'message' => $message]);
-          }
-             else {
-               $beneficiaryOrganization = BeneficiaryOrganization::where('id', $id)->first();
 
-               $beneficiaryOrganization->deleted_by = Auth::id();
+            $activity_beneficiaries = ActivityBeneficiaries::where('ben_id',$id)
+                ->where('ben_type_id',3)
+                ->get()
+                ->count();
+            if ($activity_beneficiaries> 0) {
+                $message = getMessage('2.198');
+                return response(['status' => 'false', 'message' => $message]);
+            }
+            else {
+                $beneficiaryOrganization = BeneficiaryOrganization::where('id', $id)->first();
+
+                $beneficiaryOrganization->deleted_by = Auth::id();
                 $beneficiaryOrganization->save();
                 $beneficiaryOrganization->delete();
                 Log::instance()->record('2.19', $id, 27, null, null, null, null);

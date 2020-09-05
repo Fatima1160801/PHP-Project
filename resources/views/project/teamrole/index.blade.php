@@ -11,7 +11,7 @@
 {{--                            <i class="material-icons">add--}}
 {{--                            </i><span class="mytooltiptext">{{$labels['add'] ?? 'add'}}</span>--}}
 {{--                        </a></span></h4>--}}
-            <table class="table dataTable no-footer table-bordered" id="table" style="margin-top: -5% !important;">
+            <table class="table dataTable no-footer table-bordered" id="table">
                 <thead>
                 <tr>
                     <th>#</th>

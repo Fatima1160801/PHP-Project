@@ -62,34 +62,37 @@
     /*    margin-right: 22px;*/
     /*}*/
 
-    #table{
-        margin-left: 15% !important;
-        text-align: center;
-        width: 45em !important;
-    }
+    /*#table{*/
+    /*    margin-left: 15% !important;*/
+    /*    text-align: center;*/
+    /*    width: 45em !important;*/
+    /*}*/
     /*.table {*/
     /*    width: 60em !important;*/
     /*}*/
-    .add,.add:hover{
-        /*height: 24px;*/
-        /*min-width: 25px;*/
-        /*width: 25px;*/
-        height: 40px;
-        min-width: 25px;
-        width: 25px;
-        border-radius:50%;
-        display: inline-block;
-        text-align: center;
-        vertical-align: middle;
-        margin:.3125rem 1px;
-        background-color: #80808040;
-    }
+    /*.add,.add:hover{*/
+    /*    !*height: 24px;*!*/
+    /*    !*min-width: 25px;*!*/
+    /*    !*width: 25px;*!*/
+    /*    height: 40px;*/
+    /*    min-width: 25px;*/
+    /*    width: 25px;*/
+    /*    border-radius:50%;*/
+    /*    display: inline-block;*/
+    /*    text-align: center;*/
+    /*    vertical-align: middle;*/
+    /*    margin:.3125rem 1px;*/
+    /*    background-color: #80808040;*/
+    /*}*/
 
-    .mytooltip.add:hover {
-        border-radius: 50% !important;
-    }
+    /*.mytooltip.add:hover {*/
+    /*    border-radius: 50% !important;*/
+    /*}*/
 .instrole{
     margin-left: 7% !important;
 }
+    #render_result{
+        min-height: 400px;
+    }
 
 </style>

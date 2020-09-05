@@ -196,7 +196,6 @@ class JobTitleController extends Controller
             $ProjectStaffs =ProjectStaffs::where('job_title_id', $id)->whereNull('deleted_at')->get()->count();
             $Staff=Staff::where('job_title_id', $id)->whereNull('deleted_at')->get()->count();
             if ($ProjectStaffs > 0 || $Staff > 0 ) {
-
                 $message = getMessage('2.191');
                 session(['array' => $message]);
                 if($id1==1)

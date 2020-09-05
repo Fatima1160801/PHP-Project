@@ -182,8 +182,8 @@ class StaffController extends Controller
       $user->save();
     }
 
-    Log::instance()->record('2.34', null, 18, null, null, $staff, null);
-    Log::instance()->save();
+//    Log::instance()->record('2.34', null, 18, null, null, $staff, null);
+//    Log::instance()->save();
 
 //    notifications(getClassName(__CLASS__), __FUNCTION__, route('project.staff.edit', $staff->id));
 
@@ -192,7 +192,7 @@ class StaffController extends Controller
       if($id==1)
           return redirect()->route('project.staff.index')->with('array', $array);
       else
-          return response(['status' => true, 'city' =>$user,'message'=>$array]);
+          return response(['status' => true, 'city' =>$staff,'message'=>$array]);
 
   }
 
@@ -400,7 +400,8 @@ class StaffController extends Controller
     inputValidator($data, $optionValidator);
     $data['updated_by'] = Auth::id();
     $staff = Staff::find($id);
-    Log::instance()->record('2.35', null, 18, null, null, $field, $staff);
+//    dd($staff);
+//    Log::instance()->record('2.35', null, 18, null, null, $field, $staff);
     $staff->fill($field);
     $staff->employment_date = dateFormatDataBase($field['employment_date']);
     $staff->dob = dateFormatDataBase($field['dob']);
@@ -410,7 +411,7 @@ class StaffController extends Controller
       $request->file('avatar_')->move($path, $imageName);
       $staff->avatar_ = $imageName;
     }
-    Log::instance()->save();
+//    Log::instance()->save();
 
    // notifications(getClassName(__CLASS__), __FUNCTION__, route('project.staff.edit', $staff->id));
     $staff->save();

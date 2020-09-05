@@ -28,7 +28,7 @@ class CityController extends Controller
     public function index(Request $request)
     {
         is_permitted(48, getClassName(__CLASS__), __FUNCTION__, 209, 7);
-        $cities = City::orderby('id','desc')->get();
+        $cities = City::all();
         $count=City::all()->count();
         $messageDeleteCity = getMessage('2.86');
         $labels = inputButton(Auth::user()->lang_id, 48);

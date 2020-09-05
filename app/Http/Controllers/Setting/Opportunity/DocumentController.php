@@ -234,9 +234,9 @@ $attachment=AttachmentSpecific::where('id',$document->attachment_type_id)->first
         Document::where('interface_type_id',$interface_type_id)->where('attachment_type_id',$attachment_type_id)->update(array('fixed_in_interface_flag' => $request['fixed_in_interface_flag'],'is_hidden' => $request['is_hidden'] ));
         
 
-        Log::instance()->save();
+//        Log::instance()->save();
 
-        notifications(getClassName(__CLASS__), __FUNCTION__, route('settings.documents.edit', ['interface_type_id'=>$interface_type_id,'attachment_type_id'=>$attachment_type_id]));
+//        notifications(getClassName(__CLASS__), __FUNCTION__, route('settings.documents.edit', ['interface_type_id'=>$interface_type_id,'attachment_type_id'=>$attachment_type_id]));
         return response(['status' => 'true', 'message' => getMessage('2.2')]);
 
 
@@ -244,10 +244,11 @@ $attachment=AttachmentSpecific::where('id',$document->attachment_type_id)->first
 
     public function delete($interface_id,$document_type_id)
     {
-         // dd($interface_id,$document_type_id);
+//          dd([$interface_id,$document_type_id]);
         is_permitted(114, getClassName(__CLASS__), __FUNCTION__, 241, 4);
         try {
             $count = Attachment::where('activity_type',$interface_id)->where('attachment_type_id',$document_type_id)->count();
+
             if($count > 0)//inactive
             {
                 $message = getMessage('2.14');
@@ -264,8 +265,8 @@ $attachment=AttachmentSpecific::where('id',$document->attachment_type_id)->first
                  // dd(5);
                 $message = getMessage('2.3');
                 //Log::instance()->record('2.212', $id, 114, null, null, null, null);
-                Log::instance()->save();
-                notifications(getClassName(__CLASS__), __FUNCTION__, '');
+//                Log::instance()->save();
+//                notifications(getClassName(__CLASS__), __FUNCTION__, '');
                 return response(['status' => 'true', 'message' => $message]);
             }
 

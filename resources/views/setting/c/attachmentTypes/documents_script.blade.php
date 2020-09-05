@@ -157,7 +157,7 @@
         }
 
         e.preventDefault();
-
+alert("kk");
         var form = new FormData($(this)[0]);
         var url = $(this).attr('action');
         // alert(url);

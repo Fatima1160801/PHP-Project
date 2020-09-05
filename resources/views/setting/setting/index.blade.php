@@ -50,7 +50,7 @@
 
 @endsection
 @section('script')
-    @include('setting.setting.system_script')
+{{--    @include('setting.setting.system_script')--}}
     <script>
         $(document).ready(function () {
             active_nev_link('settings');
@@ -58,36 +58,36 @@
             funValidateForm();
         });
 
-        // $('#formGeneralSettings').submit(function(e){
-        //
-        //     e.preventDefault();
-        //     if (!is_valid_form($(this))) {
-        //         return false;
-        //     }
-        //     var form = new FormData($(this)[0]);;
-        //     var url = $(this).attr('action');
-        //     $.ajax({
-        //         url: url,
-        //         data: form,
-        //         type: 'post',
-        //         processData: false,
-        //         contentType: false,
-        //         beforeSend: function () {
-        //             $('#btnGeneralSettings').attr("disabled", true);
-        //             $('.loader').show();
-        //         },
-        //         success: function (data) {
-        //             $('#btnGeneralSettings').attr("disabled", false);
-        //             $('.loader').hide();
-        //             if (data.success == true) {
-        //                 myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-        //             }
-        //         },
-        //         error: function (data) {
-        //         }
-        //     });
-        //
-        // });
+        $('#formGeneralSettings').submit(function(e){
+
+            e.preventDefault();
+            if (!is_valid_form($(this))) {
+                return false;
+            }
+            var form = new FormData($(this)[0]);;
+            var url = $(this).attr('action');
+            $.ajax({
+                url: url,
+                data: form,
+                type: 'post',
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    $('#btnGeneralSettings').attr("disabled", true);
+                    $('.loader').show();
+                },
+                success: function (data) {
+                    $('#btnGeneralSettings').attr("disabled", false);
+                    $('.loader').hide();
+                    if (data.success == true) {
+                        myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    }
+                },
+                error: function (data) {
+                }
+            });
+
+        });
 
     </script>
 @endsection

@@ -19,7 +19,7 @@ class LocalityController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         is_permitted(68, getClassName(__CLASS__), __FUNCTION__, 202, 7);
 
@@ -27,11 +27,16 @@ class LocalityController extends Controller
         $messageDeleteLocality = getMessage('2.150');
         $labels = inputButton(Auth::user()->lang_id, 68);
         $userPermissions = getUserPermission();
+        if ($request->ajax()) {
+            $html = view('locality.create_render', compact('labels', 'locality', 'messageDeleteLocality', 'userPermissions'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('locality.index', compact('labels', 'locality', 'messageDeleteLocality', 'userPermissions'));
+        }
 
-        return view('locality.index', compact('labels', 'locality', 'messageDeleteLocality', 'userPermissions'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         is_permitted(68, getClassName(__CLASS__), 'store', 203, 1);
 
@@ -51,7 +56,13 @@ class LocalityController extends Controller
         $labels = $generator[1];
         $userPermissions = getUserPermission();
 
-        return view('locality.create', compact('labels', 'html', 'userPermissions'));
+        if ($request->ajax()) {
+            $html = view('locality.create_form_render', compact('labels', 'html', 'userPermissions'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('locality.create', compact('labels', 'html', 'userPermissions'));
+        }
+
     }
 
     public function store(Request $request)
@@ -79,7 +90,7 @@ class LocalityController extends Controller
         return response(['success' => true, 'message' => getMessage('2.151')]);
     }
 
-    public function edit($id)
+    public function edit($id,Request $request)
     {
         is_permitted(68, getClassName(__CLASS__), 'update', 204, 2);
 
@@ -103,7 +114,13 @@ class LocalityController extends Controller
         $labels = $generator[1];
         $userPermissions = getUserPermission();
 
-        return view('locality.update', compact('labels', 'html', 'userPermissions'));
+        if ($request->ajax()) {
+            $html = view('locality.update_render', compact('labels', 'html', 'userPermissions'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('locality.update', compact('labels', 'html', 'userPermissions'));
+        }
+
     }
 
     public function update(Request $request)
@@ -146,15 +163,15 @@ class LocalityController extends Controller
 //                return response(['status' => 'false', 'message' => $message]);
 //            }
 
-          $activity_beneficiaries = ActivityBeneficiaries::where('ben_id',$id)
-              ->where('ben_type_id',4)
-              ->get()
-              ->count();
-          if ($activity_beneficiaries> 0) {
-            $message = getMessage('2.198');
-            return response(['status' => 'false', 'message' => $message]);
-          }
-        else {
+            $activity_beneficiaries = ActivityBeneficiaries::where('ben_id',$id)
+                ->where('ben_type_id',4)
+                ->get()
+                ->count();
+            if ($activity_beneficiaries> 0) {
+                $message = getMessage('2.198');
+                return response(['status' => 'false', 'message' => $message]);
+            }
+            else {
                 Locality::where('id', $id)->delete();
                 $message = getMessage('2.153');
                 return response(['status' => 'true', 'message' => $message]);

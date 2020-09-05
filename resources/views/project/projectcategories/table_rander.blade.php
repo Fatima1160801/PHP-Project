@@ -1,4 +1,4 @@
-<table class="table dataTable no-footer table-bordered instrole" id="table" style="margin-left: 7% !important;">
+<table class="table dataTable no-footer table-bordered instrole" id="table">
     <thead>
     <tr>
         <th>#</th>

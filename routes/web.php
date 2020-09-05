@@ -62,7 +62,9 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::post('user/change/language', ['uses' => 'Permission\UserController@changeLang'])->name('permission.user.change.language');
 
 
-    Route::get('permission/{type}/{id}', ['uses' => 'Permission\PermissionController@index'])->name('permission.permission.index');
+    Route::get('permission/{type}/{id}/{screen}', ['uses' => 'Permission\PermissionController@index'])->name('permission.permission.index');
+    Route::get('user/screen/{id}', ['uses' => 'Permission\UserController@selectScreen'])->name('permission.permission.screen');
+    Route::get('user/screenuser/{id}', ['uses' => 'Permission\UserController@selectScreenUser'])->name('permission.permission.screenuser');
 
     Route::post('permission/user/grant/', ['uses' => 'Permission\PermissionController@grantUser'])->name('permission.permission.grantUser');
     Route::post('/permission/group/grant', ['uses' => 'Permission\PermissionController@grantGroup'])->name('permission.permission.grantGroup');
@@ -457,6 +459,7 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::get('settings/screens/system', ['uses' => 'Setting\SettingsScreens@systemSettings', 'as' => 'settings.system.screen']);
     Route::get('settings/screens/othersettings', ['uses' => 'Setting\SettingsScreens@otherSettings', 'as' => 'settings.othersettings.screen']);
     Route::get('settings/screens/general', ['uses' => 'Setting\SettingsScreens@general', 'as' => 'settings.general.screen']);
+    Route::get('settings/screens/beneficiary', ['uses' => 'Setting\SettingsScreens@beneficiarySettings', 'as' => 'settings.beneficiary.screen']);
 
 //for search process
     Route::get('/search/by/value/{subject_na?}/{deadlinefrom?}/{deadlineto?}/{budgetfrom?}/{budgetto?}/{status?}', ['uses' => 'Procurement\BrandController@searchProposal'])->name('search.by.value');
@@ -470,6 +473,15 @@ Route::group(['middleware' => ['PasswordChangeFlag']], function () {
     Route::delete('beneficiary/fam_indev/delete/{id}', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@delete'])->name('beneficiary.fam_indev.delete');
     Route::get('beneficiary/fam_indev/settings', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@settings'])->name('beneficiary.fam_indev.settings');
     Route::post('beneficiary/fam_indev/customFields/update', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@updateCustomFieldsSettings'])->name('beneficiary.fam_indev.updateCustomFieldsSettings');
+
+
+    Route::get('beneficiary/fam_indev/{id}/create_fm', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@getCreateFM'])->name('beneficiary.fam_indev.createfm');
+    Route::post('beneficiary/fam_indev/storefm', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@storeFM'])->name('beneficiary.fam_indev.storefm');
+    Route::get('beneficiary/fam_indev/{id}/edit_fm', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@getEditFM'])->name('beneficiary.fam_indev.geteditfm');
+    Route::post('beneficiary/fam_indev/update_fm', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@postEditFM'])->name('beneficiary.fam_indev.updatefm');
+    Route::delete('beneficiary/fam_indev/delete_fm/{id}', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@deleteFM'])->name('beneficiary.fam_indev.deletefm');
+
+
 
     Route::get('beneficiary/fam_indev/getDistanceByCityId/{id?}', ['uses' => 'Beneficiary\BeneficiaryFamIndvController@getDistanceByCityId'])->name('beneficsettingsiary.getDistanceByCityId');
 

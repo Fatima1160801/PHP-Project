@@ -28,15 +28,15 @@
                     </a>
 
                 </li>
-                <li class="nav-item mb-3 " id="visit" data-nameeng="Visits Types" data-namear="نوع الزيارات" data-value="2">
-                    <a href="#"
-                       class="navi-link py-4">
-                        <div class="card-icon">
-                            <span>  <i class='material-icons'>weekend</i>&nbsp;&nbsp;&nbsp;&nbsp;@if($lang==1)Visits Types @elseنوع الزيارات @endif</span>
-                        </div>
-                    </a>
+{{--                <li class="nav-item mb-3 " id="visit" data-nameeng="Visits Types" data-namear="نوع الزيارات" data-value="2">--}}
+{{--                    <a href="#"--}}
+{{--                       class="navi-link py-4">--}}
+{{--                        <div class="card-icon">--}}
+{{--                            <span>  <i class='material-icons'>weekend</i>&nbsp;&nbsp;&nbsp;&nbsp;@if($lang==1)Visits Types @elseنوع الزيارات @endif</span>--}}
+{{--                        </div>--}}
+{{--                    </a>--}}
 
-                </li>
+{{--                </li>--}}
                 <li class="nav-item mb-3 " id="achievement" data-nameeng="Achievement Types" data-namear="أنواع الإنجاز" data-value="3">
                     <a href="#"
                        class="navi-link py-4">
@@ -119,7 +119,7 @@
             <div id="loadScreen" class="col-md-2" style="padding-left:300px;"><div class="loader pull-center" style="display: none;width: 30px;
  height: 30px;"></div></div>
 
-            <div id="render_result">
+            <div id="render_result" style="min-height: 400px;" >
 
             </div>
         </div>

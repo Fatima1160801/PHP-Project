@@ -22,48 +22,54 @@
             }
         });
     });
-    $(document).on('click', '#formAddSubmit', function (e) {
+    $(document).on('click', '#formAddSubmitGroup', function (e) {
         e.preventDefault();
-        var dataForm = $('#formAdd').serialize();
+        var dataForm = $('#formAddGroup').serialize();
 
         // console.log(dataForm);
-        var url = $('#formAdd').attr('action');
+        var url = $('#formAddGroup').attr('action');
         $.ajax({
             url: url,
             data: dataForm,
             type: 'post',
             dataTypes: 'json',
             beforeSend: function () {
-                $('#formAddSubmit').attr("disabled", true);
+                $('#formAddSubmitGroup').attr("disabled", true);
             },
             success: function (data) {
                 var htmlRow = data.data.html;
                 var $massage='';
-                if (data.status == true) {
-                    // var length = $('#table tbody tr').length;
-                    // htmlRow = htmlRow.replace('{index}', length + 1);
+                if (data.status == 'save') {
+                    alert("before");
+                    var length = $('#table tbody tr').length;
+                    alert("after");
+                    htmlRow = htmlRow.replace('{index}', length + 1);
+                    alert(htmlRow);
                     // $(htmlRow).appendTo('#table tbody');
-                    $massage="Saved Successfully";
-                //  else if (data.status == 'edit') {
-                //     var id = $('[name="id"]').val();
-                //     var $editedRow = $('tr[data-id="' + id + '"]');
-                //     var index = $('#table tbody tr').index($editedRow);
-                //     htmlRow = htmlRow.replace('{index}', index + 1);
-                //     $editedRow.replaceWith(htmlRow);
-                //     $massage="edited Successfully";
-                // }
-                clearForm();
+                    // $("#table tbody").append(htmlRow);
+                    $(htmlRow).insertAfter("#table tr:first");
+                    alert("after");
+                }
+                    // $massage="Saved Successfully";
+                 else if (data.status == 'edit') {
+                    var id = $('[name="id"]').val();
+                    var $editedRow = $('tr[data-id="' + id + '"]');
+                    var index = $('#table tbody tr').index($editedRow);
+                    htmlRow = htmlRow.replace('{index}', index + 1);
+                    $editedRow.replaceWith(htmlRow);
+                    $massage="edited Successfully";
+                }
+                 clearForm();
+                $('#formAddSubmitGroup').attr("disabled", false);
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
 
                 // myNotify(icon = 'done', title = 'SUCCESS',type = 'success',delay = '5000',$massage);
-                }
-            },
+                },
+
             error: function () {
 
             }
         });
-
-
     });
     $(document).on('click', '.user-status-id', function (e) {
         e.preventDefault();
@@ -304,9 +310,9 @@
                 $('#saveJobtitle div  .loader').show();
             },
             success: function (data) {
-                //  $('#btnAddbrand').attr("disabled", false);
-                if (data.status == true) {
 
+                if (data.status == true) {
+                    $('#btnAddbrand').attr("disabled", false);
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
@@ -343,9 +349,9 @@
                 $('#updateJobtitle div.loader').show();
             },
             success: function (data) {
-                $('#updateJobtitle').attr("disabled", false);
                 $('.loader').hide();
                 if (data.status == true) {
+                    $('#updateJobtitle').attr("disabled", false);
                     editRow(data.city,data.statusObj,1,"","",data.usedStatus);
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     $('.loader').hide();
@@ -483,7 +489,33 @@
             }
         });
     });
-    $(document).on("click", ".yes1", function (e) {
+    $(document).on('change','#staff_id',function (e) {
+        console.log(123);
+        e.preventDefault();
+        var staff_id = $(this).val();
+        $url = '{{route('permission.user.staff_ajax')}}' + '/' + staff_id;
+        $.ajax({
+            url: $url,
+            dataTypes: 'json',
+            type: 'get',
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                console.log(data.job_title_name_na);
+                if(data){
+                    $('#user_full_name').val(data.staff_name_na)
+                    $('#email').val(data.email)
+                    $('[name="job_title"]').val(data.job_title_name_na)
+                }
+
+            },
+            error: function () {
+
+            }
+        });
+    })
+        $(document).on("click", ".yes1", function (e) {
         e.preventDefault();
         $this = $(this);
         // var project_id = $('#formProjectMain #id').val();
@@ -584,12 +616,12 @@
             processData: false,
             contentType: false,
             beforeSend: function () {
-                $('#formAddSubmit').attr("disabled", true);
+                $('#formAddSubmit44444').attr("disabled", true);
                 // $('.loader').show();
             },
             success: function (data) {
                 $('.loader').hide();
-                $('#formAddSubmit').attr("disabled", false);
+                $('#formAddSubmit44444').attr("disabled", false);
                 if (data.status == true) {
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                 } else if (data.status == false) {
@@ -703,6 +735,99 @@
             }
         })
     });
+    $(document).on('submit', '#formUpdateRole', function (e) {
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+
+        e.preventDefault();
+
+        var form = new FormData($(this)[0]);
+        var url = $(this).attr('action');
+        // alert($(this).attr('action'));s
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                $('#updateRole').attr("disabled", true);
+                $('#updateRole div.loader').show();
+            },
+            success: function (data) {
+                $('#updateRole').attr("disabled", false);
+                $('.loader').hide();
+                if (data.status == true) {
+                    editRow(data.city,data.statusObj,5,"","","");
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    $('.loader').hide();
+                }
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
 
 
+    $(document).on('submit', '#formAddUser', function (e) {
+        if (!is_valid_form($(this))) {
+            return false;
+        }
+
+        e.preventDefault();
+
+        var form = new FormData($(this)[0]);
+        var url = $(this).attr('action');
+        // alert($(this).attr('action'));s
+        $.ajax({
+            url: url,
+            data: form,
+            type: 'post',
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                $('#formAddSubmitUser').attr("disabled", true);
+                $('#formAddSubmitUser div.loader').show();
+            },
+            success: function (data) {
+                $('#formAddSubmitUser').attr("disabled", false);
+                $('.loader').hide();
+                if (data.status == true) {
+                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    $('.loader').hide();
+                }
+            },
+            error: function (data) {
+
+            }
+        });
+
+    });
+    $(document).on('change','#screen_id',function (e) {
+        $('#loader').show();
+        e.preventDefault();
+        var screen = $('#screen_id').find(":selected").val();
+        var val = $("#btnGroupPrm").attr("data-id");
+        $.get('{{url('permission')}}' + '/' + 'group' + '/' + val+ '/' + screen, function (data) {
+            if (data.status == true) {
+                $("#grant_result").html(data.html);
+                $('.loader').hide();
+            }
+        });
+    });
+    $(document).on('change','#screen_iduser',function (e) {
+        $("#loader").show();
+        e.preventDefault();
+        var screen = $('#screen_iduser').find(":selected").val();
+        var val = $("#btnGroupPrm").attr("data-id");
+        $.get('{{url('permission')}}' + '/' + 'user' + '/' + val+ '/' + screen, function (data) {
+            if (data.status == true) {
+                $("#grant_result").html(data.html);
+                $('.loader').hide();
+            }
+        });
+    });
 </script>

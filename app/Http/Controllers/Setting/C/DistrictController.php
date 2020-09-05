@@ -26,7 +26,7 @@ class DistrictController extends Controller
     {
         is_permitted(49, getClassName(__CLASS__), __FUNCTION__, 124, 7);
 $id=1;
-        $districts = District::take(30)->get();
+        $districts = District::latest()->take(30)->get();;
        $messageDeleteDistrict = getMessage('2.1');
         $labels = inputButton(Auth::user()->lang_id, 49);
         $userPermissions = getUserPermission();

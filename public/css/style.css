@@ -1362,3 +1362,20 @@ body {
 .mytooltip.btn-setting-nav:hover {
     border-radius: 5px !important;
 }
+.btn-danger{
+    background: #6c757d !important;
+}
+.btn-success{
+    background: #2196f3 !important;
+}
+.btn-primary{
+    background: #8db3ff !important;
+}
+.btn-default{
+    background: #8db3ff !important;
+}
+
+
+.form-control, .is-focused .form-control {
+    background-image: linear-gradient(to top, #2196f3 2px, rgba(156, 39, 176, 0) 2px), linear-gradient(to top, #d2d2d2 0px, rgba(210, 210, 210, 0) 0px) !important;
+}

@@ -55,11 +55,17 @@
                 <i class="material-icons">edit</i><span class="mytooltiptext ">Edit User</span>
             </a>
         @endif
-        <a href="{{route('permission.permission.index',['user',$user->id])}}" rel="tooltip"
-           class="mytooltip btn-setting-nav  btn-round" data-original-title="">
-            <i class="material-icons">vpn_key</i><span class="mytooltiptext">Grant Permission</span>
-        </a>
-
+{{--        @if($id==1)--}}
+{{--        <a href="{{route('permission.permission.index',['user',$user->id])}}" rel="tooltip"--}}
+{{--           class="mytooltip btn-setting-nav  btn-round" data-original-title="">--}}
+{{--            <i class="material-icons">vpn_key</i><span class="mytooltiptext">Grant Permission</span>--}}
+{{--        </a>--}}
+{{--        @else--}}
+            <a href="#" data-id="{{$user->id}}" rel="tooltip"
+               class="mytooltip btn-setting-nav grantPermissionUser" data-original-title="top" title="">
+                <i class="material-icons">vpn_key</i><span class="mytooltiptext">ُGrant Permission</span>
+            </a>
+{{--            @endif--}}
 
         @if($user->staff != null)
             @if($id==1)

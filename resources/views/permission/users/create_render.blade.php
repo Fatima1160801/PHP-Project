@@ -7,9 +7,9 @@
 
 </div>
 @if($id==1)
-{!! Form::open(['route' => ['permission.user.store',1] ,'action'=>'post' ,'id'=>'formAdd']) !!}
+{!! Form::open(['route' => ['permission.user.store',1] ,'action'=>'post' ,'id'=>'formAddUser']) !!}
 @else
-    {!! Form::open(['route' => ['permission.user.store',2] ,'action'=>'post' ,'id'=>'formAdd']) !!}
+    {!! Form::open(['route' => ['permission.user.store',2] ,'action'=>'post' ,'id'=>'formAddUser']) !!}
 
 @endif
 <div class="card-body ">
@@ -131,7 +131,7 @@
         @else
             <button type="button" class="btn btn-default btn-sm" onclick="defaultVal()" data-dismiss="modal">Back</button>
         @endif
-        {!! Form::submit('Save',['class'=>'btn btn-next   btn-rose btn-sm' ,'id'=>'formAddSubmit']) !!}
+        {!! Form::submit('Save',['class'=>'btn btn-next   btn-rose btn-sm' ,'id'=>'formAddSubmitUser']) !!}
     </div>
 
 </div>

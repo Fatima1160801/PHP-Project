@@ -1,13 +1,13 @@
 <div class="card-header card-header-rose card-header-text">
 </div>
-<div class="card-body">
+{{--<div class="card-body">--}}
 
 
     <div class="collapse-group">
-        <button class="btn btn-primary open-button" type="button">
+        <button class="btn btn-primary open-button" type="button" hidden>
             Open all
         </button>
-        <button class="btn btn-primary close-button" type="button">
+        <button class="btn btn-primary close-button" type="button" hidden>
             Close all
         </button>
 {{--        <a href="{{route('settings.users.screen')}}" class="btn-sm btn-default" style="--}}
@@ -15,22 +15,22 @@
 {{--">Back</a>--}}
         @foreach($modules as $module)
 
-            <div class="card">
-                <header class="card-header bg-primary ">
-                    <a href="#" data-toggle="collapse" data-target="#collapseModule{{$module->id}}"
-                       aria-expanded="true" class="">
-                        <i class="icon-action fa fa-chevron-down text-white"></i>
-                        <span class="title "> {{$module->module_name_na}} </span>
-                    </a>
+{{--            <div class="card">--}}
+                <header class="card-header ">
+{{--                    <a href="#" data-toggle="collapse" data-target="#collapseModule{{$module->id}}"--}}
+{{--                       aria-expanded="true" class="">--}}
+{{--                        <i class="icon-action fa fa-chevron-down text-white"></i>--}}
+{{--                        <span class="title " style="color:black;"> {{$module->module_name_na}} </span>--}}
+{{--                    </a>--}}
                 </header>
                 <div class="collapse show" id="collapseModule{{$module->id}}" style="">
                     <article class="card-body">
 
                         <!------------------------------------------------------ screen.// -->
-                        @foreach($module->screens()->orderBy('order_', 'asc')->get() as $screen )
+                        @foreach($module->screens()->where('id',$screen_id)->orderBy('order_', 'asc')->get() as $screen )
                             @if($screen->has_premission == 1)
-                                <div class="card">
-                                    <header class="card-header bg-info">
+{{--                                <div class="card">--}}
+                                    <header class="card-header ">
 
                                             <span class=" togglebutton switch-sidebar-mini text-left">
                                                 <label>
@@ -40,11 +40,12 @@
                                             </span>
 
                                         <a href="#" data-toggle="collapse" data-target="#collapseScreen{{$screen->id}}" aria-expanded="true" class="">
-                                            <i class="icon-action fa fa-chevron-down text-white"></i>
-                                            <span class="title ">{{$screen->screen_name_na}}</span>
+{{--                                            <i class="icon-action fa fa-chevron-down text-white"></i>--}}
+                                            <span class="title " style="color:black;">{{$screen->screen_name_na}}</span>
                                         </a>
 
                                     </header>
+                            <hr>
                                     <div class="collapse show" id="collapseScreen{{$screen->id}}" style="">
                                         <article class="card-body">
                                             <!------------------------------------------------------ command.// -->
@@ -94,7 +95,7 @@
 
                                         </article> <!-- card-body.// -->
                                     </div> <!-- collapse .// -->
-                                </div> <!-- card.// -->
+{{--                                </div> <!-- card.// -->--}}
                         @endif
                     @endforeach
                     <!------------------------------------------------------ endScreen.// -->
@@ -107,4 +108,4 @@
     </div>
 
 
-</div>
+{{--</div>--}}

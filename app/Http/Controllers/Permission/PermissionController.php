@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Permission\Group;
 use App\Models\Permission\GroupPermission;
 use App\Models\Permission\Modules;
+use App\Models\Permission\Screen;
 use App\Models\Permission\ScreenCommand;
 use App\Models\Permission\User;
 use App\Models\Permission\UserPermission;
+use App\Models\Procurement\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,17 +32,23 @@ class PermissionController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index($type  ,$id,Request $request){
+    public function index($type  ,$id,$screen_id,Request $request){
         $labels = inputButton(Auth::user()->lang_id ,0);
 
 
-        $modules = Modules::get();
+        $modules = $modules = Modules::get();
         $userPermissions = getUserPermission();
         if($type == 'user'){
             is_permitted(1,  'PermissionController', 'grantUser', 3, '6');
             $user = User::find($id);
             $title = 'grant permissions to  user :' . $user->user_full_name;
-            return view('permission.permission.index' ,compact('labels','type','user','modules','title','userPermissions'));
+            $id1 = 1;
+            if ($request->ajax()) {
+                $id1 = 2;
+                $html = view('permission.permission.render', compact('labels','type','user','modules','title','userPermissions','screen_id','id1','screen_id'))->render();
+                return response(['status' => true, 'html' => $html]);
+            } else {
+            return view('permission.permission.index' ,compact('labels','type','user','modules','title','userPermissions','screen_id'));}
         }elseif ($type =='group'){
             is_permitted(2, 'PermissionController', 'grantGroup', 4, 5);
              $group = Group::find($id);
@@ -48,10 +56,10 @@ class PermissionController extends Controller
             $id1 = 1;
             if ($request->ajax()) {
                 $id1 = 2;
-                $html = view('permission.permission.render', compact('labels','type','group','modules','title','userPermissions' ,'id1'))->render();
+                $html = view('permission.permission.render', compact('labels','type','group','modules','title','userPermissions' ,'id1','screen_id'))->render();
                 return response(['status' => true, 'html' => $html]);
             } else {
-                return view('permission.permission.index', compact('labels', 'type', 'group', 'modules', 'title', 'userPermissions', 'id1'));
+                return view('permission.permission.index', compact('labels', 'type', 'group', 'modules', 'title', 'userPermissions', 'id1','screen_id'));
             }
         }else{
             return redirect('/');

@@ -14,7 +14,7 @@
             type: 'post',
             beforeSend: function () {
                 $('#btnDistrictCity').attr("disabled", true);
-                $('.loader').show();
+                $('#btnDistrictCity div .loader').show();
             },
             success: function (data) {
                 $('#btnDistrictCity').attr("disabled", false);
@@ -23,13 +23,15 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
+                    // defaultVal2();
                     appendTable(data.district,count,2,data.cityname,data.citynamefo);
-                    myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                    clearForm('#formDistrictCreate');
+                    // $('#table').DataTable();
+
                     $('.loader').hide();
                 } else if (data.success == false) {
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                 }
+                $('#locationModal').modal('hide');
                 //$('#addBenf').prop("disabled", false);
 
 
@@ -83,7 +85,7 @@
         $this = $(this);
 
         swal({
-            text: 'Are you sure you want to delete district ?',
+            text: '{{getMessage('2.66')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,

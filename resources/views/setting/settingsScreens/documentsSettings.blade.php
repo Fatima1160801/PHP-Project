@@ -259,13 +259,13 @@
             {{--url = url.replace(':id', 2);--}}
             var url = '{{ route("settings.documents.delete", [":interfaceid",":attachmentid"]) }}';
             url = url.replace(':interfaceid', data.interface_type_id);
-            url = url.replace(':attachmentid', attachment_type_id);
+            url = url.replace(':attachmentid', data.attachment_type_id);
             if(lang==1) {
                if (data.is_hidden==0)
                    activeStatus = 'Active';
                else
                    activeStatus = 'Inactive';
-                markup = '<tr data-interface=' + data.interface_type_id + ' data-attachment='+data.attachment_type_id+'><td>' + count1 + '</td><td>' + interface.interface_type_na + '</td><td>' + attachment.attachment_type_na + '</td><td>' + activeStatus + '</td><td> <a href="#" data-id=' + data.id + '\n' +
+                markup = '<tr data-interface=' + data.interface_type_id + ' data-attachment='+data.attachment_type_id+'><td>' + count1 + '</td><td>' + interface.interface_type_na + '</td><td>' + attachment.attachment_type_na + '</td><td>' + activeStatus + '</td><td> <a href="#" data-interface=' + data.interface_type_id + ' data-attachment='+data.attachment_type_id+ + '\n' +
                     '                     class="mytooltip btn-setting-nav editSetting"  data-toggle="tooltip" data-placement="top"\n' +
                     '                       title=""\n' +
                     '                    >\n' +
@@ -280,7 +280,7 @@
                     activeStatus = 'فعال';
                 else
                     activeStatus = 'غير فعال';
-                markup = '<tr data-id=' + data.id + '><td>' + count1 + '</td><td>' + interface.interface_type_fo + '</td><td>' + attachment.attachment_type_fo + '</td><td>' + activeStatus + '</td><td> <a href="#" data-id=' + data.id + '\n' +
+                markup = '<tr data-interface=' + data.interface_type_id + ' data-attachment='+data.attachment_type_id+'><td>' + count1 + '</td><td>' + interface.interface_type_fo + '</td><td>' + attachment.attachment_type_fo + '</td><td>' + activeStatus + '</td><td> <a href="#" data-interface=' + data.interface_type_id + ' data-attachment='+data.attachment_type_id+ '\n' +
                     '                     class="btn mytooltip btn-setting-nav editSetting"  data-toggle="tooltip" data-placement="top"\n' +
                     '                       title=""\n' +
                     '                    >\n' +

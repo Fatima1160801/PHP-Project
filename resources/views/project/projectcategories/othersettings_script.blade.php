@@ -11,7 +11,7 @@
             contentType: false,
             beforeSend: function () {
                 $('#saveProjectCategory').attr("disabled", true);
-                $('.loader').show();
+                $('#saveProjectCategory div.loader').show();
             },
             success: function (data) {
                 //  $('#btnAddbrand').attr("disabled", false);
@@ -20,8 +20,10 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,data.statusObj,count,1,"","");
+$("#role").click();
+                    // appendTable(data.city,data.statusObj,count,1,"","");
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
+                    $('#procurementModal').modal('hide');
                     $('.loader').hide();
                 }
 
@@ -57,6 +59,7 @@
                 $('.loader').hide();
                 if (data.status == true) {
                     editRow(data.city,data.statusObj,1,"","");
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     $('.loader').hide();
                 }
@@ -88,6 +91,7 @@
                             $(modal1).modal('hide');
                             $('tr[data-id='+data1+']').css('background','red').delay(1000).hide(1000)
                             // $($this).closest('tr').css('background','red').delay(1000).hide(1000);
+                            $('#procurementModal').modal('hide');
                             myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                             $('#contentModal .close').click();
                         }else {
@@ -122,7 +126,9 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,data.statusObj,count,2,"","");
+                    // appendTable(data.city,data.statusObj,count,2,"","");
+                    $("#visit").click();
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#btnVisitTypeCreate').reset();
                     $('.loader').hide();
@@ -160,6 +166,7 @@
                 $('.loader').hide();
                 if (data.success == true) {
                     editRow(data.city,data.statusObj,2,"","");
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#formVisitTypeUpdate').reset();
                     $('.loader').hide();
@@ -183,7 +190,7 @@
         e.preventDefault();
         $this = $(this);
         swal({
-            text: 'Are you sure to delete visit type?',
+            text: '{{getMessage('2.1002')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -217,7 +224,7 @@
         $this = $(this);
 
         swal({
-            text: 'Are you sure to delete  Measure Unit?',
+            text:'{{getMessage('2.27')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -270,7 +277,9 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,"",count,4,"","");
+                    // appendTable(data.city,"",count,4,"","");
+                    $("#achievementty").click();
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('.loader').hide();
                 }
@@ -308,6 +317,7 @@
                 $('.loader').hide();
                 if (data.status == true) {
                     editRow(data.city,"",4,"","");
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     $('.loader').hide();
                 }
@@ -341,6 +351,7 @@
                 $('.loader').hide();
                 if (data.success == true) {
                     editRow(data.city,"",5,"","");
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#formUpdate').reset();
                     resetFormUpdate();
@@ -384,7 +395,7 @@
             type: 'post',
             beforeSend: function () {
                 $('#btnSave').attr("disabled", true);
-                $('.loader').show();
+                $('#btnSave div.loader').show();
             },
             success: function (data) {
                 $('#btnSave').attr("disabled", false);
@@ -393,7 +404,9 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,"",count,5,"","");
+                    // appendTable(data.city,"",count,5,"","");
+                    $("#income").click();
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#formCreate').reset();
                     resetFormCreate();
@@ -432,7 +445,9 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,"",count,6,"","");
+                    // appendTable(data.city,"",count,6,"","");
+                    $("#currencies").click();
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     $('#formCurrencyCreate')[0].reset();
                     $('#btnAddCurrency').attr("disabled", false);
@@ -467,13 +482,14 @@
             type: 'post',
             beforeSend: function () {
                 $('#btnUpdateCurrency').attr("disabled", true);
-                $('.loader').show();
+                $('#btnUpdateCurrency div .loader').show();
             },
             success: function (data) {
                 $('#btnUpdateCurrency').attr("disabled", false);
                 $('.loader').hide();
                 if (data.success == true) {
                     editRow(data.city,"",6,"","");
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#formBeneficiaryCreate').reset();
                     $('.loader').hide();
@@ -494,7 +510,7 @@
         $this = $(this);
 
         swal({
-            text: 'Are you sure to delete currency?',
+            text: '{{getMessage('2.181')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -540,12 +556,14 @@
             },
             success: function (data) {
                 $('#btnActTypeCreate').attr("disabled", false);
-                $('.loader').hide();
+                $('#btnActTypeCreate div .loader').hide();
                 if (data.success == true) {
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,"",count,7,"","");
+                    // appendTable(data.city,"",count,7,"","");
+                    $("#issue").click();
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#formActTypeCreate').reset();
                     $('.loader').hide();
@@ -578,13 +596,14 @@
             type: 'post',
             beforeSend: function () {
                 $('#btnActTypeUpdate').attr("disabled", true);
-                $('.loader').show();
+                $('#btnActTypeUpdate div .loader').show();
             },
             success: function (data) {
                 $('#btnActTypeUpdate').attr("disabled", false);
                 $('.loader').hide();
                 if (data.success == true) {
                     editRow(data.city,"",7,"","");
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#formActTypeUpdate').reset();
                     $('.loader').hide();
@@ -607,7 +626,7 @@
         $this = $(this);
 
         swal({
-            text: 'Are you sure to delete issue type?',
+            text: '{{getMessage('2.185')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -659,7 +678,9 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,"",count,8,"","");
+                    // appendTable(data.city,"",count,8,"","");
+                    $("issuesetting").click();
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#formActTypeCreate').reset();
                     $('.loader').hide();
@@ -692,13 +713,14 @@
             type: 'post',
             beforeSend: function () {
                 $('#btnActTypeUpdate').attr("disabled", true);
-                $('.loader').show();
+                $('#btnActTypeUpdate div .loader').show();
             },
             success: function (data) {
                 $('#btnActTypeUpdate').attr("disabled", false);
                 $('.loader').hide();
                 if (data.success == true) {
                     editRow(data.city,"",8,"","");
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#formActTypeUpdate').reset();
                     $('.loader').hide();
@@ -721,7 +743,7 @@
         $this = $(this);
 
         swal({
-            text: 'Are you sure to delete related issue type?',
+            text: '{{getMessage('2.178')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -755,7 +777,7 @@
         $this = $(this);
 
         swal({
-            text: 'Are you sure to delete achievement type?',
+            text: '{{getMessage('2.199')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -800,11 +822,11 @@
             type: 'post',
             beforeSend: function () {
                 $('#btnAdd').attr("disabled", true);
-                // $('#btnAdd div. loader').show();
+                $('#btnAdd div .loader').show();
             },
             success: function (data) {
                 $('#btnAdd').attr("disabled", false);
-                // $('#btnAdd div.loader').hide();
+                $('.loader').hide();
                 if (data.status == true) {
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // clearForm('#formCreate');
@@ -966,7 +988,9 @@
                     var table = $('#table').dataTable();
                     //Get the total rows
                     var count=table.fnGetData().length;
-                    appendTable(data.city,"",count,10,data.statusObj,"");
+                    // appendTable(data.city,"",count,10,data.statusObj,"");
+                    $("#fundertype").click();
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     var update_url="{{route("project.donors.types.update")}}"
                     $("#formAddFType").attr("action",update_url);
@@ -1014,11 +1038,9 @@
 
                 $('.loader').hide();
                 if (data.status == true) {
-                    alert("before");
                     editRow(data.city,"",10,data.statusObj,"");
-                    alert(data.statusObj);
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
-                    alert("after");
                     $('.loader').hide();
                 }
                 {{--setTimeout(() => {--}}
@@ -1038,7 +1060,7 @@
         $this = $(this);
 
         swal({
-            text: 'Are you sure to delete donors type?',
+            text: '{{getMessage('2.49')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -1073,7 +1095,7 @@
         $this = $(this);
 
         swal({
-            text: 'Are you sure to delete donors ?',
+            text: '{{getMessage('2.51')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,
@@ -1119,7 +1141,7 @@
             type: 'post',
             beforeSend: function () {
                 $('#btnAddTaskType').attr("disabled", true);
-                $('.loader').show();
+                $('#btnAddTaskType div .loader').show();
             },
             success: function (data) {
                 $('#btnAddTaskType').attr("disabled", false);
@@ -1127,7 +1149,9 @@
                 if (data.status == true) {
                     var table = $('#table').dataTable();
                     var count=table.fnGetData().length;
-                    appendTable(data.city,data.statusObj,count,9,"","")
+                    // appendTable(data.city,data.statusObj,count,9,"","");
+                    $("#task").click();
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     // $('#formTaskTypeCreate')[0].reset();
                     $('.loader').hide();
@@ -1161,13 +1185,14 @@
             type: 'post',
             beforeSend: function () {
                 $('#btntaskTypeCity').attr("disabled", true);
-                $('.loader').show();
+                $('#btntaskTypeCity div .loader').show();
             },
             success: function (data) {
                 $('#btntaskTypeCity').attr("disabled", false);
                 $('.loader').hide();
                 if (data.status == true) {
-                    editRow(data.city,data.statusObj,9,"","")
+                    editRow(data.city,data.statusObj,9,"","");
+                    $('#procurementModal').modal('hide');
                     myNotify(data.message.icon, data.message.title, data.message.type, '5000', data.message.text);
                     $('.loader').hide();
                 } else if (data.status == false) {
@@ -1186,7 +1211,7 @@
         $this = $(this);
 
         swal({
-            text: 'Are you sure to delete task type',
+            text: '{{getMessage('2.164')['text']}}',
             confirmButtonClass: 'btn btn-success  btn-sm',
             cancelButtonClass: 'btn btn-danger  btn-sm',
             buttonsStyling: false,

@@ -102,7 +102,7 @@
             <div id="loadScreen" class="col-md-2" style="padding-left:300px;"><div class="loader pull-center" style="display: none;width: 30px;
  height: 30px;"></div></div>
 
-            <div  class="col-md-12"id="render_result">
+            <div  class="col-md-12"id="render_result"  style="min-height: 400px;">
 
             </div>
         </div>
@@ -379,17 +379,44 @@
                 });
 
             });
+            {{--$(document).on("click", ".grantPermission", function (e) {--}}
+            {{--    $('#loadScreen div.loader').show();--}}
+            {{--    var val = $(this).attr("data-id");--}}
+            {{--    $.get('{{url('permission')}}' + '/' + 'group' + '/' + val, function (data) {--}}
+            {{--        if (data.status == true) {--}}
+            {{--            $("#render_result").html(data.html);--}}
+            {{--        }--}}
+
+            {{--    });--}}
+            {{--    $('#loadScreen div.loader').hide();--}}
+            {{--})--}}
             $(document).on("click", ".grantPermission", function (e) {
                 $('#loadScreen div.loader').show();
                 var val = $(this).attr("data-id");
-                $.get('{{url('permission')}}' + '/' + 'group' + '/' + val, function (data) {
+                $.get('{{url('user/screen')}}' + '/' + val, function (data) {
                     if (data.status == true) {
                         $("#render_result").html(data.html);
+                        $('.selectpicker').selectpicker();
+                        $("#loader").hide();
+
                     }
 
                 });
-                $('#loadScreen div.loader').hide();
-            })
+            });
+                $(document).on("click", ".grantPermissionUser", function (e) {
+                    $('#loadScreen div.loader').show();
+                    var val = $(this).attr("data-id");
+                    $.get('{{url('user/screenuser')}}'+'/'+val, function (data) {
+                        if (data.status == true) {
+                            $("#render_result").html(data.html);
+                            $('.selectpicker').selectpicker();
+                            $("#loader").hide();
+
+                        }
+
+                    });
+                $('#loadScreen').hide();
+            });
             $("#teamrole").click(function (e) {
                 addSelected($("#teamrole").attr("data-value"));
                 $("#add").html("");
@@ -607,7 +634,6 @@
                 $('#locationModal').modal('hide');
 
         }
-
 
     </script>
 

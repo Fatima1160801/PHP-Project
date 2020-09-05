@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Permission;
 
 use App\Http\Controllers\Controller;
 use App\Models\Activity\Activity;
+use App\Models\Permission\Screen;
 use App\Models\Permission\UserDataPermission;
 use App\Models\Permission\UserDataPermissionModule;
 use App\Models\Project\Project;
@@ -41,6 +42,7 @@ class UserController extends Controller
 
         $users = User::with('staff')
             ->where('id', '<>', '1')->get();
+//        dd($users);
         $messageConfLock = getMessage('2.18');
         $messageConfUnLock = getMessage('2.19');
         $labels = inputButton(Auth::user()->lang_id, 0);
@@ -475,5 +477,37 @@ else
             $staff = StaffUserVW::find($id);
         }
         return $staff;
+    }
+    public function selectScreen($id){
+    is_permitted(152, getClassName(__CLASS__), __FUNCTION__, 327, 1);
+        $is_hidden = ['html_type' => '13'];
+        $option = [
+            'screen_id'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'id!=152'],
+            'screen_iduser'=>$is_hidden,
+        ];
+        $screenObject = new Screen();
+        $generator = generator(152, $option, $screenObject);
+        $html = $generator[0];
+        $labels = $generator[1];
+        $userPermissions = getUserPermission();
+        $val = view('permission.permission.screen_render', compact('labels', 'html', 'userPermissions','id'))->render();
+        return response(['status' => true, 'html' => $val]);
+
+    }
+    public function selectScreenUser($id){
+        is_permitted(152, getClassName(__CLASS__), __FUNCTION__, 327, 1);
+        $is_hidden = ['html_type' => '13'];
+        $option = [
+            'screen_iduser'=>['attr' => ' data-live-search="true" ', 'relatedWhere' => 'id!=152'],
+            'screen_id'=>$is_hidden,
+        ];
+        $screenObject = new Screen();
+        $generator = generator(152, $option, $screenObject);
+        $html = $generator[0];
+        $labels = $generator[1];
+        $userPermissions = getUserPermission();
+        $val = view('permission.permission.screen_render', compact('labels', 'html', 'userPermissions','id'))->render();
+        return response(['status' => true, 'html' => $val]);
+
     }
 }

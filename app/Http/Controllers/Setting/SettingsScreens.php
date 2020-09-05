@@ -56,4 +56,10 @@ class SettingsScreens extends Controller
         $lang=Auth::user()->lang_id;
         return view('setting.settingsScreens.general',compact('userPermissions','lang'));
     }
+    public function beneficiarySettings(){
+        $lang=Auth::user()->lang_id;
+        $userPermissions = getUserPermission();
+        $labels = inputButton(Auth::user()->lang_id, 0);
+        return view('setting.settingsScreens.benificiary_settings',compact('userPermissions','lang','labels'));
+    }
 }

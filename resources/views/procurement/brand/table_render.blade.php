@@ -1,4 +1,4 @@
-<table class="table dataTable no-footer table-bordered" id="table">
+<table class="table dataTable no-footer table-bordered" id="table" style="height:400px;min-height: 400px;max-height: 400px;overflow-y: scroll;">
     <thead>
     <tr>
         <th>#</th>

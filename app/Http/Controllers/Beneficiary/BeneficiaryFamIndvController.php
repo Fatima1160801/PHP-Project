@@ -47,7 +47,7 @@ class BeneficiaryFamIndvController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
         is_permitted(25, getClassName(__CLASS__), __FUNCTION__, 69, 7);
 
@@ -55,11 +55,15 @@ class BeneficiaryFamIndvController extends Controller
         $messageDeleteBeneficiary = getMessage('2.46');
         $labels = inputButton(Auth::user()->lang_id, 25);
         $userPermissions = getUserPermission();
-
-        return view('beneficiary.families_individuals.index', compact('labels', 'beneficiaries', 'messageDeleteBeneficiary', 'userPermissions'));
+        if ($request->ajax()) {
+            $html= view('beneficiary.families_individuals.table_render', compact('labels', 'beneficiaries', 'messageDeleteBeneficiary', 'userPermissions'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('beneficiary.families_individuals.index', compact('labels', 'beneficiaries', 'messageDeleteBeneficiary', 'userPermissions'));
+        }
     }
 
-    public function getCreate()
+    public function getCreate(Request $request)
     {
         is_permitted(25, getClassName(__CLASS__), 'store', 70, 1);
 
@@ -86,7 +90,7 @@ class BeneficiaryFamIndvController extends Controller
             'gender' => $gender,
             'ben_city' => $ben_city,
             'marital_status' => $marital_status,
-//            'desc_' => $ben_desc,
+            'desc_' => $ben_desc,
             'is_hidden' => $is_hidden,
             'ben_mobile_no' => $ben_mobile_no,
             'ben_idno' => $ben_idno,
@@ -108,7 +112,13 @@ class BeneficiaryFamIndvController extends Controller
         $labels = $generator[1];
         $userPermissions = getUserPermission();
 
-        return view('beneficiary.families_individuals.create', compact('labels', 'html', 'beneficiary', 'customFieldTypes', 'customFields', 'userPermissions'));
+        if ($request->ajax()) {
+            $html= view('beneficiary.families_individuals.create_render', compact('labels', 'html', 'beneficiary', 'customFieldTypes', 'customFields', 'userPermissions'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('beneficiary.families_individuals.create', compact('labels', 'html', 'beneficiary', 'customFieldTypes', 'customFields', 'userPermissions'));
+        }
+
     }
 
     public function store(Request $request)
@@ -201,7 +211,7 @@ class BeneficiaryFamIndvController extends Controller
 
     }
 
-    public function getEdit($id)
+    public function getEdit($id,Request $request)
     {
 
         is_permitted(25, getClassName(__CLASS__), 'postEdit', 71, 2);
@@ -254,7 +264,7 @@ class BeneficiaryFamIndvController extends Controller
             'gender' => $gender,
             'ben_city' => $ben_city,
             'marital_status' => $marital_status,
-//            'desc_' => $ben_desc,
+            'desc_' => $ben_desc,
             'is_hidden' => $is_hidden,
             'ben_idno' => $ben_idno,
             'ben_mobile_no' => $ben_mobile_no,
@@ -276,9 +286,14 @@ class BeneficiaryFamIndvController extends Controller
         $messageDeleteBeneficiaryFam = getMessage('2.41');
         $userPermissions = getUserPermission();
 
-        return view('beneficiary.families_individuals.update', compact('labels', 'html', 'beneficiary', 'ben_familiy_members', 'messageDeleteBeneficiaryFam', 'beneficiary', 'customFieldTypes', 'customFields', 'userPermissions'));
+        if ($request->ajax()) {
+            $html=  view('beneficiary.families_individuals.update_render', compact('labels', 'html', 'beneficiary', 'ben_familiy_members', 'messageDeleteBeneficiaryFam', 'beneficiary', 'customFieldTypes', 'customFields', 'userPermissions'))->render();
+            //$html= view('beneficiary.families_individuals.create_render', compact('labels', 'html', 'beneficiary', 'customFieldTypes', 'customFields', 'userPermissions'))->render();
+            return response(['status' => true, 'html' => $html]);
+        } else {
+            return view('beneficiary.families_individuals.update', compact('labels', 'html', 'beneficiary', 'ben_familiy_members', 'messageDeleteBeneficiaryFam', 'beneficiary', 'customFieldTypes', 'customFields', 'userPermissions'));
+        }
     }
-
 
     public function postEdit(Request $request)
     {
@@ -385,7 +400,8 @@ class BeneficiaryFamIndvController extends Controller
         //$labels =$generator['1'];
 
         $screenName = "Add Family Individual for Beneficiary (" . ((Auth::user()->lang_id == 1) ? $beneficiary->ben_name_na : $beneficiary->ben_name_fo) . ")";
-        return $html;
+//       dd($html);
+        return response(['status'=>true,'html'=>$html]);
         // return view('beneficiary.families_individuals.families.create', compact('html', 'screenName','beneficiary','id'));
     }
 
@@ -470,7 +486,8 @@ class BeneficiaryFamIndvController extends Controller
 
         $screenName = "Edit Beneficiary Familiy Individual";
         $messageDeleteBeneficiaryFam = getMessage('2.41');
-        return $html;
+//        return $html;
+        return response(['status'=>true,'html'=>$html]);
         //return view('beneficiary.families_individuals.families.update', compact('html', 'screenName','beneficiary','ben_familiy_members','messageDeleteBeneficiaryFam','beneficiary'));
     }
 
@@ -487,16 +504,16 @@ class BeneficiaryFamIndvController extends Controller
 //                $message = getMessage('2.198');
 //                return response(['status' => 'false', 'message' => $message]);
 //            }
-
-          $beneficiary = Beneficiary::where('id', $id)->first();
-          $activity_beneficiaries = ActivityBeneficiaries::where('ben_id', $beneficiary->id)
-              ->where('ben_type_id', $beneficiary->ben_type_id)
-              ->get()
-              ->count();
-          if ($activity_beneficiaries> 0) {
-            $message = getMessage('2.109');
-            return response(['status' => 'false', 'message' => $message]);
-          }
+            $beneficiary = Beneficiary::where('id', $id)->first();
+           if(!empty($beneficiary)){
+            $activity_beneficiaries = ActivityBeneficiaries::where('ben_id', $beneficiary->id)
+                ->where('ben_type_id', $beneficiary->ben_type_id)
+                ->get()
+                ->count();
+            if ($activity_beneficiaries> 0) {
+                $message = getMessage('2.109');
+                return response(['status' => 'false', 'message' => $message]);
+            }
 
             else {
                 $beneficiaryFamily = BeneficiaryFamily::where('id', $id)->first();
@@ -504,10 +521,20 @@ class BeneficiaryFamIndvController extends Controller
                 $beneficiaryFamily->save();
                 $beneficiaryFamily->delete();
                 $message = getMessage('2.43');
-                Log::instance()->record('2.16', $id, 26, null, null, null, null);
-                Log::instance()->save();
+//                Log::instance()->record('2.16', $id, 26, null, null, null, null);
+//                Log::instance()->save();
                 return response(['status' => 'true', 'message' => $message]);
-            }
+            }}
+           else{
+               $beneficiaryFamily = BeneficiaryFamily::where('id', $id)->first();
+               $beneficiaryFamily->deleted_by = Auth::id();
+               $beneficiaryFamily->save();
+               $beneficiaryFamily->delete();
+               $message = getMessage('2.43');
+//                Log::instance()->record('2.16', $id, 26, null, null, null, null);
+//                Log::instance()->save();
+               return response(['status' => 'true', 'message' => $message]);
+           }
         } catch (\Illuminate\Database\QueryException $e) {
             $message = getMessage('2.198');
             return response(['status' => 'false', 'message' => $message]);
@@ -575,7 +602,7 @@ class BeneficiaryFamIndvController extends Controller
             $message = getMessage('2.44');
         }
 
-        return response(['success' => true, 'message' => $message]);
+        return response(['success' => true, 'message' => $message,'beneficiaryFamily'=>$beneficiaryFamily]);
     }
 
     public function reportBeneficiary()

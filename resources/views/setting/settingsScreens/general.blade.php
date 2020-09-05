@@ -40,7 +40,7 @@
                 <div id="loadScreen" class="col-md-2" style="padding-left:300px;"><div class="loader pull-center" style="display: none;width: 30px;
  height: 30px;"></div></div>
 
-                <div  class="col-md-12"id="render_result">
+                <div  class="col-md-12"id="render_result"style="min-height: 400px;">
 
                 </div>
             </div>
@@ -246,8 +246,9 @@ function appendTable(data,count,id,cityname,citynamefo){
                 '                    <i class="material-icons">delete</i><span class=\"mytooltiptext\">delete</span>\n' +
                 '                </a>\n</td></tr>';
     }
-
-    $(markup).insertAfter("#table tr:first");
+    // $("#table").find('tbody').append(markup);
+    $(markup).insertBefore("#table tbody tr:first");
+    // $("#table tbody tr:first").after(markup);
     $('#locationModal').modal('hide');
     // }
 }
@@ -292,8 +293,21 @@ function addDistrict(){
                         }
                     });
                 })
+function defaultVal2(){
+    $.get('{{route('settings.districts')}}',function(data) {
+        if (data.status == true) {
+            $("#render_result").html(data.html);
+            DataTableCall('#table',5);
+            $("#table_length").html("");
+            $("#table_filter").html("");
+            var table = $('#table').DataTable();
+            table
+                .order( [0, 'desc' ] )
+                .draw();
 
-            </script>
+        }
+        });
+    }         </script>
 
 @endsection
 @section('js')
